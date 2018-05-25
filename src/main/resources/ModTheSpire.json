@@ -1,0 +1,9 @@
+{
+  "modid": "infinitespire",
+  "name": "Infinite Spire",
+  "author_list": ["Blank The Evil"],
+  "description": "Adds a new way to play Slay the Spire",
+  "version": "0.0.0",
+  "sts_version": "05-17-2018",
+  "mts_version": "2.6.0"
+}
