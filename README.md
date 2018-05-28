@@ -11,3 +11,8 @@ Infinite Spire isn't supposed to increase the difficulty of the game, it is just
 
 ## Installation
 - Install/Update [ModTheSpire](https://github.com/kiooeht/ModTheSpire/releases/latest)
+
+## Roadmap
+- Customize the climb to increase in difficulty more quickly.
+- Add perks and a perk tree GUI to the game.
+- Implement some fun cards and relics for the current classes to work with the infinite climb.
