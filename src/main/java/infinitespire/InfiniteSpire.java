@@ -13,22 +13,19 @@ import infinitespire.perks.AbstractPerk;
 import infinitespire.perks.blue.*;
 import infinitespire.perks.green.*;
 import infinitespire.perks.red.*;
+import infinitespire.screens.PerkScreen;
 
 public class InfiniteSpire {
 	public static final String VERSION = "0.0.0";
-	public static final Logger logger;
-    public static HashMap<String, Texture> imgMap;
-    public static ArrayList<AbstractPerk> allPerks;
-    public static ArrayList<AbstractCard> finalDeck;
-    public static int points;
+	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
+    public static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
+    public static ArrayList<AbstractPerk> allPerks = new ArrayList<AbstractPerk>();
+    public static ArrayList<AbstractCard> finalDeck = new ArrayList<AbstractCard>();
+    public static int points = 0;
+    public static boolean isRerun = false;
     
-    static {
-        logger = LogManager.getLogger(InfiniteSpire.class.getName());
-        imgMap = new HashMap<String, Texture>();
-        allPerks = new ArrayList<AbstractPerk>();
-        finalDeck = new ArrayList<AbstractCard>();
-        points = 0;
-    }
+    public static PerkScreen perkscreen = new PerkScreen();
+    
     
     public static Texture getTexture(final String textureString) {
         if (imgMap.get(textureString) == null) {
@@ -53,6 +50,4 @@ public class InfiniteSpire {
         allPerks.add(new Prepared());
         logger.info("InfiniteSpire | Initialize Complete...");
     }
-    
-    public static void startNewRun() {}
 }

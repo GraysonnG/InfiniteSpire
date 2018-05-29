@@ -17,7 +17,7 @@ public class AbstractPlayerEverythingPatch {
 	    {
 	        public static void Prefix(AbstractPlayer player) {
 	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (perk.isActive) {
+	                if (perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 	                    perk.onCombatStart();
 	                }
 	            }
@@ -29,7 +29,7 @@ public class AbstractPlayerEverythingPatch {
 	    {
 	        public static void Prefix(AbstractPlayer player) {
 	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (perk.isActive) {
+	                if (perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 	                    perk.onCombatVictory();
 	                }
 	            }
@@ -41,7 +41,7 @@ public class AbstractPlayerEverythingPatch {
 	    {
 	        public static void Prefix(AbstractPlayer player) {
 	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (perk.isActive) {
+	                if (perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 	                    perk.onTurnStart();
 	                }
 	            }
@@ -54,12 +54,14 @@ public class AbstractPlayerEverythingPatch {
 	        @SpireInsertPatch(rloc = 25, localvars = { "damageAmount" })
 	        public static void Insert(AbstractPlayer player, DamageInfo info, int damageAmount) {
 	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (info.owner == player) {
-	                    perk.onDamageDelt(info);
-	                }
-	                else {
-	                    perk.onDamageTaken(info);
-	                }
+	            	if(perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
+		                if (info.owner == player) {
+		                    perk.onDamageDelt(info);
+		                }
+		                else {
+		                    perk.onDamageTaken(info);
+		                }
+	            	}
 	            }
 	        }
 	    }
