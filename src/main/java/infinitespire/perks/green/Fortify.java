@@ -8,11 +8,11 @@ import com.megacrit.cardcrawl.powers.DexterityPower;
 import infinitespire.perks.AbstractPerk;
 
 public class Fortify extends AbstractPerk{
-	private static final String NAME = "Fortify";
-    private static final String ID = "Fortify";
+	public static final String NAME = "Fortify";
+    public static final String ID = "Fortify";
     private static final String DESCRIPTION = "At the start of combat, gain 2 Dexterity.";
     private static final int TIER = 0;
-    private static final PerkTreeColor TREE_COLOR = PerkTreeColor.RED;
+    private static final PerkTreeColor TREE_COLOR = PerkTreeColor.GREEN;
     
     
     public Fortify() {

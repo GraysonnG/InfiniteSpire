@@ -10,5 +10,6 @@ public class InitializePatch
 {
     public static void Postfix(final CardCrawlGame ccg) {
         InfiniteSpire.initialize();
+        com.megacrit.cardcrawl.core.Settings.isDebug = true;
     }
 }

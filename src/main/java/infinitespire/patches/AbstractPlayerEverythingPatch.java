@@ -16,8 +16,8 @@ public class AbstractPlayerEverythingPatch {
 	    public static class ApplyPreCombatLogic
 	    {
 	        public static void Prefix(AbstractPlayer player) {
-	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (perk.isActive) {
+	            for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+	                if (perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 	                    perk.onCombatStart();
 	                }
 	            }
@@ -28,8 +28,8 @@ public class AbstractPlayerEverythingPatch {
 	    public static class OnVictory
 	    {
 	        public static void Prefix(AbstractPlayer player) {
-	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (perk.isActive) {
+	            for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+	                if (perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 	                    perk.onCombatVictory();
 	                }
 	            }
@@ -40,8 +40,8 @@ public class AbstractPlayerEverythingPatch {
 	    public static class ApplyStartOfTurnRelics
 	    {
 	        public static void Prefix(AbstractPlayer player) {
-	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (perk.isActive) {
+	            for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+	                if (perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 	                    perk.onTurnStart();
 	                }
 	            }
@@ -53,13 +53,15 @@ public class AbstractPlayerEverythingPatch {
 	    {
 	        @SpireInsertPatch(rloc = 25, localvars = { "damageAmount" })
 	        public static void Insert(AbstractPlayer player, DamageInfo info, int damageAmount) {
-	            for (AbstractPerk perk : InfiniteSpire.allPerks) {
-	                if (info.owner == player) {
-	                    perk.onDamageDelt(info);
-	                }
-	                else {
-	                    perk.onDamageTaken(info);
-	                }
+	            for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+	            	if(perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
+		                if (info.owner == player) {
+		                    perk.onDamageDelt(info, damageAmount);
+		                }
+		                else {
+		                    perk.onDamageTaken(info, damageAmount);
+		                }
+	            	}
 	            }
 	        }
 	    }
