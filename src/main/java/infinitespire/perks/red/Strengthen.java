@@ -8,8 +8,8 @@ import com.megacrit.cardcrawl.powers.StrengthPower;
 import infinitespire.perks.AbstractPerk;
 
 public class Strengthen extends AbstractPerk {
-	private static final String NAME = "Strengthen";
-    private static final String ID = "Strengthen";
+	public static final String NAME = "Strengthen";
+    public static final String ID = "Strengthen";
     private static final String DESCRIPTION = "At the start of combat, gain 2 Strength.";
     private static final int TIER = 0;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.RED;

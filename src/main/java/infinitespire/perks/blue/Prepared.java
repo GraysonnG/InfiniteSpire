@@ -8,8 +8,8 @@ import com.megacrit.cardcrawl.powers.StrengthPower;
 import infinitespire.perks.AbstractPerk;
 
 public class Prepared extends AbstractPerk {
-	private static final String NAME = "Prepared";
-    private static final String ID = "Prepared";
+	public static final String NAME = "Prepared";
+    public static final String ID = "Prepared";
     private static final String DESCRIPTION = "At the start of each turn draw 1 extra card.";
     private static final int TIER = 0;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.BLUE;

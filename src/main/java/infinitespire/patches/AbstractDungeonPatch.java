@@ -17,7 +17,7 @@ public class AbstractDungeonPatch {
 	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.AbstractDungeon", method="closeCurrentScreen")
 	public static class CloseCurrentScreen {
 		public static void Prefix() {
-			if(!PerkScreen.isDone) {
+			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN) {
 				PerkScreen.isDone = true;
 				
 					try {
@@ -38,7 +38,7 @@ public class AbstractDungeonPatch {
 		
 		@SpireInsertPatch(rloc = 114)
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
-			if(!PerkScreen.isDone)
+			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
 				InfiniteSpire.perkscreen.render(sb);
 		}
 	}
@@ -48,7 +48,7 @@ public class AbstractDungeonPatch {
 		
 		@SpireInsertPatch(rloc = 94)
 		public static void Insert(AbstractDungeon __instance) {
-			if(!PerkScreen.isDone)
+			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
 				InfiniteSpire.perkscreen.update();
 		}
 	}

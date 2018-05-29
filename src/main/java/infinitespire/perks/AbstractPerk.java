@@ -1,5 +1,8 @@
 package infinitespire.perks;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,8 +13,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.InputHelper;
+import com.megacrit.cardcrawl.helpers.PowerTip;
+import com.megacrit.cardcrawl.helpers.TipHelper;
 
 import infinitespire.InfiniteSpire;
 
@@ -24,10 +30,16 @@ public abstract class AbstractPerk {
     public int tier;
     public PerkTreeColor tree;
     public PerkState state;
-    public String desciption;
+    public String description;
+    private ArrayList<AbstractPerk> children = new ArrayList<AbstractPerk>();
+    private ArrayList<AbstractPerk> parents = new ArrayList<AbstractPerk>();
+    private ArrayList<PowerTip> tips;
+    public final String[] parentIDs;
     
-    private float xPos, yPos, size, origSize, hitboxSize, width, xOffset, hitboxOffset;
-  
+    private static final float textureSize = 175f, scrollWidth = 1520f, buttonSize = 120f;
+    
+    private float xPos, yPos, size, origSize, hitboxSize, width, hitboxOffset;
+    protected float xOffset;
     
    	private Hitbox hitbox;
     
@@ -44,30 +56,53 @@ public abstract class AbstractPerk {
     	ACTIVE
     }
     
+    public AbstractPerk(String name, String id, String description, int tier, PerkTreeColor tree, String parent) {
+    	this(name, id, description, tier, tree, new String[] {parent});
+    }
+    
     public AbstractPerk(String name, String id, String description, int tier, PerkTreeColor tree) {
+    	this(name, id, description, tier, tree, new String[] {null});
+    }
+    
+    public AbstractPerk(String name, String id, String description, int tier, PerkTreeColor tree, String[] parentIDs) {
         this.name = name;
         this.id = id;
-        this.desciption = description;
+        this.description = description;
         this.tier = tier;
         this.tree = tree;
+        this.parentIDs = parentIDs;
+        this.tips = new ArrayList<PowerTip>();
         
-        size = 175f * Settings.scale;
+        for(String parentID : parentIDs) {
+	        if(parentID != null) {
+	        	this.parents.add(InfiniteSpire.allPerks.get(parentID));
+	        	for(AbstractPerk parent : parents) {
+	        		parent.addToChildren(this);
+	        	}
+	    	}
+        }
+        
+        size = textureSize * Settings.scale;
         origSize = size;
-        width = 1520f * Settings.scale;
-        xOffset = Settings.WIDTH - width;
+        width = scrollWidth * Settings.scale;
+        xOffset = (Settings.WIDTH - width) / 2f;
         hitboxOffset = (size - hitboxSize) / 2f;
         
-        hitboxSize = 120f * Settings.scale; 
+        hitboxSize = buttonSize * Settings.scale; 
         //locked needs to be automatically false if tier = 0
 	    state = PerkState.LOCKED;
 	    
 	    //derive this from tier and tree
 	    
-	    yPos = 100f;
-	    xPos = 100f;
+	    yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale);
+	    xPos = 75f * Settings.scale;
+	    
 	    
 	    
 	    hitbox = new Hitbox(xPos + hitboxOffset, yPos + hitboxOffset, hitboxSize, hitboxSize);
+	    
+	    this.tips.add(new PowerTip(name, description));
+	    this.initializeTips();
     }
     
     public void onCombatStart() {
@@ -82,10 +117,10 @@ public abstract class AbstractPerk {
     public void onTurnStart() {
     }
     
-    public void onDamageDelt(final DamageInfo info) {
+    public void onDamageDelt(final DamageInfo info, int damageAmount) {
     }
     
-    public void onDamageTaken(final DamageInfo info) {
+    public void onDamageTaken(final DamageInfo info, int damageAmount) {
     }
     
     public void update() {
@@ -109,6 +144,18 @@ public abstract class AbstractPerk {
     		CardCrawlGame.sound.play("UI_CLICK_1");
     		CardCrawlGame.sound.play("UNLOCK_PING");
         	this.state = PerkState.ACTIVE;
+        	for(AbstractPerk child : this.children) {
+        		child.state = PerkState.UNLOCKED;
+        	}
+        	for(AbstractPerk parent : parents) {
+	        	if(parent != null) {
+	        		for(AbstractPerk child : parent.children) {
+	        			if(child.state == PerkState.UNLOCKED) {
+	        				child.state = PerkState.LOCKED;
+	        			}
+	        		}
+	        	}
+        	}
     	}
     	
     	switch(tree) {
@@ -116,10 +163,10 @@ public abstract class AbstractPerk {
  			xPos = ((width / 4f) * 3) - (size / 2f) + xOffset;
  			break;
  		case GREEN:
- 			xPos = ((width * Settings.scale) / 4f) - (size / 2f) + xOffset;
+ 			xPos = ((width) / 4f) - (size / 2f) + xOffset;
  			break;
  		case RED:
- 			xPos = ((width * Settings.scale) / 2f) - (size / 2f) + xOffset;
+ 			xPos = ((width) / 2f) - (size / 2f) + xOffset;
  			break;
  		default:
  			xPos = 100f;
@@ -140,10 +187,20 @@ public abstract class AbstractPerk {
 		
     	perkTexture = getTextureByState();
     	
+    	
+    	
     	if(perkTexture != null)
     		sb.draw(perkTexture, xPos, yPos, size, size);
     	
+    	if(hitbox.hovered) {
+    		renderTip(sb);
+    	}
+    	
     	hitbox.render(sb);
+	}
+	
+	protected void renderTip(SpriteBatch sb) {
+		TipHelper.queuePowerTips(xPos + ((120f + (55f / 2f) + 5) * Settings.scale), yPos + ((120f + (55f / 2f) + 5) * Settings.scale), this.tips);
 	}
 	
 	private Texture getTextureByState() {
@@ -163,4 +220,37 @@ public abstract class AbstractPerk {
 		
 		}
 	}
+	
+	public void addToChildren(AbstractPerk perk) {
+		children.add(perk);
+	}
+	
+	protected void initializeTips() {
+        final Scanner desc = new Scanner(this.description);
+        while (desc.hasNext()) {
+            String s = desc.next();
+            if (s.charAt(0) == '#') {
+                s = s.substring(2);
+            }
+            s = s.replace(',', ' ');
+            s = s.replace('.', ' ');
+            s = s.trim();
+            s = s.toLowerCase();
+            boolean alreadyExists = false;
+            if (GameDictionary.keywords.containsKey(s)) {
+                s = GameDictionary.parentWord.get(s);
+                for (final PowerTip t : this.tips) {
+                    if (t.header.toLowerCase().equals(s)) {
+                        alreadyExists = true;
+                        break;
+                    }
+                }
+                if (alreadyExists) {
+                    continue;
+                }
+                this.tips.add(new PowerTip(TipHelper.capitalize(s), GameDictionary.keywords.get(s)));
+            }
+        }
+        desc.close();
+    }
 }
