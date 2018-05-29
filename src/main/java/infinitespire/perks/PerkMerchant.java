@@ -20,6 +20,6 @@ public class PerkMerchant {
 	}
 
 	public void update() {
-		InfiniteSpire.perkscreen.update();
+		
 	}
 }

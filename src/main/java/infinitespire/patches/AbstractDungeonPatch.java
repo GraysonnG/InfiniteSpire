@@ -13,6 +13,26 @@ import infinitespire.screens.PerkScreen;
 import infinitespire.util.SuperclassFinder;
 
 public class AbstractDungeonPatch {
+	
+	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.AbstractDungeon", method="closeCurrentScreen")
+	public static class CloseCurrentScreen {
+		public static void Prefix() {
+			if(!PerkScreen.isDone) {
+				PerkScreen.isDone = true;
+				
+					try {
+						Method overlayReset = SuperclassFinder.getSuperClassMethod(AbstractDungeon.class, "genericScreenOverlayReset");
+						overlayReset.setAccessible(true);
+						overlayReset.invoke(AbstractDungeon.class);
+					} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
+			
+				AbstractDungeon.overlayMenu.hideBlackScreen();
+			}
+		}
+	}
+	
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "render")
 	public static class Render {
 		
@@ -23,23 +43,13 @@ public class AbstractDungeonPatch {
 		}
 	}
 	
-	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.AbstractDungeon", method="closeCurrentScreen")
-	public static class CloseCurrentScreen {
-		public static void Prefix(AbstractDungeon __instance) {
-			if(!PerkScreen.isDone) {
-				PerkScreen.isDone = true;
-				
-//					try {
-//						Method overlayReset = SuperclassFinder.getSuperClassMethod(__instance.getClass(), "genericScreenOverlayReset");
-//						overlayReset.setAccessible(true);
-//						overlayReset.invoke(__instance);
-//					} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//						e.printStackTrace();
-//					}
-				
-				
-				AbstractDungeon.overlayMenu.hideBlackScreen();
-			}
+	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "update")
+	public static class Update {
+		
+		@SpireInsertPatch(rloc = 94)
+		public static void Insert(AbstractDungeon __instance) {
+			if(!PerkScreen.isDone)
+				InfiniteSpire.perkscreen.update();
 		}
 	}
 }

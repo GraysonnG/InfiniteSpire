@@ -1,8 +1,10 @@
 package infinitespire.perks.red;
 
-import com.megacrit.cardcrawl.actions.common.DrawCardAction;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.powers.StrengthPower;
+
 import infinitespire.perks.AbstractPerk;
 
 public class Strengthen extends AbstractPerk {
@@ -15,11 +17,13 @@ public class Strengthen extends AbstractPerk {
     
     public Strengthen() {
         super(NAME, ID, DESCRIPTION, TIER, TREE_COLOR);
+        
+        this.state = PerkState.UNLOCKED;
     }
     
     @Override
     public void onCombatStart() {
         AbstractPlayer player = AbstractDungeon.player;
-        AbstractDungeon.actionManager.addToBottom(new DrawCardAction(player, 1));
+        AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(player, player, new StrengthPower(player, 2), 2));
     }
 }
