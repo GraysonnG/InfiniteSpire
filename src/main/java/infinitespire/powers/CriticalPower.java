@@ -1,21 +1,16 @@
 package infinitespire.powers;
 
-import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import infinitespire.InfiniteSpire;
 
 public class CriticalPower extends AbstractPower {
-
-	private float critChance;
-	private float roll;
-	private boolean modifyDamage;
 	
-	public CriticalPower(AbstractPlayer player, float critChance) {
-		this.critChance = critChance;
+	public CriticalPower(AbstractPlayer player) {
 		this.owner = player;
 		this.amount = -1;
 		this.name = "Critical Chance";
@@ -23,34 +18,20 @@ public class CriticalPower extends AbstractPower {
 		this.img = InfiniteSpire.getTexture("img/powers/crit.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		
-		roll = (float) Math.random();
-		if(roll <= critChance) {
-			modifyDamage = true;
-			this.flash();
-		}
 	}
 
 	@Override
 	public float atDamageFinalGive(float damageAmount, DamageInfo.DamageType info) {
-		if(info == DamageInfo.DamageType.NORMAL && modifyDamage) {
-			modifyDamage = false;
+		if(info == DamageInfo.DamageType.NORMAL) {
 			return damageAmount *= 2;
 		}
+		
+		AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(owner, owner, ID));
+		
 		return damageAmount;
-	}
-	
-	@Override
-	public void onPlayCard(AbstractCard card, AbstractMonster m) {
-		roll = (float) Math.random();
-		if(roll <= critChance) {
-			modifyDamage = true;
-			this.flash();
-		}
 	}
 
 	public void updateDescription() {
-		this.description = "When you play an attack, it has a " + (int)(critChance * 100) + "% chance to deal 2x damage.";
+		this.description = "The next attack you play will deal 2x damage";
 	}
-	
 }

@@ -17,6 +17,8 @@ public class Fortify extends AbstractPerk{
     
     public Fortify() {
         super(NAME, ID, DESCRIPTION, TIER, TREE_COLOR);
+        
+        this.state = PerkState.UNLOCKED;
     }
     
     @Override

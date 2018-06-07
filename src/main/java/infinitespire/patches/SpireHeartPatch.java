@@ -45,6 +45,12 @@ public class SpireHeartPatch {
 					CardCrawlGame.nextDungeon = Exordium.ID;
 			        AbstractDungeon.fadeOut();
 			        AbstractDungeon.isDungeonBeaten = true;
+			        
+
+					InfiniteSpire.ascensionLevel += 1;
+			        AbstractDungeon.isAscensionMode = true;
+			        AbstractDungeon.ascensionLevel = InfiniteSpire.ascensionLevel;
+			        
 			        __instance.hasFocus = false;
 			        InfiniteSpire.isRerun = true;
 			        InfiniteSpire.points += score;

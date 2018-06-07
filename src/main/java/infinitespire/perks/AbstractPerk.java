@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.InputHelper;
@@ -35,13 +36,17 @@ public abstract class AbstractPerk {
     private ArrayList<AbstractPerk> parents = new ArrayList<AbstractPerk>();
     private ArrayList<PowerTip> tips;
     public final String[] parentIDs;
+    private int cost = 500;
     
     private static final float textureSize = 175f, scrollWidth = 1520f, buttonSize = 120f;
+    private static final float TEXT_OFFSET_X = textureSize / 2 * Settings.scale;
+    private static final float TEXT_OFFSET_Y = 20f * Settings.scale;
     
     private float xPos, yPos, size, origSize, hitboxSize, width, hitboxOffset;
     protected float xOffset;
     
    	private Hitbox hitbox;
+   	private Hitbox iconHitbox;
     
     public enum PerkTreeColor
     {
@@ -72,6 +77,10 @@ public abstract class AbstractPerk {
         this.tree = tree;
         this.parentIDs = parentIDs;
         this.tips = new ArrayList<PowerTip>();
+        this.cost += (100 * tier);
+        this.state = PerkState.LOCKED;
+        this.tips.add(new PowerTip(name, description));
+	    this.initializeTips();
         
         for(String parentID : parentIDs) {
 	        if(parentID != null) {
@@ -87,23 +96,17 @@ public abstract class AbstractPerk {
         width = scrollWidth * Settings.scale;
         xOffset = (Settings.WIDTH - width) / 2f;
         hitboxOffset = (size - hitboxSize) / 2f;
-        
         hitboxSize = buttonSize * Settings.scale; 
-        //locked needs to be automatically false if tier = 0
-	    state = PerkState.LOCKED;
-	    
-	    //derive this from tier and tree
-	    
 	    yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale);
 	    xPos = 75f * Settings.scale;
 	    
-	    
-	    
 	    hitbox = new Hitbox(xPos + hitboxOffset, yPos + hitboxOffset, hitboxSize, hitboxSize);
+	    iconHitbox = new Hitbox(32, 32);
 	    
-	    this.tips.add(new PowerTip(name, description));
-	    this.initializeTips();
+	    this.cost = 0;
     }
+    
+    //public abstract void use();
     
     public void onCombatStart() {
     }
@@ -117,15 +120,17 @@ public abstract class AbstractPerk {
     public void onTurnStart() {
     }
     
-    public void onDamageDelt(final DamageInfo info, int damageAmount) {
+    public void onDamageDealt(final DamageInfo info, int[] damageAmount) {
+    	
     }
     
-    public void onDamageTaken(final DamageInfo info, int damageAmount) {
+    public void onDamageTaken(final DamageInfo info, int[] damageAmount) {
+    
     }
     
     public void update() {
     	hitbox.update();
-    	
+    	iconHitbox.update();
 
     	if(hitbox.justHovered) {
     		CardCrawlGame.sound.play("UI_HOVER");
@@ -140,10 +145,11 @@ public abstract class AbstractPerk {
     		}
     	}
     	
-    	if(hitbox.hovered == true && InputHelper.justClickedLeft && this.state == PerkState.UNLOCKED) {
+    	if(hitbox.hovered == true && InputHelper.justClickedLeft && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points) {
     		CardCrawlGame.sound.play("UI_CLICK_1");
     		CardCrawlGame.sound.play("UNLOCK_PING");
         	this.state = PerkState.ACTIVE;
+        	InfiniteSpire.points -= cost;
         	for(AbstractPerk child : this.children) {
         		child.state = PerkState.UNLOCKED;
         	}
@@ -176,6 +182,7 @@ public abstract class AbstractPerk {
     	
     	hitboxSize = 120f * Settings.scale;
     	hitboxOffset = (size - hitboxSize) / 2f;
+    	
     	hitbox.update(xPos + hitboxOffset, yPos + hitboxOffset);
     	hitbox.transform(hitboxSize, hitboxSize);
     }
@@ -192,6 +199,8 @@ public abstract class AbstractPerk {
     	if(perkTexture != null)
     		sb.draw(perkTexture, xPos, yPos, size, size);
     	
+    	renderCost(sb);
+    	
     	if(hitbox.hovered) {
     		renderTip(sb);
     	}
@@ -201,6 +210,61 @@ public abstract class AbstractPerk {
 	
 	protected void renderTip(SpriteBatch sb) {
 		TipHelper.queuePowerTips(xPos + ((120f + (55f / 2f) + 5) * Settings.scale), yPos + ((120f + (55f / 2f) + 5) * Settings.scale), this.tips);
+	}
+	
+	protected void renderTip(SpriteBatch sb, float x, float y) {
+		TipHelper.queuePowerTips(x, y, this.tips);
+	}
+	
+	public void renderInGame(SpriteBatch sb, float x, float y) {
+		
+		
+		Texture icon = InfiniteSpire.getTexture("img/perks/" + this.tree.toString().toLowerCase() + "/" + this.id.toLowerCase() + ".png");
+		sb.setColor(Color.WHITE);
+		
+		float yOffset = 12f;
+		float xOffset = 12f;
+		
+		yOffset += (32f * tier);
+		
+		switch(tree) {
+		case BLUE:
+			xOffset = 64f;
+			break;
+		case RED:
+			xOffset = 32f;
+			break;
+		case GREEN:
+		default:
+			xOffset = 0;
+			break;
+		
+		}
+		
+		iconHitbox.update(x + xOffset, y - yOffset); 
+		
+		sb.draw(icon, x + xOffset, y - yOffset, 32.0f, 32.0f);
+		
+		if(iconHitbox.hovered) {
+    		renderTip(sb, x + xOffset + 32f * Settings.scale, y - yOffset);
+    	}
+		
+		iconHitbox.render(sb);
+	}
+	
+	private void renderCost(SpriteBatch sb) {
+		if(this.state != PerkState.UNLOCKED)
+			return;
+		
+		sb.setColor(Color.WHITE);
+		//sb.draw(ImageMaster.UI_GOLD, xPos + ICON_OFFSET_X, yPos + ICON_OFFSET_Y, ImageMaster.UI_GOLD.getWidth() * Settings.scale, ImageMaster.UI_GOLD.getWidth() * Settings.scale);
+		
+		Color color = Color.WHITE;
+		
+		
+		if(this.cost > InfiniteSpire.points) color = Color.SALMON;
+			
+		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.tipHeaderFont, cost + "", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
 	}
 	
 	private Texture getTextureByState() {
@@ -253,4 +317,8 @@ public abstract class AbstractPerk {
         }
         desc.close();
     }
+	
+	public int getCost() {
+		return Integer.valueOf(cost + "");
+	}
 }
