@@ -10,7 +10,7 @@ public class Dodge extends AbstractPerk {
 	
 	public static final String NAME = "Dodge";
     public static final String ID = "Dodge";
-    private static final String DESCRIPTION = "Whenever you take #b7 or less unblocked #yAttack damage, reduce it to #y1";
+    private static final String DESCRIPTION = "Whenever you would take #b7 or less unblocked #yAttack damage, reduce it to #y1";
     private static final int TIER = 2;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.GREEN;
 	
@@ -23,8 +23,6 @@ public class Dodge extends AbstractPerk {
 		AbstractPlayer player = AbstractDungeon.player;
 		
 		int damage = damageAmount[0];
-		
-		System.out.println("Player taking " + damageAmount + " damage.");
 		
 		if(damage > player.currentBlock) {
 			int hpDamage = damage - player.currentBlock;

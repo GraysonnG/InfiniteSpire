@@ -54,7 +54,7 @@ public class AbstractPlayerEverythingPatch {
 	    {
 	        @SpireInsertPatch(rloc = 25, localvars = { "damageAmount" })
 	        public static void Insert(AbstractPlayer player, DamageInfo info, @ByRef int[] damageAmount) {
-	        	System.out.println(info.owner.name);
+	        	if( info.owner == null) return;
 	            for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
 	            	if(perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
 		                perk.onDamageTaken(info, damageAmount);

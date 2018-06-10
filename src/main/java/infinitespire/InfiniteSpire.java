@@ -1,22 +1,37 @@
 package infinitespire;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import com.megacrit.cardcrawl.localization.RelicStrings;
+
+import basemod.BaseMod;
+import basemod.interfaces.EditCardsSubscriber;
+import basemod.interfaces.EditKeywordsSubscriber;
+import basemod.interfaces.EditRelicsSubscriber;
+import basemod.interfaces.PostInitializeSubscriber;
+import infinitespire.cards.*;
 import infinitespire.perks.AbstractPerk;
 import infinitespire.perks.AbstractPerk.PerkState;
 import infinitespire.perks.AbstractPerk.PerkTreeColor;
 import infinitespire.perks.blue.*;
 import infinitespire.perks.green.*;
 import infinitespire.perks.red.*;
+import infinitespire.relics.BottledSoul;
 import infinitespire.screens.PerkScreen;
 
-public class InfiniteSpire {
+@SuppressWarnings("unused")
+@SpireInitializer
+public class InfiniteSpire implements PostInitializeSubscriber, EditRelicsSubscriber, EditCardsSubscriber,EditKeywordsSubscriber{
 	public static final String VERSION = "0.0.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
@@ -30,7 +45,42 @@ public class InfiniteSpire {
    
     public static PerkScreen perkscreen = new PerkScreen();
     
+    public InfiniteSpire() {
+    	BaseMod.subscribe(this);
+    }
     
+    public static void initialize() {
+        logger.info("VERSION: 0.0.0");
+        new InfiniteSpire();
+        //Settings.isDebug = true;
+        
+        
+    }
+    
+    @Override
+	public void receivePostInitialize() {
+		initializePerks();
+		
+		Texture modBadge = getTexture("img/modbadge.png");
+		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
+	}
+
+	@Override
+	public void receiveEditKeywords() {
+		
+	}
+
+	@Override
+	public void receiveEditCards() {
+		initializeCards();
+	}
+
+	@Override
+	public void receiveEditRelics() {
+		initializeRelics();
+	}
+
+   
     public static Texture getTexture(final String textureString) {
         if (imgMap.get(textureString) == null) {
             loadTexture(textureString);
@@ -67,8 +117,7 @@ public class InfiniteSpire {
     		if(!(perk.tier == 0)) {
     			perk.state = PerkState.LOCKED;
     		}else {
-    			if(perk.tree != PerkTreeColor.BLUE)
-    				perk.state = PerkState.UNLOCKED;
+    			perk.state = PerkState.UNLOCKED;
     		}
     	}
     	points = 0;
@@ -87,7 +136,12 @@ public class InfiniteSpire {
 			
 			if(isRerun) {
 				for(AbstractPerk perk : allPerks.values()) {
-					perk.state = PerkState.valueOf(config.getString(perk.id));
+					if(config.getString(perk.id) != null) {
+						perk.state = PerkState.valueOf(config.getString(perk.id));
+					}else
+					{
+						perk.state = PerkState.LOCKED;
+					}
 				}
 				points = config.getInt("points");
 				ascensionLevel = config.getInt("level");
@@ -101,10 +155,23 @@ public class InfiniteSpire {
     	
     }
     
-    public static void initialize() {
-        logger.info("VERSION: 0.0.0");
-        logger.info("InfiniteSpire | Initialize Start...");
-        logger.info("InfiniteSpire | Initializing allPerks...");
+    public static void preInitialize() {
+    	
+	}
+    
+    
+    
+    private static void initializeRelics() {
+    	logger.info("InfiniteSpire | Initializing relics...");
+    	
+    	String jsonString = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(RelicStrings.class, jsonString);
+    	
+    	RelicLibrary.add(new BottledSoul());
+    }
+    
+    private static void initializePerks() {
+    	logger.info("InfiniteSpire | Initializing perks...");
         //RED
         allPerks.put(Strengthen.ID, new Strengthen());
         allPerks.put(SpikedArmor.ID, new SpikedArmor());
@@ -116,8 +183,16 @@ public class InfiniteSpire {
         allPerks.put(Fortify.ID, new Fortify());
         allPerks.put(Reinforce.ID, new Reinforce());
         allPerks.put(Dodge.ID, new Dodge());
+        allPerks.put(Retaliate.ID, new Retaliate());
+        allPerks.put(Overshield.ID, new Overshield());
+        allPerks.put(Bulwark.ID, new Bulwark());
         //BLUE
         allPerks.put(Prepared.ID, new Prepared());
-        logger.info("InfiniteSpire | Initialize Complete...");
     }
+    
+    private static void initializeCards() {
+    	logger.info("InfiniteSpire | Initializing cards...");
+    	BaseMod.addCard(new OneForAll());
+    	BaseMod.addCard(new Neurotoxin());
+    }	
 }

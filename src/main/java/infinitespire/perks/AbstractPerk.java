@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.InputHelper;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import infinitespire.InfiniteSpire;
 
@@ -128,6 +129,14 @@ public abstract class AbstractPerk {
     
     }
     
+    public void onAddPower(AbstractPower p) {
+    	
+    }
+    
+    public void onLoseBlock(int amount, boolean noAnimation) {
+		
+	}
+    
     public void update() {
     	hitbox.update();
     	iconHitbox.update();
@@ -184,7 +193,6 @@ public abstract class AbstractPerk {
     	hitboxOffset = (size - hitboxSize) / 2f;
     	
     	hitbox.update(xPos + hitboxOffset, yPos + hitboxOffset);
-    	hitbox.transform(hitboxSize, hitboxSize);
     }
 
 	public void render(SpriteBatch sb) {
@@ -321,4 +329,6 @@ public abstract class AbstractPerk {
 	public int getCost() {
 		return Integer.valueOf(cost + "");
 	}
+
+	
 }

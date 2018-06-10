@@ -9,7 +9,7 @@ import infinitespire.powers.SpikedArmorPower;
 public class SpikedArmor extends AbstractPerk {
 	public static final String NAME = "Spiked Armor";
     public static final String ID = "SpikedArmor";
-    private static final String DESCRIPTION = "When gaining Block deal 1 damage.";
+    private static final String DESCRIPTION = "When gaining Block deal #y1 damage.";
     private static final int TIER = 1;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.RED;
     
