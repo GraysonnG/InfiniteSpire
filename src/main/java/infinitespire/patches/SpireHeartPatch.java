@@ -9,7 +9,6 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
-import com.megacrit.cardcrawl.events.RoomEventDialog;
 import com.megacrit.cardcrawl.events.thebeyond.SpireHeart;
 import com.megacrit.cardcrawl.screens.DeathScreen;
 
@@ -25,7 +24,7 @@ public class SpireHeartPatch {
 	@SpirePatch(cls="com.megacrit.cardcrawl.events.thebeyond.SpireHeart", method="ctor")
 	public static class Constructor{
 		public static void Postfix(SpireHeart __instance) {
-			RoomEventDialog.addDialogOption("[Infinite Spire] Start over again.");
+			__instance.roomEventText.addDialogOption("[Infinite Spire] Start over again.");
 		}
 	}
 	
@@ -45,6 +44,12 @@ public class SpireHeartPatch {
 					CardCrawlGame.nextDungeon = Exordium.ID;
 			        AbstractDungeon.fadeOut();
 			        AbstractDungeon.isDungeonBeaten = true;
+			        
+
+					InfiniteSpire.ascensionLevel += 1;
+			        AbstractDungeon.isAscensionMode = true;
+			        AbstractDungeon.ascensionLevel = InfiniteSpire.ascensionLevel;
+			        
 			        __instance.hasFocus = false;
 			        InfiniteSpire.isRerun = true;
 			        InfiniteSpire.points += score;

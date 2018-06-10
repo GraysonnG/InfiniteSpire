@@ -10,7 +10,7 @@ import infinitespire.perks.AbstractPerk;
 public class Strengthen extends AbstractPerk {
 	public static final String NAME = "Strengthen";
     public static final String ID = "Strengthen";
-    private static final String DESCRIPTION = "At the start of combat, gain 2 Strength.";
+    private static final String DESCRIPTION = "At the start of combat, gain #y2 Strength.";
     private static final int TIER = 0;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.RED;
     

@@ -14,5 +14,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="desktop-1.0.jar"/>
 	<classpathentry kind="lib" path="ModTheSpire.jar"/>
+	<classpathentry kind="lib" path="BaseMod.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

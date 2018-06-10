@@ -10,13 +10,15 @@ import infinitespire.perks.AbstractPerk;
 public class Fortify extends AbstractPerk{
 	public static final String NAME = "Fortify";
     public static final String ID = "Fortify";
-    private static final String DESCRIPTION = "At the start of combat, gain 2 Dexterity.";
+    private static final String DESCRIPTION = "At the start of combat, gain #y2 Dexterity.";
     private static final int TIER = 0;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.GREEN;
     
     
     public Fortify() {
         super(NAME, ID, DESCRIPTION, TIER, TREE_COLOR);
+        
+        this.state = PerkState.UNLOCKED;
     }
     
     @Override

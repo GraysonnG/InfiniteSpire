@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.FontHelper;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.patches.ScreenStatePatch;
@@ -31,6 +32,7 @@ public class PerkScreen {
 	public void render(SpriteBatch sb) {
 		this.renderScroll(sb);
 		this.renderPerksAndPrices(sb);
+		this.renderAvailablePoints(sb);
 	}
 	
 	public void open() {
@@ -52,5 +54,9 @@ public class PerkScreen {
 		for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
 			perk.render(sb);
 		}
+	}
+	
+	public void renderAvailablePoints(SpriteBatch sb) {
+		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.bannerFont, "Points: "+ InfiniteSpire.points, (1920f - 1520f) * Settings.scale, 850f, Color.WHITE);
 	}
 }

@@ -1,6 +1,7 @@
 package infinitespire.perks.red;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import infinitespire.perks.AbstractPerk;
@@ -19,10 +20,12 @@ public class Crit2 extends AbstractPerk{
     public Crit2() {
 		super(NAME, ID, DESCRIPTION, TIER, TREE_COLOR, PARENTS);
 	}
-
-	@Override
-	public void onCombatStart() {
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new CriticalPower(AbstractDungeon.player, 0.20f)));
+    
+    @Override
+	public void onDamageDealt(DamageInfo info, int[] damageAmount) {
+		if(Crit1.willCrit(0.20f)) {
+			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new CriticalPower(AbstractDungeon.player), 1));
+		}
 	}
 
 }

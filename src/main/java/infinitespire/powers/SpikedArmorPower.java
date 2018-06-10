@@ -35,6 +35,6 @@ public class SpikedArmorPower extends AbstractPower{
 
 
 	public void updateDescription() {
-		this.description = "When you gain block, deal " + amount + "damage to all enemies.";
+		this.description = "When you gain block, deal #y" + amount + " damage to all enemies.";
 	}
 }

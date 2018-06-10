@@ -1,0 +1,9 @@
+{
+	"Bottled Soul":{
+		"NAME" : "Bottled Soul",
+		"FLAVOR" : "Looking inside you see the shadow of your formar self.",
+		"DESCRIPTIONS" : [
+			"Upon pick up, choose an #yExhaust card. Whenever you play that card, it no longer #yExhausts."
+		]
+	}
+}
