@@ -10,7 +10,8 @@ Infinite Spire isn't supposed to increase the difficulty of the game, it is just
 - Java 8 (Mod The Spire has issues with Java 9)
 
 ## Installation
-- Install/Update [ModTheSpire](https://github.com/kiooeht/ModTheSpire/releases/latest)
+- Install/Update [ModTheSpire](https://github.com/kiooeht/ModTheSpire/releases/latest) (This link will take you to the latest release)
+- Install/Update [BaseMod](https://github.com/daviscook477/BaseMod/releases/latest) (This link will take you to the latest release)
 
 ## Roadmap
 - Customize the climb to increase in difficulty more quickly.
