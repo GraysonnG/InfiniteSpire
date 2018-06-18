@@ -8,7 +8,7 @@ import infinitespire.perks.AbstractPerk;
 public class Prepared extends AbstractPerk {
 	public static final String NAME = "Prepared";
     public static final String ID = "Prepared";
-    private static final String DESCRIPTION = "At the start of each turn draw #y1 extra card.";
+    private static final String DESCRIPTION = "At the start of each combat draw #b2 more cards.";
     private static final int TIER = 0;
     private static final PerkTreeColor TREE_COLOR = PerkTreeColor.BLUE;
     
@@ -22,6 +22,6 @@ public class Prepared extends AbstractPerk {
     @Override
     public void onCombatStart() {
         AbstractPlayer player = AbstractDungeon.player;
-        AbstractDungeon.actionManager.addToBottom(new DrawCardAction(player, 1));
+        AbstractDungeon.actionManager.addToBottom(new DrawCardAction(player, 2));
     }
 }

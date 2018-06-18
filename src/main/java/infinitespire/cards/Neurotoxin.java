@@ -39,11 +39,25 @@ public class Neurotoxin extends CustomCard {
 			this.upgradeName();
 		}
 	}
+	
+	
 
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.cardID, this.misc, this.magicNumber));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new PoisonPower(m, p, baseBlock), baseBlock));
 	}
+	
+	
+	public void applyPowers() {
+		//NOP
+	}
+
+	@Override
+	public void calculateCardDamage(AbstractMonster arg0) {
+		//NOP
+	}
+	
+
 
 }

@@ -61,8 +61,12 @@ public class BottledSoul extends AbstractRelic {
 				group.addToBottom(card);
 			}
 		}
-		
-		AbstractDungeon.gridSelectScreen.open(group, 1, "Select a Card.", false, false, false, false);
+		if(group.size() > 0) {
+			AbstractDungeon.gridSelectScreen.open(group, 1, "Select a Card.", false, false, false, false);
+		}else {
+			cardSelected = true;
+			AbstractDungeon.getCurrRoom().phase = prevPhase;
+		}
 	}
 	
 	public void onUnequip() {
@@ -90,7 +94,7 @@ public class BottledSoul extends AbstractRelic {
 	
 	@Override
 	public void onPlayCard(AbstractCard c, AbstractMonster m) {
-		if(c == this.card) {
+		if(c != null && c == this.card) {
 			this.flash();
 			AbstractDungeon.actionManager.addToTop(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 		}

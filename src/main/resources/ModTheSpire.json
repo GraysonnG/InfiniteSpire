@@ -2,8 +2,8 @@
   "modid": "infinitespire",
   "name": "Infinite Spire",
   "author_list": ["Blank The Evil"],
-  "description": "Adds a new way to play Slay the Spire",
-  "version": "0.0.0",
-  "sts_version": "06-07-2018",
-  "mts_version": "2.6.0"
+  "description": "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.",
+  "version": "0.0.1",
+  "sts_version": "06-14-2018",
+  "mts_version": "2.7.0"
 }

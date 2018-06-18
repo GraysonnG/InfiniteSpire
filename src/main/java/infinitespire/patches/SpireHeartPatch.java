@@ -10,8 +10,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.events.thebeyond.SpireHeart;
-import com.megacrit.cardcrawl.screens.DeathScreen;
-
 import infinitespire.InfiniteSpire;
 //import infinitespire.dungeons.ExordiumNewGamePlus;
 import infinitespire.util.SuperclassFinder;
@@ -39,23 +37,17 @@ public class SpireHeartPatch {
 				
 				System.out.println(screen.toString());
 				if(buttonPressed == 1) {
-					DeathScreen.resetScoreChecks();
-					int score = DeathScreen.calcScore(true) - InfiniteSpire.points;
 					CardCrawlGame.nextDungeon = Exordium.ID;
 			        AbstractDungeon.fadeOut();
 			        AbstractDungeon.isDungeonBeaten = true;
 			        
-
-					InfiniteSpire.ascensionLevel += 1;
-			        AbstractDungeon.isAscensionMode = true;
-			        AbstractDungeon.ascensionLevel = InfiniteSpire.ascensionLevel;
-			        
+			        if(AbstractDungeon.isAscensionMode && AbstractDungeon.ascensionLevel < 15) {
+						InfiniteSpire.ascensionLevel += 1;
+						AbstractDungeon.isAscensionMode = true;
+			        	AbstractDungeon.ascensionLevel = InfiniteSpire.ascensionLevel;
+			        }
 			        __instance.hasFocus = false;
 			        InfiniteSpire.isRerun = true;
-			        InfiniteSpire.points += score;
-			        
-			        logger.info("Player earned " + score + " points for their last climb. (" + InfiniteSpire.points + ")");
-			        
 				} else {
 					InfiniteSpire.isRerun = false;
 				}

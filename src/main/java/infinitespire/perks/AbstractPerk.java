@@ -11,14 +11,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.InputHelper;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import infinitespire.InfiniteSpire;
@@ -53,7 +54,8 @@ public abstract class AbstractPerk {
     {
         RED, 
         GREEN, 
-        BLUE; 
+        BLUE,
+        CURSED; 
     }
     
     public enum PerkState {
@@ -104,7 +106,8 @@ public abstract class AbstractPerk {
 	    hitbox = new Hitbox(xPos + hitboxOffset, yPos + hitboxOffset, hitboxSize, hitboxSize);
 	    iconHitbox = new Hitbox(32, 32);
 	    
-	    this.cost = 0;
+	    if(Settings.isDebug)
+	    	this.cost = 0;
     }
     
     //public abstract void use();
@@ -129,15 +132,19 @@ public abstract class AbstractPerk {
     
     }
     
-    public void onAddPower(AbstractPower p) {
+    public void onAddPower(AbstractPower p, AbstractCreature target, AbstractCreature source, int[] amount) {
     	
     }
+    
+    public void onGainBlock(int blockAmount) {
+		
+	}
     
     public void onLoseBlock(int amount, boolean noAnimation) {
 		
 	}
     
-    public void update() {
+    public void update(boolean allowClick) {
     	hitbox.update();
     	iconHitbox.update();
 
@@ -154,7 +161,7 @@ public abstract class AbstractPerk {
     		}
     	}
     	
-    	if(hitbox.hovered == true && InputHelper.justClickedLeft && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points) {
+    	if(hitbox.hovered && InputHelper.justClickedLeft && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points && allowClick) {
     		CardCrawlGame.sound.play("UI_CLICK_1");
     		CardCrawlGame.sound.play("UNLOCK_PING");
         	this.state = PerkState.ACTIVE;
@@ -166,7 +173,8 @@ public abstract class AbstractPerk {
 	        	if(parent != null) {
 	        		for(AbstractPerk child : parent.children) {
 	        			if(child.state == PerkState.UNLOCKED) {
-	        				child.state = PerkState.LOCKED;
+	        				if(!Settings.isDebug)
+	        					child.state = PerkState.LOCKED;
 	        			}
 	        		}
 	        	}
@@ -183,6 +191,9 @@ public abstract class AbstractPerk {
  		case RED:
  			xPos = ((width) / 2f) - (size / 2f) + xOffset;
  			break;
+ 		case CURSED:
+ 			
+ 			break;
  		default:
  			xPos = 100f;
  			break;
@@ -195,7 +206,7 @@ public abstract class AbstractPerk {
     	hitbox.update(xPos + hitboxOffset, yPos + hitboxOffset);
     }
 
-	public void render(SpriteBatch sb) {
+	public void render(SpriteBatch sb, boolean allowPurchase) {
 		sb.setColor(Color.WHITE);
 		
 		Texture perkTexture = null;
@@ -207,7 +218,7 @@ public abstract class AbstractPerk {
     	if(perkTexture != null)
     		sb.draw(perkTexture, xPos, yPos, size, size);
     	
-    	renderCost(sb);
+    	renderCost(sb, allowPurchase);
     	
     	if(hitbox.hovered) {
     		renderTip(sb);
@@ -228,6 +239,7 @@ public abstract class AbstractPerk {
 		
 		
 		Texture icon = InfiniteSpire.getTexture("img/perks/" + this.tree.toString().toLowerCase() + "/" + this.id.toLowerCase() + ".png");
+				
 		sb.setColor(Color.WHITE);
 		
 		float yOffset = 12f;
@@ -243,6 +255,11 @@ public abstract class AbstractPerk {
 			xOffset = 32f;
 			break;
 		case GREEN:
+			xOffset = 0;
+			break;
+		case CURSED:
+			
+			break;
 		default:
 			xOffset = 0;
 			break;
@@ -251,26 +268,31 @@ public abstract class AbstractPerk {
 		
 		iconHitbox.update(x + xOffset, y - yOffset); 
 		
-		sb.draw(icon, x + xOffset, y - yOffset, 32.0f, 32.0f);
+		if(iconHitbox.hovered && InputHelper.justClickedLeft) {
+			InfiniteSpire.perkscreen.open();
+		}
 		
 		if(iconHitbox.hovered) {
     		renderTip(sb, x + xOffset + 32f * Settings.scale, y - yOffset);
     	}
 		
+		sb.draw(icon, x + xOffset, y - yOffset, 32f, 32f);
+		
+		
+		
 		iconHitbox.render(sb);
 	}
 	
-	private void renderCost(SpriteBatch sb) {
+	private void renderCost(SpriteBatch sb, boolean allowPurchase) {
 		if(this.state != PerkState.UNLOCKED)
 			return;
 		
 		sb.setColor(Color.WHITE);
-		//sb.draw(ImageMaster.UI_GOLD, xPos + ICON_OFFSET_X, yPos + ICON_OFFSET_Y, ImageMaster.UI_GOLD.getWidth() * Settings.scale, ImageMaster.UI_GOLD.getWidth() * Settings.scale);
 		
 		Color color = Color.WHITE;
 		
 		
-		if(this.cost > InfiniteSpire.points) color = Color.SALMON;
+		if(this.cost > InfiniteSpire.points || !allowPurchase) color = Color.SALMON;
 			
 		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.tipHeaderFont, cost + "", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
 	}
@@ -329,6 +351,5 @@ public abstract class AbstractPerk {
 	public int getCost() {
 		return Integer.valueOf(cost + "");
 	}
-
 	
 }

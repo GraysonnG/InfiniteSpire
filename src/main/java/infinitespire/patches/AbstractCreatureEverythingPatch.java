@@ -1,11 +1,10 @@
 package infinitespire.patches;
 
-import java.lang.reflect.Field;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.modthespire.lib.ByRef;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -16,7 +15,6 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.perks.AbstractPerk;
-import infinitespire.util.SuperclassFinder;
 
 public class AbstractCreatureEverythingPatch {
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
@@ -44,28 +42,16 @@ public class AbstractCreatureEverythingPatch {
 	
 	@SpirePatch(cls="com.megacrit.cardcrawl.actions.common.ApplyPowerAction", method="update")
 	public static class AddPower {
-		@SpireInsertPatch(rloc=137, localvars={})
-		public static void Insert(ApplyPowerAction __instance) {
-			
-			try {
-				Field ptaField = SuperclassFinder.getSuperclassField(__instance.getClass(), "powerToApply");
-				ptaField.setAccessible(true);
-				AbstractPower p = (AbstractPower) ptaField.get(__instance);
-				
-				logger.info("Adding Power: " + p.ID + " | "+ p.amount + " | " + p.owner.name);
-				
+		@SpireInsertPatch(rloc=6, localvars={"powerToApply","target","source","amount"})
+		public static void Insert(ApplyPowerAction __instance, AbstractPower p, AbstractCreature target, AbstractCreature source, @ByRef int[] amount) {
+			if(target.isPlayer) {
+				logger.info("Modify Power: " + p.name);
 				for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
 					if(perk.state == AbstractPerk.PerkState.ACTIVE) {
-						perk.onAddPower(p);
+						perk.onAddPower(p, target, source, amount);
 					}
-				}	
-				
-				
-				p.updateDescription();
-				
-			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+					p.updateDescription();
+				}
 			}
 		}
 	}
@@ -81,4 +67,18 @@ public class AbstractCreatureEverythingPatch {
 			}
 		}
 	}
+	
+	@SpirePatch(cls="com.megacrit.cardcrawl.core.AbstractCreature", method="addBlock")
+	public static class AddBlock {
+		@SpireInsertPatch(rloc=46,localvars = {"tmp"})
+		public static void Insert(AbstractCreature __instance, int blockAmount, @ByRef int[] tmp) {
+			if(__instance instanceof AbstractPlayer) {
+				for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+					perk.onGainBlock(tmp[0]);
+				}
+			}
+		}
+	}
+	
+	
 }

@@ -18,6 +18,7 @@ public class PerkScreen {
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 	
 	public static boolean isDone;
+	private static boolean allowPurchase = false;
 	
 	public PerkScreen() {
 		
@@ -25,7 +26,7 @@ public class PerkScreen {
 
 	public void update() {
 		for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
-			perk.update();
+			perk.update(allowPurchase);
 		}
 	}
 	
@@ -35,13 +36,18 @@ public class PerkScreen {
 		this.renderAvailablePoints(sb);
 	}
 	
+	
 	public void open() {
+		this.open(false);
+	}
+	
+	public void open(boolean b) {
 		AbstractDungeon.isScreenUp = true;
 		AbstractDungeon.screen = ScreenStatePatch.PERK_SCREEN;
 		isDone = false;
-		AbstractDungeon.overlayMenu.proceedButton.hide();
 		AbstractDungeon.overlayMenu.cancelButton.show("Done.");
 		AbstractDungeon.overlayMenu.showBlackScreen();
+		allowPurchase = b;
 	}
 	
 	public void renderScroll(SpriteBatch sb) {
@@ -52,7 +58,7 @@ public class PerkScreen {
 	
 	public void renderPerksAndPrices(SpriteBatch sb) {
 		for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
-			perk.render(sb);
+			perk.render(sb, allowPurchase);
 		}
 	}
 	
