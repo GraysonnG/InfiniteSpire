@@ -36,7 +36,7 @@ public class AbstractDungeonPatch {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "render")
 	public static class Render {
 		
-		@SpireInsertPatch(rloc = 114)
+		@SpireInsertPatch(rloc = 111) //112
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
 			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
 				InfiniteSpire.perkscreen.render(sb);

@@ -38,17 +38,17 @@ public abstract class AbstractPerk {
     private ArrayList<AbstractPerk> parents = new ArrayList<AbstractPerk>();
     private ArrayList<PowerTip> tips;
     public final String[] parentIDs;
-    private int cost = 500;
+    protected int cost = 500;
     
     private static final float textureSize = 175f, scrollWidth = 1520f, buttonSize = 120f;
     private static final float TEXT_OFFSET_X = textureSize / 2 * Settings.scale;
     private static final float TEXT_OFFSET_Y = 20f * Settings.scale;
     
-    private float xPos, yPos, size, origSize, hitboxSize, width, hitboxOffset;
-    protected float xOffset;
+    protected float xPos, yPos, size, origSize, hitboxSize, width, hitboxOffset;
+    protected float xOffset, yOffset;
     
-   	private Hitbox hitbox;
-   	private Hitbox iconHitbox;
+   	protected Hitbox hitbox;
+   	protected Hitbox iconHitbox;
     
     public enum PerkTreeColor
     {
@@ -98,6 +98,7 @@ public abstract class AbstractPerk {
         origSize = size;
         width = scrollWidth * Settings.scale;
         xOffset = (Settings.WIDTH - width) / 2f;
+        yOffset = 0;
         hitboxOffset = (size - hitboxSize) / 2f;
         hitboxSize = buttonSize * Settings.scale; 
 	    yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale);
@@ -160,42 +161,51 @@ public abstract class AbstractPerk {
     			size = origSize;
     		}
     	}
-    	
-    	if(hitbox.hovered && InputHelper.justClickedLeft && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points && allowClick) {
-    		CardCrawlGame.sound.play("UI_CLICK_1");
-    		CardCrawlGame.sound.play("UNLOCK_PING");
-        	this.state = PerkState.ACTIVE;
-        	InfiniteSpire.points -= cost;
-        	for(AbstractPerk child : this.children) {
-        		child.state = PerkState.UNLOCKED;
-        	}
-        	for(AbstractPerk parent : parents) {
-	        	if(parent != null) {
-	        		for(AbstractPerk child : parent.children) {
-	        			if(child.state == PerkState.UNLOCKED) {
-	        				if(!Settings.isDebug)
-	        					child.state = PerkState.LOCKED;
-	        			}
-	        		}
+    	if(InputHelper.justClickedLeft) {
+	    	if(hitbox.hovered && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points && allowClick && tree != PerkTreeColor.CURSED) {
+	    		CardCrawlGame.sound.play("UI_CLICK_1");
+	    		CardCrawlGame.sound.play("UNLOCK_PING");
+	        	this.state = PerkState.ACTIVE;
+	        	InfiniteSpire.points -= cost;
+	        	for(AbstractPerk child : this.children) {
+	        		child.state = PerkState.UNLOCKED;
 	        	}
-        	}
+	        	for(AbstractPerk parent : parents) {
+		        	if(parent != null) {
+		        		for(AbstractPerk child : parent.children) {
+		        			if(child.state == PerkState.UNLOCKED) {
+		        				if(!Settings.isDebug)
+		        					child.state = PerkState.LOCKED;
+		        			}
+		        		}
+		        	}
+	        	}
+	    	}
+	    	if(iconHitbox.hovered) {
+	    		logger.info("attempt to open perk screen");
+	    		InfiniteSpire.perkscreen.open();
+	    	}
     	}
     	
     	switch(tree) {
  		case BLUE:
- 			xPos = ((width / 4f) * 3) - (size / 2f) + xOffset;
+ 			xPos = ((width / 4f) * 3) - (size / 2f) + (xOffset * Settings.scale);
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  		case GREEN:
- 			xPos = ((width) / 4f) - (size / 2f) + xOffset;
+ 			xPos = ((width) / 4f) - (size / 2f) + (xOffset * Settings.scale);
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  		case RED:
- 			xPos = ((width) / 2f) - (size / 2f) + xOffset;
+ 			xPos = ((width) / 2f) - (size / 2f) + (xOffset * Settings.scale);
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  		case CURSED:
- 			
+ 			//Handled by the super class
  			break;
  		default:
  			xPos = 100f;
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  	    	
  	    }
@@ -258,7 +268,7 @@ public abstract class AbstractPerk {
 			xOffset = 0;
 			break;
 		case CURSED:
-			
+			xOffset = 96f;
 			break;
 		default:
 			xOffset = 0;
@@ -283,7 +293,7 @@ public abstract class AbstractPerk {
 		iconHitbox.render(sb);
 	}
 	
-	private void renderCost(SpriteBatch sb, boolean allowPurchase) {
+	protected void renderCost(SpriteBatch sb, boolean allowPurchase) {
 		if(this.state != PerkState.UNLOCKED)
 			return;
 		

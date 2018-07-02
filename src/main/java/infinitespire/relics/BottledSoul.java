@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import infinitespire.InfiniteSpire;
 
+@Deprecated
 public class BottledSoul extends AbstractRelic {
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 

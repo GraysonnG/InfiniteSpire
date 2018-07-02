@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.patches.ScreenStatePatch;
@@ -19,21 +21,39 @@ public class PerkScreen {
 	
 	public static boolean isDone;
 	private static boolean allowPurchase = false;
+	public static boolean renderCurses;
+	public static boolean hasPurchasedCurse = false;
+	
+	public Hitbox hitbox;
 	
 	public PerkScreen() {
-		
+		hitbox = new Hitbox(1520 * Settings.scale, 100 * Settings.scale, 100, 100);
 	}
 
 	public void update() {
 		for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
 			perk.update(allowPurchase);
 		}
+		
+		hitbox.update();
+		
+		if(hitbox.hovered && InputHelper.justClickedLeft) {
+			renderCurses = !renderCurses;
+		}
+		
+		hitbox.update(1520 * Settings.scale, 100 * Settings.scale);
 	}
 	
 	public void render(SpriteBatch sb) {
 		this.renderScroll(sb);
-		this.renderPerksAndPrices(sb);
+		if(!renderCurses) {
+			this.renderPerksAndPrices(sb);
+		} else {
+			this.renderCursesAndPrices(sb);
+		}
 		this.renderAvailablePoints(sb);
+		
+		hitbox.render(sb);
 	}
 	
 	
@@ -47,7 +67,9 @@ public class PerkScreen {
 		isDone = false;
 		AbstractDungeon.overlayMenu.cancelButton.show("Done.");
 		AbstractDungeon.overlayMenu.showBlackScreen();
+		AbstractDungeon.overlayMenu.proceedButton.hide();
 		allowPurchase = b;
+		renderCurses = false;
 	}
 	
 	public void renderScroll(SpriteBatch sb) {
@@ -62,7 +84,13 @@ public class PerkScreen {
 		}
 	}
 	
+	public void renderCursesAndPrices(SpriteBatch sb) {
+		for(AbstractPerk curses : InfiniteSpire.allCurses.values()) {
+			curses.render(sb, hasPurchasedCurse);
+		}
+	}
+	
 	public void renderAvailablePoints(SpriteBatch sb) {
-		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.bannerFont, "Points: "+ InfiniteSpire.points, (1920f - 1520f) * Settings.scale, 850f, Color.WHITE);
+		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.bannerFont, "Points: "+ InfiniteSpire.points, (1920f - 1520f) * Settings.scale, 850f * Settings.scale, Color.WHITE);
 	}
 }
