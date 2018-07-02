@@ -5,5 +5,71 @@
 		"DESCRIPTIONS" : [
 			"Upon pick up, choose an #yExhaust card. Whenever you play that card, it no longer #yExhausts."
 		]
+	},
+	"Golems Mask":{
+		"NAME" : "Golem's Mask",
+		"FLAVOR" : "Just like the golem, slow and steady.",
+		"DESCRIPTIONS" : [
+			"Skip the first turn of each combat, Deal #b10% more damage per turn, for the rest of combat."
+		]
+	},
+	"Lychee Nut" : {
+		"NAME" : "Lychee Nut",
+		"FLAVOR" : "It's kinda sweet.",
+		"DESCRIPTIONS" : [
+			"Upon pick up, lose #b25% of your max HP. At the start of combat gain #b5 #yRegen."
+		]
+	},
+	"Cupcake" : {
+		"NAME" : "Cupcake",
+		"FLAVOR" : "It's mostly icing.",
+		"DESCRIPTIONS" : [
+			"After #b6 cards played all cards cost #b1 more energy.",
+			"Gain [R] at the start of each turn. ",
+			"Gain [G] at the start of each turn. ",
+			"Gain [B] at the start of each turn. "
+		]
+	},
+	"Magic Flask" : {
+		"NAME" : "Magic Flask",
+		"FLAVOR" : "The flames feel warmer...",
+		"DESCRIPTIONS" : [
+			"At campfires, the rest option may now be taken for free. After #b3 uses the flask is no longer useable."
+		]
+	},
+	"Cubic Diamond" : {
+		"NAME" : "Cubic Diamond",
+		"FLAVOR" : "TBD",
+		"DESCRIPTIONS" : [
+			"Upon pick up, replace your starter relic with a random starter relic."
+		]
+	},
+	"Midas Blood" : {
+		"NAME" : "Midas Blood",
+		"FLAVOR" : "Taking damage never felt so good.",
+		"DESCRIPTIONS" : [
+			"Whenever you take HP damage, gain #b5 gold."
+		]
+	},
+	"Freezer" : {
+		"NAME" : "Freezer",
+		"FLAVOR" : "It's cold to the touch.",
+		"DESCRIPTIONS" : [
+			"At the start of your turn, channel #b1 Frost orb."
+		]
+	},
+	"Beetle Shell" : {
+		"NAME" : "Beetle Shell",
+		"FLAVOR" : "",
+		"DESCRIPTIONS" : [
+			"Every #b10th time you gain #yBlock, gain double the #yBlock."
+		]
+	},
+	"Burning Sword" : {
+		"NAME" : "Burning Sword",
+		"FLAVOR" : "",
+		"DESCRIPTIONS" : [
+			"At the start of your turn gain #b2 #yStrength"
+		]
 	}
 }

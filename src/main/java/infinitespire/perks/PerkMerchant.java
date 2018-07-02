@@ -10,8 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.InputHelper;
-
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import infinitespire.InfiniteSpire;
 import infinitespire.patches.ScreenStatePatch;
 
@@ -23,7 +22,7 @@ public class PerkMerchant {
 	
 	
 	public PerkMerchant() {
-		InfiniteSpire.perkscreen.open();
+		InfiniteSpire.perkscreen.open(true);
 		AbstractDungeon.screen = ScreenStatePatch.PERK_SCREEN;
 	}
 
@@ -53,13 +52,35 @@ public class PerkMerchant {
 				false,
 				false
 				);
+		if(hb.hovered) {
+			sb.setBlendFunction(770, 1);
+			sb.setColor(1f, 1f, 1f, 0.3F);
+			sb.draw(portal, 
+					hb.x,
+					hb.y + 150f, 
+					128f, 
+					128f, 
+					256f, 
+					256f, 
+					1.0f, 
+					1.0f, 
+					angle,
+					0,
+					0,
+					256,
+					256,
+					false,
+					false
+					);
+			sb.setBlendFunction(770, 771);
+		}
 	}
 
 	public void update() {
 		hb.update();
 		
 		if(hb.hovered && InputHelper.justClickedLeft) {
-			InfiniteSpire.perkscreen.open();
+			InfiniteSpire.perkscreen.open(true);
 		}
 	}
 }

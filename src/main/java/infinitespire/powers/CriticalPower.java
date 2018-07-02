@@ -13,6 +13,7 @@ import infinitespire.InfiniteSpire;
 public class CriticalPower extends AbstractPower {
 	
 	public CriticalPower(AbstractPlayer player) {
+		InfiniteSpire.logger.info("Applying Crit");
 		this.owner = player;
 		this.amount = -1;
 		this.name = "Critical";

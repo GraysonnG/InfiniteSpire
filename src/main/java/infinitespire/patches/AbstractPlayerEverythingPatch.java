@@ -65,13 +65,16 @@ public class AbstractPlayerEverythingPatch {
 	    
 	    @SpirePatch(cls = "com.megacrit.cardcrawl.monsters.AbstractMonster", method = "damage")
 	    public static class DamageDeal {
-	    	@SpireInsertPatch(rloc = 30, localvars = { "damageAmount" })
+	    	@SpireInsertPatch(rloc = 31, localvars = { "damageAmount" })
 	    	public static void Insert(AbstractMonster mon, DamageInfo info, @ByRef int[] damageAmount) {
-	    		for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
-	            	if(perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
-		                perk.onDamageDealt(info, damageAmount);
-	            	}
-	            }
+	    		if(info.owner != null && info.owner.isPlayer) {
+	    			InfiniteSpire.logger.info("Player dealing damage.");
+		    		for (AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+		            	if(perk.state.equals(AbstractPerk.PerkState.ACTIVE)) {
+			                perk.onDamageDealt(info, damageAmount);
+		            	}
+		            }
+	    		}
 	    	}
 	    }
 	}

@@ -10,13 +10,12 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.events.thebeyond.SpireHeart;
-import com.megacrit.cardcrawl.screens.DeathScreen;
-
 import infinitespire.InfiniteSpire;
+import infinitespire.screens.PerkScreen;
 //import infinitespire.dungeons.ExordiumNewGamePlus;
 import infinitespire.util.SuperclassFinder;
 
-
+@Deprecated
 public class SpireHeartPatch {
 	
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
@@ -24,44 +23,38 @@ public class SpireHeartPatch {
 	@SpirePatch(cls="com.megacrit.cardcrawl.events.thebeyond.SpireHeart", method="ctor")
 	public static class Constructor{
 		public static void Postfix(SpireHeart __instance) {
-			__instance.roomEventText.addDialogOption("[Infinite Spire] Start over again.");
+			//__instance.roomEventText.addDialogOption("[Infinite Spire] Start over again.");
 		}
 	}
 	
 	@SpirePatch(cls = "com.megacrit.cardcrawl.events.thebeyond.SpireHeart", method = "buttonEffect")
 	public static class ButtonEffect {
 		public static void Postfix(SpireHeart __instance, int buttonPressed) {
-			try {
-				Field screenField = SuperclassFinder.getSuperclassField(__instance.getClass(), "screen");
-				screenField.setAccessible(true);
-				
-				Object screen = screenField.get(__instance);
-				
-				System.out.println(screen.toString());
-				if(buttonPressed == 1) {
-					DeathScreen.resetScoreChecks();
-					int score = DeathScreen.calcScore(true) - InfiniteSpire.points;
-					CardCrawlGame.nextDungeon = Exordium.ID;
-			        AbstractDungeon.fadeOut();
-			        AbstractDungeon.isDungeonBeaten = true;
-			        
-
-					InfiniteSpire.ascensionLevel += 1;
-			        AbstractDungeon.isAscensionMode = true;
-			        AbstractDungeon.ascensionLevel = InfiniteSpire.ascensionLevel;
-			        
-			        __instance.hasFocus = false;
-			        InfiniteSpire.isRerun = true;
-			        InfiniteSpire.points += score;
-			        
-			        logger.info("Player earned " + score + " points for their last climb. (" + InfiniteSpire.points + ")");
-			        
-				} else {
-					InfiniteSpire.isRerun = false;
-				}
-			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Field screenField = SuperclassFinder.getSuperclassField(__instance.getClass(), "screen");
+//				screenField.setAccessible(true);
+//				
+//				Object screen = screenField.get(__instance);
+//				
+//				System.out.println(screen.toString());
+//				if(buttonPressed == 1) {
+//					CardCrawlGame.nextDungeon = Exordium.ID;
+//			        AbstractDungeon.fadeOut();
+//			        AbstractDungeon.isDungeonBeaten = true;
+//			        PerkScreen.hasPurchasedCurse = false;
+//			        if(AbstractDungeon.isAscensionMode && AbstractDungeon.ascensionLevel < 15) {
+//						InfiniteSpire.ascensionLevel += 1;
+//						AbstractDungeon.isAscensionMode = true;
+//			        	AbstractDungeon.ascensionLevel = InfiniteSpire.ascensionLevel;
+//			        }
+//			        __instance.hasFocus = false;
+//			        InfiniteSpire.isRerun = true;
+//				} else {
+//					InfiniteSpire.isRerun = false;
+//				}
+//			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+//				e.printStackTrace();
+//			}
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class Crit2 extends AbstractPerk{
     
     @Override
 	public void onDamageDealt(DamageInfo info, int[] damageAmount) {
-		if(Crit1.willCrit(0.20f)) {
+		if(Crit1.willCrit(0.20f, info)) {
 			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new CriticalPower(AbstractDungeon.player), 1));
 		}
 	}

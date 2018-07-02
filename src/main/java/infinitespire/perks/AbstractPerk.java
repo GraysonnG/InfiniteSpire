@@ -11,14 +11,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.InputHelper;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
 import infinitespire.InfiniteSpire;
@@ -37,23 +38,24 @@ public abstract class AbstractPerk {
     private ArrayList<AbstractPerk> parents = new ArrayList<AbstractPerk>();
     private ArrayList<PowerTip> tips;
     public final String[] parentIDs;
-    private int cost = 500;
+    protected int cost = 500;
     
     private static final float textureSize = 175f, scrollWidth = 1520f, buttonSize = 120f;
     private static final float TEXT_OFFSET_X = textureSize / 2 * Settings.scale;
     private static final float TEXT_OFFSET_Y = 20f * Settings.scale;
     
-    private float xPos, yPos, size, origSize, hitboxSize, width, hitboxOffset;
-    protected float xOffset;
+    protected float xPos, yPos, size, origSize, hitboxSize, width, hitboxOffset;
+    protected float xOffset, yOffset;
     
-   	private Hitbox hitbox;
-   	private Hitbox iconHitbox;
+   	protected Hitbox hitbox;
+   	protected Hitbox iconHitbox;
     
     public enum PerkTreeColor
     {
         RED, 
         GREEN, 
-        BLUE; 
+        BLUE,
+        CURSED; 
     }
     
     public enum PerkState {
@@ -96,6 +98,7 @@ public abstract class AbstractPerk {
         origSize = size;
         width = scrollWidth * Settings.scale;
         xOffset = (Settings.WIDTH - width) / 2f;
+        yOffset = 0;
         hitboxOffset = (size - hitboxSize) / 2f;
         hitboxSize = buttonSize * Settings.scale; 
 	    yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale);
@@ -104,7 +107,8 @@ public abstract class AbstractPerk {
 	    hitbox = new Hitbox(xPos + hitboxOffset, yPos + hitboxOffset, hitboxSize, hitboxSize);
 	    iconHitbox = new Hitbox(32, 32);
 	    
-	    this.cost = 0;
+	    if(Settings.isDebug)
+	    	this.cost = 0;
     }
     
     //public abstract void use();
@@ -129,15 +133,19 @@ public abstract class AbstractPerk {
     
     }
     
-    public void onAddPower(AbstractPower p) {
+    public void onAddPower(AbstractPower p, AbstractCreature target, AbstractCreature source, int[] amount) {
     	
     }
+    
+    public void onGainBlock(int blockAmount) {
+		
+	}
     
     public void onLoseBlock(int amount, boolean noAnimation) {
 		
 	}
     
-    public void update() {
+    public void update(boolean allowClick) {
     	hitbox.update();
     	iconHitbox.update();
 
@@ -153,38 +161,51 @@ public abstract class AbstractPerk {
     			size = origSize;
     		}
     	}
-    	
-    	if(hitbox.hovered == true && InputHelper.justClickedLeft && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points) {
-    		CardCrawlGame.sound.play("UI_CLICK_1");
-    		CardCrawlGame.sound.play("UNLOCK_PING");
-        	this.state = PerkState.ACTIVE;
-        	InfiniteSpire.points -= cost;
-        	for(AbstractPerk child : this.children) {
-        		child.state = PerkState.UNLOCKED;
-        	}
-        	for(AbstractPerk parent : parents) {
-	        	if(parent != null) {
-	        		for(AbstractPerk child : parent.children) {
-	        			if(child.state == PerkState.UNLOCKED) {
-	        				child.state = PerkState.LOCKED;
-	        			}
-	        		}
+    	if(InputHelper.justClickedLeft) {
+	    	if(hitbox.hovered && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points && allowClick && tree != PerkTreeColor.CURSED) {
+	    		CardCrawlGame.sound.play("UI_CLICK_1");
+	    		CardCrawlGame.sound.play("UNLOCK_PING");
+	        	this.state = PerkState.ACTIVE;
+	        	InfiniteSpire.points -= cost;
+	        	for(AbstractPerk child : this.children) {
+	        		child.state = PerkState.UNLOCKED;
 	        	}
-        	}
+	        	for(AbstractPerk parent : parents) {
+		        	if(parent != null) {
+		        		for(AbstractPerk child : parent.children) {
+		        			if(child.state == PerkState.UNLOCKED) {
+		        				if(!Settings.isDebug)
+		        					child.state = PerkState.LOCKED;
+		        			}
+		        		}
+		        	}
+	        	}
+	    	}
+	    	if(iconHitbox.hovered) {
+	    		logger.info("attempt to open perk screen");
+	    		InfiniteSpire.perkscreen.open();
+	    	}
     	}
     	
     	switch(tree) {
  		case BLUE:
- 			xPos = ((width / 4f) * 3) - (size / 2f) + xOffset;
+ 			xPos = ((width / 4f) * 3) - (size / 2f) + (xOffset * Settings.scale);
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  		case GREEN:
- 			xPos = ((width) / 4f) - (size / 2f) + xOffset;
+ 			xPos = ((width) / 4f) - (size / 2f) + (xOffset * Settings.scale);
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  		case RED:
- 			xPos = ((width) / 2f) - (size / 2f) + xOffset;
+ 			xPos = ((width) / 2f) - (size / 2f) + (xOffset * Settings.scale);
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
+ 			break;
+ 		case CURSED:
+ 			//Handled by the super class
  			break;
  		default:
  			xPos = 100f;
+ 			yPos = (75f + ((buttonSize + 30) * tier)) * (Settings.scale) + (yOffset * Settings.scale);
  			break;
  	    	
  	    }
@@ -195,7 +216,7 @@ public abstract class AbstractPerk {
     	hitbox.update(xPos + hitboxOffset, yPos + hitboxOffset);
     }
 
-	public void render(SpriteBatch sb) {
+	public void render(SpriteBatch sb, boolean allowPurchase) {
 		sb.setColor(Color.WHITE);
 		
 		Texture perkTexture = null;
@@ -207,7 +228,7 @@ public abstract class AbstractPerk {
     	if(perkTexture != null)
     		sb.draw(perkTexture, xPos, yPos, size, size);
     	
-    	renderCost(sb);
+    	renderCost(sb, allowPurchase);
     	
     	if(hitbox.hovered) {
     		renderTip(sb);
@@ -228,6 +249,7 @@ public abstract class AbstractPerk {
 		
 		
 		Texture icon = InfiniteSpire.getTexture("img/perks/" + this.tree.toString().toLowerCase() + "/" + this.id.toLowerCase() + ".png");
+				
 		sb.setColor(Color.WHITE);
 		
 		float yOffset = 12f;
@@ -243,6 +265,11 @@ public abstract class AbstractPerk {
 			xOffset = 32f;
 			break;
 		case GREEN:
+			xOffset = 0;
+			break;
+		case CURSED:
+			xOffset = 96f;
+			break;
 		default:
 			xOffset = 0;
 			break;
@@ -251,26 +278,31 @@ public abstract class AbstractPerk {
 		
 		iconHitbox.update(x + xOffset, y - yOffset); 
 		
-		sb.draw(icon, x + xOffset, y - yOffset, 32.0f, 32.0f);
+		if(iconHitbox.hovered && InputHelper.justClickedLeft) {
+			InfiniteSpire.perkscreen.open();
+		}
 		
 		if(iconHitbox.hovered) {
     		renderTip(sb, x + xOffset + 32f * Settings.scale, y - yOffset);
     	}
 		
+		sb.draw(icon, x + xOffset, y - yOffset, 32f, 32f);
+		
+		
+		
 		iconHitbox.render(sb);
 	}
 	
-	private void renderCost(SpriteBatch sb) {
+	protected void renderCost(SpriteBatch sb, boolean allowPurchase) {
 		if(this.state != PerkState.UNLOCKED)
 			return;
 		
 		sb.setColor(Color.WHITE);
-		//sb.draw(ImageMaster.UI_GOLD, xPos + ICON_OFFSET_X, yPos + ICON_OFFSET_Y, ImageMaster.UI_GOLD.getWidth() * Settings.scale, ImageMaster.UI_GOLD.getWidth() * Settings.scale);
 		
 		Color color = Color.WHITE;
 		
 		
-		if(this.cost > InfiniteSpire.points) color = Color.SALMON;
+		if(this.cost > InfiniteSpire.points || !allowPurchase) color = Color.SALMON;
 			
 		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.tipHeaderFont, cost + "", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
 	}
@@ -329,6 +361,5 @@ public abstract class AbstractPerk {
 	public int getCost() {
 		return Integer.valueOf(cost + "");
 	}
-
 	
 }

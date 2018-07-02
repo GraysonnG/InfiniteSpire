@@ -22,15 +22,6 @@ public class PerkRoom extends AbstractRoom {
 	
 	public PerkRoom() {
 		this.phase = RoomPhase.COMPLETE;
-		
-		//AbstractDungeon.dialog.clear();
-		
-		for (final AbstractGameEffect e : AbstractDungeon.effectList) {
-            if (e instanceof InfiniteSpeechBubble) {
-                ((InfiniteSpeechBubble)e).dismiss();
-            }
-        }
-		
 		merchant = new PerkMerchant();
 	}
 	
@@ -46,10 +37,18 @@ public class PerkRoom extends AbstractRoom {
 	@Override
 	public void onPlayerEntry() {
 		AbstractDungeon.overlayMenu.proceedButton.setLabel("Finish.");
+		AbstractDungeon.overlayMenu.proceedButton.show();
 	}
 	
 	@Override
 	public void update() {
+		
+		for (AbstractGameEffect e : AbstractDungeon.effectList) {
+            if (e instanceof InfiniteSpeechBubble) {
+                ((InfiniteSpeechBubble)e).dismiss();
+            }
+        }
+		
 		super.update();
 		
 		if(this.merchant != null) this.merchant.update();
