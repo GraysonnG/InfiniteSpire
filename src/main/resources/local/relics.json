@@ -69,7 +69,14 @@
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "",
 		"DESCRIPTIONS" : [
-			"At the start of your turn gain #b2 #yStrength"
+			"At the start of your turn, gain #b2 #yStrength"
+		]
+	},
+	"Broken Mirror" : {
+		"NAME" : "Broken Mirror",
+		"FLAVOR" : "It's sharp.",
+		"DESCRIPTIONS" : [
+			"At the combat, gain #b1 #yReflection"
 		]
 	}
 }

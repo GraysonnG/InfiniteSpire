@@ -22,21 +22,16 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
-import com.megacrit.cardcrawl.rooms.CampfireUI;
-import com.megacrit.cardcrawl.rooms.RestRoom;
+import com.megacrit.cardcrawl.relics.GoldenEgg;
+import com.megacrit.cardcrawl.rooms.*;
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
 
+import ReplayTheSpireMod.ReplayTheSpireMod;
+import basemod.AutoComplete;
 import basemod.BaseMod;
 import basemod.ReflectionHacks;
-import basemod.interfaces.EditCardsSubscriber;
-import basemod.interfaces.EditKeywordsSubscriber;
-import basemod.interfaces.EditRelicsSubscriber;
-import basemod.interfaces.PostBattleSubscriber;
-import basemod.interfaces.PostCampfireSubscriber;
-import basemod.interfaces.PostInitializeSubscriber;
-import basemod.interfaces.PostPowerApplySubscriber;
-import basemod.interfaces.PostRenderSubscriber;
+import basemod.helpers.RelicType;
+import basemod.interfaces.*;
 import infinitespire.cards.*;
 import infinitespire.perks.AbstractPerk;
 import infinitespire.perks.AbstractPerk.PerkState;
@@ -66,6 +61,12 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
    
     public static PerkScreen perkscreen = new PerkScreen();
     
+    private enum LoadType {
+    	RELIC,
+    	CARD,
+    	KEYWORD,
+    }
+    
     public InfiniteSpire() {
     	BaseMod.subscribe(this);
     }
@@ -73,7 +74,7 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     public static void initialize() {
         logger.info("VERSION: 0.0.1");
         new InfiniteSpire();
-        Settings.isDebug = true;
+        //Settings.isDebug = true;
     }
     
     @Override
@@ -82,7 +83,9 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		
 		Texture modBadge = getTexture("img/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
-	}
+    
+		
+    }
 
 	@Override
 	public void receiveEditKeywords() {
@@ -192,15 +195,23 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		RelicLibrary.add(new MidasBlood());
 		RelicLibrary.add(new BeetleShell());
 		
-		
 		RelicLibrary.addBlue(new Freezer());
 		
 		RelicLibrary.addRed(new BurningSword());
 		
-		//Cosmic Robe
+		initializeCrossoverRelics();
 		
     	//RelicLibrary.add(new BottledSoul()); //This relic is broken
     }
+    
+    private static void initializeCrossoverRelics() {
+    	try {
+			initializeReplayTheSpire(LoadType.RELIC);
+		} catch (ClassNotFoundException | NoClassDefFoundError e) {
+			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
+		}
+    }
+    
     
     private static void initializePerks() {
     	logger.info("InfiniteSpire | Initializing perks...");
@@ -248,6 +259,19 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		somethingSelected = MagicFlask.shouldFinishCampfire();
 		
 		return somethingSelected;
+	}
+	
+	private static void initializeReplayTheSpire(LoadType type) throws ClassNotFoundException, NoClassDefFoundError {
+		Class<ReplayTheSpireMod> replayTheSpire = ReplayTheSpireMod.class;
+		logger.info("InfiniteSpire | InfiniteSpire has successfully detected Replay The Spire!");
+		
+		if(type == LoadType.RELIC) {
+			logger.info("InfiniteSpire | Initializing Relics for Replay The Spire...");
+			RelicLibrary.addBlue(new BrokenMirror());
+		}
+		if(type == LoadType.CARD) {
+			logger.info("InfiniteSpire | Initializing Cards for Replay The Spire...");
+		}
 	}
 
 }
