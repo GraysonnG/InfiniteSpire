@@ -62,6 +62,14 @@ public class Cupcake extends Relic {
 	@Override
 	public void onPlayCard(AbstractCard c, AbstractMonster m) {
 		this.counter++;
+		if(counter == CARD_LIMIT) {
+			for (final AbstractCard c2 : AbstractDungeon.player.hand.group) {
+                if (c2.costForTurn >= 0) {
+                    c2.costForTurn += 1;
+                    c2.isCostModifiedForTurn = true;
+                }
+            }
+		}
 	}
 
 	@Override
@@ -71,7 +79,7 @@ public class Cupcake extends Relic {
 
 	@Override
 	public void onCardDraw(AbstractCard drawnCard) {
-		if(counter >= CARD_LIMIT) {
+		if(counter >= CARD_LIMIT && drawnCard.cost >= 0) {
 			drawnCard.setCostForTurn(drawnCard.cost + 1);
 		}
 	}

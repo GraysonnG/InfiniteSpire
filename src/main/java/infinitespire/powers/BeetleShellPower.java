@@ -28,7 +28,7 @@ public class BeetleShellPower extends AbstractPower {
 		this.updateDescription();
 		this.shouldRemove = false;
 	}
-	
+	/*
 	@Override
 	public float modifyBlock(float blockAmount) {
 		blockAmount *= 2f;
@@ -37,13 +37,13 @@ public class BeetleShellPower extends AbstractPower {
 
 	@Override
 	public void onAfterUseCard(AbstractCard card, UseCardAction action) {
-		if(shouldRemove) {
+		if(shouldRemove && card.baseBlock > 0) {
 			AbstractPlayer p = AbstractDungeon.player;
 			AbstractDungeon.actionManager.addToTop(new RemoveSpecificPowerAction(p, p, ID));
 		}
 		shouldRemove = true;
 	}
-
+*/
 	public void updateDescription() {
 		this.description = "The next time you gain block it is doubled.";
 	}
