@@ -38,7 +38,8 @@ public class PerkScreen {
 		hitbox.update();
 		
 		if(hitbox.hovered && InputHelper.justClickedLeft) {
-			renderCurses = !renderCurses;
+			//renderCurses = !renderCurses;
+			//InfiniteSpire.selectRelicScreen.open();
 		}
 		
 		hitbox.update(1520 * Settings.scale, 100 * Settings.scale);
@@ -91,6 +92,6 @@ public class PerkScreen {
 	}
 	
 	public void renderAvailablePoints(SpriteBatch sb) {
-		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.bannerFont, "Points: "+ InfiniteSpire.points, (1920f - 1520f) * Settings.scale, 850f * Settings.scale, Color.WHITE);
+		FontHelper.renderFontLeftTopAligned(sb, FontHelper.bannerFont, "Silver: " + InfiniteSpire.points, 50f * Settings.scale, 825f * Settings.scale, Color.WHITE);
 	}
 }

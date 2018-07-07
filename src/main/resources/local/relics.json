@@ -78,5 +78,19 @@
 		"DESCRIPTIONS" : [
 			"At the combat, gain #b1 #yReflection"
 		]
+	},
+	"Spectral Dust" : {
+		"NAME" : "Spectral Dust",
+		"FLAVOR" : "It sparkles!",
+		"DESCRIPTIONS" : [
+			"Whenever an #yEthereal card is #yExhausted, deal #b3 damage to a random enemy."
+		]
+	},
+	"Holy Water" : {
+		"NAME" : "Holy Water",
+		"FLAVOR" : "TBD",
+		"DESCRIPTIONS" : [
+			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
+		]
 	}
 }

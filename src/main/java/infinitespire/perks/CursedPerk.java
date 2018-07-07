@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.Settings;
 
 import infinitespire.InfiniteSpire;
 
+@Deprecated
 public class CursedPerk extends AbstractPerk{
 	
 	public enum CursedPerkRarity {
@@ -47,7 +48,7 @@ public class CursedPerk extends AbstractPerk{
     	
     	hitboxSize = 120f * Settings.scale;
     	hitboxOffset = (size - hitboxSize) / 2f;
-    	hitbox.update(xPos + hitboxOffset, yPos + hitboxOffset);
+    	hitbox.update(xPos - hitboxOffset, yPos - hitboxOffset);
     }
 	
 	public void render(SpriteBatch sb, boolean allowPurchace) {

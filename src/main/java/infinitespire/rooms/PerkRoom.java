@@ -22,7 +22,10 @@ public class PerkRoom extends AbstractRoom {
 	
 	public PerkRoom() {
 		this.phase = RoomPhase.COMPLETE;
-		merchant = new PerkMerchant();
+		merchant = null;
+		this.mapSymbol = "P";
+		this.mapImg = InfiniteSpire.getTexture("img/ui/map/perkImg.png");
+		this.mapImgOutline = InfiniteSpire.getTexture("img/ui/map/perkImg-outline.png");
 	}
 	
 	public void setPerkMerchant(PerkMerchant merchant) {
@@ -38,6 +41,7 @@ public class PerkRoom extends AbstractRoom {
 	public void onPlayerEntry() {
 		AbstractDungeon.overlayMenu.proceedButton.setLabel("Finish.");
 		AbstractDungeon.overlayMenu.proceedButton.show();
+		setPerkMerchant(new PerkMerchant());
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ public class ExordiumPatch {
 	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.Exordium", method="ctor")
 	public static class Param1 {
 		public static void Postfix(Exordium __instance, AbstractPlayer player, ArrayList<String> emptyList) {
-			Settings.isEndless = true;
+	//		Settings.isEndless = true;
 	//		if(InfiniteSpire.isRerun) {
 	//			AbstractDungeon.currMapNode.room = new PerkRoom();
 	//			

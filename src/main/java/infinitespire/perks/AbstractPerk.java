@@ -154,6 +154,12 @@ public abstract class AbstractPerk {
     		this.size = origSize + 15;
     	}
     	
+    	if(Settings.isDebug) {
+    		this.cost = 0;
+    	} else {
+    		this.cost = 500 + (100 * tier);
+    	}
+    	
     	if(!hitbox.hovered) {
     		if(size > origSize) {
     			this.size -= 60 * Gdx.graphics.getDeltaTime();
@@ -276,19 +282,17 @@ public abstract class AbstractPerk {
 		
 		}
 		
-		iconHitbox.update(x + xOffset, y - yOffset); 
+		iconHitbox.update((x + xOffset) * Settings.scale, (y - yOffset) * Settings.scale); 
 		
 		if(iconHitbox.hovered && InputHelper.justClickedLeft) {
 			InfiniteSpire.perkscreen.open();
 		}
 		
 		if(iconHitbox.hovered) {
-    		renderTip(sb, x + xOffset + 32f * Settings.scale, y - yOffset);
+    		renderTip(sb, (x + xOffset + 32f) * Settings.scale, (y - yOffset) * Settings.scale);
     	}
 		
-		sb.draw(icon, x + xOffset, y - yOffset, 32f, 32f);
-		
-		
+		sb.draw(icon, (x + xOffset) * Settings.scale, (y - yOffset) * Settings.scale, 32f * Settings.scale, 32f * Settings.scale);
 		
 		iconHitbox.render(sb);
 	}
@@ -304,7 +308,7 @@ public abstract class AbstractPerk {
 		
 		if(this.cost > InfiniteSpire.points || !allowPurchase) color = Color.SALMON;
 			
-		FontHelper.renderFontCenteredTopAligned(sb, FontHelper.tipHeaderFont, cost + "", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
+		FontHelper.renderFontLeftTopAligned(sb, FontHelper.tipHeaderFont, cost + "s", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
 	}
 	
 	private Texture getTextureByState() {
