@@ -71,6 +71,11 @@ public class Cupcake extends Relic {
             }
 		}
 	}
+	
+	@Override
+	public void onVictory() {
+		counter = 0;
+	}
 
 	@Override
 	public void atTurnStart() {

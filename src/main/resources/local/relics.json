@@ -24,7 +24,7 @@
 		"NAME" : "Cupcake",
 		"FLAVOR" : "It's mostly icing.",
 		"DESCRIPTIONS" : [
-			"After #b6 cards played all cards cost #b1 more energy.",
+			"Each turn, after #b6 cards played, all cards cost #b1 more energy.",
 			"Gain [R] at the start of each turn. ",
 			"Gain [G] at the start of each turn. ",
 			"Gain [B] at the start of each turn. "

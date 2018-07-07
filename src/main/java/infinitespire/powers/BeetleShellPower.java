@@ -11,11 +11,8 @@ import infinitespire.InfiniteSpire;
 
 public class BeetleShellPower extends AbstractPower {
 	
-	private boolean shouldRemove;
-	
 	public BeetleShellPower(AbstractPlayer player, boolean shouldRemove) {
 		this(player);
-		this.shouldRemove = true;
 	}
 	
 	public BeetleShellPower(AbstractPlayer player) {
@@ -26,7 +23,6 @@ public class BeetleShellPower extends AbstractPower {
 		this.img = InfiniteSpire.getTexture("img/powers/beetleshell.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
-		this.shouldRemove = false;
         this.priority = 6;
 	}
 	
