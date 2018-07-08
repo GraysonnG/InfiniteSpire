@@ -42,6 +42,13 @@ public class OneForAll extends CustomCard {
 	}
 
 	@Override
+    public void applyPowers() {
+        this.baseDamage = this.misc;
+        super.applyPowers();
+        this.initializeDescription();
+    }
+	
+	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		
 		AttackEffect effect = AttackEffect.BLUNT_LIGHT;
@@ -55,7 +62,7 @@ public class OneForAll extends CustomCard {
 		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.cardID, this.misc, this.magicNumber));
 		AbstractDungeon.actionManager.addToBottom(new DamageAction(
 				m,
-				new DamageInfo(p, damage, DamageType.NORMAL), 
+				new DamageInfo(p, this.damage, DamageType.NORMAL), 
 				effect));
 	}
 }

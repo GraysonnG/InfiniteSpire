@@ -28,6 +28,7 @@ public class CubicDiamond extends Relic {
 		return relicToAdd;
 	}
 
+	//fix this to make it work right
 	@Override
 	public void onEquip() {
 		AbstractRelic relicToAdd;

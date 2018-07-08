@@ -17,13 +17,28 @@ import infinitespire.patches.ScreenStatePatch;
 public class PerkMerchant {
 	
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
-	private Hitbox hb = new Hitbox(((Settings.WIDTH / 4f) * 3f) - 300f, 250f, 250, 400);
+	
+	private static float xPos, yPos, width, height;
+	
+	private Hitbox hb;
 	private float angle = 0.0f;
 	
 	
 	public PerkMerchant() {
 		InfiniteSpire.perkscreen.open(true);
 		AbstractDungeon.screen = ScreenStatePatch.PERK_SCREEN;
+		
+		xPos = ((Settings.WIDTH / 4f) * 3f) - (300f * Settings.scale);
+		yPos = (Settings.HEIGHT / 2f);
+		width = 256f;
+		height = 256f;
+	
+		width *= Settings.scale;
+		height *= Settings.scale;
+		
+		yPos -= height / 2f;
+		
+		hb = new Hitbox(xPos, yPos, width, height);
 	}
 
 	public void render(SpriteBatch sb) {
@@ -36,12 +51,12 @@ public class PerkMerchant {
 		angle += 10 * Gdx.graphics.getDeltaTime();
 		Texture portal = InfiniteSpire.getTexture("img/screen/portal.png");
 		sb.draw(portal, 
-				hb.x,
-				hb.y + 150f, 
-				128f, 
-				128f, 
-				256f, 
-				256f, 
+				xPos,
+				yPos, 
+				width / 2f, 
+				height / 2f, 
+				width, 
+				height, 
 				1.0f, 
 				1.0f, 
 				angle,
@@ -56,12 +71,12 @@ public class PerkMerchant {
 			sb.setBlendFunction(770, 1);
 			sb.setColor(1f, 1f, 1f, 0.3F);
 			sb.draw(portal, 
-					hb.x,
-					hb.y + 150f, 
-					128f, 
-					128f, 
-					256f, 
-					256f, 
+					xPos,
+					yPos, 
+					width / 2f, 
+					height / 2f,
+					width, 
+					height, 
 					1.0f, 
 					1.0f, 
 					angle,

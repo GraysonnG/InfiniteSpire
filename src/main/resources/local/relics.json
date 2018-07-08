@@ -24,7 +24,7 @@
 		"NAME" : "Cupcake",
 		"FLAVOR" : "It's mostly icing.",
 		"DESCRIPTIONS" : [
-			"After #b6 cards played all cards cost #b1 more energy.",
+			"Each turn, after #b6 cards played, all cards cost #b1 more energy.",
 			"Gain [R] at the start of each turn. ",
 			"Gain [G] at the start of each turn. ",
 			"Gain [B] at the start of each turn. "
@@ -69,7 +69,35 @@
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "",
 		"DESCRIPTIONS" : [
-			"At the start of your turn gain #b2 #yStrength"
+			"At the start of your turn, gain #b2 #yStrength"
+		]
+	},
+	"Broken Mirror" : {
+		"NAME" : "Broken Mirror",
+		"FLAVOR" : "It's sharp.",
+		"DESCRIPTIONS" : [
+			"At the combat, gain #b1 #yReflection"
+		]
+	},
+	"Spectral Dust" : {
+		"NAME" : "Spectral Dust",
+		"FLAVOR" : "It sparkles!",
+		"DESCRIPTIONS" : [
+			"Whenever an #yEthereal card is #yExhausted, deal #b3 damage to a random enemy."
+		]
+	},
+	"Holy Water" : {
+		"NAME" : "Holy Water",
+		"FLAVOR" : "TBD",
+		"DESCRIPTIONS" : [
+			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
+		]
+	},
+	"Blanks Blanky" : {
+		"NAME" : "Blank's Blanky",
+		"FLAVOR" : "It's more like a comforter.",
+		"DESCRIPTIONS" : [
+			"When resting at Rest Sites, heal to full."
 		]
 	}
 }
