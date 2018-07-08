@@ -14,7 +14,7 @@ public class Neurotoxin extends CustomCard {
 	
 	public static final String ID = "Neurotoxin";
 	public static final String NAME = "Neurotoxin";
-	public static final String DESCRIPTION = "Apply !B! Poison. NL Each time this card is played, permanently increase it's poison by !M!. NL Exhaust.";
+	public static final String DESCRIPTION = "Apply 2 Poison. NL Each time this card is played, permanently increase it's poison by !M!. NL Exhaust.";
 	private static final int COST = 1;
 	
 	public Neurotoxin() {
@@ -23,7 +23,6 @@ public class Neurotoxin extends CustomCard {
 		this.misc = 2;
 		this.baseMagicNumber = 2;
 		this.magicNumber = 2;
-		this.baseBlock = this.misc;
 		this.exhaust = true;
 	}
 
@@ -40,24 +39,27 @@ public class Neurotoxin extends CustomCard {
 		}
 	}
 	
-	
+	public void updateDescription() {
+		this.rawDescription = "Apply " + this.misc + " Poison. NL Each time this card is played, permanently increase it's poison by !M!. NL Exhaust.";
+		this.initializeDescription();
+	}
 
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.cardID, this.misc, this.magicNumber));
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new PoisonPower(m, p, baseBlock), baseBlock));
+		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new PoisonPower(m, p, misc), misc));
 	}
-	
-	
+
+	@Override
 	public void applyPowers() {
-		//NOP
+		super.applyPowers();
+		this.updateDescription();
+		
 	}
 
 	@Override
 	public void calculateCardDamage(AbstractMonster arg0) {
-		//NOP
+		super.calculateCardDamage(arg0);
+		this.updateDescription();
 	}
-	
-
-
 }
