@@ -92,5 +92,12 @@
 		"DESCRIPTIONS" : [
 			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
 		]
+	},
+	"Blanks Blanky" : {
+		"NAME" : "Blank's Blanky",
+		"FLAVOR" : "It's more like a comforter.",
+		"DESCRIPTIONS" : [
+			"When resting at Rest Sites, heal to full."
+		]
 	}
 }

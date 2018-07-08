@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
@@ -86,7 +87,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		Texture modBadge = getTexture("img/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
     
-		
+		String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
     }
 
 	@Override
@@ -141,10 +143,10 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     public static void clearData() {
     	logger.info("InfiniteSpire | Clearing Saved Data...");
     	for(AbstractPerk perk : allPerks.values()) {
-    		if(!(perk.tier == 0)) {
-    			perk.state = PerkState.LOCKED;
-    		}else {
+    		if(perk.tier == 0) {
     			perk.state = PerkState.UNLOCKED;
+    		}else {
+    			perk.state = PerkState.LOCKED;
     		}
     	}
     	points = 0;
@@ -166,12 +168,14 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 					perk.state = PerkState.LOCKED;
 				}
 			}
+			
 			points = config.getInt("points");
 			ascensionLevel = config.getInt("level");
 		
-		} catch (IOException e) {
+		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
 			e.printStackTrace();
+			clearData();
 		}
     	
     }
@@ -190,6 +194,7 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		RelicLibrary.add(new MidasBlood());
 		RelicLibrary.add(new BeetleShell());
 		RelicLibrary.add(new HolyWater());
+		RelicLibrary.add(new BlanksBlanky());
 		
 		RelicLibrary.addBlue(new Freezer());
 		
@@ -247,6 +252,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
         allPerks.put(MirrorImage.ID, new MirrorImage());
         //CURSES
         allCurses.put(Timed.ID, new Timed());
+        
+        loadData();
     }
     
     private static void initializeCards() {

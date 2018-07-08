@@ -1,0 +1,16 @@
+{
+	"EmptyRestSite" : {
+		"NAME" :  "Empty Rest Site",
+		"DESCRIPTIONS" : [
+			"It look like you've stumbled upon an abandoned rest site. It looks like the previous climber left some supplies behind."
+		],
+		"OPTIONS" : [
+			"Take a nap and gain",
+			"Uprgrade a card.",
+			"Remove a card.",
+			"Obtain a random relic.",
+			"Obtain Blank's Blanky",
+			"Leave."
+		]
+	}
+}
