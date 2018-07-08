@@ -2,6 +2,7 @@ package infinitespire.perks.cursed;
 
 import infinitespire.perks.CursedPerk;
 
+@Deprecated
 public class Timed extends CursedPerk {
 	public static final String NAME = "Timed";
     public static final String ID = "Timed";

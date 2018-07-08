@@ -17,6 +17,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.dungeons.TheCity;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
@@ -35,6 +36,7 @@ import basemod.interfaces.*;
 import fruitymod.FruityMod;
 import fruitymod.patches.AbstractCardEnum;
 import infinitespire.cards.*;
+import infinitespire.events.EmptyRestSite;
 import infinitespire.perks.AbstractPerk;
 import infinitespire.perks.AbstractPerk.PerkState;
 import infinitespire.perks.AbstractPerk.PerkTreeColor;
@@ -89,6 +91,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     
 		String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
+		
+		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.THE_EXORDIUM);
     }
 
 	@Override
