@@ -9,8 +9,10 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
+import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import infinitespire.InfiniteSpire;
+import infinitespire.relics.HolyWater;
 import infinitespire.rooms.PerkRoom;
 import infinitespire.screens.PerkScreen;
 import infinitespire.util.SuperclassFinder;
@@ -72,6 +74,7 @@ public class AbstractDungeonPatch {
 					node.setRoom(new PerkRoom());
 				}
 			}
+			RelicLibrary.add(new HolyWater());
 		}
 	}
 }

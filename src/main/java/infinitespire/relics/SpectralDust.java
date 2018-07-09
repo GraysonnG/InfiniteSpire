@@ -12,7 +12,7 @@ public class SpectralDust extends Relic {
 	public static final String ID = "Spectral Dust";
 	
 	public SpectralDust() {
-		super(ID, "spectraldust", RelicTier.UNCOMMON, LandingSound.MAGICAL);
+		super(ID, "spectraldust", RelicTier.COMMON, LandingSound.MAGICAL);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class SpectralDust extends Relic {
 	@Override
 	public void onExhaust(AbstractCard card) {
 		if(card.isEthereal) {
-			DamageInfo dInfo = new DamageInfo(null, 3);
+			DamageInfo dInfo = new DamageInfo(null, 2);
 			AbstractDungeon.actionManager.addToTop(new DamageRandomEnemyAction(dInfo, AttackEffect.BLUNT_LIGHT));
 		}
 	}	

@@ -50,7 +50,7 @@ import infinitespire.screens.SelectRelicScreen;
 import infinitespire.ui.FlaskOption;
 import replayTheSpire.ReplayTheSpireMod;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "deprecation" })
 @SpireInitializer
 public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, PostRenderSubscriber {
 	public static final String VERSION = "0.0.1";
@@ -197,8 +197,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		RelicLibrary.add(new CubicDiamond());
 		RelicLibrary.add(new MidasBlood());
 		RelicLibrary.add(new BeetleShell());
-		RelicLibrary.add(new HolyWater());
 		RelicLibrary.add(new BlanksBlanky());
+		RelicLibrary.add(new LuckyRock());
 		
 		RelicLibrary.addBlue(new Freezer());
 		
@@ -286,7 +286,7 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		
 		if(type == LoadType.RELIC) {
 			logger.info("InfiniteSpire | Initializing Relics for Replay The Spire...");
-			RelicLibrary.addBlue(new BrokenMirror());
+			RelicLibrary.add(new BrokenMirror());
 		}
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for Replay The Spire...");

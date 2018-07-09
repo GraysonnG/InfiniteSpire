@@ -22,6 +22,6 @@ public class BrokenMirror extends Relic {
 	@Override
 	public void atBattleStart() {
 		AbstractPlayer p = AbstractDungeon.player;
-		AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(p, p, new ReflectionPower(p, 1), 1));
+		AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(p, p, new ReflectionPower(p, 3), 3));
 	}
 }
