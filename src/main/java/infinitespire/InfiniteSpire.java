@@ -181,6 +181,7 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		RelicLibrary.add(new BeetleShell());
 		RelicLibrary.add(new BlanksBlanky());
 		RelicLibrary.add(new LuckyRock());
+		RelicLibrary.add(new HolyWater());
 		
 		RelicLibrary.addBlue(new Freezer());
 		

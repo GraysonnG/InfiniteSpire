@@ -9,7 +9,6 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
-import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import infinitespire.InfiniteSpire;
 import infinitespire.relics.HolyWater;
@@ -64,9 +63,9 @@ public class AbstractDungeonPatch {
 		@SpireInsertPatch(rloc = 36)// before AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
 		public static void Insert() {
 			//Settings.isEndless = true; // this needs to go in a better place
+			AbstractDungeon.rareRelicPool.remove(HolyWater.ID);
 			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
 				
-				RelicLibrary.add(new HolyWater());
 				AbstractDungeon.rareRelicPool.add(HolyWater.ID);
 				Collections.shuffle(AbstractDungeon.rareRelicPool, new java.util.Random(AbstractDungeon.relicRng.randomLong()));
 				

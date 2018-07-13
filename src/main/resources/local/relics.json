@@ -55,7 +55,7 @@
 		"NAME" : "Freezer",
 		"FLAVOR" : "It's cold to the touch.",
 		"DESCRIPTIONS" : [
-			"At the start of your turn, channel #b1 Frost orb."
+			"At the start of combat, channel #b1 Frost orb."
 		]
 	},
 	"Beetle Shell" : {
@@ -69,14 +69,14 @@
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "",
 		"DESCRIPTIONS" : [
-			"At the start of your turn, gain #b2 #yStrength."
+			"At the start of combat, gain #b2 #yStrength."
 		]
 	},
 	"Broken Mirror" : {
 		"NAME" : "Broken Mirror",
 		"FLAVOR" : "It's sharp.",
 		"DESCRIPTIONS" : [
-			"At the combat, gain #b1 #yReflection."
+			"At the start of combat, gain #b1 #yReflection."
 		]
 	},
 	"Spectral Dust" : {
