@@ -2,6 +2,8 @@ package infinitespire.patches;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
@@ -63,8 +65,10 @@ public class AbstractDungeonPatch {
 		public static void Insert() {
 			//Settings.isEndless = true; // this needs to go in a better place
 			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
+				
 				RelicLibrary.add(new HolyWater());
 				AbstractDungeon.rareRelicPool.add(HolyWater.ID);
+				Collections.shuffle(AbstractDungeon.rareRelicPool, new java.util.Random(AbstractDungeon.relicRng.randomLong()));
 				
 				InfiniteSpire.logger.info("Setting row 1 of map to PerkRoom.class");
 				for(MapRoomNode node : AbstractDungeon.map.get(0)) {
