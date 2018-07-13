@@ -39,8 +39,8 @@ public class AbstractCreatureEverythingPatch {
 					perk.renderInGame(sb, x + xOffset, y + yOffset);
 				}
 			}
-			
-			FontHelper.renderFontLeftTopAligned(sb, FontHelper.topPanelAmountFont, "Silver: " + InfiniteSpire.points, 125f * Settings.scale, 835f * Settings.scale, Color.WHITE);
+			if(Settings.isEndless)
+				FontHelper.renderFontLeftTopAligned(sb, FontHelper.topPanelAmountFont, "Silver: " + InfiniteSpire.points, 125f * Settings.scale, 835f * Settings.scale, Color.WHITE);
 		}
 	}
 	

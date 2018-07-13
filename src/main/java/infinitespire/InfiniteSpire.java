@@ -2,55 +2,37 @@ package infinitespire;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
-import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.dungeons.TheCity;
-import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
-import com.megacrit.cardcrawl.relics.GoldenEgg;
-import com.megacrit.cardcrawl.rooms.*;
-import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
-
-import basemod.AutoComplete;
 import basemod.BaseMod;
-import basemod.ReflectionHacks;
-import basemod.helpers.RelicType;
 import basemod.interfaces.*;
-import fruitymod.FruityMod;
-import fruitymod.patches.AbstractCardEnum;
 import infinitespire.cards.*;
-import infinitespire.events.EmptyRestSite;
+import infinitespire.events.*;
 import infinitespire.perks.AbstractPerk;
-import infinitespire.perks.AbstractPerk.PerkState;
-import infinitespire.perks.AbstractPerk.PerkTreeColor;
+import infinitespire.perks.AbstractPerk.*;
 import infinitespire.perks.blue.*;
 import infinitespire.perks.cursed.Timed;
 import infinitespire.perks.green.*;
 import infinitespire.perks.red.*;
 import infinitespire.relics.*;
-import infinitespire.screens.PerkScreen;
-import infinitespire.screens.SelectRelicScreen;
-import infinitespire.ui.FlaskOption;
+import infinitespire.screens.*;
 import replayTheSpire.ReplayTheSpireMod;
 
-@SuppressWarnings("unused")
+import fruitymod.FruityMod;
+import fruitymod.patches.AbstractCardEnum;
+
+@SuppressWarnings("deprecation")
 @SpireInitializer
 public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, PostRenderSubscriber {
 	public static final String VERSION = "0.0.1";
@@ -64,7 +46,6 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     public static int ascensionLevel = 0;
    
     public static PerkScreen perkscreen = new PerkScreen();
-    public static SelectRelicScreen selectRelicScreen = new SelectRelicScreen();
     
     private enum LoadType {
     	RELIC,
@@ -92,7 +73,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
 		
-		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.THE_EXORDIUM);
+		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
+		//BaseMod.addEvent(StrangeLightPillar.ID, StrangeLightPillar.class, BaseMod.EventPool.ANY);
     }
 
 	@Override
@@ -197,8 +179,9 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		RelicLibrary.add(new CubicDiamond());
 		RelicLibrary.add(new MidasBlood());
 		RelicLibrary.add(new BeetleShell());
-		RelicLibrary.add(new HolyWater());
 		RelicLibrary.add(new BlanksBlanky());
+		RelicLibrary.add(new LuckyRock());
+		RelicLibrary.add(new HolyWater());
 		
 		RelicLibrary.addBlue(new Freezer());
 		
@@ -222,7 +205,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		}
     }
     
-    private static void initializeCrossoverCards() {
+    @SuppressWarnings("unused")
+	private static void initializeCrossoverCards() {
     	try {
 			initializeReplayTheSpire(LoadType.CARD);
 		} catch (ClassNotFoundException | NoClassDefFoundError e) {
@@ -280,19 +264,21 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		return somethingSelected;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void initializeReplayTheSpire(LoadType type) throws ClassNotFoundException, NoClassDefFoundError {
 		Class<ReplayTheSpireMod> replayTheSpire = ReplayTheSpireMod.class;
 		logger.info("InfiniteSpire | InfiniteSpire has successfully detected Replay The Spire!");
 		
 		if(type == LoadType.RELIC) {
 			logger.info("InfiniteSpire | Initializing Relics for Replay The Spire...");
-			RelicLibrary.addBlue(new BrokenMirror());
+			RelicLibrary.add(new BrokenMirror());
 		}
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for Replay The Spire...");
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void initializeFruityMod(LoadType type)throws ClassNotFoundException, NoClassDefFoundError {
 		Class<FruityMod> fruityMod = FruityMod.class;
 		logger.info("InfiniteSpire | InfiniteSpire has successfully detected FruityMod!");

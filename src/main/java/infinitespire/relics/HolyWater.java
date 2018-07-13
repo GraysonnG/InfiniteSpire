@@ -20,10 +20,10 @@ public class HolyWater extends Relic {
 	@Override
 	public void onEquip() {
 		int counter = 2;
-		for(int i = AbstractDungeon.blights.size() - 1; (i >= 0 && AbstractDungeon.blights.size() > 2); i--) {
+		for(int i = AbstractDungeon.player.blights.size() - 1; (i >= 0 && AbstractDungeon.player.blights.size() > 2); i--) {
 			if(counter > 0) {	
-				AbstractDungeon.blights.get(i).flash();
-				AbstractDungeon.blights.remove(i);
+				AbstractDungeon.player.blights.get(i).flash();
+				AbstractDungeon.player.blights.remove(i);
 				counter--;
 				CardCrawlGame.sound.play("");
 			}

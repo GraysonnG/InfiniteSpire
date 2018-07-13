@@ -55,7 +55,7 @@
 		"NAME" : "Freezer",
 		"FLAVOR" : "It's cold to the touch.",
 		"DESCRIPTIONS" : [
-			"At the start of your turn, channel #b1 Frost orb."
+			"At the start of combat, channel #b1 Frost orb."
 		]
 	},
 	"Beetle Shell" : {
@@ -69,21 +69,21 @@
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "",
 		"DESCRIPTIONS" : [
-			"At the start of your turn, gain #b2 #yStrength"
+			"At the start of combat, gain #b2 #yStrength."
 		]
 	},
 	"Broken Mirror" : {
 		"NAME" : "Broken Mirror",
 		"FLAVOR" : "It's sharp.",
 		"DESCRIPTIONS" : [
-			"At the combat, gain #b1 #yReflection"
+			"At the start of combat, gain #b1 #yReflection."
 		]
 	},
 	"Spectral Dust" : {
 		"NAME" : "Spectral Dust",
 		"FLAVOR" : "It sparkles!",
 		"DESCRIPTIONS" : [
-			"Whenever an #yEthereal card is #yExhausted, deal #b3 damage to a random enemy."
+			"Whenever an #yEthereal card is #yExhausted, deal #b2 damage to a random enemy."
 		]
 	},
 	"Holy Water" : {
@@ -98,6 +98,13 @@
 		"FLAVOR" : "It's more like a comforter.",
 		"DESCRIPTIONS" : [
 			"When resting at Rest Sites, heal to full."
+		]
+	},
+	"Lucky Rock" : {
+		"NAME" : "Lucky Rock",
+		"FLAVOR" : "It's feels smooth.",
+		"DESCRIPTIONS" : [
+			"Each time you play an attack card, you have a #b5% chance to gain #yCritical."
 		]
 	}
 }
