@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
@@ -64,12 +63,14 @@ public class AbstractDungeonPatch {
 		public static void Insert() {
 			//Settings.isEndless = true; // this needs to go in a better place
 			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
+				RelicLibrary.add(new HolyWater());
+				AbstractDungeon.rareRelicPool.add(HolyWater.ID);
+				
 				InfiniteSpire.logger.info("Setting row 1 of map to PerkRoom.class");
 				for(MapRoomNode node : AbstractDungeon.map.get(0)) {
 					node.setRoom(new PerkRoom());
 				}
 			}
-			RelicLibrary.add(new HolyWater());
 		}
 	}
 }
