@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.events.*;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.relics.RegalPillow;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.rooms.AbstractRoom.RoomPhase;
 import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
@@ -125,7 +126,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 	private void findAndReplaceRegalPillow() {
 		for(int i = 0; i < AbstractDungeon.player.relics.size(); i++) {
 			AbstractRelic relic = AbstractDungeon.player.relics.get(i);
-			if(relic.relicId.equals("Regal Pillow")) {
+			if(relic.relicId.equals(RegalPillow.ID)) {
 				Relic blanksBlanky = new BlanksBlanky();
 				blanksBlanky.instantObtain(AbstractDungeon.player, i, false);
 				blanksBlanky.playLandingSFX();

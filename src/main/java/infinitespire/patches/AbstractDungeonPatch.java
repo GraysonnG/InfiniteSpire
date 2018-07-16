@@ -10,8 +10,12 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+
 import infinitespire.InfiniteSpire;
+import infinitespire.helpers.QuestHelper;
+import infinitespire.quests.Quest;
 import infinitespire.relics.HolyWater;
+import infinitespire.rooms.BlackGoopRoom;
 import infinitespire.rooms.PerkRoom;
 import infinitespire.screens.PerkScreen;
 import infinitespire.util.SuperclassFinder;
@@ -74,6 +78,24 @@ public class AbstractDungeonPatch {
 					node.setRoom(new PerkRoom());
 				}
 			}
+			
+			for(int i = 0; i < 5; i ++) {
+				InfiniteSpire.questLog.add(QuestHelper.createQuest("SlayQuest"));
+			}
+			
+			InfiniteSpire.questLog.add(new infinitespire.quests.SlayQuest(Quest.createIDWithoutData("SlayQuest", 3, 0, java.awt.Color.RED) + "-" + com.megacrit.cardcrawl.monsters.exordium.Lagavulin.ID));
+			
+			InfiniteSpire.questLog.get(3).incrementQuestSteps();
+			
+			for(int j = 0; j < 6; j ++) {
+				InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));
+			}
+			
+			insertBlackGoopNode();
+		}
+		
+		private static void insertBlackGoopNode() {
+			
 		}
 	}
 }

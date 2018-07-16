@@ -23,7 +23,7 @@ public class PerkRoom extends AbstractRoom {
 	public PerkRoom() {
 		this.phase = RoomPhase.COMPLETE;
 		merchant = null;
-		this.mapSymbol = "P";
+		this.mapSymbol = "PRK";
 		this.mapImg = InfiniteSpire.getTexture("img/ui/map/perkImg.png");
 		this.mapImgOutline = InfiniteSpire.getTexture("img/ui/map/perkImg-outline.png");
 	}
