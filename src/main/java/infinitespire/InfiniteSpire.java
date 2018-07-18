@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
@@ -49,7 +50,7 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     public static boolean shouldLoad = false;
    
     public static PerkScreen perkscreen = new PerkScreen();
-    public static QuestLogScreen questLogScreen = new QuestLogScreen();
+    public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
     
     private enum LoadType {
     	RELIC,
@@ -119,7 +120,9 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     
     private static void loadTexture(final String textureString) throws GdxRuntimeException {
         logger.info("InfiniteSpire | Loading Texture: " + textureString);
-        imgMap.put(textureString, new Texture(textureString));
+        Texture texture =  new Texture(textureString);
+        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        imgMap.put(textureString, texture);
     }
     
     public static void saveData() {
