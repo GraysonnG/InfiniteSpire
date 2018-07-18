@@ -1,13 +1,33 @@
 package infinitespire.screens;
 
-import java.util.ArrayList;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
-import infinitespire.quests.Quest;
+import infinitespire.patches.ScreenStatePatch;
+import infinitespire.quests.QuestLog;
 
 public class QuestLogScreen {
 	
-	public ArrayList<Quest> questLog = new ArrayList<Quest>();
+	QuestLog gameQuestLog;
 	
-	public QuestLogScreen() {
+	public QuestLogScreen(QuestLog log) {
+		gameQuestLog = log;
+	}
+
+	public void render(SpriteBatch sb) {
+		
+		
+	}
+
+	public void update() {
+		
+	}
+
+	public void open() {
+		gameQuestLog.hasUpdate = false;
+		AbstractDungeon.screen = ScreenStatePatch.QUEST_LOG_SCREEN;
+		AbstractDungeon.overlayMenu.showBlackScreen();
+		AbstractDungeon.overlayMenu.proceedButton.hide();
+		AbstractDungeon.isScreenUp = true;
 	}
 }

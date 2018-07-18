@@ -12,23 +12,25 @@ import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 
-public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
+public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
 	private static final long serialVersionUID = -8923472099668326287L;
 
+	public boolean hasUpdate = false;
+	
 	public QuestLog() {
 		BaseMod.subscribe(this);
 	}
 	
 	@Override
 	public boolean add(Quest quest) {
-		//alert the quest log icon to have !
+		hasUpdate = true;
 		return super.add(quest);
 		
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends Quest> c) {
-		//alert the quest log icon to have !
+		hasUpdate = true;
 		return super.addAll(c);
 	}
 
@@ -130,7 +132,6 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
 		return log;
 	}
 
-	
 	@Override
 	public void receivePostUpdate() {
 		for(int i = this.size() - 1; i >= 0; i--) {
@@ -141,6 +142,4 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
 			}
 		}
 	}
-
-
 }

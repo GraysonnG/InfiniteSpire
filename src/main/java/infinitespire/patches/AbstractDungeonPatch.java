@@ -23,7 +23,7 @@ public class AbstractDungeonPatch {
 	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.AbstractDungeon", method="closeCurrentScreen")
 	public static class CloseCurrentScreen {
 		public static void Prefix() {
-			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN) {
+			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN || AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN) {
 				PerkScreen.isDone = true;
 				
 					try {
@@ -46,6 +46,8 @@ public class AbstractDungeonPatch {
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
 			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
 				InfiniteSpire.perkscreen.render(sb);
+			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
+				InfiniteSpire.questLogScreen.render(sb);
 		}
 	}
 	
@@ -56,6 +58,8 @@ public class AbstractDungeonPatch {
 		public static void Insert(AbstractDungeon __instance) {
 			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
 				InfiniteSpire.perkscreen.update();
+			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
+				InfiniteSpire.questLogScreen.update();
 		}
 	}
 	
@@ -64,26 +68,35 @@ public class AbstractDungeonPatch {
 									//SL:637 = 36 right now
 		@SpireInsertPatch(rloc = 36)// before AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
 		public static void Insert() {
-			//Settings.isEndless = true; // this needs to go in a better place
+			addHolyWaterToRareRelicPool();
+			insertPerkRooms();
+			addInitialQuests();
+			insertBlackGoopNode();
+		}
+		
+		private static void addInitialQuests() {
+			InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
+			
+			for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
+				InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));
+			}
+		}
+		
+		private static void addHolyWaterToRareRelicPool() {
 			AbstractDungeon.rareRelicPool.remove(HolyWater.ID);
 			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
-				
 				AbstractDungeon.rareRelicPool.add(HolyWater.ID);
 				Collections.shuffle(AbstractDungeon.rareRelicPool, new java.util.Random(AbstractDungeon.relicRng.randomLong()));
-				
+			}
+		}
+	
+		private static void insertPerkRooms() {
+			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
 				InfiniteSpire.logger.info("Setting row 1 of map to PerkRoom.class");
 				for(MapRoomNode node : AbstractDungeon.map.get(0)) {
 					node.setRoom(new PerkRoom());
 				}
 			}
-			
-			InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(7));
-			
-			for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
-				InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));
-			}
-			
-			insertBlackGoopNode();
 		}
 		
 		private static void insertBlackGoopNode() {
