@@ -6,13 +6,17 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
+import infinitespire.InfiniteSpire;
+
 public abstract class Quest {
 	private String name;
 	private String description;
 	private int questSteps, maxQuestSteps;
 	private Texture img;
 	protected String id;
+	@SuppressWarnings("unused")
 	private String classString;
+	@SuppressWarnings("unused")
 	private Color color;
 	private boolean completed = false;
 	
@@ -23,13 +27,12 @@ public abstract class Quest {
 		}else {
 			this.id = this.generateID();
 		}
-		if(id == null) return;
+		if(this.id == null) return;
 		
-		String[] data = id.split("-");
+		String[] data = this.id.split("-");
 		this.classString = data[0];
 		this.maxQuestSteps = Integer.parseInt(data[1]);
 		this.questSteps = Integer.parseInt(data[2]);
-		
 		String[] colorData = data[3].split(",");
 		
 		this.color = new Color(Integer.parseInt(colorData[0]) / 255f, Integer.parseInt(colorData[1]) / 255f, Integer.parseInt(colorData[2]) / 255f, 1f);
@@ -107,7 +110,11 @@ public abstract class Quest {
 	
 	public void incrementQuestSteps() {
 		this.questSteps++;
-		if(this.questSteps == this.maxQuestSteps) this.completed = true;
+		if(this.questSteps == this.maxQuestSteps) {
+			InfiniteSpire.logger.info("Quest Completed:" + this.getID());
+			this.giveReward();
+			this.completed = true;
+		}
 	}
 
 	public void onEnemyKilled(AbstractCreature creature) {

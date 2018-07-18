@@ -5,18 +5,9 @@ import java.util.ArrayList;
 
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.beyond.Repulsor;
-import com.megacrit.cardcrawl.monsters.beyond.Spiker;
-import com.megacrit.cardcrawl.monsters.city.Byrd;
-import com.megacrit.cardcrawl.monsters.exordium.AcidSlime_M;
-import com.megacrit.cardcrawl.monsters.exordium.AcidSlime_S;
-import com.megacrit.cardcrawl.monsters.exordium.GremlinNob;
-import com.megacrit.cardcrawl.monsters.exordium.Lagavulin;
-import com.megacrit.cardcrawl.monsters.exordium.Sentry;
-import com.megacrit.cardcrawl.monsters.exordium.SpikeSlime_M;
-import com.megacrit.cardcrawl.monsters.exordium.SpikeSlime_S;
-
-import infinitespire.InfiniteSpire;
+import com.megacrit.cardcrawl.monsters.beyond.*;
+import com.megacrit.cardcrawl.monsters.city.*;
+import com.megacrit.cardcrawl.monsters.exordium.*;
 
 public class SlayQuest extends Quest{
 	
@@ -29,7 +20,6 @@ public class SlayQuest extends Quest{
 		super(uniqueQuestID);
 		
 		this.monsterName = this.id.split("-")[4];
-		InfiniteSpire.logger.info(id);
 	}
 	
 	public SlayQuest() {
@@ -38,6 +28,7 @@ public class SlayQuest extends Quest{
 
 	public void onEnemyKilled(AbstractCreature creature) {
 		if(creature.id.equals(this.monsterName)) this.incrementQuestSteps();
+		
 	}
 
 	@Override
@@ -45,7 +36,7 @@ public class SlayQuest extends Quest{
 		StringBuilder builder = new StringBuilder();
 		String monster = getRandomMonster();
 		
-		builder.append(Quest.createIDWithoutData("SlayQuest", (eliteList.contains(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 5), 0, Color.DARK_GRAY));
+		builder.append(Quest.createIDWithoutData(SlayQuest.class.getName(), (eliteList.contains(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3), 0, Color.DARK_GRAY));
 		
 		builder.append("-" + monster);
 		
@@ -73,17 +64,55 @@ public class SlayQuest extends Quest{
 	@Override
 	protected void preInitialize() {
 		if(monsterList.size() <= 0 || eliteList.size() <= 0) {
-			monsterList.add(Byrd.ID);
-			monsterList.add(Spiker.ID);
-			monsterList.add(Repulsor.ID);
+			monsterList = new ArrayList<String>();
+			eliteList = new ArrayList<String>();
+			
+			//MONSTERS IN EXORDIUM
+			monsterList.add(AcidSlime_L.ID);
 			monsterList.add(AcidSlime_M.ID);
 			monsterList.add(AcidSlime_S.ID);
+			monsterList.add(SpikeSlime_L.ID);
 			monsterList.add(SpikeSlime_M.ID);
 			monsterList.add(SpikeSlime_S.ID);
-			
+			monsterList.add(Cultist.ID);
+			monsterList.add(FungiBeast.ID);
+			monsterList.add(JawWorm.ID);
+			monsterList.add(Looter.ID);
+			monsterList.add(LouseNormal.ID);
+			monsterList.add(LouseDefensive.ID);
+			monsterList.add(SlaverBlue.ID);
+			monsterList.add(SlaverRed.ID);
+
+			//ELITES FROM EXORDIUM
 			eliteList.add(GremlinNob.ID);
 			eliteList.add(Lagavulin.ID);
 			eliteList.add(Sentry.ID);
+
+			//MONSTERS IN CITY
+			monsterList.add(Healer.ID);
+			monsterList.add(Mugger.ID);
+			monsterList.add(Byrd.ID);
+			monsterList.add(ShelledParasite.ID);
+			monsterList.add(SnakePlant.ID);
+			
+			//ELITES FROM CITY
+			eliteList.add(GremlinLeader.ID);
+			eliteList.add(Snecko.ID);
+			eliteList.add(BookOfStabbing.ID);
+			eliteList.add(Taskmaster.ID);
+			
+			//MONSTERS IN THEBEYOND
+			monsterList.add(Exploder.ID);
+			monsterList.add(Spiker.ID);
+			monsterList.add(Repulsor.ID);
+			monsterList.add(SnakeMage.ID);
+			monsterList.add(OrbWalker.ID);
+			
+			//ELITES IN THEBEYOND
+			eliteList.add(GiantHead.ID);
+			eliteList.add(Nemesis.ID);
+			eliteList.add(SpireGrowth.ID);
+			eliteList.add(Transient.ID);
 		}
 	}
 }

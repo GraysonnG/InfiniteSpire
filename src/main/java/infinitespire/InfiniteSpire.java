@@ -18,7 +18,6 @@ import basemod.BaseMod;
 import basemod.interfaces.*;
 import infinitespire.cards.*;
 import infinitespire.events.*;
-import infinitespire.helpers.QuestHelper;
 import infinitespire.perks.AbstractPerk;
 import infinitespire.perks.AbstractPerk.*;
 import infinitespire.perks.blue.*;
@@ -26,7 +25,6 @@ import infinitespire.perks.cursed.Timed;
 import infinitespire.perks.green.*;
 import infinitespire.perks.red.*;
 import infinitespire.quests.QuestLog;
-import infinitespire.quests.SlayQuest;
 import infinitespire.relics.*;
 import infinitespire.screens.*;
 import replayTheSpire.ReplayTheSpireMod;
@@ -40,7 +38,7 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 	public static final String VERSION = "0.0.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
-	public static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
+	private static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
     public static HashMap<String, AbstractPerk> allPerks = new HashMap<String, AbstractPerk>();
     public static HashMap<String, AbstractPerk> allCurses = new HashMap<String, AbstractPerk>();
     
@@ -80,9 +78,6 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
 		
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
-		
-		QuestHelper.initializeLists();
-		QuestHelper.addQuestTypeToMap("SlayQuest", SlayQuest.class);
 		//BaseMod.addEvent(StrangeLightPillar.ID, StrangeLightPillar.class, BaseMod.EventPool.ANY);
     }
 
@@ -136,11 +131,12 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 			for(AbstractPerk perk : allPerks.values()) {
 				config.setString(perk.id, perk.state.toString());
 			}
-			
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+    	questLog.saveQuestLog();
     }
     
     public static void clearData() {
@@ -158,6 +154,9 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     	}
     	points = 0;
     	ascensionLevel = 0;
+    	
+    	
+    	questLog.clearQuestLog();
     	saveData();
     }
     
@@ -239,6 +238,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
         allPerks.put(MirrorImage.ID, new MirrorImage());
         //CURSES
         allCurses.put(Timed.ID, new Timed());
+        
+        questLog.initializeQuestLog();
         
         loadData();
     }
