@@ -5,10 +5,12 @@ import java.util.HashMap;
 
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
+import infinitespire.InfiniteSpire;
+import infinitespire.quests.FetchQuest;
 import infinitespire.quests.Quest;
 import infinitespire.quests.SlayQuest;
 
-public abstract class QuestHelper {	
+public class QuestHelper {	
 	
 	private static HashMap<String, Class<? extends Quest>> questsMap = new HashMap<String, Class<? extends Quest>>();
 	
@@ -16,16 +18,15 @@ public abstract class QuestHelper {
 		questsMap.put(c.getName(), c);
 	}
 	
-	@SuppressWarnings({ "unchecked" })
+	
+	
 	public static Quest getRandomQuest() {
 		Quest quest = createQuest(SlayQuest.class.getName());
-		int randomNum = AbstractDungeon.miscRng.random(questsMap.size() - 1);
-		Class<? extends Quest> c = (Class<? extends Quest>) questsMap.values().toArray()[randomNum];
-		
-		try {
-			quest = c.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
+//		int randomNum = AbstractDungeon.miscRng.random(questsMap.size() - 1);
+//		Class<? extends Quest> c = (Class<? extends Quest>) questsMap.values().toArray()[randomNum];
+//		
+		if(AbstractDungeon.miscRng.randomBoolean(0.33f)) {
+			quest = createQuest(FetchQuest.class.getName());
 		}
 		
 		return quest;
@@ -33,8 +34,14 @@ public abstract class QuestHelper {
 	
 	public static ArrayList<Quest> getRandomQuests(int amount){
 		ArrayList<Quest> quests = new ArrayList<Quest>();
+		
 		for(int i = 0; i < amount; i++) {
-			quests.add(getRandomQuest());
+			Quest quest = getRandomQuest();
+			
+			while(InfiniteSpire.questLog.contains(quest) || quests.contains(quest)) {
+				quest = getRandomQuest();
+			}
+			quests.add(quest);
 		}
 		return quests;
 	}

@@ -61,7 +61,7 @@ public class QuestLogButton {
 			CardCrawlGame.sound.play("UI_HOVER");
 		}
 		
-		if(hb.hovered && InputHelper.justClickedLeft) {
+		if(hb.hovered && InputHelper.justClickedLeft && isEnabled) {
 			onClick();
 		}
 		
@@ -88,6 +88,7 @@ public class QuestLogButton {
 			InfiniteSpire.questLogScreen.open();
 		} else {
 			AbstractDungeon.closeCurrentScreen();
+			InfiniteSpire.questLogScreen.close();
 		}
 	}
 }

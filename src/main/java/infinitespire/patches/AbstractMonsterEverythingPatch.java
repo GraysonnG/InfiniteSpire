@@ -2,7 +2,6 @@ package infinitespire.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.quests.Quest;

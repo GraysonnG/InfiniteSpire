@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.map.MapRoomNode;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
+import infinitespire.quests.*;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.PerkRoom;
 import infinitespire.screens.PerkScreen;
@@ -75,10 +76,18 @@ public class AbstractDungeonPatch {
 		}
 		
 		private static void addInitialQuests() {
-			InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
-			
-			for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
-				InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));
+			if(AbstractDungeon.floorNum <= 1 && InfiniteSpire.questLog.isEmpty()) {
+				InfiniteSpire.questLog.clear();
+				//InfiniteSpire.questLog.add(new EndlessQuest());
+				InfiniteSpire.questLog.add(new EndlessQuestPart1());
+				InfiniteSpire.questLog.add(new DieQuest());
+				InfiniteSpire.questLog.add(new OneTurnKillQuest());
+				InfiniteSpire.questLog.add(new FlawlessQuest());
+				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
+				
+				for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
+					InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));
+				}
 			}
 		}
 		

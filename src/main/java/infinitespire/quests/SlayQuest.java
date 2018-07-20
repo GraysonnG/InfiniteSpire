@@ -2,24 +2,28 @@ package infinitespire.quests;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.beyond.*;
 import com.megacrit.cardcrawl.monsters.city.*;
 import com.megacrit.cardcrawl.monsters.exordium.*;
 
+import infinitespire.InfiniteSpire;
+import infinitespire.util.StringManip;
+
 public class SlayQuest extends Quest{
 	
-	private static ArrayList<String> monsterList = new ArrayList<String>();
-	private static ArrayList<String> eliteList = new ArrayList<String>();
+	private static HashMap<String, String> monsterMap = new HashMap<String, String>();
+	private static HashMap<String, String> eliteMap = new HashMap<String, String>();
 	
-	private String monsterName;
+	public String monster;
 	
 	public SlayQuest(String uniqueQuestID) {
 		super(uniqueQuestID);
 		
-		this.monsterName = this.id.split("-")[4];
+		this.monster = this.id.split("-")[4];
 	}
 	
 	public SlayQuest() {
@@ -27,7 +31,11 @@ public class SlayQuest extends Quest{
 	}
 
 	public void onEnemyKilled(AbstractCreature creature) {
-		if(creature.id.equals(this.monsterName)) this.incrementQuestSteps();
+		
+		if(creature.id.equals(this.monster)) {
+			this.incrementQuestSteps();
+			InfiniteSpire.logger.info(this.getID());
+		}
 		
 	}
 
@@ -36,9 +44,12 @@ public class SlayQuest extends Quest{
 		StringBuilder builder = new StringBuilder();
 		String monster = getRandomMonster();
 		
-		builder.append(Quest.createIDWithoutData(SlayQuest.class.getName(), (eliteList.contains(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3), 0, Color.DARK_GRAY));
+		builder.append(Quest.createIDWithoutData(
+				SlayQuest.class.getName(), 
+				(isElite(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3), 0, Color.red));
 		
 		builder.append("-" + monster);
+		builder.append("-" + getCost(monster));
 		
 		return builder.toString();
 	}
@@ -50,69 +61,111 @@ public class SlayQuest extends Quest{
 	private static String getRandomMonster() {
 		String monster = null;
 		
-		if(AbstractDungeon.miscRng.randomBoolean(0.1f)) {
-			int rand = AbstractDungeon.miscRng.random(eliteList.size() - 1);
-			monster = eliteList.get(rand);
+		if(AbstractDungeon.miscRng.randomBoolean(0.4f)) {
+			int rand = AbstractDungeon.miscRng.random(eliteMap.size() - 1);
+			ArrayList<String> list = new ArrayList<String>();
+			list.addAll(eliteMap.keySet());
+
+			monster = list.get(rand);
 		} else {
-			int rand = AbstractDungeon.miscRng.random(monsterList.size() - 1);
-			monster = monsterList.get(rand);
+			int rand = AbstractDungeon.miscRng.random(monsterMap.size() - 1);
+			ArrayList<String> list = new ArrayList<String>();
+			list.addAll(monsterMap.keySet());
+			monster = list.get(rand);
 		}
 		
 		return monster; 
 	}
-
+	
+	private boolean isElite(String id) {
+		for(String s : eliteMap.keySet())
+			if(id != null && id.equals(s)) return true;
+		return false;
+	}
+	
 	@Override
 	protected void preInitialize() {
-		if(monsterList.size() <= 0 || eliteList.size() <= 0) {
-			monsterList = new ArrayList<String>();
-			eliteList = new ArrayList<String>();
+		//if(monsterMap.size() <= 0 || eliteMap.size() <= 0);
+		
+		
+		if(monsterMap.size() <= 0 || eliteMap.size() <= 0) {
+			monsterMap.clear();
+			eliteMap.clear();
 			
 			//MONSTERS IN EXORDIUM
-			monsterList.add(AcidSlime_L.ID);
-			monsterList.add(AcidSlime_M.ID);
-			monsterList.add(AcidSlime_S.ID);
-			monsterList.add(SpikeSlime_L.ID);
-			monsterList.add(SpikeSlime_M.ID);
-			monsterList.add(SpikeSlime_S.ID);
-			monsterList.add(Cultist.ID);
-			monsterList.add(FungiBeast.ID);
-			monsterList.add(JawWorm.ID);
-			monsterList.add(Looter.ID);
-			monsterList.add(LouseNormal.ID);
-			monsterList.add(LouseDefensive.ID);
-			monsterList.add(SlaverBlue.ID);
-			monsterList.add(SlaverRed.ID);
+			monsterMap.put(AcidSlime_L.ID, "Large Acid Slime");
+			monsterMap.put(AcidSlime_M.ID, "Medium Acid Slime");
+			monsterMap.put(AcidSlime_S.ID, "Small Acid Slime");
+			monsterMap.put(SpikeSlime_L.ID, "Large Acid Slime");
+			monsterMap.put(SpikeSlime_M.ID, "Medium Acid Slime");
+			monsterMap.put(SpikeSlime_S.ID, "Small Acid Slime");
+			monsterMap.put(Cultist.ID, "Cultist");
+			monsterMap.put(FungiBeast.ID, "Fungi Beast");
+			monsterMap.put(JawWorm.ID, "Jaw Worm");
+			monsterMap.put(Looter.ID, "Looter");
+			monsterMap.put(LouseNormal.ID, "Louse Normal");
+			monsterMap.put(LouseDefensive.ID, "Louse Defensive");
+			monsterMap.put(SlaverBlue.ID, "Slaver Blue");
+			monsterMap.put(SlaverRed.ID, "Slaver Red");
 
 			//ELITES FROM EXORDIUM
-			eliteList.add(GremlinNob.ID);
-			eliteList.add(Lagavulin.ID);
-			eliteList.add(Sentry.ID);
+			eliteMap.put(GremlinNob.ID, "Gremlin Nob");
+			eliteMap.put(Lagavulin.ID, "Lagavulin");
+			eliteMap.put(Sentry.ID, "Sentry");
 
 			//MONSTERS IN CITY
-			monsterList.add(Healer.ID);
-			monsterList.add(Mugger.ID);
-			monsterList.add(Byrd.ID);
-			monsterList.add(ShelledParasite.ID);
-			monsterList.add(SnakePlant.ID);
+			monsterMap.put(Healer.ID, "Healer");
+			monsterMap.put(Mugger.ID, "Mugger");
+			monsterMap.put(Byrd.ID, "Byrd");
+			monsterMap.put(ShelledParasite.ID, "Shelled Parasite");
+			monsterMap.put(SnakePlant.ID, "Snake Plant");
 			
 			//ELITES FROM CITY
-			eliteList.add(GremlinLeader.ID);
-			eliteList.add(Snecko.ID);
-			eliteList.add(BookOfStabbing.ID);
-			eliteList.add(Taskmaster.ID);
+			eliteMap.put(GremlinLeader.ID, "Gemlin Leader");
+			eliteMap.put(Snecko.ID, "Snecko");
+			eliteMap.put(BookOfStabbing.ID, "Book Of Stabbing");
+			eliteMap.put(Taskmaster.ID, "Taskmaster");
 			
 			//MONSTERS IN THEBEYOND
-			monsterList.add(Exploder.ID);
-			monsterList.add(Spiker.ID);
-			monsterList.add(Repulsor.ID);
-			monsterList.add(SnakeMage.ID);
-			monsterList.add(OrbWalker.ID);
+			monsterMap.put(Exploder.ID, "Exploder");
+			monsterMap.put(Spiker.ID, "Spiker");
+			monsterMap.put(Repulsor.ID, "Repulsor");
+			monsterMap.put(SnakeMage.ID, "idek");
+			monsterMap.put(OrbWalker.ID, "Orb Walker");
 			
 			//ELITES IN THEBEYOND
-			eliteList.add(GiantHead.ID);
-			eliteList.add(Nemesis.ID);
-			eliteList.add(SpireGrowth.ID);
-			eliteList.add(Transient.ID);
+			eliteMap.put(GiantHead.ID, "Giant Head");
+			eliteMap.put(Nemesis.ID, "Nemisis");
+			eliteMap.put(SpireGrowth.ID, "Spire Growth");
+			eliteMap.put(Transient.ID, "Transient");
 		}
+	}
+
+	@Override
+	public String getTitle() {
+		HashMap<String, String> map = monsterMap;
+		if(isElite(monster)) {
+			map = eliteMap;
+		}
+		
+		return "Kill " + this.maxQuestSteps + " " + (this.maxQuestSteps > 1 ? StringManip.pluralOfString(map.get(monster)) : map.get(monster));
+	}
+	
+	@Override
+	public String getRewardString() {
+		return "" + this.cost + "s";
+	}
+
+	@Override
+	public int getCost(String string) {
+		int silverGain = 0;
+		if(isElite(string)) {
+			silverGain = 300;
+		}else
+		{
+			silverGain = 200;
+		}
+		
+		return MathUtils.round(silverGain * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
 	}
 }

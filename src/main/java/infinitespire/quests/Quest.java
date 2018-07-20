@@ -9,14 +9,12 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import infinitespire.InfiniteSpire;
 
 public abstract class Quest {
-	private String name;
-	private String description;
-	private int questSteps, maxQuestSteps;
+	protected int questSteps, maxQuestSteps;
 	private Texture img;
 	protected String id;
+	public int cost;
 	@SuppressWarnings("unused")
 	private String classString;
-	@SuppressWarnings("unused")
 	private Color color;
 	private boolean completed = false;
 	
@@ -29,6 +27,8 @@ public abstract class Quest {
 		}
 		if(this.id == null) return;
 		
+		InfiniteSpire.logger.info(this.id);
+		
 		String[] data = this.id.split("-");
 		this.classString = data[0];
 		this.maxQuestSteps = Integer.parseInt(data[1]);
@@ -36,24 +36,32 @@ public abstract class Quest {
 		String[] colorData = data[3].split(",");
 		
 		this.color = new Color(Integer.parseInt(colorData[0]) / 255f, Integer.parseInt(colorData[1]) / 255f, Integer.parseInt(colorData[2]) / 255f, 1f);
+		
+		this.cost = Integer.parseInt(data[5]);
 	}
 	
 	/**
 	 * Returns a string of the following format:<br>
-	 * CLASS_NAME-AMOUNT_OF_STEPS-COMPLETED_STEPS-COLOR_IN_RGB-DATA
+	 * CLASS_NAME-AMOUNT_OF_STEPS-COMPLETED_STEPS-SILVERREWARD-COLOR_IN_RGB-DATA-COST
 	 * <br>
 	 * <br>
 	 * Example:<br>
-	 * SlayQuest-5-0-255,255,255-Byrd
+	 * SlayQuest-5-0-100-255,255,255-Byrd-235
 	 * <br>
 	 * <br>
 	 * Example2:<br> 
-	 * EndlessQuest-1-0-255,0,255-false
+	 * EndlessQuest-1-0-300-255,0,255-false-124
 	 * @return theID of the object
 	 */
 	protected abstract String generateID();
 	
+	public abstract String getTitle();
+	
 	protected abstract void giveReward();
+	
+	public abstract String getRewardString();
+	
+	public abstract int getCost(String s);
 	
 	protected void preInitialize() {}
 	
@@ -88,20 +96,24 @@ public abstract class Quest {
 		return retVal;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
 	public boolean isCompleted() {
 		return completed;
 	}
 	
 	public Texture getImage() {
 		return img;
+	}
+
+	public Color getColor() {
+		return this.color;
+	}
+	
+	public float getCompletionPercentage() {
+		return (float)this.questSteps / (float)this.maxQuestSteps;
+	}
+	
+	public String getCompletionString() {
+		return this.questSteps + "/" + this.maxQuestSteps;
 	}
 	
 	public void saveData() {
@@ -110,6 +122,7 @@ public abstract class Quest {
 	
 	public void incrementQuestSteps() {
 		this.questSteps++;
+		InfiniteSpire.questLog.hasUpdate = true;
 		if(this.questSteps == this.maxQuestSteps) {
 			InfiniteSpire.logger.info("Quest Completed:" + this.getID());
 			this.giveReward();
@@ -128,4 +141,12 @@ public abstract class Quest {
 	public void onRoomEntered(AbstractRoom room) {
 		
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		String[] objData = ((Quest) obj).getID().split("-");
+		String[] thisData = this.getID().split("-");
+		
+		return (objData[0].equals(thisData[0]) && objData[4].equals(thisData[4]));
+	}	
 }
