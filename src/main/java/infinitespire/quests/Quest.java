@@ -3,10 +3,13 @@ package infinitespire.quests;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.effects.QuestLogUpdateEffect;
 
 public abstract class Quest {
 	protected int questSteps, maxQuestSteps;
@@ -27,7 +30,7 @@ public abstract class Quest {
 		}
 		if(this.id == null) return;
 		
-		InfiniteSpire.logger.info(this.id);
+		if(Settings.isDebug == true)InfiniteSpire.logger.info(this.id);
 		
 		String[] data = this.id.split("-");
 		this.classString = data[0];
@@ -122,12 +125,12 @@ public abstract class Quest {
 	
 	public void incrementQuestSteps() {
 		this.questSteps++;
-		InfiniteSpire.questLog.hasUpdate = true;
 		if(this.questSteps == this.maxQuestSteps) {
 			InfiniteSpire.logger.info("Quest Completed:" + this.getID());
 			this.giveReward();
 			this.completed = true;
 		}
+		AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect(this));
 	}
 
 	public void onEnemyKilled(AbstractCreature creature) {

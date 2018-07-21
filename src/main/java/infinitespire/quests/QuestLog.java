@@ -4,21 +4,16 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
-
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
 import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
-import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.helpers.QuestHelper;
 
 public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
 	private static final long serialVersionUID = -8923472099668326287L;
 
 	public boolean hasUpdate = false;
-	private boolean justUpdated = false;
 	
 	public QuestLog() {
 		BaseMod.subscribe(this);
@@ -27,10 +22,6 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
 	@Override
 	public boolean add(Quest quest) {
 		hasUpdate = true;
-		if(!this.justUpdated && AbstractDungeon.effectsQueue != null) {
-			AbstractDungeon.effectsQueue.add(new QuestLogUpdateEffect());
-			this.justUpdated = true;
-		}
 		return super.add(quest);
 		
 	}
@@ -38,13 +29,10 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
 	@Override
 	public boolean addAll(Collection<? extends Quest> c) {
 		hasUpdate = true;
-		if(!this.justUpdated && AbstractDungeon.effectsQueue != null) {
-			AbstractDungeon.effectsQueue.add(new QuestLogUpdateEffect());
-			this.justUpdated = true;
-		}
 		return super.addAll(c);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void initializeQuestLog() {
 		
 		InfiniteSpire.logger.info("InfiniteSpire | Initializing Quest Log");
@@ -156,6 +144,5 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
 				this.remove(i);
 			}
 		}
-		this.justUpdated = false;
 	}
 }

@@ -48,7 +48,7 @@ public class EndlessQuestPart1 extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Endless Mode";
+		return "THIS QUEST IS NOT IMPLEMENTED";
 	}
 
 	@Override

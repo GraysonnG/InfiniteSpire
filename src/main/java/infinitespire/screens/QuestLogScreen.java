@@ -58,7 +58,6 @@ public class QuestLogScreen {
 		hbs.clear();
 		
 		for(int i = 0; i < InfiniteSpire.questLog.size(); i++) {
-			Quest quest = InfiniteSpire.questLog.get(i);
 			hbs.add(new Hitbox(480f * Settings.scale, 96f * Settings.scale));
 		}
 	}
