@@ -28,19 +28,9 @@ public class AbstractCreatureEverythingPatch {
 			if(!(__instance instanceof AbstractPlayer))
 				return;
 			
-			float x = 20f;
-			float y = 825f;
 			
-			float xOffset = 0.0f * Settings.scale;
-			float yOffset = 0.0f * Settings.scale;
 			
-			for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
-				if(perk.state == AbstractPerk.PerkState.ACTIVE) {
-					perk.renderInGame(sb, x + xOffset, y + yOffset);
-				}
-			}
-			if(Settings.isEndless)
-				FontHelper.renderFontLeftTopAligned(sb, FontHelper.topPanelAmountFont, "Silver: " + InfiniteSpire.points, 125f * Settings.scale, 835f * Settings.scale, Color.WHITE);
+			
 		}
 	}
 	

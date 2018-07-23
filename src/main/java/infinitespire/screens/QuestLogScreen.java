@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.patches.ScreenStatePatch;
+import infinitespire.perks.AbstractPerk;
 import infinitespire.quests.Quest;
 import infinitespire.quests.QuestLog;
 
@@ -33,6 +34,15 @@ public class QuestLogScreen {
 			Quest quest = gameQuestLog.get(i);
 			renderQuest(i, sb, quest);
 		}
+		
+		float perksX = 980f * Settings.scale;
+		float perksY = Settings.HEIGHT - (400f * Settings.scale);
+		
+		float silverX = Settings.WIDTH / 4f;
+		float silverY = Settings.HEIGHT - (250f * Settings.scale);
+		
+		renderPerks(sb, perksX, perksY);
+		renderSilver(sb, silverX, silverY);
 	}
 
 	public void update() {
@@ -72,10 +82,25 @@ public class QuestLogScreen {
         }
 	}
 	
+	private void renderSilver(SpriteBatch sb, float xPos, float yPos) {
+		FontHelper.renderFontLeftTopAligned(sb, FontHelper.bannerFont, "Silver: " + InfiniteSpire.points, xPos, yPos, Color.WHITE);
+	}
+	
+	public void renderPerks(SpriteBatch sb, float xPos, float yPos) {
+		float xOffset = 0.0f * Settings.scale;
+		float yOffset = 0.0f * Settings.scale;
+		
+		for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
+			if(perk.state == AbstractPerk.PerkState.ACTIVE) {
+				perk.renderInGame(sb, xPos + xOffset, yPos + yOffset);
+			}
+		}
+	}
+	
 	public void renderQuest(int index, SpriteBatch sb, Quest quest) {
 		//96 - 480
 		float xPos = Settings.WIDTH / 4f;
-		float yPos = Settings.HEIGHT - (300f * Settings.scale);
+		float yPos = Settings.HEIGHT - (400f * Settings.scale);
 		float textXOffset = 111f * Settings.scale;
 		float textYOffset = 80f * Settings.scale;
 		

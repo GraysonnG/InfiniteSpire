@@ -83,7 +83,7 @@ public class AbstractDungeonPatch {
 //				InfiniteSpire.questLog.add(new DieQuest());
 //				InfiniteSpire.questLog.add(new OneTurnKillQuest());
 //				InfiniteSpire.questLog.add(new FlawlessQuest());
-				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(6));
+				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
 				
 				for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
 					InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));

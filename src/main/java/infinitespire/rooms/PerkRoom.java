@@ -11,9 +11,11 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.InfiniteSpeechBubble;
 
+import coloredmap.ColoredRoom;
 import infinitespire.InfiniteSpire;
 import infinitespire.perks.PerkMerchant;
 
+@ColoredRoom
 public class PerkRoom extends AbstractRoom {
 	
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());

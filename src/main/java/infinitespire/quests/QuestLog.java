@@ -5,13 +5,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
+import com.megacrit.cardcrawl.rooms.MonsterRoom;
+
 import basemod.BaseMod;
+import basemod.interfaces.OnStartBattleSubscriber;
 import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 
-public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
-	private static final long serialVersionUID = -8923472099668326287L;
+public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, OnStartBattleSubscriber{
+	private static final long serialVersionUID = -8923472099668326287L; 
 
 	public boolean hasUpdate = false;
 	
@@ -144,5 +147,10 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber {
 				this.remove(i);
 			}
 		}
+	}
+
+	@Override
+	public void receiveOnBattleStart(MonsterRoom room) {
+		
 	}
 }
