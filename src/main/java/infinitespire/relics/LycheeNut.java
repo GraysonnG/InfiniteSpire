@@ -23,7 +23,7 @@ public class LycheeNut extends Relic {
 	public void atBattleStart() {
 		this.flash();
 		AbstractPlayer p = AbstractDungeon.player;
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new RegenPower(p, 5), 5));
+		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new RegenPower(p, 3), 3));
 	}
 	
 	@Override

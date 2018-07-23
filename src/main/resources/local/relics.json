@@ -10,14 +10,14 @@
 		"NAME" : "Golem's Mask",
 		"FLAVOR" : "Just like the golem, slow and steady.",
 		"DESCRIPTIONS" : [
-			"Skip the first turn of each combat, Deal #b10% more damage per turn, for the rest of combat."
+			"On the first turn of combat, gain #yGolem's #yMight."
 		]
 	},
 	"Lychee Nut" : {
 		"NAME" : "Lychee Nut",
 		"FLAVOR" : "It's kinda sweet.",
 		"DESCRIPTIONS" : [
-			"Upon pick up, lose #b25% of your max HP. At the start of combat gain #b5 #yRegen."
+			"Upon pick up, lose #b25% of your max HP. At the start of combat gain #b3 #yRegen."
 		]
 	},
 	"Cupcake" : {
@@ -48,14 +48,14 @@
 		"NAME" : "Midas Blood",
 		"FLAVOR" : "Taking damage never felt so good.",
 		"DESCRIPTIONS" : [
-			"Whenever you take HP damage, gain #b5 gold."
+			"Whenever you take HP damage, gain #b2 gold."
 		]
 	},
 	"Freezer" : {
 		"NAME" : "Freezer",
 		"FLAVOR" : "It's cold to the touch.",
 		"DESCRIPTIONS" : [
-			"At the start of combat, channel #b1 Frost orb."
+			"At the start of combat, #ychannel #b1 #yFrost orb."
 		]
 	},
 	"Beetle Shell" : {
@@ -83,7 +83,7 @@
 		"NAME" : "Spectral Dust",
 		"FLAVOR" : "It sparkles!",
 		"DESCRIPTIONS" : [
-			"Whenever an #yEthereal card is #yExhausted, deal #b2 damage to a random enemy."
+			"Whenever an #Ethereal card is #yExhausted, deal #b2 damage to a random enemy."
 		]
 	},
 	"Holy Water" : {

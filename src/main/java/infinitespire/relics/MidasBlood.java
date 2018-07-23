@@ -18,7 +18,7 @@ public class MidasBlood extends Relic {
 
 	@Override
 	public void onLoseHp(int damageAmount) {
-		AbstractDungeon.player.gainGold(5);
+		AbstractDungeon.player.gainGold(2);
 		flash();
 		CardCrawlGame.sound.play("GOLD_GAIN");
 	}

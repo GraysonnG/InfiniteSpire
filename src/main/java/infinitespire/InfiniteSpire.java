@@ -84,7 +84,11 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 
 	@Override
 	public void receiveEditKeywords() {
+		String[] golemsMight = {"golem's might", "golem's", "golem", "golem"};
+		String[] crit = {"critical", "crit"};
 		
+		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
+		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
 	}
 
 	@Override
