@@ -26,6 +26,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 	private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString("Empty Rest Site");
 	private static final String[] DESCRIPTIONS = eventStrings.DESCRIPTIONS;
 	private static final String[] OPTIONS = eventStrings.OPTIONS;
+	private boolean hasRegalPillow;
 	private int healAmount;
 	private State state;
 	
@@ -47,6 +48,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 		this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[2], "g")); //Toke
 		if(AbstractDungeon.player.hasRelic("Regal Pillow")) {
 			this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[4], "b"));
+			hasRegalPillow = true;
 		} else {
 			this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[3], "g")); //Dig
 		}
@@ -96,16 +98,20 @@ public class EmptyRestSite extends AbstractImageEvent {
 				AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(AbstractDungeon.player.masterDeck.getPurgeableCards()), 1, "Remove a card.", false, false, false, true);
 				break;
 			case 3:
-				imageEventText.updateBodyText(DESCRIPTIONS[4]);
-				CardCrawlGame.sound.play("SHOVEL");
-	            AbstractDungeon.getCurrRoom().rewards.clear();
-	            AbstractDungeon.getCurrRoom().rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
-	            AbstractDungeon.combatRewardScreen.open();
-				break;
+				if(hasRegalPillow) {
+					imageEventText.updateBodyText(DESCRIPTIONS[5]);
+					this.playSleepJingle();
+					findAndReplaceRegalPillow();
+				} else {
+					imageEventText.updateBodyText(DESCRIPTIONS[4]);
+					CardCrawlGame.sound.play("SHOVEL");
+		            AbstractDungeon.getCurrRoom().rewards.clear();
+		            AbstractDungeon.getCurrRoom().rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
+		            AbstractDungeon.combatRewardScreen.open();
+				}
+		        break;
 			case 4:
-				imageEventText.updateBodyText(DESCRIPTIONS[5]);
-				this.playSleepJingle();
-				findAndReplaceRegalPillow();
+				
 				break;
 			default: 
 				break;
