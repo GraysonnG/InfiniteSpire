@@ -38,8 +38,7 @@ public class PerkScreen {
 		hitbox.update();
 		
 		if(hitbox.hovered && InputHelper.justClickedLeft) {
-			//renderCurses = !renderCurses;
-			//InfiniteSpire.selectRelicScreen.open();
+			
 		}
 		
 		hitbox.update(1520 * Settings.scale, 100 * Settings.scale);

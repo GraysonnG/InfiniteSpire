@@ -105,7 +105,7 @@ public abstract class AbstractPerk {
 	    xPos = 75f * Settings.scale;
 	    
 	    hitbox = new Hitbox(xPos + hitboxOffset, yPos + hitboxOffset, hitboxSize, hitboxSize);
-	    iconHitbox = new Hitbox(32, 32);
+	    iconHitbox = new Hitbox(128, 128);
 	    
 	    if(Settings.isDebug)
 	    	this.cost = 0;
@@ -252,29 +252,29 @@ public abstract class AbstractPerk {
 	}
 	
 	public void renderInGame(SpriteBatch sb, float x, float y) {
-		
-		
 		Texture icon = InfiniteSpire.getTexture("img/perks/" + this.tree.toString().toLowerCase() + "/" + this.id.toLowerCase() + ".png");
 				
-		sb.setColor(Color.WHITE);
+		sb.setColor(new Color(1f, 1f, 1f, 1f));
 		
-		float yOffset = 12f;
-		float xOffset = 12f;
+		float size = 128f;
 		
-		yOffset += (32f * tier);
+		float yOffset = size * 0.375f;
+		float xOffset = size * 0.375f;
+		
+		yOffset += (size * tier);
 		
 		switch(tree) {
 		case BLUE:
-			xOffset = 64f;
+			xOffset = 2 * size;
 			break;
 		case RED:
-			xOffset = 32f;
+			xOffset = size;
 			break;
 		case GREEN:
 			xOffset = 0;
 			break;
 		case CURSED:
-			xOffset = 96f;
+			xOffset = 3 * size;
 			break;
 		default:
 			xOffset = 0;
@@ -289,10 +289,10 @@ public abstract class AbstractPerk {
 		}
 		
 		if(iconHitbox.hovered) {
-    		renderTip(sb, (x + xOffset + 32f) * Settings.scale, (y - yOffset) * Settings.scale);
+    		renderTip(sb, (x + xOffset + size) * Settings.scale, (y - yOffset) * Settings.scale);
     	}
 		
-		sb.draw(icon, (x + xOffset) * Settings.scale, (y - yOffset) * Settings.scale, 32f * Settings.scale, 32f * Settings.scale);
+		sb.draw(icon, (x + xOffset) * Settings.scale, (y - yOffset) * Settings.scale, size * Settings.scale, size * Settings.scale);
 		
 		iconHitbox.render(sb);
 	}
