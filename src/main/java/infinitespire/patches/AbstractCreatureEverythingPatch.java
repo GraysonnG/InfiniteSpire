@@ -15,24 +15,12 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 
+import basemod.interfaces.PostPowerApplySubscriber;
 import infinitespire.InfiniteSpire;
 import infinitespire.perks.AbstractPerk;
 
 public class AbstractCreatureEverythingPatch {
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
-
-	@SpirePatch(cls="com.megacrit.cardcrawl.core.AbstractCreature", method="renderPowerIcons")
-	public static class RenderPowerIcons {
-		public static void Prefix(AbstractCreature __instance, SpriteBatch sb, float arg1, float arg2) {
-			
-			if(!(__instance instanceof AbstractPlayer))
-				return;
-			
-			
-			
-			
-		}
-	}
 	
 	@SpirePatch(cls="com.megacrit.cardcrawl.actions.common.ApplyPowerAction", method="update")
 	public static class AddPower {
@@ -54,7 +42,6 @@ public class AbstractCreatureEverythingPatch {
 	public static class LoseBlock {
 		public static void Postfix(AbstractCreature creature, int amount, boolean noAnimation) {
 			if(creature instanceof AbstractPlayer) {
-				InfiniteSpire.logger.info("Player lost block.");
 				for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
 					perk.onLoseBlock(amount, noAnimation);
 				}
@@ -73,6 +60,4 @@ public class AbstractCreatureEverythingPatch {
 			}
 		}
 	}
-	
-	
 }
