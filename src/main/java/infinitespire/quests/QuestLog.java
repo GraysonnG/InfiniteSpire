@@ -24,14 +24,12 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
 	
 	@Override
 	public boolean add(Quest quest) {
-		hasUpdate = true;
 		return super.add(quest);
 		
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends Quest> c) {
-		hasUpdate = true;
 		return super.addAll(c);
 	}
 
@@ -140,13 +138,13 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
 
 	@Override
 	public void receivePostUpdate() {
-		for(int i = this.size() - 1; i >= 0; i--) {
-			Quest quest = this.get(i);
-			if(quest.isCompleted()) {
-				InfiniteSpire.logger.info("Removing: " + quest.getID());
-				this.remove(i);
-			}
-		}
+//		for(int i = this.size() - 1; i >= 0; i--) {
+//			Quest quest = this.get(i);
+//			if(quest.isCompleted()) {
+//				InfiniteSpire.logger.info("Removing: " + quest.getID());
+//				this.remove(i);
+//			}
+//		}
 	}
 
 	@Override

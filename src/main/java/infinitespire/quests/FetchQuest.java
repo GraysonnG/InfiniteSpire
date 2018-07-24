@@ -54,7 +54,7 @@ public class FetchQuest extends Quest implements RelicGetSubscriber{
 	}
 
 	@Override
-	protected void giveReward() {
+	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");
 		InfiniteSpire.points += cost;
 	}

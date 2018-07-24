@@ -20,6 +20,7 @@ public abstract class Quest {
 	private String classString;
 	private Color color;
 	private boolean completed = false;
+	private boolean remove = false;
 	
 	public Quest(String id) {
 		this.preInitialize();
@@ -60,7 +61,7 @@ public abstract class Quest {
 	
 	public abstract String getTitle();
 	
-	protected abstract void giveReward();
+	public abstract void giveReward();
 	
 	public abstract String getRewardString();
 	
@@ -103,6 +104,14 @@ public abstract class Quest {
 		return completed;
 	}
 	
+	public boolean shouldRemove() {
+		return this.remove;
+	}
+	
+	public void setRemove(boolean set) {
+		this.remove = set;
+	}
+	
 	public Texture getImage() {
 		return img;
 	}
@@ -127,10 +136,9 @@ public abstract class Quest {
 		this.questSteps++;
 		if(this.questSteps == this.maxQuestSteps) {
 			InfiniteSpire.logger.info("Quest Completed:" + this.getID());
-			this.giveReward();
 			this.completed = true;
+			AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 		}
-		AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect(this));
 	}
 
 	public void onEnemyKilled(AbstractCreature creature) {

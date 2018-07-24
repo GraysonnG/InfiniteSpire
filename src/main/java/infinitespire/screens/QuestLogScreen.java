@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.patches.ScreenStatePatch;
@@ -20,8 +21,9 @@ import infinitespire.quests.QuestLog;
 
 public class QuestLogScreen {
 	
-	QuestLog gameQuestLog;
-	ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
+	private QuestLog gameQuestLog;
+	private ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
+	private boolean justClicked = false;
 	
 	public QuestLogScreen(QuestLog log) {
 		gameQuestLog = log;
@@ -30,9 +32,12 @@ public class QuestLogScreen {
 	public void render(SpriteBatch sb) {
 		sb.setColor(Color.WHITE);
 		
-		for(int i = 0; i < gameQuestLog.size(); i++) {
+		for(int i = gameQuestLog.size() - 1; i >= 0; i--) {
 			Quest quest = gameQuestLog.get(i);
 			renderQuest(i, sb, quest);
+			if(quest.shouldRemove()) {
+				gameQuestLog.remove(i);
+			}
 		}
 		
 		float perksX = 980f * Settings.scale;
@@ -43,10 +48,13 @@ public class QuestLogScreen {
 		
 		renderPerks(sb, perksX, perksY);
 		renderSilver(sb, silverX, silverY);
+		justClicked = false;
 	}
 
 	public void update() {
-		
+		if(InputHelper.justClickedLeft) {
+			justClicked = true;
+		}
 	}
 
 	public void open() {
@@ -115,10 +123,14 @@ public class QuestLogScreen {
 		
 		FontHelper.renderFontLeft(sb, FontHelper.panelNameFont, quest.getTitle(), xPos + textXOffset, yPos + textYOffset, Color.WHITE);
 	
-		if(!tempHitbox.hovered) {
+		if(!tempHitbox.hovered && !quest.isCompleted()) {
 			renderQuestCompletionBar(sb, quest, xPos + textXOffset + (4f * Settings.scale), yPos + 25f * (Settings.scale));
 		} else {
 			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, "Reward: " + quest.getRewardString(), xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
+			if(justClicked) {
+				quest.giveReward();
+				quest.setRemove(true);
+			}
 		}
 		
 		if(tempHitbox.justHovered) {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.beyond.*;
 import com.megacrit.cardcrawl.monsters.city.*;
@@ -54,8 +55,9 @@ public class SlayQuest extends Quest{
 		return builder.toString();
 	}
 	@Override
-	protected void giveReward() {
-		//give some silver
+	public void giveReward() {
+		CardCrawlGame.sound.play("GOLD_GAIN");
+		InfiniteSpire.points += cost;
 	}
 	
 	private static String getRandomMonster() {

@@ -44,7 +44,7 @@ public class FlawlessQuest extends Quest {
 	}
 
 	@Override
-	protected void giveReward() {
+	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");
 		InfiniteSpire.points += cost;
 	}

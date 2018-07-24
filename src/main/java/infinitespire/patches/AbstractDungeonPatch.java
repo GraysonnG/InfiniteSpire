@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.quests.*;
 import infinitespire.relics.HolyWater;
@@ -84,6 +85,8 @@ public class AbstractDungeonPatch {
 //				InfiniteSpire.questLog.add(new OneTurnKillQuest());
 //				InfiniteSpire.questLog.add(new FlawlessQuest());
 				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
+				
+				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 				
 				for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
 					InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));

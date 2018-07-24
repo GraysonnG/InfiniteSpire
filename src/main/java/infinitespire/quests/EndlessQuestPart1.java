@@ -27,7 +27,7 @@ public class EndlessQuestPart1 extends Quest {
 	}
 
 	@Override
-	protected void giveReward() {
+	public void giveReward() {
 		Settings.isEndless = true;
 		AbstractDungeon.topPanel = new TopPanel();
 		CardCrawlGame.sound.play("UNLOCK_PING");
