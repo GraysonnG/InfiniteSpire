@@ -14,6 +14,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
+import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import basemod.BaseMod;
 import basemod.interfaces.*;
@@ -35,7 +36,8 @@ import fruitymod.patches.AbstractCardEnum;
 
 @SuppressWarnings("deprecation")
 @SpireInitializer
-public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber {
+public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, 
+EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
 	public static final String VERSION = "0.0.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
@@ -74,12 +76,21 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		
 		Texture modBadge = getTexture("img/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
-    
-		String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
 		
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
 		//BaseMod.addEvent(StrangeLightPillar.ID, StrangeLightPillar.class, BaseMod.EventPool.ANY);
+    }
+    
+    @Override
+	public void receiveEditStrings() {
+    	String relicStrings = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
+		
+    	String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
+		
+		String monsterStrings = Gdx.files.internal("local/monsters.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
     }
 
 	@Override
@@ -195,9 +206,6 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 
     private static void initializeRelics() {
     	logger.info("InfiniteSpire | Initializing relics...");
-    	
-    	String jsonString = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(RelicStrings.class, jsonString);
     	
 		RelicLibrary.add(new GolemsMask());
 		RelicLibrary.add(new LycheeNut());

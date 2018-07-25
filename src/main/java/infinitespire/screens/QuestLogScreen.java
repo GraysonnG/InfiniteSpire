@@ -2,6 +2,7 @@ package infinitespire.screens;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -24,6 +25,8 @@ public class QuestLogScreen {
 	private QuestLog gameQuestLog;
 	private ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
 	private boolean justClicked = false;
+	private float completedAlpha = 0f;
+	private float completedSin = 0f;
 	
 	public QuestLogScreen(QuestLog log) {
 		gameQuestLog = log;
@@ -117,17 +120,32 @@ public class QuestLogScreen {
 		Hitbox tempHitbox = hbs.get(index);
 		tempHitbox.update(xPos + (10f * Settings.scale), yPos + (10f * Settings.scale));
 		
+		//Render the base Quest texutre in the color of the quest
 		sb.setColor(quest.getColor());
 		sb.draw(InfiniteSpire.getTexture("img/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		sb.setColor(Color.WHITE);
 		
+		//Renders the name of the font
 		FontHelper.renderFontLeft(sb, FontHelper.panelNameFont, quest.getTitle(), xPos + textXOffset, yPos + textYOffset, Color.WHITE);
 	
 		if(!tempHitbox.hovered && !quest.isCompleted()) {
+			//Render the progress bar
 			renderQuestCompletionBar(sb, quest, xPos + textXOffset + (4f * Settings.scale), yPos + 25f * (Settings.scale));
 		} else {
-			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, "Reward: " + quest.getRewardString(), xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
-			if(justClicked) {
+			//Render a light alpha version of the quest texture above the normal one to make it look highlighted
+			sb.setBlendFunction(770, 1);
+            sb.setColor(new Color(1.0f, 1.0f, 1.0f, quest.isCompleted() ? this.completedAlpha : 0.5f));
+            sb.draw(InfiniteSpire.getTexture("img/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
+            sb.setBlendFunction(770, 771);
+            sb.setColor(Color.WHITE);
+            
+            //Change the completedAlpha so completed quests "glow"
+            this.completedSin += Gdx.graphics.getDeltaTime() * 4f;
+			this.completedAlpha = ((float) Math.sin(completedSin) + 1f) / 2f;
+            
+			//Onclick action
+			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, (quest.isCompleted() ? "Claim: " : "Reward: ") + quest.getRewardString(), xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
+			if(justClicked && quest.isCompleted() && tempHitbox.hovered) {
 				quest.giveReward();
 				quest.setRemove(true);
 			}

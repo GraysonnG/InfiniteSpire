@@ -2,6 +2,7 @@ package infinitespire.patches;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,12 +11,14 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.quests.*;
 import infinitespire.relics.HolyWater;
+import infinitespire.rooms.NightmareEliteRoom;
 import infinitespire.rooms.PerkRoom;
 import infinitespire.screens.PerkScreen;
 import infinitespire.util.SuperclassFinder;
@@ -73,7 +76,7 @@ public class AbstractDungeonPatch {
 			addHolyWaterToRareRelicPool();
 			insertPerkRooms();
 			addInitialQuests();
-			insertBlackGoopNode();
+			insertNightmareNode();
 		}
 		
 		private static void addInitialQuests() {
@@ -111,8 +114,25 @@ public class AbstractDungeonPatch {
 			}
 		}
 		
-		private static void insertBlackGoopNode() {
+		private static void insertNightmareNode() {
+			int rand;
+			do {
+				rand = AbstractDungeon.mapRng.random(AbstractDungeon.map.size() - 1);
+			}while(isBanned(rand));
 			
+			ArrayList<MapRoomNode> row = AbstractDungeon.map.get(rand);
+			
+			int rand2 = AbstractDungeon.mapRng.random(row.size() -1);
+			
+			AbstractDungeon.map.get(rand).get(rand2).setRoom(new NightmareEliteRoom());
+		}
+		
+		private static boolean isBanned(int num) {
+			int[] bannedIndexs = {0, 8, 14};
+			for(int i : bannedIndexs)
+				if(num==i)
+					return true;
+			return false;
 		}
 	}
 }

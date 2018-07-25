@@ -6,8 +6,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
 
-import infinitespire.rooms.BlackGoopRoom;
-
 public class EndlessQuestPart1 extends Quest {
 
 	/**
@@ -35,9 +33,7 @@ public class EndlessQuestPart1 extends Quest {
 	
 	@Override
 	public void onRoomEntered(AbstractRoom room) {
-		if(room.getClass().getName().equals(BlackGoopRoom.class.getName())) {
-			this.incrementQuestSteps();
-		}
+		
 	}
 
 	@Override

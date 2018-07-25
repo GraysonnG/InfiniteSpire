@@ -1,0 +1,12 @@
+{
+	"Nightmare": {
+		"MOVES":[
+			"Death's Touch",
+			"Dark Slash",
+			"Reap",
+			"Black Shield"
+		],
+		"NAME": "Nightmare",
+		"DIALOG": []
+	}
+}
