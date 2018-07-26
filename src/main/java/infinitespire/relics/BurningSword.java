@@ -22,6 +22,6 @@ public class BurningSword extends Relic {
 	@Override
 	public void atBattleStart() {
 		AbstractPlayer p = AbstractDungeon.player;
-		AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(p,p, new StrengthPower(p, 2)));
+		AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(p, p, new StrengthPower(p, 2), 2));
 	}
 }

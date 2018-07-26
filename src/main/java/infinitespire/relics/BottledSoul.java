@@ -4,12 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.CardGroup.CardGroupType;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
@@ -71,12 +69,6 @@ public class BottledSoul extends AbstractRelic {
 	}
 	
 	public void onUnequip() {
-		if(this.card != null) {
-			AbstractCard cardInDeck = AbstractDungeon.player.masterDeck.getSpecificCard(this.card);
-			if(cardInDeck != null) {
-				cardInDeck.exhaust = true;
-			}
-		}
 	}
 	
 	public void update() {
@@ -84,20 +76,8 @@ public class BottledSoul extends AbstractRelic {
 		if(!this.cardSelected && !AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 			this.cardSelected = true;
 			this.card = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
-			//change the card to not exhaust
-			this.card.exhaust = false;
-			//set a variable in InfiniteSpire that will allow a patch to render the icon on the card
 			AbstractDungeon.getCurrRoom().phase = prevPhase;
-			//reset description and tips
-		}
-	}
-	
-	
-	@Override
-	public void onPlayCard(AbstractCard c, AbstractMonster m) {
-		if(c != null && c == this.card) {
-			this.flash();
-			AbstractDungeon.actionManager.addToTop(new RelicAboveCreatureAction(AbstractDungeon.player, this));
+			InfiniteSpire.logger.info("Bottled Soul: "+ this.card.name);
 		}
 	}
 

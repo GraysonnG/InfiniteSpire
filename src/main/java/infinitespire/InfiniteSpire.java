@@ -8,12 +8,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
+import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import basemod.BaseMod;
 import basemod.interfaces.*;
@@ -25,6 +26,7 @@ import infinitespire.perks.blue.*;
 import infinitespire.perks.cursed.Timed;
 import infinitespire.perks.green.*;
 import infinitespire.perks.red.*;
+import infinitespire.quests.QuestLog;
 import infinitespire.relics.*;
 import infinitespire.screens.*;
 import replayTheSpire.ReplayTheSpireMod;
@@ -34,18 +36,23 @@ import fruitymod.patches.AbstractCardEnum;
 
 @SuppressWarnings("deprecation")
 @SpireInitializer
-public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, PostRenderSubscriber {
+public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, 
+EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
 	public static final String VERSION = "0.0.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
-	public static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
+	private static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
     public static HashMap<String, AbstractPerk> allPerks = new HashMap<String, AbstractPerk>();
     public static HashMap<String, AbstractPerk> allCurses = new HashMap<String, AbstractPerk>();
     
+    public static QuestLog questLog = new QuestLog();
+    
     public static int points = 0;
-    public static int ascensionLevel = 0;
+    public static boolean isEndless = false;
+    public static boolean shouldLoad = false;
    
     public static PerkScreen perkscreen = new PerkScreen();
+    public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
     
     private enum LoadType {
     	RELIC,
@@ -69,17 +76,30 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		
 		Texture modBadge = getTexture("img/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
-    
-		String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
 		
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
 		//BaseMod.addEvent(StrangeLightPillar.ID, StrangeLightPillar.class, BaseMod.EventPool.ANY);
     }
+    
+    @Override
+	public void receiveEditStrings() {
+    	String relicStrings = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
+		
+    	String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
+		
+		String monsterStrings = Gdx.files.internal("local/monsters.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
+    }
 
 	@Override
 	public void receiveEditKeywords() {
+		String[] golemsMight = {"golem's might", "golem's", "golem", "golem"};
+		String[] crit = {"critical", "crit"};
 		
+		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
+		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
 	}
 
 	@Override
@@ -91,7 +111,16 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 	public void receiveEditRelics() {
 		initializeRelics();
 	}
-   
+
+	@Override
+	public boolean receivePostCampfire() {
+		boolean somethingSelected = true;  
+		
+		somethingSelected = MagicFlask.shouldFinishCampfire();
+		
+		return somethingSelected;
+	}
+	
     public static Texture getTexture(final String textureString) {
         if (imgMap.get(textureString) == null) {
         	try {
@@ -106,7 +135,9 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     
     private static void loadTexture(final String textureString) throws GdxRuntimeException {
         logger.info("InfiniteSpire | Loading Texture: " + textureString);
-        imgMap.put(textureString, new Texture(textureString));
+        Texture texture =  new Texture(textureString);
+        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        imgMap.put(textureString, texture);
     }
     
     public static void saveData() {
@@ -114,29 +145,34 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.setInt("points", points);
-			config.setInt("level", ascensionLevel);
+			config.setBool("isEndless", isEndless);
 			for(AbstractPerk perk : allPerks.values()) {
 				config.setString(perk.id, perk.state.toString());
 			}
-			
 			config.save();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+    	questLog.saveQuestLog();
     }
     
     public static void clearData() {
     	logger.info("InfiniteSpire | Clearing Saved Data...");
     	for(AbstractPerk perk : allPerks.values()) {
+    		StringBuilder stringbuilder = new StringBuilder("Resetting " + perk.name + " to ");
     		if(perk.tier == 0) {
+    			stringbuilder.append("UNLOCKED");
     			perk.state = PerkState.UNLOCKED;
     		}else {
+    			stringbuilder.append("LOCKED");
     			perk.state = PerkState.LOCKED;
     		}
+    		logger.info(stringbuilder.toString());
     	}
     	points = 0;
-    	ascensionLevel = 0;
+    	isEndless = false;
+    	questLog.clearQuestLog();
     	saveData();
     }
     
@@ -154,9 +190,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 					perk.state = PerkState.LOCKED;
 				}
 			}
-			
+			isEndless = config.getBool("isEndless");
 			points = config.getInt("points");
-			ascensionLevel = config.getInt("level");
 		
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -165,12 +200,9 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		}
     	
     }
-    
+
     private static void initializeRelics() {
     	logger.info("InfiniteSpire | Initializing relics...");
-    	
-    	String jsonString = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(RelicStrings.class, jsonString);
     	
 		RelicLibrary.add(new GolemsMask());
 		RelicLibrary.add(new LycheeNut());
@@ -190,28 +222,6 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 		initializeCrossoverRelics();
 		
     	//RelicLibrary.add(new BottledSoul()); //This relic is broken
-    }
-    
-    private static void initializeCrossoverRelics() {
-    	try {
-			initializeReplayTheSpire(LoadType.RELIC);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
-		}
-    	try {
-			initializeFruityMod(LoadType.RELIC);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect FruityMod...");
-		}
-    }
-    
-    @SuppressWarnings("unused")
-	private static void initializeCrossoverCards() {
-    	try {
-			initializeReplayTheSpire(LoadType.CARD);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
-		}
     }
     
     private static void initializePerks() {
@@ -241,6 +251,8 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
         //CURSES
         allCurses.put(Timed.ID, new Timed());
         
+        questLog.initializeQuestLog();
+        
         loadData();
     }
     
@@ -249,21 +261,29 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
     	BaseMod.addCard(new OneForAll());
     	BaseMod.addCard(new Neurotoxin());
     }
-
-	@Override
-	public void receivePostRender(SpriteBatch sb) {
-		
-	}
-
-	@Override
-	public boolean receivePostCampfire() {
-		boolean somethingSelected = true;  
-		
-		somethingSelected = MagicFlask.shouldFinishCampfire();
-		
-		return somethingSelected;
-	}
-	
+  
+    private static void initializeCrossoverRelics() {
+    	try {
+			initializeReplayTheSpire(LoadType.RELIC);
+		} catch (ClassNotFoundException | NoClassDefFoundError e) {
+			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
+		}
+    	try {
+			initializeFruityMod(LoadType.RELIC);
+		} catch (ClassNotFoundException | NoClassDefFoundError e) {
+			logger.info("InfiniteSpire failed to detect FruityMod...");
+		}
+    }
+    
+    @SuppressWarnings("unused")
+	private static void initializeCrossoverCards() {
+    	try {
+			initializeReplayTheSpire(LoadType.CARD);
+		} catch (ClassNotFoundException | NoClassDefFoundError e) {
+			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
+		}
+    }
+    
 	@SuppressWarnings("unused")
 	private static void initializeReplayTheSpire(LoadType type) throws ClassNotFoundException, NoClassDefFoundError {
 		Class<ReplayTheSpireMod> replayTheSpire = ReplayTheSpireMod.class;
@@ -291,5 +311,4 @@ public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubs
 			logger.info("InfiniteSpire | Initializing Cards for FruityMod...");
 		}
 	}
-
 }
