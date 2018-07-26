@@ -98,9 +98,9 @@ public class SlayQuest extends Quest{
 			monsterMap.put(AcidSlime_L.ID, "Large Acid Slime");
 			monsterMap.put(AcidSlime_M.ID, "Medium Acid Slime");
 			monsterMap.put(AcidSlime_S.ID, "Small Acid Slime");
-			monsterMap.put(SpikeSlime_L.ID, "Large Acid Slime");
-			monsterMap.put(SpikeSlime_M.ID, "Medium Acid Slime");
-			monsterMap.put(SpikeSlime_S.ID, "Small Acid Slime");
+			monsterMap.put(SpikeSlime_L.ID, "Large Spike Slime");
+			monsterMap.put(SpikeSlime_M.ID, "Medium Spike Slime");
+			monsterMap.put(SpikeSlime_S.ID, "Small Spike Slime");
 			monsterMap.put(Cultist.ID, "Cultist");
 			monsterMap.put(FungiBeast.ID, "Fungi Beast");
 			monsterMap.put(JawWorm.ID, "Jaw Worm");

@@ -105,7 +105,7 @@ public abstract class AbstractPerk {
 	    xPos = 75f * Settings.scale;
 	    
 	    hitbox = new Hitbox(xPos + hitboxOffset, yPos + hitboxOffset, hitboxSize, hitboxSize);
-	    iconHitbox = new Hitbox(128, 128);
+	    iconHitbox = new Hitbox(128 * Settings.scale, 128 * Settings.scale);
 	    
 	    if(Settings.isDebug)
 	    	this.cost = 0;
@@ -256,7 +256,7 @@ public abstract class AbstractPerk {
 				
 		sb.setColor(new Color(1f, 1f, 1f, 1f));
 		
-		float size = 128f;
+		float size = 128f * Settings.scale;
 		
 		float yOffset = size * 0.375f;
 		float xOffset = size * 0.375f;
@@ -282,17 +282,17 @@ public abstract class AbstractPerk {
 		
 		}
 		
-		iconHitbox.update((x + xOffset) * Settings.scale, (y - yOffset) * Settings.scale); 
+		iconHitbox.update((x + xOffset), (y - yOffset)); 
 		
 		if(iconHitbox.hovered && InputHelper.justClickedLeft) {
 			InfiniteSpire.perkscreen.open();
 		}
 		
 		if(iconHitbox.hovered) {
-    		renderTip(sb, (x + xOffset + size) * Settings.scale, (y - yOffset) * Settings.scale);
+    		renderTip(sb, (x + xOffset + size), (y - yOffset));
     	}
 		
-		sb.draw(icon, (x + xOffset) * Settings.scale, (y - yOffset) * Settings.scale, size * Settings.scale, size * Settings.scale);
+		sb.draw(icon, (x + xOffset), (y - yOffset), size, size);
 		
 		iconHitbox.render(sb);
 	}

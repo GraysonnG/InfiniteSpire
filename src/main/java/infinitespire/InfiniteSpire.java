@@ -48,7 +48,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     public static QuestLog questLog = new QuestLog();
     
     public static int points = 0;
-    public static int ascensionLevel = 0;
+    public static boolean isEndless = false;
     public static boolean shouldLoad = false;
    
     public static PerkScreen perkscreen = new PerkScreen();
@@ -145,7 +145,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.setInt("points", points);
-			config.setInt("level", ascensionLevel);
+			config.setBool("isEndless", isEndless);
 			for(AbstractPerk perk : allPerks.values()) {
 				config.setString(perk.id, perk.state.toString());
 			}
@@ -171,9 +171,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     		logger.info(stringbuilder.toString());
     	}
     	points = 0;
-    	ascensionLevel = 0;
-    	
-    	
+    	isEndless = false;
     	questLog.clearQuestLog();
     	saveData();
     }
@@ -192,9 +190,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 					perk.state = PerkState.LOCKED;
 				}
 			}
-			
+			isEndless = config.getBool("isEndless");
 			points = config.getInt("points");
-			ascensionLevel = config.getInt("level");
 		
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");

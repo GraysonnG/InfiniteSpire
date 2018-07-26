@@ -8,6 +8,7 @@ import java.util.Collections;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.map.MapRoomNode;
@@ -73,6 +74,8 @@ public class AbstractDungeonPatch {
 									//SL:637 = 36 right now
 		@SpireInsertPatch(rloc = 36)// before AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
 		public static void Insert() {
+			Settings.isEndless = InfiniteSpire.isEndless;
+			
 			addHolyWaterToRareRelicPool();
 			insertPerkRooms();
 			addInitialQuests();
@@ -115,6 +118,9 @@ public class AbstractDungeonPatch {
 		}
 		
 		private static void insertNightmareNode() {
+			if(AbstractDungeon.bossCount < 1) return;
+			
+			
 			int rand;
 			do {
 				rand = AbstractDungeon.mapRng.random(AbstractDungeon.map.size() - 1);
@@ -125,6 +131,7 @@ public class AbstractDungeonPatch {
 			int rand2 = AbstractDungeon.mapRng.random(row.size() -1);
 			
 			AbstractDungeon.map.get(rand).get(rand2).setRoom(new NightmareEliteRoom());
+			InfiniteSpire.logger.info("Inserting Nightmare Elite: " + rand + ", " + rand2);
 		}
 		
 		private static boolean isBanned(int num) {

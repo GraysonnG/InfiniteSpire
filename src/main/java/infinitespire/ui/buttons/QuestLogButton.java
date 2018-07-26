@@ -21,6 +21,7 @@ public class QuestLogButton {
 	private static float tipYPos = Settings.HEIGHT - (120.0f * Settings.scale);
 	private static float xPos = Settings.WIDTH - (256f * Settings.scale);
 	private static float padding = (10.0f * Settings.scale) * 4f;
+	private static float size = 64f * Settings.scale;
 	private static boolean isEnabled = true;
 	private static Hitbox hb = new Hitbox(xPos - padding, yPos , 64f * Settings.scale, 64f * Settings.scale);
 	
@@ -32,11 +33,11 @@ public class QuestLogButton {
 				InfiniteSpire.questLog.hasUpdate ? InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon-disabled-alert.png") : InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon-disabled.png");
 		
 		if(AbstractDungeon.screen != AbstractDungeon.CurrentScreen.MAP) {
-			sb.draw(texture, xPos - padding, yPos, 32.0f, 32.0f, 64.0f, 64.0f, Settings.scale, Settings.scale, rotation, 0, 0, 64, 64, false, false);
+			sb.draw(texture, xPos - padding, yPos, size / 2f, size / 2f, size, size, 1f, 1f, rotation, 0, 0, 64, 64, false, false);
 			if (hb.hovered) {
 	            sb.setBlendFunction(770, 1);
 	            sb.setColor(new Color(1.0f, 1.0f, 1.0f, 0.25f));
-	            sb.draw(texture, xPos - padding, yPos, 32.0f, 32.0f, 64.0f, 64.0f, Settings.scale, Settings.scale, rotation, 0, 0, 64, 64, false, false);
+	            sb.draw(texture, xPos - padding, yPos, size / 2f, size / 2f, size, size, 1f, 1f, rotation, 0, 0, 64, 64, false, false);
 	            sb.setBlendFunction(770, 771);
 	            
 	            

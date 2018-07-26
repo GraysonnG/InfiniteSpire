@@ -42,6 +42,10 @@ public abstract class Quest {
 		this.color = new Color(Integer.parseInt(colorData[0]) / 255f, Integer.parseInt(colorData[1]) / 255f, Integer.parseInt(colorData[2]) / 255f, 1f);
 		
 		this.cost = Integer.parseInt(data[5]);
+		
+		if(this.questSteps >= this.maxQuestSteps) {
+			this.completed = true;
+		}
 	}
 	
 	/**

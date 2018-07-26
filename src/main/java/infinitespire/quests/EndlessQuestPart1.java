@@ -1,10 +1,13 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.cards.green.Nightmare;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.ui.panels.TopPanel;
+
+import infinitespire.InfiniteSpire;
 
 public class EndlessQuestPart1 extends Quest {
 
@@ -27,24 +30,28 @@ public class EndlessQuestPart1 extends Quest {
 	@Override
 	public void giveReward() {
 		Settings.isEndless = true;
-		AbstractDungeon.topPanel = new TopPanel();
+		InfiniteSpire.isEndless = true;
+		//add the next quest in the questline
 		CardCrawlGame.sound.play("UNLOCK_PING");
 	}
 	
-	@Override
-	public void onRoomEntered(AbstractRoom room) {
+	public void onEnemyKilled(AbstractCreature creature) {
 		
+		if(creature.id.equalsIgnoreCase("Nightmare")) {
+			InfiniteSpire.logger.info(creature.id);
+			this.incrementQuestSteps();
+			InfiniteSpire.logger.info(this.questSteps);
+		}
 	}
 
 	@Override
 	public String getTitle() {
-		// TODO Auto-generated method stub
-		return "Endless Pt.1";
+		return "Kill the Nightmare";
 	}
 
 	@Override
 	public String getRewardString() {
-		return "THIS QUEST IS NOT IMPLEMENTED";
+		return "Unlock Endless";
 	}
 
 	@Override
