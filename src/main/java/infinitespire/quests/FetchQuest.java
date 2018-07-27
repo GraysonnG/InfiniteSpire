@@ -10,10 +10,10 @@ import com.megacrit.cardcrawl.relics.Circlet;
 import com.megacrit.cardcrawl.relics.SpiritPoop;
 
 import basemod.BaseMod;
-import basemod.interfaces.RelicGetSubscriber;
+import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
 
-public class FetchQuest extends Quest implements RelicGetSubscriber{
+public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	
 	public String relicId;
 
@@ -40,9 +40,9 @@ public class FetchQuest extends Quest implements RelicGetSubscriber{
 		
 		AbstractRelic randRelic = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
 		
-		randRelic = AbstractDungeon.miscRng.randomBoolean(0.02f) ? new SpiritPoop() : randRelic;
+		randRelic = AbstractDungeon.miscRng.randomBoolean(0.02f) ? (new SpiritPoop()) : randRelic;
 		
-		String relicID = randRelic.relicId;
+		String relicID = this.filterRelicID(randRelic.relicId);
 		this.relicId = relicID;
 		
 		
@@ -60,15 +60,8 @@ public class FetchQuest extends Quest implements RelicGetSubscriber{
 	}
 
 	@Override
-	public void receiveRelicGet(AbstractRelic relic) {
-		if(relic.relicId.equals(this.relicId)) {
-			this.incrementQuestSteps();
-		}
-	}
-
-	@Override
 	public String getTitle() {
-		return "Obtain " + RelicLibrary.getRelic(relicId).name;
+		return "Obtain " + RelicLibrary.getRelic(unFilterRelicID(relicId)).name;
 	}
 
 	@Override
@@ -92,7 +85,7 @@ public class FetchQuest extends Quest implements RelicGetSubscriber{
 			silverGain = 300;
 			break;
 		case "SPECIAL":
-			return -1; 
+			return 1; 
 		case "BOSS":
 		case "SHOP":
 		case "STARTER":
@@ -108,5 +101,82 @@ public class FetchQuest extends Quest implements RelicGetSubscriber{
 		
 		silverGain = MathUtils.round(silverGain * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
 		return silverGain;
+	}
+
+	@Override
+	public void receivePostUpdate() {
+		if(!this.isCompleted() && AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(unFilterRelicID(this.relicId))) {
+			this.incrementQuestSteps();
+		}
+	}
+	
+	private String unFilterRelicID(String relicID) {
+		String retVal = relicID;
+		
+		for(AbstractRelic relic : RelicLibrary.blueList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.redList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.greenList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.bossList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.rareList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.uncommonList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.commonList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.shopList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		for(AbstractRelic relic : RelicLibrary.specialList) {
+			if(relicID.equals(filterRelicID(relic.relicId))) {
+				return relic.relicId;
+			}
+		}
+		
+		
+		return retVal;
+	}
+	
+	private String filterRelicID(String relicID) {
+		String retVal = "" + relicID;
+		
+		retVal.replace("-", "_");
+		retVal.replace(":", "|");
+		
+		return retVal;
 	}
 }
