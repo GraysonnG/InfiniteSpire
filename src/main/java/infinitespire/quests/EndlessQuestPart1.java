@@ -1,12 +1,8 @@
 package infinitespire.quests;
 
-import com.megacrit.cardcrawl.cards.green.Nightmare;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.ui.panels.TopPanel;
-
 import infinitespire.InfiniteSpire;
 
 public class EndlessQuestPart1 extends Quest {

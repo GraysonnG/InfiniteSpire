@@ -36,7 +36,7 @@ public class OneTurnKillQuest extends Quest {
 
 	@Override
 	public String getTitle() {
-		return "One Shot Kill an Elite";
+		return "One Turn Kill an Elite";
 	}
 
 	@Override

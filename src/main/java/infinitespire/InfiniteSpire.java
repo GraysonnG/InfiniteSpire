@@ -36,7 +36,7 @@ import fruitymod.patches.AbstractCardEnum;
 
 @SuppressWarnings("deprecation")
 @SpireInitializer
-public class InfiniteSpire implements PostCampfireSubscriber, PostInitializeSubscriber, 
+public class InfiniteSpire implements PostInitializeSubscriber, 
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
 	public static final String VERSION = "0.0.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
@@ -110,15 +110,6 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	@Override
 	public void receiveEditRelics() {
 		initializeRelics();
-	}
-
-	@Override
-	public boolean receivePostCampfire() {
-		boolean somethingSelected = true;  
-		
-		somethingSelected = MagicFlask.shouldFinishCampfire();
-		
-		return somethingSelected;
 	}
 	
     public static Texture getTexture(final String textureString) {

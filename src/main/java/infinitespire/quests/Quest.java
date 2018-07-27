@@ -3,7 +3,6 @@ package infinitespire.quests;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
@@ -28,10 +27,9 @@ public abstract class Quest {
 			this.id = id;
 		}else {
 			this.id = this.generateID();
+			InfiniteSpire.logger.info(this.id);
 		}
 		if(this.id == null) return;
-		
-		if(Settings.isDebug == true)InfiniteSpire.logger.info(this.id);
 		
 		String[] data = this.id.split("-");
 		this.classString = data[0];

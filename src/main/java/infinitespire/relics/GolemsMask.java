@@ -1,11 +1,8 @@
 package infinitespire.relics;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
-
 import infinitespire.powers.GolemPower;
 
 public class GolemsMask extends Relic{
