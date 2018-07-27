@@ -77,7 +77,9 @@ public class AbstractDungeonPatch {
 			addHolyWaterToRareRelicPool();
 			insertPerkRooms();
 			addInitialQuests();
-			insertNightmareNode();
+			for(int i = 0; i < 3; i++) {
+				insertNightmareNode();
+			}
 		}
 		
 		private static void addInitialQuests() {
