@@ -4,7 +4,7 @@
   "author_list": ["Blank The Evil", "The_Evil_Pickle"],
   "description": "Adds a new way to climb the spire forever, complete quests along the way, and purchase perks, but be careful, the spire will not be kind to those who do not give up.",
   "dependencies" : ["basemod"],
-  "version": "0.0.4",
+  "version": "0.0.5",
   "sts_version": "07-19-2018",
   "mts_version": "2.9.0",
   "update_json": "https://api.github.com/repos/GraysonnG/InfiniteSpire/releases/latest"

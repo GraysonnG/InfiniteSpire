@@ -66,7 +66,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     }
     
     public static void initialize() {
-        logger.info("VERSION: 0.0.1");
+        logger.info("VERSION: 0.0.5");
         new InfiniteSpire();
         //Settings.isDebug = true;
     }
