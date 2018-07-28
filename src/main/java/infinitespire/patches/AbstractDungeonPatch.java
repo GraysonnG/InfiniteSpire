@@ -8,6 +8,8 @@ import java.util.Collections;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.cards.green.Nightmare;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
@@ -20,7 +22,6 @@ import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
 import infinitespire.rooms.PerkRoom;
 import infinitespire.screens.PerkScreen;
-import infinitespire.util.SuperclassFinder;
 
 public class AbstractDungeonPatch {
 	
@@ -31,15 +32,36 @@ public class AbstractDungeonPatch {
 				PerkScreen.isDone = true;
 				
 					try {
-						Method overlayReset = SuperclassFinder.getSuperClassMethod(AbstractDungeon.class, "genericScreenOverlayReset");
+						Method overlayReset = AbstractDungeon.class.getDeclaredMethod("genericScreenOverlayReset");
 						overlayReset.setAccessible(true);
 						overlayReset.invoke(AbstractDungeon.class);
-					} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+//					try {
+//						Method overlayReset = SuperclassFinder.getSuperClassMethod(AbstractDungeon.class, "genericScreenOverlayReset");
+//						overlayReset.setAccessible(true);
+//						overlayReset.invoke(AbstractDungeon.class);
+//					} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//						e.printStackTrace();
+//					}
 			
 				AbstractDungeon.overlayMenu.hideBlackScreen();
 			}
+		}
+	}
+	
+	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "nextRoomTransition")
+	public static class NextRoomTransition {
+		@SpireInsertPatch(rloc = 10) 
+		public static SpireReturn<?> Insert(AbstractDungeon __instance){
+			if(AbstractDungeon.getCurrRoom() instanceof NightmareEliteRoom && AbstractDungeon.eliteMonsterList.size() <= 0) {
+				AbstractDungeon.eliteMonsterList.add(Nightmare.ID);
+				return SpireReturn.Continue();
+			}
+			
+			return SpireReturn.Continue();
 		}
 	}
 	
@@ -85,11 +107,7 @@ public class AbstractDungeonPatch {
 		private static void addInitialQuests() {
 			if(AbstractDungeon.floorNum <= 1 && InfiniteSpire.questLog.isEmpty()) {
 				InfiniteSpire.questLog.clear();
-				//InfiniteSpire.questLog.add(new EndlessQuest());
 				InfiniteSpire.questLog.add(new EndlessQuestPart1());
-//				InfiniteSpire.questLog.add(new DieQuest());
-//				InfiniteSpire.questLog.add(new OneTurnKillQuest());
-//				InfiniteSpire.questLog.add(new FlawlessQuest());
 				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
 				
 				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
@@ -119,7 +137,6 @@ public class AbstractDungeonPatch {
 		
 		private static void insertNightmareNode() {
 			if(AbstractDungeon.bossCount < 1) return;
-			
 			
 			int rand;
 			do {

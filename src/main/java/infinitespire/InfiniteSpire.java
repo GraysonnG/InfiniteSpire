@@ -29,6 +29,7 @@ import infinitespire.perks.red.*;
 import infinitespire.quests.QuestLog;
 import infinitespire.relics.*;
 import infinitespire.screens.*;
+import infinitespire.util.TextureLoader;
 import replayTheSpire.ReplayTheSpireMod;
 
 import fruitymod.FruityMod;
@@ -38,7 +39,7 @@ import fruitymod.patches.AbstractCardEnum;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, 
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
-	public static final String VERSION = "0.0.1";
+	public static final String VERSION = "0.0.5";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
 	private static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
@@ -113,22 +114,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	}
 	
     public static Texture getTexture(final String textureString) {
-        if (imgMap.get(textureString) == null) {
-        	try {
-        		loadTexture(textureString);
-        	} catch (GdxRuntimeException e) {
-        		logger.error("Could not find texture: " + textureString);
-	        	return getTexture("img/ui/missingtexture.png");
-        	}
-        }
-        return imgMap.get(textureString);
-    }
-    
-    private static void loadTexture(final String textureString) throws GdxRuntimeException {
-        logger.info("InfiniteSpire | Loading Texture: " + textureString);
-        Texture texture =  new Texture(textureString);
-        texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-        imgMap.put(textureString, texture);
+        return TextureLoader.getTexture(textureString);
     }
     
     public static void saveData() {

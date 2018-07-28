@@ -84,7 +84,7 @@ public class Nightmare extends AbstractMonster {
 	public void damage(DamageInfo info) {
 		super.damage(info);
 		
-		if(this.hasPower("is_Reality_Shift")) {
+		if(this.hasPower("is_Reality_Shift") && !firstTurn) {
 			AbstractPower p = this.getPower("is_Reality_Shift");
 			p.amount -= info.output;
 			if(p.amount <= 0) {
@@ -138,7 +138,7 @@ public class Nightmare extends AbstractMonster {
 			break;
 		case 2:
 			AbstractDungeon.actionManager.addToBottom(new AnimateFastAttackAction(this));
-			for(int i = 0; i < 3; i++) {
+			for(int i = 0; i < this.attackCount; i++) {
 				AbstractDungeon.actionManager.addToBottom(new DamageAction(AbstractDungeon.player, this.damage.get(0), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL, true));
 				this.attackCount++;
 			}
@@ -152,6 +152,9 @@ public class Nightmare extends AbstractMonster {
 			break;
 		}
 		AbstractDungeon.actionManager.addToBottom(new RollMoveAction(this));
+		if(this.hasPower("is_Reality_Shift")) {
+			this.getPower("is_Reality_Shift").amount = 50;
+		}
 	}
 
 }
