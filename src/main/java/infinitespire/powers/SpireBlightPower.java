@@ -18,7 +18,7 @@ public class SpireBlightPower extends AbstractPower {
 	}
 	
 	public void updateDescription() {
-		this.description = "Deal #b25% less damage, and gain 25% less block.";
+		this.description = "Deal #b25% less damage, and gain #b25% less block.";
 	}
 	
 	@Override

@@ -83,7 +83,7 @@
 		"NAME" : "Spectral Dust",
 		"FLAVOR" : "It sparkles!",
 		"DESCRIPTIONS" : [
-			"Whenever an #Ethereal card is #yExhausted, deal #b2 damage to a random enemy."
+			"Whenever an #yEthereal card is #yExhausted, deal #b2 damage to a random enemy."
 		]
 	},
 	"Holy Water" : {

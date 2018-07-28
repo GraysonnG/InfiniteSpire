@@ -20,8 +20,7 @@ public class NightmareEliteRoom extends MonsterRoomElite {
 	
 	@Override
 	public void onPlayerEntry() {
-		super.onPlayerEntry();
-		
+		this.playBGM(null);
 		MonsterGroup group = new MonsterGroup(new Nightmare());
 		this.monsters = group;
 		this.monsters.init();
