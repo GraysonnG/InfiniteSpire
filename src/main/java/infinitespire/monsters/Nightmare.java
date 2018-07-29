@@ -88,7 +88,7 @@ public class Nightmare extends AbstractMonster {
 			AbstractPower p = this.getPower("is_Reality_Shift");
 			p.amount -= info.output;
 			if(p.amount <= 0) {
-				p.amount = 50;
+				p.amount = 0;
 				p.flash();
 				onEnoughDamageTaken();
 			}
@@ -97,13 +97,15 @@ public class Nightmare extends AbstractMonster {
 	}
 
 	public void onEnoughDamageTaken() {
-		AbstractDungeon.effectList.add(new PowerBuffEffect(this.hb.cX - this.animX, this.hb.cY + this.hb.height / 2.0f, ""));
-		AbstractDungeon.actionManager.addToTop(new GainBlockAction(this, this, this.blockCount));
-		
-		this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
-		this.createIntent();
 		
 		if(AbstractDungeon.overlayMenu.endTurnButton.enabled) {
+			AbstractDungeon.effectList.add(new PowerBuffEffect(this.hb.cX - this.animX, this.hb.cY + this.hb.height / 2.0f, ""));
+			AbstractDungeon.actionManager.addToTop(new GainBlockAction(this, this, this.blockCount));
+		
+			this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
+			this.createIntent();
+		
+		
 			AbstractDungeon.actionManager.cardQueue.clear();
 			for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
 				AbstractDungeon.effectList.add(new ExhaustCardEffect(c));

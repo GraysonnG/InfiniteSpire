@@ -39,7 +39,7 @@ import fruitymod.patches.AbstractCardEnum;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, 
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
-	public static final String VERSION = "0.0.5";
+	public static final String VERSION = "0.0.6";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
 	private static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
