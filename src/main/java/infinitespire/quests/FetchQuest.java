@@ -13,20 +13,22 @@ import com.megacrit.cardcrawl.relics.SpiritPoop;
 import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 
 public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	
 	public String relicId;
+	public static final QuestType TYPE = QuestType.GREEN;
 
-	public FetchQuest(String id) {
-		super(id);
+	public FetchQuest(String id) throws MalformedQuestException {
+		super(id, TYPE);
 		
 		BaseMod.subscribe(this);
 		
 		relicId = this.id.split("-")[4];
 	}
 	
-	public FetchQuest() {
+	public FetchQuest() throws MalformedQuestException {
 		this(null);
 	}
 	

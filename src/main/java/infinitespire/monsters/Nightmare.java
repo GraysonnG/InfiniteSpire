@@ -103,13 +103,15 @@ public class Nightmare extends AbstractMonster {
 		this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
 		this.createIntent();
 		
-		AbstractDungeon.actionManager.cardQueue.clear();
-        for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
-            AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
-        }
-        AbstractDungeon.player.limbo.group.clear();
-        AbstractDungeon.player.releaseCard();
-        AbstractDungeon.overlayMenu.endTurnButton.disable(true);
+		if(AbstractDungeon.overlayMenu.endTurnButton.enabled) {
+			AbstractDungeon.actionManager.cardQueue.clear();
+			for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
+				AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
+			}
+			AbstractDungeon.player.limbo.group.clear();
+			AbstractDungeon.player.releaseCard();
+			AbstractDungeon.overlayMenu.endTurnButton.disable(true);
+		}
 	}
 	
 	@Override
