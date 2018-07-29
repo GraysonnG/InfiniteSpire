@@ -13,9 +13,21 @@ public class RealityShiftPower extends AbstractPower {
 		this.ID = "is_Reality_Shift";
 		this.img = InfiniteSpire.getTexture("img/powers/realityshift.png");
 		this.type = PowerType.BUFF;
+		this.isTurnBased = true;
 		this.updateDescription();
 	}
 	
+	
+	
+	@Override
+	public void atEndOfTurn(boolean isPlayer) {
+		if(!isPlayer){
+			this.amount = 50;
+		}
+	}
+
+
+
 	public void updateDescription() {
 		this.description = "After taking #b" + amount + " damage in a single turn, Nighmare will shift reality forcing you to end your turn.";
 	}
