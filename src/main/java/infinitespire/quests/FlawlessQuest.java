@@ -8,15 +8,16 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 
 @Deprecated
 public class FlawlessQuest extends Quest {
 
-	public FlawlessQuest(String id) {
-		super(id);
+	public FlawlessQuest(String id) throws MalformedQuestException {
+		super(id, QuestType.RED);
 	}
 
-	public FlawlessQuest() {
+	public FlawlessQuest() throws MalformedQuestException {
 		this(null);
 	}
 	

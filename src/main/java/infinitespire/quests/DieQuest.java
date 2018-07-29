@@ -7,14 +7,17 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 
 public class DieQuest extends Quest {
 
-	public DieQuest(String questID) {
-		super(questID);
+	public static final QuestType TYPE = QuestType.BLUE;
+	
+	public DieQuest(String questID) throws MalformedQuestException {
+		super(questID, TYPE);
 	}
 	
-	public DieQuest() {
+	public DieQuest() throws MalformedQuestException {
 		this(null);
 	}
 	

@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.map.MapRoomNode;
 import infinitespire.InfiniteSpire;
 import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.helpers.QuestHelper;
+import infinitespire.lang.MalformedQuestException;
 import infinitespire.quests.*;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
@@ -107,7 +108,11 @@ public class AbstractDungeonPatch {
 		private static void addInitialQuests() {
 			if(AbstractDungeon.floorNum <= 1 && InfiniteSpire.questLog.isEmpty()) {
 				InfiniteSpire.questLog.clear();
-				InfiniteSpire.questLog.add(new EndlessQuestPart1());
+				try {
+					InfiniteSpire.questLog.add(new EndlessQuestPart1());
+				} catch (MalformedQuestException e) {
+					e.printStackTrace();
+				}
 				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
 				
 				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());

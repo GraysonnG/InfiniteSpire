@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.*;
 import infinitespire.effects.QuestLogUpdateEffect;
 
 public abstract class Quest {
@@ -20,8 +21,15 @@ public abstract class Quest {
 	private Color color;
 	private boolean completed = false;
 	private boolean remove = false;
+	public final QuestType type;
+	public enum QuestType {
+		RED,
+		GREEN,
+		BLUE
+	}
 	
-	public Quest(String id) {
+	public Quest(String id, QuestType type) throws MalformedQuestException {
+		this.type = type;
 		this.preInitialize();
 		if(id != null && !id.equals("")) {
 			this.id = id;
@@ -32,6 +40,9 @@ public abstract class Quest {
 		if(this.id == null) return;
 		
 		String[] data = this.id.split("-");
+		
+		if(data.length != 6) throw new MalformedQuestException();
+		
 		this.classString = data[0];
 		this.maxQuestSteps = Integer.parseInt(data[1]);
 		this.questSteps = Integer.parseInt(data[2]);
@@ -48,7 +59,7 @@ public abstract class Quest {
 	
 	/**
 	 * Returns a string of the following format:<br>
-	 * CLASS_NAME-AMOUNT_OF_STEPS-COMPLETED_STEPS-SILVERREWARD-COLOR_IN_RGB-DATA-COST
+	 * CLASS_NAME-AMOUNT_OF_STEPS-COMPLETED_STEPS-COLOR_IN_RGB-DATA-COST
 	 * <br>
 	 * <br>
 	 * Example:<br>
