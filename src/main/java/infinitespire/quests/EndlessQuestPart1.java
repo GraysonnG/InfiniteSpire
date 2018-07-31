@@ -4,17 +4,20 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 
 public class EndlessQuestPart1 extends Quest {
 
+	private static final QuestType TYPE = QuestType.BLUE;
 	/**
 	 * This is a temporary solution to enable endless
+	 * @throws MalformedQuestException 
 	 */
-	public EndlessQuestPart1() {
-		super(EndlessQuestPart1.class.getName() + "-1-0-255,100,255-null-0");
+	public EndlessQuestPart1() throws MalformedQuestException {
+		super(EndlessQuestPart1.class.getName() + "-1-0-255,100,255-null-0", TYPE);
 	}
 	
-	public EndlessQuestPart1(String questID) {
+	public EndlessQuestPart1(String questID) throws MalformedQuestException {
 		this();
 	}
 

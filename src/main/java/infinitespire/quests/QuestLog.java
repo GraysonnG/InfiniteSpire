@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.megacrit.cardcrawl.rooms.MonsterRoom;
 
 import basemod.BaseMod;
@@ -12,6 +14,7 @@ import basemod.interfaces.OnStartBattleSubscriber;
 import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
+import infinitespire.lang.MalformedQuestException;
 
 public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, OnStartBattleSubscriber{
 	private static final long serialVersionUID = -8923472099668326287L; 
@@ -110,29 +113,34 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
 	
 	private QuestLog createLogFromString(String data) {
 		QuestLog log = new QuestLog();
-		
-		
-		
+	
 		System.out.println(data);
 		
 		String[] questIds = data.split(":");
 		for(String questID : questIds) {
 			
 			String questClassString = questID.split("-")[0];
-			
+			Quest quest = null;
 			
 			try {
 				Class<? extends Quest> questClass = QuestHelper.getQuestClassFromMap(questClassString);
-				log.add((Quest) 
-						questClass.getConstructor(String.class)
-						.newInstance(questID));
+				
+				quest = (Quest) questClass.getConstructor(String.class).newInstance(questID);
+				
+				
 					
 					
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+			} catch (InstantiationException | IllegalAccessException | NullPointerException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
+				quest = null;
+			}
+			
+			if(quest != null) {
+				log.add(quest);
 			}
 		}
+		
 		return log;
 	}
 

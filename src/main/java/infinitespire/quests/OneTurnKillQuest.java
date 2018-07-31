@@ -7,16 +7,16 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 
 public class OneTurnKillQuest extends Quest {
 	
-	public OneTurnKillQuest(String id) {
-		super(id);
+	public OneTurnKillQuest(String id) throws MalformedQuestException {
+		super(id, QuestType.RED);
 	}
 	
-	public OneTurnKillQuest() {
-		super(null);
-		// TODO Auto-generated constructor stub
+	public OneTurnKillQuest() throws MalformedQuestException {
+		this(null);
 	}
 	
 	@Override

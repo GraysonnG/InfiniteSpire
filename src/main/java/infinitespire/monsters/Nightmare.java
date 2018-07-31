@@ -37,6 +37,7 @@ public class Nightmare extends AbstractMonster {
 	
 	private float spriteEffect;
 	private boolean firstTurn = true;
+	private boolean hasActivated = false;
 	private int attackDmg;
 	private int slamDmg;
 	private int blockCount;
@@ -62,6 +63,7 @@ public class Nightmare extends AbstractMonster {
 
 	@Override
 	protected void getMove(int num) {
+		this.hasActivated = false;
 		if(firstTurn) {
 			this.setMove(Nightmare.MOVES[0], (byte) 1, Intent.STRONG_DEBUFF);
 			return;
@@ -88,28 +90,35 @@ public class Nightmare extends AbstractMonster {
 			AbstractPower p = this.getPower("is_Reality_Shift");
 			p.amount -= info.output;
 			if(p.amount <= 0) {
-				p.amount = 50;
+				p.amount = 0;
 				p.flash();
-				onEnoughDamageTaken();
+				if(!hasActivated) {
+					onEnoughDamageTaken();
+				}
 			}
 			p.updateDescription();
 		}
 	}
 
 	public void onEnoughDamageTaken() {
-		AbstractDungeon.effectList.add(new PowerBuffEffect(this.hb.cX - this.animX, this.hb.cY + this.hb.height / 2.0f, ""));
-		AbstractDungeon.actionManager.addToTop(new GainBlockAction(this, this, this.blockCount));
 		
-		this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
-		this.createIntent();
+		if(AbstractDungeon.overlayMenu.endTurnButton.enabled) {
+			AbstractDungeon.effectList.add(new PowerBuffEffect(this.hb.cX - this.animX, this.hb.cY + this.hb.height / 2.0f, ""));
+			AbstractDungeon.actionManager.addToTop(new GainBlockAction(this, this, this.blockCount));
 		
-		AbstractDungeon.actionManager.cardQueue.clear();
-        for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
-            AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
-        }
-        AbstractDungeon.player.limbo.group.clear();
-        AbstractDungeon.player.releaseCard();
-        AbstractDungeon.overlayMenu.endTurnButton.disable(true);
+			this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
+			this.createIntent();
+		
+		
+			AbstractDungeon.actionManager.cardQueue.clear();
+			for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
+				AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
+			}
+			AbstractDungeon.player.limbo.group.clear();
+			AbstractDungeon.player.releaseCard();
+			AbstractDungeon.overlayMenu.endTurnButton.disable(true);
+			this.hasActivated = true;
+		}
 	}
 	
 	@Override
@@ -140,8 +149,8 @@ public class Nightmare extends AbstractMonster {
 			AbstractDungeon.actionManager.addToBottom(new AnimateFastAttackAction(this));
 			for(int i = 0; i < this.attackCount; i++) {
 				AbstractDungeon.actionManager.addToBottom(new DamageAction(AbstractDungeon.player, this.damage.get(0), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL, true));
-				this.attackCount++;
 			}
+			this.attackCount++;
 			break;
 		case 3:
 			AbstractDungeon.actionManager.addToBottom(new DamageAction(AbstractDungeon.player, this.damage.get(1), AbstractGameAction.AttackEffect.BLUNT_HEAVY, true));
@@ -152,9 +161,6 @@ public class Nightmare extends AbstractMonster {
 			break;
 		}
 		AbstractDungeon.actionManager.addToBottom(new RollMoveAction(this));
-		if(this.hasPower("is_Reality_Shift")) {
-			this.getPower("is_Reality_Shift").amount = 50;
-		}
 	}
 
 }

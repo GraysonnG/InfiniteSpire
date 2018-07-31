@@ -6,26 +6,29 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
 import com.megacrit.cardcrawl.relics.SpiritPoop;
 
 import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 
 public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	
 	public String relicId;
+	public static final QuestType TYPE = QuestType.GREEN;
 
-	public FetchQuest(String id) {
-		super(id);
+	public FetchQuest(String id) throws MalformedQuestException {
+		super(id, TYPE);
 		
 		BaseMod.subscribe(this);
 		
 		relicId = this.id.split("-")[4];
 	}
 	
-	public FetchQuest() {
+	public FetchQuest() throws MalformedQuestException {
 		this(null);
 	}
 	
@@ -38,7 +41,8 @@ public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	protected String generateID() {
 		StringBuilder builder = new StringBuilder();
 		
-		AbstractRelic randRelic = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
+		AbstractRelic randRelic = returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
+		RelicLibrary.add(randRelic);
 		
 		randRelic = AbstractDungeon.miscRng.randomBoolean(0.02f) ? (new SpiritPoop()) : randRelic;
 		
@@ -51,6 +55,32 @@ public class FetchQuest extends Quest implements PostUpdateSubscriber{
 		builder.append("-" + this.getCost(randRelic.tier.toString()));
 		
 		return builder.toString();
+	}
+	
+	private static AbstractRelic returnRandomRelic(RelicTier tier) {
+		String key = Circlet.ID;
+		AbstractRelic retVal = new Circlet();
+		switch(tier) {
+		case BOSS:
+			key = AbstractDungeon.bossRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.bossRelicPool.size() - 1));
+			break;
+		case COMMON:
+			key = AbstractDungeon.commonRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.commonRelicPool.size() - 1));
+			break;
+		case RARE:
+			key = AbstractDungeon.rareRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.rareRelicPool.size() - 1));
+			break;
+		case UNCOMMON:
+			key = AbstractDungeon.uncommonRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.uncommonRelicPool.size() - 1));
+			break;
+		default:
+			key = Circlet.ID;
+			break;
+		}	
+		
+		retVal = RelicLibrary.getRelic(key);
+		
+		return retVal;
 	}
 
 	@Override

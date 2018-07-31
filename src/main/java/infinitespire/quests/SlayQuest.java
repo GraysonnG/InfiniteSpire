@@ -12,6 +12,7 @@ import com.megacrit.cardcrawl.monsters.city.*;
 import com.megacrit.cardcrawl.monsters.exordium.*;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.lang.MalformedQuestException;
 import infinitespire.util.StringManip;
 
 public class SlayQuest extends Quest{
@@ -21,13 +22,13 @@ public class SlayQuest extends Quest{
 	
 	public String monster;
 	
-	public SlayQuest(String uniqueQuestID) {
-		super(uniqueQuestID);
+	public SlayQuest(String uniqueQuestID) throws MalformedQuestException {
+		super(uniqueQuestID, QuestType.RED);
 		
 		this.monster = this.id.split("-")[4];
 	}
 	
-	public SlayQuest() {
+	public SlayQuest() throws MalformedQuestException {
 		this(null);
 	}
 
