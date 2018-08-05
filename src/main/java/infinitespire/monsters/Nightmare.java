@@ -49,10 +49,10 @@ public class Nightmare extends AbstractMonster {
 		this.dialogX = -160.0f * Settings.scale;
 		this.dialogY = 40f * Settings.scale;
 		this.img = InfiniteSpire.getTexture("img/monsters/nightmare/nightmare-1.png");
-		this.setHp(150);
+		this.setHp(250);
 		
 		this.attackDmg = 5;
-		this.slamDmg = 25;
+		this.slamDmg = 20;
 		this.blockCount = 20;
 		this.attackCount = 3;
 		
