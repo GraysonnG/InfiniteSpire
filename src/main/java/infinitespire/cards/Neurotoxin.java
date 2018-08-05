@@ -8,21 +8,22 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 
-import basemod.abstracts.CustomCard;
+import basemod.abstracts.DynamicVariable;
 
-public class Neurotoxin extends CustomCard {
+public class Neurotoxin extends Card {
 	
 	public static final String ID = "Neurotoxin";
 	public static final String NAME = "Neurotoxin";
-	public static final String DESCRIPTION = "Apply 2 Poison. NL Each time this card is played, permanently increase it's poison by !M!. NL Exhaust.";
+	public static final String DESCRIPTION = "Apply !M! Poison. NL Each time this card is played, permanently increase it's poison by !inf_P!. NL Exhaust.";
 	private static final int COST = 1;
+	private int poisonCreep;
 	
 	public Neurotoxin() {
 		super(ID, NAME, "img/cards/neurotoxin.png", COST, DESCRIPTION, CardType.SKILL, CardColor.GREEN, CardRarity.UNCOMMON, CardTarget.ENEMY);
-		
-		this.misc = 2;
-		this.baseMagicNumber = 2;
-		this.magicNumber = 2;
+		this.misc = 1;
+		this.baseMagicNumber = misc;
+		this.magicNumber = this.baseMagicNumber;
+		this.poisonCreep = 2;
 		this.exhaust = true;
 	}
 
@@ -30,36 +31,75 @@ public class Neurotoxin extends CustomCard {
 	public AbstractCard makeCopy() {
 		return new Neurotoxin();
 	}
+	
+	
+
+	@Override
+	public AbstractCard makeStatEquivalentCopy() {
+		Neurotoxin card = (Neurotoxin) super.makeStatEquivalentCopy();
+		card.poisonCreep = this.poisonCreep;
+		return card;
+	}
 
 	@Override
 	public void upgrade() {
 		if(!upgraded) {
-			this.upgradeMagicNumber(1);
+			this.poisonCreep = 3;
 			this.upgradeName();
+			this.updateDescription();
 		}
 	}
 	
 	public void updateDescription() {
-		this.rawDescription = "Apply " + this.misc + " Poison. NL Each time this card is played, permanently increase it's poison by !M!. NL Exhaust.";
 		this.initializeDescription();
 	}
 
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.cardID, this.misc, this.magicNumber));
+		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.cardID, this.misc, this.poisonCreep));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new PoisonPower(m, p, misc), misc));
 	}
 
 	@Override
-	public void applyPowers() {
-		super.applyPowers();
-		this.updateDescription();
-		
-	}
+    public void applyPowers() {
+        this.baseMagicNumber = misc;
+        this.magicNumber = this.baseMagicNumber;
+        super.applyPowers();
+        this.updateDescription();
+    }
+	
+	public static class PoisonVariable extends DynamicVariable {
 
-	@Override
-	public void calculateCardDamage(AbstractMonster arg0) {
-		super.calculateCardDamage(arg0);
-		this.updateDescription();
+		@Override
+		public int baseValue(AbstractCard card) {
+			if(card instanceof Neurotoxin) {
+				return ((Neurotoxin) card).poisonCreep;
+			}
+			return 0;
+		}
+
+		@Override
+		public boolean isModified(AbstractCard card) {
+			return false;
+		}
+
+		@Override
+		public String key() {
+			return "inf_P";
+		}
+
+		@Override
+		public boolean upgraded(AbstractCard card) {
+			return false;
+		}
+
+		@Override
+		public int value(AbstractCard card) {
+			if(card instanceof Neurotoxin) {
+				return ((Neurotoxin) card).poisonCreep;
+			}
+			return 0;
+		}
+		
 	}
 }

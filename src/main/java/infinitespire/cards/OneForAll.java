@@ -10,9 +10,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
-import basemod.abstracts.CustomCard;
-
-public class OneForAll extends CustomCard {
+public class OneForAll extends Card {
 	
 	public static final String ID = "OneForAll";
 	public static final String NAME = "One For All";
