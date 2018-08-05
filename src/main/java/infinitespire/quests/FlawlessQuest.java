@@ -2,6 +2,7 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 
 public class FlawlessQuest extends Quest {
@@ -12,7 +13,9 @@ public class FlawlessQuest extends Quest {
 
 	@Override
 	public void giveReward() {
-		AbstractDungeon.getCurrRoom().addRelicToRewards(RelicTier.RARE);
+		AbstractRelic relic = AbstractDungeon.returnRandomRelic(RelicTier.RARE);
+		relic.instantObtain();
+		relic.playLandingSFX();
 	}
 
 	@Override
@@ -22,7 +25,7 @@ public class FlawlessQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Receive a Random Rare Relic";
+		return "Receive a Rare Relic";
 	}
 
 	@Override

@@ -6,9 +6,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.AbstractCreature;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.monsters.beyond.*;
 import com.megacrit.cardcrawl.monsters.city.*;
 import com.megacrit.cardcrawl.monsters.exordium.*;
@@ -28,7 +26,6 @@ public class SlayQuest extends Quest {
 	private static final QuestType TYPE = QuestType.RED;
 	
 	public String monster;
-	public String relicId;
 	
 	public SlayQuest() {
 		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.COMMON);
@@ -44,8 +41,7 @@ public class SlayQuest extends Quest {
 	
 	@Override
 	public void giveReward() {
-		CardCrawlGame.sound.play("GOLD_GAIN");
-		AbstractRelic relic = RelicLibrary.getRelic(relicId);
+		AbstractRelic relic = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
 		relic.instantObtain();
 		relic.playLandingSFX();
 	}
@@ -143,7 +139,7 @@ public class SlayQuest extends Quest {
 	
 	@Override
 	public String getRewardString() {
-		return RelicLibrary.getRelic(this.relicId).name;
+		return "Recieve a Random Relic";
 	}
 
 	public int getCost(String string) {
@@ -163,7 +159,6 @@ public class SlayQuest extends Quest {
 		this.preInitialize();
 		this.monster = getRandomMonster();
 		this.maxSteps = isElite(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3;
-		this.relicId = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier()).relicId;
 		return this;
 	}
 
