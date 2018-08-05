@@ -106,5 +106,12 @@
 		"DESCRIPTIONS" : [
 			"Each time you play an attack card, you have a #b5% chance to gain #yCritical."
 		]
+	},
+	"Joker Card" : {
+		"NAME" : "Joker Card",
+		"FLAVOR" : "It could be anything!",
+		"DESCRIPTIONS" : [
+			"Every #b10th card you play is played twice."
+		]
 	}
 }
