@@ -309,7 +309,7 @@ public abstract class AbstractPerk {
 		
 		if(this.cost > AbstractDungeon.player.gold || !allowPurchase) color = Color.SALMON;
 			
-		FontHelper.renderFontLeftTopAligned(sb, FontHelper.tipHeaderFont, cost + "s", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
+		FontHelper.renderFontLeftTopAligned(sb, FontHelper.tipHeaderFont, cost + "g", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
 	}
 	
 	private Texture getTextureByState() {
