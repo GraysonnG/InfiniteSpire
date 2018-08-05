@@ -14,6 +14,7 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.Hitbox;
@@ -168,11 +169,11 @@ public abstract class AbstractPerk {
     		}
     	}
     	if(InputHelper.justClickedLeft) {
-	    	if(hitbox.hovered && this.state == PerkState.UNLOCKED && this.cost <= InfiniteSpire.points && allowClick && tree != PerkTreeColor.CURSED) {
+	    	if(hitbox.hovered && this.state == PerkState.UNLOCKED && this.cost <= AbstractDungeon.player.gold && allowClick && tree != PerkTreeColor.CURSED) {
 	    		CardCrawlGame.sound.play("UI_CLICK_1");
 	    		CardCrawlGame.sound.play("UNLOCK_PING");
 	        	this.state = PerkState.ACTIVE;
-	        	InfiniteSpire.points -= cost;
+	        	AbstractDungeon.player.loseGold(cost);
 	        	for(AbstractPerk child : this.children) {
 	        		child.state = PerkState.UNLOCKED;
 	        	}
@@ -306,7 +307,7 @@ public abstract class AbstractPerk {
 		Color color = Color.WHITE;
 		
 		
-		if(this.cost > InfiniteSpire.points || !allowPurchase) color = Color.SALMON;
+		if(this.cost > AbstractDungeon.player.gold || !allowPurchase) color = Color.SALMON;
 			
 		FontHelper.renderFontLeftTopAligned(sb, FontHelper.tipHeaderFont, cost + "s", xPos + TEXT_OFFSET_X, yPos + TEXT_OFFSET_Y, color);
 	}

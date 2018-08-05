@@ -7,26 +7,31 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.actions.GameActionManager;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
-import com.megacrit.cardcrawl.localization.EventStrings;
-import com.megacrit.cardcrawl.localization.MonsterStrings;
-import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.rooms.*;
+
 import basemod.BaseMod;
 import basemod.interfaces.*;
 import infinitespire.cards.*;
+import infinitespire.cards.black.FinalStrike;
+import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.events.*;
+import infinitespire.helpers.QuestHelper;
+import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.perks.AbstractPerk;
 import infinitespire.perks.AbstractPerk.*;
 import infinitespire.perks.blue.*;
 import infinitespire.perks.cursed.Timed;
 import infinitespire.perks.green.*;
 import infinitespire.perks.red.*;
-import infinitespire.quests.QuestLog;
+import infinitespire.quests.*;
 import infinitespire.relics.*;
 import infinitespire.screens.*;
 import infinitespire.util.TextureLoader;
@@ -37,23 +42,29 @@ import fruitymod.patches.AbstractCardEnum;
 
 @SuppressWarnings("deprecation")
 @SpireInitializer
-public class InfiniteSpire implements PostInitializeSubscriber, 
+public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
 	public static final String VERSION = "0.0.6";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
    
+	@SuppressWarnings("unused")
 	private static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
     public static HashMap<String, AbstractPerk> allPerks = new HashMap<String, AbstractPerk>();
     public static HashMap<String, AbstractPerk> allCurses = new HashMap<String, AbstractPerk>();
     
     public static QuestLog questLog = new QuestLog();
     
-    public static int points = 0;
     public static boolean isEndless = false;
     public static boolean shouldLoad = false;
    
     public static PerkScreen perkscreen = new PerkScreen();
     public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
+    
+    public static Color CARD_COLOR = new Color(0f,0f,0f,1f);
+    
+    public static String createID(String id) {
+    	return "infinitespire:" + id;
+    }
     
     private enum LoadType {
     	RELIC,
@@ -79,7 +90,6 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
 		
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
-		//BaseMod.addEvent(StrangeLightPillar.ID, StrangeLightPillar.class, BaseMod.EventPool.ANY);
     }
     
     @Override
@@ -121,7 +131,6 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	logger.info("InfiniteSpire | Saving Data...");
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
-			config.setInt("points", points);
 			config.setBool("isEndless", isEndless);
 			for(AbstractPerk perk : allPerks.values()) {
 				config.setString(perk.id, perk.state.toString());
@@ -131,7 +140,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			e.printStackTrace();
 		}
     	
-    	questLog.saveQuestLog();
+    	QuestHelper.saveQuestLog();
     }
     
     public static void clearData() {
@@ -147,9 +156,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     		}
     		logger.info(stringbuilder.toString());
     	}
-    	points = 0;
     	isEndless = false;
-    	questLog.clearQuestLog();
+    	QuestHelper.clearQuestLog();
     	saveData();
     }
     
@@ -168,7 +176,6 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 				}
 			}
 			isEndless = config.getBool("isEndless");
-			points = config.getInt("points");
 		
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -176,6 +183,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			clearData();
 		}
     	
+    	QuestHelper.loadQuestLog();
     }
 
     private static void initializeRelics() {
@@ -191,6 +199,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		RelicLibrary.add(new BlanksBlanky());
 		RelicLibrary.add(new LuckyRock());
 		RelicLibrary.add(new HolyWater());
+		RelicLibrary.add(new JokerCard());
 		
 		RelicLibrary.addBlue(new Freezer());
 		
@@ -228,15 +237,22 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
         //CURSES
         allCurses.put(Timed.ID, new Timed());
         
-        questLog.initializeQuestLog();
-        
+        QuestHelper.init();
         loadData();
     }
     
     private static void initializeCards() {
-    	logger.info("InfiniteSpire | Initializing cards...");
+    	BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK.toString(), CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, 
+				Color.BLACK.cpy(), CARD_COLOR, "img/cards/ui/512/boss-attack.png", "img/cards/ui/512/boss-skill.png",
+				"img/cards/ui/512/boss-power.png", "img/cards/ui/512/boss-orb.png", "img/cards/ui/1024/boss-attack.png", 
+				"img/cards/ui/1024/boss-skill.png", "img/cards/ui/1024/boss-power.png", "img/cards/ui/1024/boss-orb.png");
+    	
+    	logger.info("InfiniteSpire | Initializing dynamic variables...");
+    	BaseMod.addDynamicVariable(new Neurotoxin.PoisonVariable());
+    	logger.info("InfiniteSpire | Initializing cards...");    	
     	BaseMod.addCard(new OneForAll());
     	BaseMod.addCard(new Neurotoxin());
+    	BaseMod.addCard(new FinalStrike());
     }
   
     private static void initializeCrossoverRelics() {
@@ -286,6 +302,36 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		}
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for FruityMod...");
+		}
+	}
+
+	@Override
+	public void receivePostBattle(AbstractRoom room) {
+		if(room instanceof MonsterRoomBoss) {
+			if(!(GameActionManager.damageReceivedThisCombat > 0)) {
+				for(Quest q : questLog) {
+					if(q instanceof FlawlessQuest) {
+						q.incrementQuestSteps();
+					}
+				}
+			}
+			int amount = 3;
+			
+			if(InfiniteSpire.questLog.size() + amount > 7) {
+				amount -= (InfiniteSpire.questLog.size() + amount) - 7;
+			}
+			if(amount > 0)
+				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
+			
+			InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(amount));
+		}
+		
+		if(room instanceof MonsterRoomElite && GameActionManager.turn <= 1) {
+			for(Quest q : questLog) {
+				if(q instanceof OneTurnKillQuest) {
+					q.incrementQuestSteps();
+				}
+			}
 		}
 	}
 }

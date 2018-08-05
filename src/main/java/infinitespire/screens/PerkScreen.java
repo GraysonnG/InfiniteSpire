@@ -51,7 +51,6 @@ public class PerkScreen {
 		} else {
 			this.renderCursesAndPrices(sb);
 		}
-		this.renderAvailablePoints(sb);
 		
 		hitbox.render(sb);
 	}
@@ -88,9 +87,5 @@ public class PerkScreen {
 		for(AbstractPerk curses : InfiniteSpire.allCurses.values()) {
 			curses.render(sb, hasPurchasedCurse);
 		}
-	}
-	
-	public void renderAvailablePoints(SpriteBatch sb) {
-		FontHelper.renderFontLeftTopAligned(sb, FontHelper.bannerFont, "Silver: " + InfiniteSpire.points, 50f * Settings.scale, 825f * Settings.scale, Color.WHITE);
 	}
 }
