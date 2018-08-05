@@ -35,6 +35,7 @@ public class QuestHelper {
 		addQuestType(SlayQuest.class);
 		addQuestType(FlawlessQuest.class);
 		addQuestType(OneTurnKillQuest.class);
+		addQuestType(RemoveCardQuest.class);
 	}
 	
 	private static void addQuestType(Class<? extends Quest> type) {
@@ -50,15 +51,25 @@ public class QuestHelper {
 	
 	public static ArrayList<Quest> getRandomQuests(int amount) {
 		ArrayList<Quest> retVal = new ArrayList<Quest>();
+		int questsAdded = 0;
+		do {
+			Quest q = getRandomQuest();
+			boolean shouldAdd = true;
+			for(Quest rq : retVal) {
+				if(rq.id.equals(q.id)) {
+					shouldAdd = false;
+				}
+			}
+			if(shouldAdd) {
+				retVal.add(q);
+				questsAdded++;
+			}
+		}while(questsAdded < amount);
 		
-		for(int i = 0; i < amount; i++) {
-			retVal.add(getRandomQuest());
-		}
 		
 		return retVal;
 	}
-	
-	@Deprecated //this needs to be smarter about giving you the same shit over and over
+
 	public static Quest getRandomQuest() {
 		Quest retVal = null;
 		int roll = AbstractDungeon.miscRng.random(0, 99);
