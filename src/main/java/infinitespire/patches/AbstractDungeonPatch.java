@@ -14,10 +14,10 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
+
 import infinitespire.InfiniteSpire;
-import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.helpers.QuestHelper;
-import infinitespire.lang.MalformedQuestException;
 import infinitespire.quests.*;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
@@ -40,14 +40,6 @@ public class AbstractDungeonPatch {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//					try {
-//						Method overlayReset = SuperclassFinder.getSuperClassMethod(AbstractDungeon.class, "genericScreenOverlayReset");
-//						overlayReset.setAccessible(true);
-//						overlayReset.invoke(AbstractDungeon.class);
-//					} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//						e.printStackTrace();
-//					}
-			
 				AbstractDungeon.overlayMenu.hideBlackScreen();
 			}
 		}
@@ -93,7 +85,7 @@ public class AbstractDungeonPatch {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "generateMap")
 	public static class GenerateMap {
 									//SL:637 = 36 right now
-		@SpireInsertPatch(rloc = 36)// before AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
+		@SpireInsertPatch(rloc = 37)// after AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
 		public static void Insert() {
 			Settings.isEndless = InfiniteSpire.isEndless;
 			
@@ -106,20 +98,11 @@ public class AbstractDungeonPatch {
 		}
 		
 		private static void addInitialQuests() {
+			InfiniteSpire.logger.info("adding initial quests");
 			if(AbstractDungeon.floorNum <= 1 && InfiniteSpire.questLog.isEmpty()) {
-				InfiniteSpire.questLog.clear();
-				try {
-					InfiniteSpire.questLog.add(new EndlessQuestPart1());
-				} catch (MalformedQuestException e) {
-					e.printStackTrace();
-				}
+				InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
 				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
-				
-				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
-				
-				for(int j = 0; j < InfiniteSpire.questLog.size(); j ++) {
-					InfiniteSpire.logger.info((InfiniteSpire.questLog.get(j).getID()));
-				}
+				QuestHelper.saveQuestLog();
 			}
 		}
 		
@@ -144,24 +127,17 @@ public class AbstractDungeonPatch {
 			if(AbstractDungeon.bossCount < 1) return;
 			
 			int rand;
-			do {
-				rand = AbstractDungeon.mapRng.random(AbstractDungeon.map.size() - 1);
-			}while(isBanned(rand));
+			ArrayList<MapRoomNode> eliteNodes = new ArrayList<MapRoomNode>();
 			
-			ArrayList<MapRoomNode> row = AbstractDungeon.map.get(rand);
-			
-			int rand2 = AbstractDungeon.mapRng.random(row.size() -1);
-			
-			AbstractDungeon.map.get(rand).get(rand2).setRoom(new NightmareEliteRoom());
-			InfiniteSpire.logger.info("Inserting Nightmare Elite: " + rand + ", " + rand2);
-		}
-		
-		private static boolean isBanned(int num) {
-			int[] bannedIndexs = {0, 8, 14};
-			for(int i : bannedIndexs)
-				if(num==i)
-					return true;
-			return false;
+			for(ArrayList<MapRoomNode> rows : AbstractDungeon.map) {
+				for(MapRoomNode node : rows) {
+					if(node.room != null && node.room instanceof MonsterRoomElite) {
+						eliteNodes.add(node);
+					}
+				}
+			}
+			rand = AbstractDungeon.mapRng.random(eliteNodes.size() - 1);
+			eliteNodes.get(rand).setRoom(new NightmareEliteRoom());
 		}
 	}
 }

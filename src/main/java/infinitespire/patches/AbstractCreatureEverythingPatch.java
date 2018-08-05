@@ -33,7 +33,7 @@ public class AbstractCreatureEverythingPatch {
 		}
 	}
 	
-	@SpirePatch(cls="com.megacrit.cardcrawl.core.AbstractCreature", method="loseBlock")
+	@SpirePatch(cls="com.megacrit.cardcrawl.core.AbstractCreature", method="loseBlock", paramtypes = {"int", "boolean"})
 	public static class LoseBlock {
 		public static void Postfix(AbstractCreature creature, int amount, boolean noAnimation) {
 			if(creature instanceof AbstractPlayer) {
