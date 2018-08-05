@@ -1,37 +1,34 @@
 package infinitespire.quests;
 
-import com.badlogic.gdx.math.MathUtils;
-import com.megacrit.cardcrawl.actions.GameActionManager;
-import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import infinitespire.InfiniteSpire;
-import infinitespire.lang.MalformedQuestException;
+import infinitespire.helpers.QuestHelper;
 
 public class OneTurnKillQuest extends Quest {
+
+	private static final Color COLOR = new Color(1f, 0, 0.5f, 1.0f);
+	public int cost;
 	
-	public OneTurnKillQuest(String id) throws MalformedQuestException {
-		super(id, QuestType.RED);
-	}
-	
-	public OneTurnKillQuest() throws MalformedQuestException {
-		this(null);
-	}
-	
-	@Override
-	public void onEnemyKilled(AbstractCreature creature) {
-		AbstractMonster m = (AbstractMonster)creature;
-		if(GameActionManager.turn <= 1 && m.type == AbstractMonster.EnemyType.ELITE) {
-			this.incrementQuestSteps();
-		}
+	public OneTurnKillQuest() {
+		super(OneTurnKillQuest.class.getName(), COLOR, 1, QuestType.RED, QuestRarity.RARE);
 	}
 
 	@Override
-	protected String generateID() {
-		String retVal = OneTurnKillQuest.class.getName() + "-1-0-255,60,0-null";
-		retVal += "-" + getCost(""); 
-		return retVal;
+	public void giveReward() {
+		CardCrawlGame.sound.play("GOLD_GAIN");
+		AbstractDungeon.player.gainGold(cost);
+	}
+
+	@Override
+	public Quest createNew() {
+		this.cost = QuestHelper.makeRandomCost(300);
+		return this;
+	}
+
+	@Override
+	public String getRewardString() {
+		return this.cost + "g";
 	}
 
 	@Override
@@ -40,19 +37,7 @@ public class OneTurnKillQuest extends Quest {
 	}
 
 	@Override
-	public void giveReward() {
-		CardCrawlGame.sound.play("GOLD_GAIN");
-		InfiniteSpire.points += cost;
-	}
-
-	@Override
-	public String getRewardString() {
-		return cost + "s";
-	}
-
-	@Override
-	public int getCost(String s) {
-		return MathUtils.round(250f * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
-	}
-
+	public Quest getCopy() {
+		return new OneTurnKillQuest();
+	} 
 }

@@ -1,64 +1,53 @@
 package infinitespire.quests;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.monsters.beyond.*;
 import com.megacrit.cardcrawl.monsters.city.*;
 import com.megacrit.cardcrawl.monsters.exordium.*;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import infinitespire.InfiniteSpire;
-import infinitespire.lang.MalformedQuestException;
 import infinitespire.util.StringManip;
 
-public class SlayQuest extends Quest{
+public class SlayQuest extends Quest {
 	
 	private static HashMap<String, String> monsterMap = new HashMap<String, String>();
 	private static HashMap<String, String> eliteMap = new HashMap<String, String>();
 	
+	public static final String ID = SlayQuest.class.getName().toString();
+	private static final Color COLOR = new Color(1f, 0.1f, 0.1f, 1f);
+	private static final int MAX_STEPS = 999;
+	private static final QuestType TYPE = QuestType.RED;
+	
 	public String monster;
+	public String relicId;
 	
-	public SlayQuest(String uniqueQuestID) throws MalformedQuestException {
-		super(uniqueQuestID, QuestType.RED);
-		
-		this.monster = this.id.split("-")[4];
-	}
-	
-	public SlayQuest() throws MalformedQuestException {
-		this(null);
+	public SlayQuest() {
+		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.COMMON);
+		this.preInitialize();
 	}
 
 	public void onEnemyKilled(AbstractCreature creature) {
-		
 		if(creature.id.equals(this.monster)) {
 			this.incrementQuestSteps();
-			InfiniteSpire.logger.info(this.getID());
+			InfiniteSpire.logger.info(this.monster);
 		}
-		
 	}
-
-	@Override
-	protected String generateID() {
-		StringBuilder builder = new StringBuilder();
-		String monster = getRandomMonster();
-		
-		builder.append(Quest.createIDWithoutData(
-				SlayQuest.class.getName(), 
-				(isElite(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3), 0, Color.red));
-		
-		builder.append("-" + monster);
-		builder.append("-" + getCost(monster));
-		
-		return builder.toString();
-	}
+	
 	@Override
 	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");
-		InfiniteSpire.points += cost;
+		AbstractRelic relic = RelicLibrary.getRelic(relicId);
+		relic.instantObtain();
+		relic.playLandingSFX();
 	}
 	
 	private static String getRandomMonster() {
@@ -86,10 +75,7 @@ public class SlayQuest extends Quest{
 		return false;
 	}
 	
-	@Override
 	protected void preInitialize() {
-		//if(monsterMap.size() <= 0 || eliteMap.size() <= 0);
-		
 		
 		if(monsterMap.size() <= 0 || eliteMap.size() <= 0) {
 			monsterMap.clear();
@@ -138,7 +124,7 @@ public class SlayQuest extends Quest{
 			
 			//ELITES IN THEBEYOND
 			eliteMap.put(GiantHead.ID, "Giant Head");
-			eliteMap.put(Nemesis.ID, "Nemisis");
+			eliteMap.put(Nemesis.ID, "Nemesis");
 			eliteMap.put(SpireGrowth.ID, "Spire Growth");
 			eliteMap.put(Transient.ID, "Transient");
 		}
@@ -147,19 +133,19 @@ public class SlayQuest extends Quest{
 	@Override
 	public String getTitle() {
 		HashMap<String, String> map = monsterMap;
+		
 		if(isElite(monster)) {
 			map = eliteMap;
 		}
 		
-		return "Kill " + this.maxQuestSteps + " " + (this.maxQuestSteps > 1 ? StringManip.pluralOfString(map.get(monster)) : map.get(monster));
+		return "Kill " + this.maxSteps + " " + (this.maxSteps > 1 ? StringManip.pluralOfString(map.get(monster)) : map.get(monster));
 	}
 	
 	@Override
 	public String getRewardString() {
-		return "" + this.cost + "s";
+		return RelicLibrary.getRelic(this.relicId).name;
 	}
 
-	@Override
 	public int getCost(String string) {
 		int silverGain = 0;
 		if(isElite(string)) {
@@ -170,5 +156,19 @@ public class SlayQuest extends Quest{
 		}
 		
 		return MathUtils.round(silverGain * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
+	}
+
+	@Override
+	public Quest createNew() {
+		this.preInitialize();
+		this.monster = getRandomMonster();
+		this.maxSteps = isElite(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3;
+		this.relicId = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier()).relicId;
+		return this;
+	}
+
+	@Override
+	public Quest getCopy() {
+		return new SlayQuest();
 	}
 }

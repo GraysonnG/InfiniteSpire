@@ -39,6 +39,7 @@ public class QuestLogScreen {
 			Quest quest = gameQuestLog.get(i);
 			renderQuest(i, sb, quest);
 			if(quest.shouldRemove()) {
+				quest.giveReward();
 				gameQuestLog.remove(i);
 			}
 		}
@@ -46,11 +47,7 @@ public class QuestLogScreen {
 		float perksX = 980f * Settings.scale;
 		float perksY = Settings.HEIGHT - (400f * Settings.scale);
 		
-		float silverX = Settings.WIDTH / 4f;
-		float silverY = Settings.HEIGHT - (250f * Settings.scale);
-		
 		renderPerks(sb, perksX, perksY);
-		renderSilver(sb, silverX, silverY);
 		justClicked = false;
 	}
 
@@ -69,6 +66,7 @@ public class QuestLogScreen {
 		AbstractDungeon.overlayMenu.hideCombatPanels();
 		AbstractDungeon.overlayMenu.cancelButton.show("Done.");
 		AbstractDungeon.isScreenUp = true;
+		this.gameQuestLog = InfiniteSpire.questLog;
 		if (MathUtils.randomBoolean()) {
             CardCrawlGame.sound.play("MAP_OPEN", 0.1f);
         }
@@ -91,10 +89,6 @@ public class QuestLogScreen {
         else {
             CardCrawlGame.sound.play("MAP_OPEN_2", 0.1f);
         }
-	}
-	
-	private void renderSilver(SpriteBatch sb, float xPos, float yPos) {
-		FontHelper.renderFontLeftTopAligned(sb, FontHelper.bannerFont, "Silver: " + InfiniteSpire.points, xPos, yPos, Color.WHITE);
 	}
 	
 	public void renderPerks(SpriteBatch sb, float xPos, float yPos) {
@@ -121,7 +115,7 @@ public class QuestLogScreen {
 		tempHitbox.update(xPos + (10f * Settings.scale), yPos + (10f * Settings.scale));
 		
 		//Render the base Quest texutre in the color of the quest
-		sb.setColor(quest.getColor());
+		sb.setColor(quest.color);
 		sb.draw(InfiniteSpire.getTexture("img/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		sb.setColor(Color.WHITE);
 		
@@ -146,8 +140,7 @@ public class QuestLogScreen {
 			//Onclick action
 			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, (quest.isCompleted() ? "Claim: " : "Reward: ") + quest.getRewardString(), xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
 			if(justClicked && quest.isCompleted() && tempHitbox.hovered) {
-				quest.giveReward();
-				quest.setRemove(true);
+				quest.removeQuest();;
 			}
 		}
 		
@@ -176,56 +169,6 @@ public class QuestLogScreen {
 	        sb.draw(ImageMaster.HB_SHADOW_R, xPos + fullWidth * quest.getCompletionPercentage(), yPos, hbSize, hbSize);
         }
        
-        FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, quest.getCompletionString(), xPos + fullWidth / 2f, yPos + (10 * Settings.scale), Color.WHITE);
+        FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, quest.currentSteps + "/" + quest.maxSteps, xPos + fullWidth / 2f, yPos + (10 * Settings.scale), Color.WHITE);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,46 +1,29 @@
 package infinitespire.quests;
 
-import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+
 import infinitespire.InfiniteSpire;
-import infinitespire.lang.MalformedQuestException;
+import infinitespire.monsters.Nightmare;
 
-public class EndlessQuestPart1 extends Quest {
-
-	private static final QuestType TYPE = QuestType.BLUE;
-	/**
-	 * This is a temporary solution to enable endless
-	 * @throws MalformedQuestException 
-	 */
-	public EndlessQuestPart1() throws MalformedQuestException {
-		super(EndlessQuestPart1.class.getName() + "-1-0-255,100,255-null-0", TYPE);
-	}
-	
-	public EndlessQuestPart1(String questID) throws MalformedQuestException {
-		this();
-	}
-
-	@Override
-	protected String generateID() {
-		return EndlessQuestPart1.class.getName() + "-1-0-255,100,255-null-0";
+public class EndlessQuestPart1 extends SlayQuest {
+	public EndlessQuestPart1() {
+		this.id = EndlessQuestPart1.class.getName();
+		this.color = new Color(0.75f, 0.0f, 1.0f, 1.0f);
+		this.type = QuestType.BLUE;
+		this.rarity = QuestRarity.SPECIAL;
+		this.maxSteps = 1;
+		this.monster = Nightmare.ID;
 	}
 
 	@Override
 	public void giveReward() {
 		Settings.isEndless = true;
 		InfiniteSpire.isEndless = true;
-		//add the next quest in the questline
+		AbstractDungeon.topPanel.setPlayerName();
 		CardCrawlGame.sound.play("UNLOCK_PING");
-	}
-	
-	public void onEnemyKilled(AbstractCreature creature) {
-		
-		if(creature.id.equalsIgnoreCase("Nightmare")) {
-			InfiniteSpire.logger.info(creature.id);
-			this.incrementQuestSteps();
-			InfiniteSpire.logger.info(this.questSteps);
-		}
 	}
 
 	@Override
@@ -54,7 +37,12 @@ public class EndlessQuestPart1 extends Quest {
 	}
 
 	@Override
-	public int getCost(String s) {
-		return 0;
+	public Quest getCopy() {
+		return new EndlessQuestPart1();
 	}
+
+	@Override
+	public Quest createNew() {/*NOP*/ return this;}
+	
+	
 }

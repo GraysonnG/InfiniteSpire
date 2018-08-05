@@ -1,31 +1,35 @@
 package infinitespire.quests;
 
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
-import infinitespire.InfiniteSpire;
-import infinitespire.lang.MalformedQuestException;
 
 public class DieQuest extends Quest {
 
-	public static final QuestType TYPE = QuestType.BLUE;
-	
-	public DieQuest(String questID) throws MalformedQuestException {
-		super(questID, TYPE);
-	}
-	
-	public DieQuest() throws MalformedQuestException {
-		this(null);
+	public static final String ID = DieQuest.class.getName().toString();
+	private static final Color COLOR = new Color(0.25f, 0.25f, 0.25f, 1f);
+	private static final QuestType TYPE = QuestType.BLUE;
+	private static final int MAX_STEPS = 1;
+
+	public DieQuest() {
+		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.RARE);
 	}
 	
 	@Override
-	protected String generateID() {
-		String id = DieQuest.class.getName() + "-1-0-100,100,100-null";
-		id += "-" + getCost("");
-		return id;
+	public boolean autoClaim() {
+		return true;
+	}
+
+	@Override
+	public void giveReward() {
+		AbstractPlayer p = AbstractDungeon.player;
+		AbstractDungeon.actionManager.addToBottom(new HealAction(p, p, (int)(p.maxHealth / 4f)));
+	}
+
+	@Override
+	public String getRewardString() {
+		return "Heal 25% max HP.";
 	}
 
 	@Override
@@ -34,27 +38,16 @@ public class DieQuest extends Quest {
 	}
 
 	@Override
-	public void giveReward() {
-		CardCrawlGame.sound.play("GOLD_GAIN");
-		InfiniteSpire.points += cost;
-		
-		AbstractPlayer p = AbstractDungeon.player;
-		
-		AbstractDungeon.actionManager.addToTop(new HealAction(p, p, (p.maxHealth / 4)));
+	public Quest createNew() {
+		return this;
 	}
 
 	@Override
-	public String getRewardString() {
-		return this.cost + "s" + " & Heal 25%" ;
-	}
-
-	@Override
-	public int getCost(String s) {
-		return MathUtils.round(1000 * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
+	public Quest getCopy() {
+		return new DieQuest();
 	}
 
 	public void onPlayerDie() {
 		this.incrementQuestSteps();
 	}
-
 }

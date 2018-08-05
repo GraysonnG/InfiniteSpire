@@ -1,212 +1,101 @@
 package infinitespire.quests;
 
-import java.awt.Color;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
-import com.megacrit.cardcrawl.relics.SpiritPoop;
-
 import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
-import infinitespire.InfiniteSpire;
-import infinitespire.lang.MalformedQuestException;
+import infinitespire.helpers.QuestHelper;
 
 public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	
-	public String relicId;
-	public static final QuestType TYPE = QuestType.GREEN;
-
-	public FetchQuest(String id) throws MalformedQuestException {
-		super(id, TYPE);
-		
+	public static final String ID = FetchQuest.class.getName().toString();
+	private static final Color COLOR = new Color(0f, 0.75f, 1f, 1f);
+	private static final QuestType TYPE = QuestType.GREEN;
+	private static final int MAX_STEPS = 1;
+	public int cost;
+	public transient AbstractRelic relic;
+	public String relicID;
+	
+	
+	public FetchQuest() {
+		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.COMMON);
 		BaseMod.subscribe(this);
-		
-		relicId = this.id.split("-")[4];
-	}
-	
-	public FetchQuest() throws MalformedQuestException {
-		this(null);
 	}
 	
 	@Override
-	protected void preInitialize() {
-	
-	}
-
-	@Override
-	protected String generateID() {
-		StringBuilder builder = new StringBuilder();
-		
-		AbstractRelic randRelic = returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
-		RelicLibrary.add(randRelic);
-		
-		randRelic = AbstractDungeon.miscRng.randomBoolean(0.02f) ? (new SpiritPoop()) : randRelic;
-		
-		String relicID = this.filterRelicID(randRelic.relicId);
-		this.relicId = relicID;
-		
-		
-		builder.append(Quest.createIDWithoutData(this.getClass().getName(), 1, 0, Color.CYAN));
-		builder.append("-" + relicID);
-		builder.append("-" + this.getCost(randRelic.tier.toString()));
-		
-		return builder.toString();
-	}
-	
-	private static AbstractRelic returnRandomRelic(RelicTier tier) {
-		String key = Circlet.ID;
-		AbstractRelic retVal = new Circlet();
-		switch(tier) {
-		case BOSS:
-			key = AbstractDungeon.bossRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.bossRelicPool.size() - 1));
-			break;
-		case COMMON:
-			key = AbstractDungeon.commonRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.commonRelicPool.size() - 1));
-			break;
-		case RARE:
-			key = AbstractDungeon.rareRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.rareRelicPool.size() - 1));
-			break;
-		case UNCOMMON:
-			key = AbstractDungeon.uncommonRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.uncommonRelicPool.size() - 1));
-			break;
-		default:
-			key = Circlet.ID;
-			break;
-		}	
-		
-		retVal = RelicLibrary.getRelic(key);
-		
-		return retVal;
+	public void receivePostUpdate() {
+		if(!this.isCompleted() && AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(this.relicID)) {
+			this.incrementQuestSteps();
+		}
 	}
 
 	@Override
 	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");
-		InfiniteSpire.points += cost;
+		AbstractDungeon.player.gainGold(cost);
 	}
 
 	@Override
 	public String getTitle() {
-		return "Obtain " + RelicLibrary.getRelic(unFilterRelicID(relicId)).name;
+		if(this.relic == null && this.relicID != null) {
+			this.relic = RelicLibrary.getRelic(relicID);
+		}
+		
+		return "Obtain " + relic.name;
 	}
 
 	@Override
 	public String getRewardString() {
-		return this.cost + "s";
+		return this.cost + "g";
 	}
 
-	@Override
-	public int getCost(String string) {
-		int silverGain = 0;
+	public int getCost(RelicTier tier) {
+		int goldGain = 0;
 		
-		switch(string) {
+		switch(tier) {
 			
-		case "COMMON":
-			silverGain = 100;
+		case COMMON:
+			goldGain = 75;
 			break;
-		case "UNCOMMON":
-			silverGain = 200;
+		case UNCOMMON:
+			goldGain = 150;
 			break;
-		case "RARE":
-			silverGain = 300;
+		case RARE:
+			goldGain = 225;
 			break;
-		case "SPECIAL":
+		case SPECIAL:
 			return 1; 
-		case "BOSS":
-		case "SHOP":
-		case "STARTER":
+		case BOSS:
+		case SHOP:
+		case STARTER:
 		default:
-			silverGain = 100;
-			break;
-		
+			goldGain = 75;
+			break;		
+		}
+
+		if(relic.relicId.equals(Circlet.ID)) {
+			goldGain = 50;
 		}
 		
-		if(relicId.equals(Circlet.ID)) {
-			silverGain = 50;
-		}
-		
-		silverGain = MathUtils.round(silverGain * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
-		return silverGain;
+		goldGain = QuestHelper.makeRandomCost(goldGain);
+		return goldGain;
 	}
 
 	@Override
-	public void receivePostUpdate() {
-		if(!this.isCompleted() && AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(unFilterRelicID(this.relicId))) {
-			this.incrementQuestSteps();
-		}
+	public Quest createNew() {
+		this.relic = QuestHelper.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
+		this.relicID = relic.relicId;
+		this.cost = this.getCost(relic.tier);
+		return this;
 	}
-	
-	private String unFilterRelicID(String relicID) {
-		String retVal = relicID;
-		
-		for(AbstractRelic relic : RelicLibrary.blueList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.redList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.greenList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.bossList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.rareList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.uncommonList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.commonList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.shopList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		for(AbstractRelic relic : RelicLibrary.specialList) {
-			if(relicID.equals(filterRelicID(relic.relicId))) {
-				return relic.relicId;
-			}
-		}
-		
-		
-		return retVal;
-	}
-	
-	private String filterRelicID(String relicID) {
-		String retVal = "" + relicID;
-		
-		retVal.replace("-", "_");
-		retVal.replace(":", "|");
-		
-		return retVal;
+
+	@Override
+	public Quest getCopy() {
+		return new FetchQuest();
 	}
 }

@@ -1,176 +1,95 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
-import infinitespire.InfiniteSpire;
-import infinitespire.lang.*;
 import infinitespire.effects.QuestLogUpdateEffect;
 
 public abstract class Quest {
-	protected int questSteps, maxQuestSteps;
-	private Texture img;
-	protected String id;
-	public int cost;
-	@SuppressWarnings("unused")
-	private String classString;
-	private Color color;
-	private boolean completed = false;
-	private boolean remove = false;
-	public final QuestType type;
+	
+	public String id;
+	public int maxSteps, currentSteps;
+	public Color color;
+	public QuestType type;
+	public QuestRarity rarity;
+	
+	private boolean completed, remove;
+	
 	public enum QuestType {
 		RED,
-		GREEN,
-		BLUE
+		BLUE,
+		GREEN
 	}
 	
-	public Quest(String id, QuestType type) throws MalformedQuestException {
+	public enum QuestRarity {
+		COMMON,
+		RARE,
+		SPECIAL
+	}
+	
+	public Quest(String id, Color color, int steps, QuestType type, QuestRarity rarity) {
+		this.id = id;
+		this.color = color;
+		this.maxSteps = steps;
 		this.type = type;
-		this.preInitialize();
-		if(id != null && !id.equals("")) {
-			this.id = id;
-		}else {
-			this.id = this.generateID();
-			InfiniteSpire.logger.info(this.id);
-		}
-		if(this.id == null) return;
-		
-		String[] data = this.id.split("-");
-		
-		if(data.length != 6) throw new MalformedQuestException();
-		
-		this.classString = data[0];
-		this.maxQuestSteps = Integer.parseInt(data[1]);
-		this.questSteps = Integer.parseInt(data[2]);
-		String[] colorData = data[3].split(",");
-		
-		this.color = new Color(Integer.parseInt(colorData[0]) / 255f, Integer.parseInt(colorData[1]) / 255f, Integer.parseInt(colorData[2]) / 255f, 1f);
-		
-		this.cost = Integer.parseInt(data[5]);
-		
-		if(this.questSteps >= this.maxQuestSteps) {
+		this.rarity = rarity;
+		this.completed = false;
+		this.remove = false;
+	}
+	/**
+	 * This is called when the player clicks on a quest in the log or when the quest log looks for completed auto complete quests.
+	 */
+	public abstract void giveReward();
+	/**
+	 * This is called immediatly after the quests constructor is called and is used to generate unique data for the quest.
+	 * @return this
+	 */
+	public abstract Quest createNew();
+	/**
+	 * @return A string that is written after "Reward:" or "Claim:" on the quests in the quest log
+	 */
+	public abstract String getRewardString();
+	/**
+	 * @return The title of the quest.
+	 */
+	public abstract String getTitle();
+	
+	/**
+	 * 
+	 * @return a copy of the quest without any data attatched to it.
+	 */
+	@Deprecated
+	public abstract Quest getCopy();
+	
+	public void incrementQuestSteps() {
+		this.currentSteps++;
+		if(this.currentSteps >= this.maxSteps) {
 			this.completed = true;
+			AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 		}
 	}
 	
 	/**
-	 * Returns a string of the following format:<br>
-	 * CLASS_NAME-AMOUNT_OF_STEPS-COMPLETED_STEPS-COLOR_IN_RGB-DATA-COST
-	 * <br>
-	 * <br>
-	 * Example:<br>
-	 * SlayQuest-5-0-100-255,255,255-Byrd-235
-	 * <br>
-	 * <br>
-	 * Example2:<br> 
-	 * EndlessQuest-1-0-300-255,0,255-false-124
-	 * @return theID of the object
+	 * Override this to be true on quests that you want to auto-complete
+	 * @return True if the quest should auto-complete
 	 */
-	protected abstract String generateID();
-	
-	public abstract String getTitle();
-	
-	public abstract void giveReward();
-	
-	public abstract String getRewardString();
-	
-	public abstract int getCost(String s);
-	
-	protected void preInitialize() {}
-	
-	public static String createIDWithoutData(String className, int maxSteps, int steps, java.awt.Color color) {
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append(className);
-		builder.append("-" + maxSteps);
-		builder.append("-" + steps);
-		builder.append("-" + color.getRed() + "," + color.getGreen() + "," + color.getBlue());
-		
-		return builder.toString();
+	public boolean autoClaim() {
+		return false;
 	}
-	
-	public void setID(String id) {
-		this.id = id;
-	}
-	
-	public String getID() {
-		String retVal = "";
-		
-		String[] data = id.split("-");
-		retVal += data[0];
-		for(int i = 1; i < data.length; i ++) {
-			if(i == 2) {
-				retVal += "-" + this.questSteps;
-			}else {
-				retVal += "-" + data[i];
-			}
-		}
-		
-		return retVal;
+
+	public float getCompletionPercentage() {
+		return (float) currentSteps / (float) maxSteps;
 	}
 	
 	public boolean isCompleted() {
 		return completed;
 	}
 	
+	public void removeQuest() {
+		remove = true;
+	}
+	
 	public boolean shouldRemove() {
-		return this.remove;
+		return remove;
 	}
-	
-	public void setRemove(boolean set) {
-		this.remove = set;
-	}
-	
-	public Texture getImage() {
-		return img;
-	}
-
-	public Color getColor() {
-		return this.color;
-	}
-	
-	public float getCompletionPercentage() {
-		return (float)this.questSteps / (float)this.maxQuestSteps;
-	}
-	
-	public String getCompletionString() {
-		return this.questSteps + "/" + this.maxQuestSteps;
-	}
-	
-	public void saveData() {
-		
-	}
-	
-	public void incrementQuestSteps() {
-		this.questSteps++;
-		if(this.questSteps == this.maxQuestSteps) {
-			InfiniteSpire.logger.info("Quest Completed:" + this.getID());
-			this.completed = true;
-			AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
-		}
-	}
-
-	public void onEnemyKilled(AbstractCreature creature) {
-		
-	}
-
-	public void onRelicRecieved(AbstractRelic relic) {
-	
-	}
-
-	public void onRoomEntered(AbstractRoom room) {
-		
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		String[] objData = ((Quest) obj).getID().split("-");
-		String[] thisData = this.getID().split("-");
-		
-		return (objData[0].equals(thisData[0]) && objData[4].equals(thisData[4]));
-	}	
 }
