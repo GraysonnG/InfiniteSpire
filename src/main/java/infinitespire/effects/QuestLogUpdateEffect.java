@@ -21,7 +21,7 @@ public class QuestLogUpdateEffect extends AbstractGameEffect{
 	public QuestLogUpdateEffect() {
 		this.scale = Settings.scale;
 		this.color = new Color(1f, 1f, 1f, 1f);
-		this.texture = InfiniteSpire.getTexture("img/vfx/updateRing.png");
+		this.texture = InfiniteSpire.getTexture("img/infinitespire/vfx/updateRing.png");
 		this.x = Settings.WIDTH - ((256f + 32f) * Settings.scale) - ((10.0f * Settings.scale) * 4f);
 		this.y = Settings.HEIGHT - ((64f + 32f) * Settings.scale);
 		this.duration = EFFECT_DUR;

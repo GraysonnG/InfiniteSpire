@@ -3,6 +3,7 @@ package infinitespire.relics;
 import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
@@ -12,10 +13,13 @@ import infinitespire.InfiniteSpire;
 
 public abstract class Relic extends AbstractRelic {
 	
+	@SpireEnum
+	public static RelicTier QUEST;
+	
 	public Relic(String setId, String textureID, RelicTier tier, LandingSound sfx) {
 		super(setId, "", tier, sfx);
-		Texture texture = InfiniteSpire.getTexture("img/relics/" + textureID + ".png");
-		Texture outline = InfiniteSpire.getTexture("img/relics/" + textureID + "-outline.png");
+		Texture texture = InfiniteSpire.getTexture("img/infinitespire/relics/" + textureID + ".png");
+		Texture outline = InfiniteSpire.getTexture("img/infinitespire/relics/" + textureID + "-outline.png");
 		img = texture;
 		largeImg = texture;
 		outlineImg = outline;

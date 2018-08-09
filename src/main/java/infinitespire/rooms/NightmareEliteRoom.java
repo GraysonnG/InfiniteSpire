@@ -13,8 +13,8 @@ public class NightmareEliteRoom extends MonsterRoomElite {
 		super();
 		this.mapSymbol = "NM";
 		this.phase = RoomPhase.COMBAT;
-		this.mapImg = InfiniteSpire.getTexture("img/ui/map/nightmareelite.png");
-		this.mapImgOutline = InfiniteSpire.getTexture("img/ui/map/nightmareelite-outline.png");
+		this.mapImg = InfiniteSpire.getTexture("img/infinitespire/ui/map/nightmareelite.png");
+		this.mapImgOutline = InfiniteSpire.getTexture("img/infinitespire/ui/map/nightmareelite-outline.png");
 		this.eliteTrigger = true;
 	}
 	

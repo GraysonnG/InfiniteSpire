@@ -36,7 +36,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 	}
 	
 	public EmptyRestSite() {
-		super("Empty Rest Site", DESCRIPTIONS[0], "img/events/emptyrestsite.jpg");
+		super("Empty Rest Site", DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
 		
 		this.healAmount = (int)(AbstractDungeon.player.maxHealth * 0.3f);
 		if(AbstractDungeon.player.hasRelic("Regal Pillow")) {

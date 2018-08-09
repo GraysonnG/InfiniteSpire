@@ -18,7 +18,7 @@ public class OneForAll extends Card {
 	private static final int COST = 1;
 	
 	public OneForAll() {
-		super(ID, NAME, "img/cards/oneforall.png", COST, DESCRIPTION, CardType.ATTACK, CardColor.RED, CardRarity.UNCOMMON, CardTarget.ENEMY);
+		super(ID, NAME, "img/infinitespire/cards/oneforall.png", COST, DESCRIPTION, CardType.ATTACK, CardColor.RED, CardRarity.UNCOMMON, CardTarget.ENEMY);
 		this.misc = 2;
 		this.baseMagicNumber = 2;
 		this.magicNumber = 2;

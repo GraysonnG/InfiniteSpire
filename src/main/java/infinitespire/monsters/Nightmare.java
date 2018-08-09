@@ -48,7 +48,7 @@ public class Nightmare extends AbstractMonster {
 		this.type = EnemyType.ELITE;
 		this.dialogX = -160.0f * Settings.scale;
 		this.dialogY = 40f * Settings.scale;
-		this.img = InfiniteSpire.getTexture("img/monsters/nightmare/nightmare-1.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-1.png");
 		this.setHp(250);
 		
 		this.attackDmg = 5;
@@ -133,7 +133,7 @@ public class Nightmare extends AbstractMonster {
 				if(textureIndex > 2) {
 					textureIndex = 0;
 				}
-				this.img = InfiniteSpire.getTexture("img/monsters/nightmare/nightmare-"+ (textureIndex + 1) +".png");
+				this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-"+ (textureIndex + 1) +".png");
 			}
 		}
 	}

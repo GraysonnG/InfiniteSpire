@@ -29,8 +29,8 @@ public class QuestLogButton {
 		sb.setColor(Color.WHITE);
 		
 		Texture texture = isEnabled ? 
-				InfiniteSpire.questLog.hasUpdate ? InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon-alert.png") : InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon.png") : 
-				InfiniteSpire.questLog.hasUpdate ? InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon-disabled-alert.png") : InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon-disabled.png");
+				InfiniteSpire.questLog.hasUpdate ? InfiniteSpire.getTexture("img/infinitespire/ui/topPanel/questLogIcon-alert.png") : InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon.png") : 
+				InfiniteSpire.questLog.hasUpdate ? InfiniteSpire.getTexture("img/infinitespire/ui/topPanel/questLogIcon-disabled-alert.png") : InfiniteSpire.getTexture("img/ui/topPanel/questLogIcon-disabled.png");
 		
 		if(AbstractDungeon.screen != AbstractDungeon.CurrentScreen.MAP) {
 			sb.draw(texture, xPos - padding, yPos, size / 2f, size / 2f, size, size, 1f, 1f, rotation, 0, 0, 64, 64, false, false);
@@ -62,18 +62,74 @@ public class QuestLogButton {
 			CardCrawlGame.sound.play("UI_HOVER");
 		}
 		
-		if(hb.hovered && InputHelper.justClickedLeft && isEnabled) {
-			onClick();
-		}
-		
-		isEnabled = true;
-		
-		if(AbstractDungeon.isScreenUp) {
-			if(AbstractDungeon.screen != ScreenStatePatch.QUEST_LOG_SCREEN) {
-				isEnabled = false;
-			} else {
-				isEnabled = true;
-			}
+		boolean clickedQuestLogButton = hb.hovered && InputHelper.justClickedLeft;
+		if(clickedQuestLogButton && !CardCrawlGame.isPopupOpen) {
+			if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.COMBAT_REWARD) {
+	            AbstractDungeon.closeCurrentScreen();
+	            InfiniteSpire.questLogScreen.openedDuringReward = true;
+	            InfiniteSpire.questLogScreen.open();
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.COMBAT_REWARD;
+	        }
+	        else if (!AbstractDungeon.isScreenUp) {
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN) {
+	            if (InfiniteSpire.questLogScreen.openedDuringReward) {
+	                InfiniteSpire.questLogScreen.openedDuringReward = false;
+	                AbstractDungeon.combatRewardScreen.reopen();
+	            }
+	            else {
+	                AbstractDungeon.closeCurrentScreen();
+	                InfiniteSpire.questLogScreen.close();
+	            }
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.DEATH) {
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.DEATH;
+	            AbstractDungeon.deathScreen.hide();
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.BOSS_REWARD) {
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.BOSS_REWARD;
+	            AbstractDungeon.bossRelicScreen.hide();
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.SHOP) {
+	            AbstractDungeon.overlayMenu.cancelButton.hide();
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.SHOP;
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP && !AbstractDungeon.dungeonMapScreen.dismissable) {
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.MAP;
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.SETTINGS || AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MAP) {
+	            if (AbstractDungeon.previousScreen != null) {
+	                AbstractDungeon.screenSwap = true;
+	            }
+	            AbstractDungeon.closeCurrentScreen();
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.INPUT_SETTINGS && clickedQuestLogButton) {
+	            if (AbstractDungeon.previousScreen != null) {
+	                AbstractDungeon.screenSwap = true;
+	            }
+	            AbstractDungeon.closeCurrentScreen();
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.CARD_REWARD) {
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.CARD_REWARD;
+	            AbstractDungeon.dynamicBanner.hide();
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.GRID) {
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.GRID;
+	            AbstractDungeon.gridSelectScreen.hide();
+	            InfiniteSpire.questLogScreen.open();
+	        }
+	        else if (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.HAND_SELECT) {
+	            AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.HAND_SELECT;
+	            InfiniteSpire.questLogScreen.open();
+	        }
 		}
 	}
 	

@@ -18,7 +18,7 @@ public class CriticalPower extends AbstractPower {
 		this.amount = -1;
 		this.name = "Critical";
 		this.ID = "is_CritPower";
-		this.img = InfiniteSpire.getTexture("img/powers/crit.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/crit.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 	}
