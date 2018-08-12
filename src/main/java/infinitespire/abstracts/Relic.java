@@ -1,9 +1,9 @@
-package infinitespire.relics;
+package infinitespire.abstracts;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.evacipated.cardcrawl.modthespire.lib.SpireEnum;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
@@ -13,8 +13,7 @@ import infinitespire.InfiniteSpire;
 
 public abstract class Relic extends AbstractRelic {
 	
-	@SpireEnum
-	public static RelicTier QUEST;
+	public static ArrayList<Relic> questRelics = new ArrayList<Relic>();
 	
 	public Relic(String setId, String textureID, RelicTier tier, LandingSound sfx) {
 		super(setId, "", tier, sfx);
@@ -25,6 +24,14 @@ public abstract class Relic extends AbstractRelic {
 		outlineImg = outline;
 		this.description = getUpdatedDescription();
 		this.initializeRelicTips();
+	}
+	
+	public static void addQuestRelic(Relic relic) {
+		questRelics.add(relic);
+	}
+	
+	public boolean isQuestRelic() {
+		return false;
 	}
 
 	@Override

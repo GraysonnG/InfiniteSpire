@@ -1,4 +1,4 @@
-package infinitespire.cards;
+package infinitespire.abstracts;
 
 import basemod.abstracts.CustomCard;
 import infinitespire.InfiniteSpire;

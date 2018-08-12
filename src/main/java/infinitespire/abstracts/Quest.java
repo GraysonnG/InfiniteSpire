@@ -1,4 +1,4 @@
-package infinitespire.quests;
+package infinitespire.abstracts;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -91,5 +91,9 @@ public abstract class Quest {
 	
 	public boolean shouldRemove() {
 		return remove;
+	}
+	
+	public boolean isSameQuest(Quest q) {
+		return this.getTitle().equals(q.getTitle());
 	}
 }
