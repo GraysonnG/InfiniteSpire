@@ -12,11 +12,19 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< Updated upstream
 	<classpathentry kind="lib" path="desktop-1.0.jar"/>
 	<classpathentry kind="lib" path="ModTheSpire.jar"/>
 	<classpathentry kind="lib" path="BaseMod.jar"/>
 	<classpathentry kind="lib" path="ReplayTheSpireMod.jar"/>
 	<classpathentry kind="lib" path="FruityMod.jar"/>
 	<classpathentry kind="lib" path="ColoredMap.jar"/>
+=======
+	<classpathentry kind="lib" path="D:/Tobias/Documents/spire_mods/lib/desktop-1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Tobias/Documents/spire_mods/lib/ModTheSpire.jar"/>
+	<classpathentry kind="lib" path="D:/Tobias/Documents/spire_mods/lib/BaseMod.jar"/>
+	<classpathentry kind="lib" path="D:/Tobias/Documents/spire_mods/lib/ReplayTheSpireMod.jar"/>
+	<classpathentry kind="lib" path="D:/Tobias/Documents/spire_mods/lib/FruityMod.jar"/>
+>>>>>>> Stashed changes
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

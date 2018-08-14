@@ -3,6 +3,44 @@
   <groupId>Infinite_Spire</groupId>
   <artifactId>Infinite_Spire</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+    <dependencies>
+        <dependency>
+            <groupId>com.megacrit.cardcrawl</groupId>
+            <artifactId>slaythespire</artifactId>
+            <version>016</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../lib/desktop-1.0.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>basemod</groupId>
+            <artifactId>basemod</artifactId>
+            <version>2.10.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../lib/BaseMod.jar</systemPath>
+        </dependency>
+        <dependency>
+	        <groupId>com.evacipated.cardcrawl</groupId>
+		      <artifactId>ModTheSpire</artifactId>
+		      <version>2.6.0</version>
+		      <scope>system</scope>
+          <systemPath>${basedir}/../lib/ModTheSpire.jar</systemPath>
+	      </dependency>
+        <dependency>
+	        <groupId>ReplayTheSpireMod</groupId>
+		      <artifactId>ReplayTheSpireMod</artifactId>
+		      <version>0.4.0</version>
+		      <scope>system</scope>
+          <systemPath>${basedir}/../lib/ReplayTheSpireMod.jar</systemPath>
+	      </dependency>
+        <dependency>
+	        <groupId>FruityMod</groupId>
+		      <artifactId>FruityMod</artifactId>
+		      <version>0.4.0</version>
+		      <scope>system</scope>
+          <systemPath>${basedir}/../lib/FruityMod.jar</systemPath>
+	      </dependency>
+    </dependencies>
+  
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -15,5 +53,6 @@
         </configuration>
       </plugin>
     </plugins>
+    <finalName>${project.artifactId}</finalName>
   </build>
 </project>
