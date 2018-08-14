@@ -2,7 +2,7 @@
 A mod for Slay the Spire that adds the ability to climb forever and adds a quest log.
 
 ## Description
-Primarily this mod is an expansion mod that adds lots of new content, like new relics, cards, events, bosses. One of the other goals of this mod was to integrate it with as many mods as possible. This mod also allows the player to keep climbing after the 3rd floor even on normal runs. After you have defeated the Nightmare you will be able to choose if you want to activate endless mode. (Keep in mind this must be done before the Act 3 boss dies)
+Primarily this mod is an expansion mod that adds lots of new content, like new relics, cards, events, bosses. One of the other goals of this mod was to integrate it with as many mods as possible. This mod also allows the player to keep climbing after the 3rd floor even on normal runs. After you have defeated the Nightmare you will be able to choose if you want to activate endless mode. (Keep in mind this must be done at some point before you kill the boss in Act 3)
 
 Infinite Spire isn't supposed to increase the difficulty of the game, it is just there to enhance the game by adding new interactions and fun new mechnaics.
 
