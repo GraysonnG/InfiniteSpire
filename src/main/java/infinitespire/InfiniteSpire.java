@@ -167,6 +167,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		RelicLibrary.add(new BlanksBlanky());
 		RelicLibrary.add(new LuckyRock());
 		RelicLibrary.add(new JokerCard());
+		RelicLibrary.add(new Satchel());
 		
 		RelicLibrary.addBlue(new Freezer());
 		

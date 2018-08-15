@@ -88,7 +88,7 @@
 	},
 	"Holy Water" : {
 		"NAME" : "Holy Water",
-		"FLAVOR" : "TBD",
+		"FLAVOR" : "Tastes like nothing.",
 		"DESCRIPTIONS" : [
 			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
 		]
@@ -112,6 +112,13 @@
 		"FLAVOR" : "It could be anything!",
 		"DESCRIPTIONS" : [
 			"Every #b10th card you play is played twice."
+		]
+	},
+	"Satchel" : {
+		"NAME" : "Satchel",
+		"FLAVOR" : "It's not a purse!",
+		"DESCRIPTIONS" : [
+			"At the end of each turn Retain #b1 card."
 		]
 	}
 }

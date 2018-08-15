@@ -12,7 +12,7 @@ public class Satchel extends Relic {
 	public static final String ID = "Satchel";
 	
 	public Satchel() {
-		super(ID, "satchel", RelicTier.SPECIAL, LandingSound.SOLID);
+		super(ID, "satchel", RelicTier.COMMON, LandingSound.SOLID);
 	}
 	
 	@Override
