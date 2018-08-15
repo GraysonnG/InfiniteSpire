@@ -15,8 +15,8 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Quest;
 import infinitespire.patches.ScreenStatePatch;
-import infinitespire.quests.Quest;
 import infinitespire.quests.QuestLog;
 
 public class QuestLogScreen {
@@ -38,8 +38,8 @@ public class QuestLogScreen {
 		sb.setColor(Color.WHITE);
 		
 		int rI = 0, gI = 0, bI = 0;
-		for(int i = gameQuestLog.size() - 1; i >= 0; i--) {
-			Quest quest = gameQuestLog.get(i);
+		int i = 0;
+		for(Quest quest : gameQuestLog) {
 			int index = i;
 			switch(quest.type) {
 			case BLUE:
@@ -56,6 +56,7 @@ public class QuestLogScreen {
 				break;
 			}
 			renderQuest(index, i, sb, quest);
+			i++;
 		}
 		
 		justClicked = false;
@@ -65,14 +66,6 @@ public class QuestLogScreen {
 		if(InputHelper.justClickedLeft) {
 			justClicked = true;
 		}
-		
-		for(int i = gameQuestLog.size() - 1; i >= 0; i--) {
-			Quest quest = gameQuestLog.get(i);
-			if(quest.shouldRemove()) {
-				quest.giveReward();
-				gameQuestLog.remove(i);
-			}
-		}
 	}
 
 	public void open() {
@@ -81,9 +74,8 @@ public class QuestLogScreen {
 		AbstractDungeon.screen = ScreenStatePatch.QUEST_LOG_SCREEN;
 		AbstractDungeon.overlayMenu.showBlackScreen();
 		AbstractDungeon.overlayMenu.proceedButton.hide();
-		AbstractDungeon.overlayMenu.hideCombatPanels();
 		//AbstractDungeon.dynamicBanner.appear("Quest Log");
-		AbstractDungeon.overlayMenu.cancelButton.show("Done.");
+		AbstractDungeon.overlayMenu.cancelButton.show("Return.");
 		AbstractDungeon.isScreenUp = true;
 		this.gameQuestLog = InfiniteSpire.questLog;
 		
@@ -112,8 +104,8 @@ public class QuestLogScreen {
 	}
 	
 	public void renderQuest(int index, int hbI, SpriteBatch sb, Quest quest) {
-		//96 - 480
 		float xOffset = 1;
+		
 		switch(quest.type) {
 		case RED:
 			xOffset = 1;
@@ -125,7 +117,6 @@ public class QuestLogScreen {
 			xOffset = 3;
 			break;
 		}
-		
 		
 		float width = 500f * Settings.scale;
 		float xPos = ((Settings.WIDTH / 4f) * xOffset) - (width / 2f);
@@ -142,7 +133,8 @@ public class QuestLogScreen {
 		sb.setColor(quest.color);
 		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		sb.setColor(Color.WHITE);
-		
+		if(quest.isNew || quest.isCompleted())
+			sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questNewOverlay.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		//Renders the name of the font
 		FontHelper.renderFontLeft(sb, FontHelper.panelNameFont, quest.getTitle(), xPos + textXOffset, yPos + textYOffset, Color.WHITE);
 	
@@ -171,6 +163,7 @@ public class QuestLogScreen {
 		
 		if(tempHitbox.justHovered) {
 			CardCrawlGame.sound.play("UI_HOVER");
+			quest.isNew = false;
 		}
 		
 		tempHitbox.render(sb);

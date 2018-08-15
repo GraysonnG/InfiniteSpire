@@ -9,12 +9,13 @@ import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
 import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
+import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
 public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	
 	public static final String ID = FetchQuest.class.getName().toString();
-	private static final Color COLOR = new Color(0f, 0.75f, 1f, 1f);
+	private static final Color COLOR = new Color(0f, 1f, 0.75f, 1f);
 	private static final QuestType TYPE = QuestType.GREEN;
 	private static final int MAX_STEPS = 1;
 	public int cost;

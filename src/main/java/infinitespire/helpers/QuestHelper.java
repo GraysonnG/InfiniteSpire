@@ -22,8 +22,11 @@ import com.megacrit.cardcrawl.relics.Circlet;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Quest;
+import infinitespire.abstracts.Quest.QuestRarity;
+import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.quests.*;
-import infinitespire.quests.Quest.QuestRarity;
+import infinitespire.quests.endless.*;
 
 public class QuestHelper {
 	
@@ -36,6 +39,9 @@ public class QuestHelper {
 		addQuestType(FlawlessQuest.class);
 		addQuestType(OneTurnKillQuest.class);
 		addQuestType(RemoveCardQuest.class);
+		addQuestType(PickUpCardQuest.class);
+		addQuestType(EndlessQuestPart1.class);
+		addQuestType(EndlessQuestPart2.class);
 	}
 	
 	private static void addQuestType(Class<? extends Quest> type) {
@@ -50,23 +56,47 @@ public class QuestHelper {
 	}
 	
 	public static ArrayList<Quest> getRandomQuests(int amount) {
-		ArrayList<Quest> retVal = new ArrayList<Quest>();
+		
 		int questsAdded = 0;
+		int attempts = 100;
+		QuestAmount qs = new QuestAmount();
+
+		ArrayList<Quest> questsToAdd = new ArrayList<Quest>();
 		do {
 			Quest q = getRandomQuest();
-			boolean shouldAdd = true;
-			for(Quest rq : retVal) {
-				if(rq.id.equals(q.id)) {
-					shouldAdd = false;
+			
+			boolean shouldContinue = false;
+		
+			if(InfiniteSpire.questLog.getAmount(q.type) + qs.getQuestNum(q.type) >= 7) {
+				shouldContinue = true;
+			}
+			
+			for(Quest rq : questsToAdd) {
+				if(rq.isSameQuest(q)) {
+					shouldContinue = true;
 				}
 			}
-			if(shouldAdd) {
-				retVal.add(q);
-				questsAdded++;
+			
+			if(InfiniteSpire.questLog.hasQuest(q)) {
+				shouldContinue = true;
 			}
-		}while(questsAdded < amount);
+			
+			attempts--;
+			if(attempts <= 0) break;
+			
+			
+			if(shouldContinue) {
+				continue;
+			}
+			
+			qs.addQuest(q.type);
+			questsToAdd.add(q);
+			questsAdded++;
+			
+		}while(questsAdded < amount && attempts > 0);
 		
-		
+		ArrayList<Quest> retVal = new ArrayList<Quest>();
+		retVal.addAll(questsToAdd);
 		return retVal;
 	}
 
@@ -74,13 +104,12 @@ public class QuestHelper {
 		Quest retVal = null;
 		int roll = AbstractDungeon.miscRng.random(0, 99);
 		try {
-			if(roll < 75) {
-				retVal = getRandomQuestClass(QuestRarity.COMMON).newInstance().createNew();
+			if(roll < 90) {
+				retVal = getRandomQuestClass(QuestRarity.COMMON).createNew();
 			}else {
-				retVal = getRandomQuestClass(QuestRarity.RARE).newInstance().createNew();
+				retVal = getRandomQuestClass(QuestRarity.RARE).createNew();
 			}
 		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return retVal;
@@ -126,7 +155,6 @@ public class QuestHelper {
 	}
 	
 	public static void saveQuestLog() {
-		
 		try {
 			FileWriter writer = new FileWriter(dirPath);
 			writer.write(getQuestLogSaveData());
@@ -147,16 +175,18 @@ public class QuestHelper {
 		}
 	}
 	
-	public static Class<? extends Quest> getRandomQuestClass(QuestRarity rarity) {
+	public static Quest getRandomQuestClass(QuestRarity rarity) throws InstantiationException, IllegalAccessException {
 		ArrayList<Class<? extends Quest>> questPool = new ArrayList<Class<? extends Quest>>();
 		
 		for(Class<? extends Quest> q : questMap.values()) {
-			questPool.add(q);
+			if(q.newInstance().createNew().rarity.equals(rarity)) {
+				questPool.add(q);
+			}
 		}
 		
 		int roll = AbstractDungeon.miscRng.random(questPool.size() - 1);
 		
-		return questPool.get(roll);
+		return questPool.get(roll).newInstance();
 	}
 	
 	public static AbstractRelic returnRandomRelic(RelicTier tier) {
@@ -164,16 +194,24 @@ public class QuestHelper {
 		AbstractRelic retVal = new Circlet();
 		switch(tier) {
 		case BOSS:
-			key = AbstractDungeon.bossRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.bossRelicPool.size() - 1));
+			int bossPoolSize = AbstractDungeon.bossRelicPool.size() - 1;
+			if(bossPoolSize > 0)
+				key = AbstractDungeon.bossRelicPool.get(AbstractDungeon.relicRng.random(bossPoolSize));
 			break;
 		case COMMON:
-			key = AbstractDungeon.commonRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.commonRelicPool.size() - 1));
+			int commonPoolSize = AbstractDungeon.commonRelicPool.size() - 1;
+			if(commonPoolSize > 0)
+			key = AbstractDungeon.commonRelicPool.get(AbstractDungeon.relicRng.random(commonPoolSize));
 			break;
 		case RARE:
-			key = AbstractDungeon.rareRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.rareRelicPool.size() - 1));
+			int rarePoolSize = AbstractDungeon.rareRelicPool.size() - 1;
+			if(rarePoolSize > 0)
+			key = AbstractDungeon.rareRelicPool.get(AbstractDungeon.relicRng.random(rarePoolSize));
 			break;
 		case UNCOMMON:
-			key = AbstractDungeon.uncommonRelicPool.get(AbstractDungeon.relicRng.random(AbstractDungeon.uncommonRelicPool.size() - 1));
+			int uncommonPoolSize = AbstractDungeon.uncommonRelicPool.size() - 1;
+			if(uncommonPoolSize > 0)
+			key = AbstractDungeon.uncommonRelicPool.get(AbstractDungeon.relicRng.random(uncommonPoolSize));
 			break;
 		default:
 			key = Circlet.ID;
@@ -183,5 +221,42 @@ public class QuestHelper {
 		retVal = RelicLibrary.getRelic(key);
 		
 		return retVal;
+	}
+	
+	private static class QuestAmount {
+		public int redQuests, blueQuests, greenQuests;
+		
+		public QuestAmount() {
+			redQuests = 0;
+			blueQuests = 0;
+			greenQuests = 0;
+		}
+		
+		public int getQuestNum(QuestType type) {
+			switch(type) {
+			case BLUE:
+				return blueQuests;
+			case GREEN:
+				return greenQuests;
+			case RED:
+				return redQuests;
+			}
+			return -1;
+		}
+		
+		public void addQuest(QuestType type) {
+			switch(type) {
+			case BLUE:
+				blueQuests++;
+				break;
+			case GREEN:
+				greenQuests++;
+				break;
+			case RED:
+				redQuests++;
+				break;
+				
+			}
+		}
 	}
 }

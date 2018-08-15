@@ -1,9 +1,6 @@
 package infinitespire.abstracts;
 
 import com.badlogic.gdx.graphics.Color;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
-import infinitespire.effects.QuestLogUpdateEffect;
 
 public abstract class Quest {
 	
@@ -12,6 +9,7 @@ public abstract class Quest {
 	public Color color;
 	public QuestType type;
 	public QuestRarity rarity;
+	public boolean isNew, justCompleted = false;
 	
 	private boolean completed, remove;
 	
@@ -35,6 +33,7 @@ public abstract class Quest {
 		this.rarity = rarity;
 		this.completed = false;
 		this.remove = false;
+		this.isNew = true;
 	}
 	/**
 	 * This is called when the player clicks on a quest in the log or when the quest log looks for completed auto complete quests.
@@ -63,9 +62,9 @@ public abstract class Quest {
 	
 	public void incrementQuestSteps() {
 		this.currentSteps++;
-		if(this.currentSteps >= this.maxSteps) {
+		if(this.currentSteps >= this.maxSteps && !completed) {
 			this.completed = true;
-			AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
+			this.justCompleted = true;
 		}
 	}
 	
