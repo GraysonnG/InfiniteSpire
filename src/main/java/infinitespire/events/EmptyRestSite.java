@@ -17,8 +17,8 @@ import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
+import infinitespire.abstracts.Relic;
 import infinitespire.relics.BlanksBlanky;
-import infinitespire.relics.Relic;
 
 public class EmptyRestSite extends AbstractImageEvent {
 
@@ -53,6 +53,8 @@ public class EmptyRestSite extends AbstractImageEvent {
 			this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[3], "g")); //Dig
 		}
 		state = State.RESTING;
+		
+		AbstractDungeon.getCurrRoom().rewards.clear();
 	}
 	
 	
