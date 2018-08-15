@@ -65,7 +65,7 @@ public class Nightmare extends AbstractMonster {
 	protected void getMove(int num) {
 		this.hasActivated = false;
 		if(firstTurn) {
-			this.setMove(Nightmare.MOVES[0], (byte) 1, Intent.STRONG_DEBUFF);
+			this.setMove(Nightmare.MOVES[0], (byte) 1, Intent.MAGIC);
 			return;
 		}
 		if (num > 20) {
@@ -75,11 +75,6 @@ public class Nightmare extends AbstractMonster {
 			this.setMove(Nightmare.MOVES[3], (byte) 4, Intent.DEFEND);
 			return;
 		}
-	}
-
-	@Override
-	public void usePreBattleAction() {
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 30));
 	}
 
 	@Override
@@ -143,6 +138,7 @@ public class Nightmare extends AbstractMonster {
 		switch(this.nextMove) {
 		case 1:
 			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, this, new SpireBlightPower(AbstractDungeon.player)));
+			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 30));
 			this.firstTurn = false;
 			break;
 		case 2:
