@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Relic;
 import infinitespire.powers.CriticalPower;
 
 public class LuckyRock extends Relic {

@@ -12,7 +12,7 @@ public class PowerUpPower extends AbstractPower{
 		this.amount = -1;
 		this.name = "Power-Up";
 		this.ID = "is_PowerUpPower";
-		this.img = InfiniteSpire.getTexture("img/powers/powerup.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/powerup.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 	}

@@ -4,6 +4,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.abstracts.Relic;
+
 public class CubicDiamond extends Relic {
 
 	public static final String ID = "Cubic Diamond";

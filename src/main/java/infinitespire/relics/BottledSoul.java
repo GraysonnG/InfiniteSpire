@@ -4,22 +4,24 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.CardGroup.CardGroupType;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import infinitespire.InfiniteSpire;
 
-@Deprecated
 public class BottledSoul extends AbstractRelic {
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	public static final String ID = "Bottled Soul";
 	public static final String NAME = "Bottled Soul";
-	private boolean cardSelected;
+	public boolean cardSelected;
+	public int cardIndex;
 	public AbstractCard card;
 	private AbstractRoom.RoomPhase prevPhase;
 	
@@ -42,6 +44,13 @@ public class BottledSoul extends AbstractRelic {
 		return this.card.makeCopy();
 	}
 	
+	
+	
+	@Override
+	public void onPlayCard(AbstractCard c, AbstractMonster m) {
+		
+	}
+
 	public void onEquip() {
 		this.cardSelected = false;
 		if(AbstractDungeon.isScreenUp) {
@@ -61,7 +70,7 @@ public class BottledSoul extends AbstractRelic {
 			}
 		}
 		if(group.size() > 0) {
-			AbstractDungeon.gridSelectScreen.open(group, 1, "Select a Card.", false, false, false, false);
+			AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a Card.", false, false, false, false);
 		}else {
 			cardSelected = true;
 			AbstractDungeon.getCurrRoom().phase = prevPhase;
@@ -69,6 +78,14 @@ public class BottledSoul extends AbstractRelic {
 	}
 	
 	public void onUnequip() {
+	}
+	
+	public void save(SpireConfig config) {
+		
+	}
+	
+	public void load(SpireConfig config) {
+		
 	}
 	
 	public void update() {

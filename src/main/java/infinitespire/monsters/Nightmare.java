@@ -44,15 +44,15 @@ public class Nightmare extends AbstractMonster {
 	private int attackCount;
 	
 	public Nightmare() {
-		super(NAME, ID, 250, -0.0F, -10.0F, 160f, 300f, null);
+		super(NAME, ID, 200, -0.0F, -10.0F, 160f, 300f, null);
 		this.type = EnemyType.ELITE;
 		this.dialogX = -160.0f * Settings.scale;
 		this.dialogY = 40f * Settings.scale;
-		this.img = InfiniteSpire.getTexture("img/monsters/nightmare/nightmare-1.png");
-		this.setHp(150);
+		this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-1.png");
+		this.setHp(200);
 		
 		this.attackDmg = 5;
-		this.slamDmg = 25;
+		this.slamDmg = 15;
 		this.blockCount = 20;
 		this.attackCount = 3;
 		
@@ -65,7 +65,7 @@ public class Nightmare extends AbstractMonster {
 	protected void getMove(int num) {
 		this.hasActivated = false;
 		if(firstTurn) {
-			this.setMove(Nightmare.MOVES[0], (byte) 1, Intent.STRONG_DEBUFF);
+			this.setMove(Nightmare.MOVES[0], (byte) 1, Intent.MAGIC);
 			return;
 		}
 		if (num > 20) {
@@ -75,11 +75,6 @@ public class Nightmare extends AbstractMonster {
 			this.setMove(Nightmare.MOVES[3], (byte) 4, Intent.DEFEND);
 			return;
 		}
-	}
-
-	@Override
-	public void usePreBattleAction() {
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 30));
 	}
 
 	@Override
@@ -109,7 +104,6 @@ public class Nightmare extends AbstractMonster {
 			this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
 			this.createIntent();
 		
-		
 			AbstractDungeon.actionManager.cardQueue.clear();
 			for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
 				AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
@@ -133,7 +127,7 @@ public class Nightmare extends AbstractMonster {
 				if(textureIndex > 2) {
 					textureIndex = 0;
 				}
-				this.img = InfiniteSpire.getTexture("img/monsters/nightmare/nightmare-"+ (textureIndex + 1) +".png");
+				this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-"+ (textureIndex + 1) +".png");
 			}
 		}
 	}
@@ -143,6 +137,7 @@ public class Nightmare extends AbstractMonster {
 		switch(this.nextMove) {
 		case 1:
 			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, this, new SpireBlightPower(AbstractDungeon.player)));
+			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 30));
 			this.firstTurn = false;
 			break;
 		case 2:

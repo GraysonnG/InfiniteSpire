@@ -76,7 +76,7 @@
 		"NAME" : "Broken Mirror",
 		"FLAVOR" : "It's sharp.",
 		"DESCRIPTIONS" : [
-			"At the start of combat, gain #b1 #yReflection."
+			"At the start of combat, gain #b3 #yReflection."
 		]
 	},
 	"Spectral Dust" : {
@@ -88,7 +88,7 @@
 	},
 	"Holy Water" : {
 		"NAME" : "Holy Water",
-		"FLAVOR" : "TBD",
+		"FLAVOR" : "Tastes like nothing.",
 		"DESCRIPTIONS" : [
 			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
 		]
@@ -105,6 +105,20 @@
 		"FLAVOR" : "It's feels smooth.",
 		"DESCRIPTIONS" : [
 			"Each time you play an attack card, you have a #b5% chance to gain #yCritical."
+		]
+	},
+	"Joker Card" : {
+		"NAME" : "Joker Card",
+		"FLAVOR" : "It could be anything!",
+		"DESCRIPTIONS" : [
+			"Every #b10th card you play is played twice."
+		]
+	},
+	"Satchel" : {
+		"NAME" : "Satchel",
+		"FLAVOR" : "It's not a purse!",
+		"DESCRIPTIONS" : [
+			"At the end of each turn Retain #b1 card."
 		]
 	}
 }

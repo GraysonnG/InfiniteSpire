@@ -12,7 +12,7 @@ public class SpireBlightPower extends AbstractPower {
 		this.amount = -1;
 		this.name = "Spire Blight";
 		this.ID = "is_SpireBlight";
-		this.img = InfiniteSpire.getTexture("img/powers/spireblight.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/spireblight.png");
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
 	}

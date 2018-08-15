@@ -20,7 +20,7 @@ public class BeetleShellPower extends AbstractPower {
 		this.amount = 1;
 		this.name = "Beetle Shell";
 		this.ID = "is_BeetleShellPower";
-		this.img = InfiniteSpire.getTexture("img/powers/beetleshell.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/beetleshell.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
         this.priority = 6;

@@ -1,32 +1,47 @@
 package infinitespire.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.monsters.AbstractMonster.EnemyType;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
+
 import infinitespire.InfiniteSpire;
-import infinitespire.effects.QuestLogUpdateEffect;
-import infinitespire.helpers.QuestHelper;
-import infinitespire.quests.Quest;
+import infinitespire.abstracts.Quest;
+import infinitespire.quests.FlawlessQuest;
+import infinitespire.quests.OneTurnKillQuest;
+import infinitespire.quests.SlayQuest;
+import infinitespire.quests.endless.EndlessQuestPart2;
 
 public class AbstractMonsterEverythingPatch {
 	@SpirePatch(cls="com.megacrit.cardcrawl.monsters.AbstractMonster", method="die", paramtypes={"boolean"})
 	public static class Die {
 		public static void Prefix(AbstractMonster __instance, boolean trigger) {
-			InfiniteSpire.logger.info(__instance.name + " died!");
-			for(Quest quest : InfiniteSpire.questLog) {
-				quest.onEnemyKilled(__instance);
+			if(AbstractDungeon.getMonsters().monsters.size() == 1) {
+				AbstractRoom room = AbstractDungeon.getCurrRoom();
+				if(room instanceof MonsterRoomBoss) {
+					for(Quest quest : InfiniteSpire.questLog) {
+						if(quest instanceof FlawlessQuest && (GameActionManager.damageReceivedThisCombat - GameActionManager.hpLossThisCombat <= 0)) {
+							quest.incrementQuestSteps();
+						}
+						if(quest instanceof EndlessQuestPart2) {
+							quest.incrementQuestSteps();
+						}
+					}
+				}
 			}
 			
-			if(__instance.type == AbstractMonster.EnemyType.BOSS) {
-				int amount = 3;
-				
-				if(InfiniteSpire.questLog.size() + amount > 7) {
-					amount -= (InfiniteSpire.questLog.size() + amount) - 7;
+			for(Quest quest : InfiniteSpire.questLog) {
+				if(quest instanceof SlayQuest) {
+					((SlayQuest) quest).onEnemyKilled(__instance);
 				}
-				if(amount > 0)
-					AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 				
-				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(amount));
+				if(AbstractDungeon.getCurrRoom() instanceof MonsterRoomElite && __instance.type == EnemyType.ELITE && GameActionManager.turn <= 1 && quest instanceof OneTurnKillQuest) {
+					quest.incrementQuestSteps();
+				}
 			}
 		}
 	}

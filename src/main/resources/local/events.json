@@ -18,5 +18,23 @@
 			"Leave.",
 			"[Locked]"
 		]
+	},
+	"Hooded Arms Dealer" : {
+		"NAME" : "Hooded Arms Dealer",
+		"DESCRIPTIONS" : [
+			"You are approached by a man in a hood. NL He shows you rare and powerful weapons. They look otherworldly. NL You ask him the price. NL He replies, #rBLOOD, #yGOLD, or #bTRADE.",
+			"You pick the weapon up and see that you were not the first to use it...",
+			"You tell him you cannot afford the price and walk away."
+		],
+		"OPTIONS" : [
+			"#y[Gold] Give ",
+			"#r[Blood] Lose ",
+			"#b[Trade] Remove 2 Cards.",
+			" Gold.",
+			" HP",
+			"Leave.",
+			"[Locked] Requires: ",
+			" Pick a #pBlack #pCard."
+		]
 	}
 }

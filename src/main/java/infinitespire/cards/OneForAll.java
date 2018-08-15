@@ -10,9 +10,9 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
-import basemod.abstracts.CustomCard;
+import infinitespire.abstracts.Card;
 
-public class OneForAll extends CustomCard {
+public class OneForAll extends Card {
 	
 	public static final String ID = "OneForAll";
 	public static final String NAME = "One For All";
@@ -20,7 +20,7 @@ public class OneForAll extends CustomCard {
 	private static final int COST = 1;
 	
 	public OneForAll() {
-		super(ID, NAME, "img/cards/oneforall.png", COST, DESCRIPTION, CardType.ATTACK, CardColor.RED, CardRarity.UNCOMMON, CardTarget.ENEMY);
+		super(ID, NAME, "img/infinitespire/cards/oneforall.png", COST, DESCRIPTION, CardType.ATTACK, CardColor.RED, CardRarity.UNCOMMON, CardTarget.ENEMY);
 		this.misc = 2;
 		this.baseMagicNumber = 2;
 		this.magicNumber = 2;

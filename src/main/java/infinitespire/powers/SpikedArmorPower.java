@@ -15,7 +15,7 @@ public class SpikedArmorPower extends AbstractPower{
 		this.amount = amount;
 		this.name = "Spiked Armor";
 		this.ID = "is_SpikePower";
-		this.img = InfiniteSpire.getTexture("img/powers/spike.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/spike.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 	}

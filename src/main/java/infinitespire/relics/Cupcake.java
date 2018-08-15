@@ -7,6 +7,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.abstracts.Relic;
+
 public class Cupcake extends Relic {
 	public static final String ID = "Cupcake";
 	public static final String NAME = "Cupcake";
@@ -67,6 +69,9 @@ public class Cupcake extends Relic {
                 if (c2.costForTurn >= 0) {
                     c2.costForTurn += 1;
                     c2.isCostModifiedForTurn = true;
+                    if(c2.costForTurn == 1 && c2.freeToPlayOnce == true) {
+                    	c2.freeToPlayOnce = false;
+                    }
                 }
             }
 		}

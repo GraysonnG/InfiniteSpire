@@ -15,18 +15,20 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Quest;
 import infinitespire.patches.ScreenStatePatch;
-import infinitespire.perks.AbstractPerk;
-import infinitespire.quests.Quest;
 import infinitespire.quests.QuestLog;
 
 public class QuestLogScreen {
 	
 	private QuestLog gameQuestLog;
+	
 	private ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
 	private boolean justClicked = false;
 	private float completedAlpha = 0f;
 	private float completedSin = 0f;
+
+	public boolean openedDuringReward;
 	
 	public QuestLogScreen(QuestLog log) {
 		gameQuestLog = log;
@@ -35,22 +37,28 @@ public class QuestLogScreen {
 	public void render(SpriteBatch sb) {
 		sb.setColor(Color.WHITE);
 		
-		for(int i = gameQuestLog.size() - 1; i >= 0; i--) {
-			Quest quest = gameQuestLog.get(i);
-			renderQuest(i, sb, quest);
-			if(quest.shouldRemove()) {
-				gameQuestLog.remove(i);
+		int rI = 0, gI = 0, bI = 0;
+		int i = 0;
+		for(Quest quest : gameQuestLog) {
+			int index = i;
+			switch(quest.type) {
+			case BLUE:
+				index = bI;
+				bI++;
+				break;
+			case GREEN:
+				index = gI;
+				gI++;
+				break;
+			case RED:
+				index = rI;
+				rI++;
+				break;
 			}
+			renderQuest(index, i, sb, quest);
+			i++;
 		}
 		
-		float perksX = 980f * Settings.scale;
-		float perksY = Settings.HEIGHT - (400f * Settings.scale);
-		
-		float silverX = Settings.WIDTH / 4f;
-		float silverY = Settings.HEIGHT - (250f * Settings.scale);
-		
-		renderPerks(sb, perksX, perksY);
-		renderSilver(sb, silverX, silverY);
 		justClicked = false;
 	}
 
@@ -66,9 +74,11 @@ public class QuestLogScreen {
 		AbstractDungeon.screen = ScreenStatePatch.QUEST_LOG_SCREEN;
 		AbstractDungeon.overlayMenu.showBlackScreen();
 		AbstractDungeon.overlayMenu.proceedButton.hide();
-		AbstractDungeon.overlayMenu.hideCombatPanels();
-		AbstractDungeon.overlayMenu.cancelButton.show("Done.");
+		//AbstractDungeon.dynamicBanner.appear("Quest Log");
+		AbstractDungeon.overlayMenu.cancelButton.show("Return.");
 		AbstractDungeon.isScreenUp = true;
+		this.gameQuestLog = InfiniteSpire.questLog;
+		
 		if (MathUtils.randomBoolean()) {
             CardCrawlGame.sound.play("MAP_OPEN", 0.1f);
         }
@@ -93,38 +103,38 @@ public class QuestLogScreen {
         }
 	}
 	
-	private void renderSilver(SpriteBatch sb, float xPos, float yPos) {
-		FontHelper.renderFontLeftTopAligned(sb, FontHelper.bannerFont, "Silver: " + InfiniteSpire.points, xPos, yPos, Color.WHITE);
-	}
-	
-	public void renderPerks(SpriteBatch sb, float xPos, float yPos) {
-		float xOffset = 0.0f * Settings.scale;
-		float yOffset = 0.0f * Settings.scale;
+	public void renderQuest(int index, int hbI, SpriteBatch sb, Quest quest) {
+		float xOffset = 1;
 		
-		for(AbstractPerk perk : InfiniteSpire.allPerks.values()) {
-			if(perk.state == AbstractPerk.PerkState.ACTIVE) {
-				perk.renderInGame(sb, xPos + xOffset, yPos + yOffset);
-			}
+		switch(quest.type) {
+		case RED:
+			xOffset = 1;
+			break;
+		case BLUE:
+			xOffset = 2;
+			break;
+		case GREEN:
+			xOffset = 3;
+			break;
 		}
-	}
-	
-	public void renderQuest(int index, SpriteBatch sb, Quest quest) {
-		//96 - 480
-		float xPos = Settings.WIDTH / 4f;
-		float yPos = Settings.HEIGHT - (400f * Settings.scale);
+		
+		float width = 500f * Settings.scale;
+		float xPos = ((Settings.WIDTH / 4f) * xOffset) - (width / 2f);
+		float yPos = Settings.HEIGHT - (450f * Settings.scale);
 		float textXOffset = 111f * Settings.scale;
 		float textYOffset = 80f * Settings.scale;
 		
 		yPos -= (100 * Settings.scale) * index;
 		
-		Hitbox tempHitbox = hbs.get(index);
+		Hitbox tempHitbox = hbs.get(hbI);
 		tempHitbox.update(xPos + (10f * Settings.scale), yPos + (10f * Settings.scale));
 		
 		//Render the base Quest texutre in the color of the quest
-		sb.setColor(quest.getColor());
-		sb.draw(InfiniteSpire.getTexture("img/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
+		sb.setColor(quest.color);
+		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		sb.setColor(Color.WHITE);
-		
+		if(quest.isNew || quest.isCompleted())
+			sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questNewOverlay.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		//Renders the name of the font
 		FontHelper.renderFontLeft(sb, FontHelper.panelNameFont, quest.getTitle(), xPos + textXOffset, yPos + textYOffset, Color.WHITE);
 	
@@ -135,7 +145,7 @@ public class QuestLogScreen {
 			//Render a light alpha version of the quest texture above the normal one to make it look highlighted
 			sb.setBlendFunction(770, 1);
             sb.setColor(new Color(1.0f, 1.0f, 1.0f, quest.isCompleted() ? this.completedAlpha : 0.5f));
-            sb.draw(InfiniteSpire.getTexture("img/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
+            sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
             sb.setBlendFunction(770, 771);
             sb.setColor(Color.WHITE);
             
@@ -146,13 +156,14 @@ public class QuestLogScreen {
 			//Onclick action
 			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, (quest.isCompleted() ? "Claim: " : "Reward: ") + quest.getRewardString(), xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
 			if(justClicked && quest.isCompleted() && tempHitbox.hovered) {
-				quest.giveReward();
-				quest.setRemove(true);
+				InfiniteSpire.logger.info("I am being removed:" + quest.getTitle());
+				quest.removeQuest();
 			}
 		}
 		
 		if(tempHitbox.justHovered) {
 			CardCrawlGame.sound.play("UI_HOVER");
+			quest.isNew = false;
 		}
 		
 		tempHitbox.render(sb);
@@ -176,56 +187,6 @@ public class QuestLogScreen {
 	        sb.draw(ImageMaster.HB_SHADOW_R, xPos + fullWidth * quest.getCompletionPercentage(), yPos, hbSize, hbSize);
         }
        
-        FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, quest.getCompletionString(), xPos + fullWidth / 2f, yPos + (10 * Settings.scale), Color.WHITE);
+        FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, quest.currentSteps + "/" + quest.maxSteps, xPos + fullWidth / 2f, yPos + (10 * Settings.scale), Color.WHITE);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

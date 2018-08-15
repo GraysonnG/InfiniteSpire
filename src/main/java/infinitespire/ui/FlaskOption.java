@@ -18,8 +18,8 @@ public class FlaskOption extends RestOption {
 	
 	public FlaskOption() {
 		super();
-		this.img = InfiniteSpire.getTexture("img/ui/campfire/flaskoption.png");
-		this.disabledImg = InfiniteSpire.getTexture("img/ui/campfire/flaskoption-disabled.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/ui/campfire/flaskoption.png");
+		this.disabledImg = InfiniteSpire.getTexture("img/infinitespire/ui/campfire/flaskoption-disabled.png");
 		this.usable = true;
 		this.label = "Drink";
 	}
