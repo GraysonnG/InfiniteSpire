@@ -8,7 +8,6 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
-import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 
@@ -33,22 +32,22 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 	public HoodedArmsDealer() {
 		super(ID, DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
 		this.goldCount = QuestHelper.makeRandomCost(500);
-		this.hpCount = AbstractDungeon.player.maxHealth / 4;
+		this.hpCount = QuestHelper.makeRandomCost(AbstractDungeon.player.maxHealth / 4);
 		this.state = State.PAYING;
 		
 		boolean goldDisabled = AbstractDungeon.player.gold >= this.goldCount;
 		boolean hpDisabled = AbstractDungeon.player.currentHealth > this.hpCount;
 		
 		String goldOption = goldDisabled ? 
-						OPTIONS[0] + goldCount + OPTIONS[3] : 
+						OPTIONS[0] + goldCount + OPTIONS[3] + OPTIONS[7]: 
 						OPTIONS[6] + goldCount + OPTIONS[3];
 		String hpOption = hpDisabled ?
-						OPTIONS[1] + hpCount + OPTIONS[4] :
+						OPTIONS[1] + hpCount + OPTIONS[4] + OPTIONS[7]:
 						OPTIONS[6] + hpCount + OPTIONS[4];
 		
-		this.imageEventText.setDialogOption(FontHelper.colorString(goldOption, "y"), goldDisabled);
-		this.imageEventText.setDialogOption(FontHelper.colorString(hpOption, "r"), hpDisabled);
-		this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[2], "b"));
+		this.imageEventText.setDialogOption(goldOption , !goldDisabled);
+		this.imageEventText.setDialogOption(hpOption, !hpDisabled);
+		this.imageEventText.setDialogOption(OPTIONS[2] + OPTIONS[7]);
 		this.imageEventText.setDialogOption(OPTIONS[5]);
 	}
 	
@@ -75,17 +74,11 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 		case PAYING:
 			switch(buttonPressed) {
 			case 0:
-				if(AbstractDungeon.player.gold >= this.goldCount) {
-					AbstractDungeon.player.loseGold(goldCount);
-					this.pickCard();
-				}
-				
+				AbstractDungeon.player.loseGold(goldCount);
+				this.pickCard();
 				break;
 			case 1:
-				if(AbstractDungeon.player.currentHealth > this.hpCount) {
-					AbstractDungeon.player.damage(new DamageInfo(null, hpCount, DamageInfo.DamageType.HP_LOSS));
-					this.pickCard();
-				}
+				AbstractDungeon.player.damage(new DamageInfo(null, hpCount, DamageInfo.DamageType.HP_LOSS));
 				this.pickCard();
 				break;
 			case 2:
@@ -100,7 +93,7 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 			this.imageEventText.clearAllDialogs();
 			this.imageEventText.setDialogOption(OPTIONS[5]);
 			this.state = State.LEAVING;
-			this.imageEventText.updateBodyText(DESCRIPTIONS[(buttonPressed == 3 ? 3 : 2)]);
+			this.imageEventText.updateBodyText(DESCRIPTIONS[(buttonPressed == 3 ? 2 : 1)]);
 			break;
 		}
 	}

@@ -125,7 +125,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 			break;
 		case LEAVING:
 			this.imageEventText.clearAllDialogs();
-			this.imageEventText.clearRemainingOptions();
+			this.imageEventText.setDialogOption(OPTIONS[5]);
 			openMap();
 			break;
 		}
