@@ -44,15 +44,15 @@ public class Nightmare extends AbstractMonster {
 	private int attackCount;
 	
 	public Nightmare() {
-		super(NAME, ID, 250, -0.0F, -10.0F, 160f, 300f, null);
+		super(NAME, ID, 200, -0.0F, -10.0F, 160f, 300f, null);
 		this.type = EnemyType.ELITE;
 		this.dialogX = -160.0f * Settings.scale;
 		this.dialogY = 40f * Settings.scale;
 		this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-1.png");
-		this.setHp(250);
+		this.setHp(200);
 		
 		this.attackDmg = 5;
-		this.slamDmg = 20;
+		this.slamDmg = 15;
 		this.blockCount = 20;
 		this.attackCount = 3;
 		
@@ -103,7 +103,6 @@ public class Nightmare extends AbstractMonster {
 		
 			this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.attackCount, true);
 			this.createIntent();
-		
 		
 			AbstractDungeon.actionManager.cardQueue.clear();
 			for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
