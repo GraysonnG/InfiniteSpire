@@ -76,7 +76,7 @@
 		"NAME" : "Broken Mirror",
 		"FLAVOR" : "It's sharp.",
 		"DESCRIPTIONS" : [
-			"At the start of combat, gain #b1 #yReflection."
+			"At the start of combat, gain #b3 #yReflection."
 		]
 	},
 	"Spectral Dust" : {

@@ -4,6 +4,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Relic;
 
 public class BlanksBlanky extends Relic {
 

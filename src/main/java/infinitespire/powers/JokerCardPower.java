@@ -22,7 +22,7 @@ public class JokerCardPower extends AbstractPower {
 		this.amount = 1;
 		this.name = "Joker Card";
 		this.ID = "is_JokerCardPower";
-		this.img = InfiniteSpire.getTexture("img/powers/jokercard.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/jokercard.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 		this.priority = 6;

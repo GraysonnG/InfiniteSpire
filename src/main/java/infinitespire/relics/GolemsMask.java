@@ -3,6 +3,8 @@ package infinitespire.relics;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+
+import infinitespire.abstracts.Relic;
 import infinitespire.powers.GolemPower;
 
 public class GolemsMask extends Relic{

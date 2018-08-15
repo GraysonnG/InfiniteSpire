@@ -10,6 +10,8 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
+import infinitespire.abstracts.Card;
+
 public class OneForAll extends Card {
 	
 	public static final String ID = "OneForAll";

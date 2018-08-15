@@ -14,6 +14,7 @@ import basemod.BaseMod;
 import basemod.ReflectionHacks;
 import basemod.interfaces.PostCampfireSubscriber;
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Relic;
 import infinitespire.ui.FlaskOption;
 
 public class MagicFlask extends Relic implements PostCampfireSubscriber{

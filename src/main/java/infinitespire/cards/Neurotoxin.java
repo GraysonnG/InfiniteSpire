@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 
 import basemod.abstracts.DynamicVariable;
+import infinitespire.abstracts.Card;
 
 public class Neurotoxin extends Card {
 	
