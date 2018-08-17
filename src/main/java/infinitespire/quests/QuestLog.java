@@ -10,8 +10,11 @@ import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.effects.QuestLogUpdateEffect;
+import infinitespire.interfaces.IAutoQuest;
+import infinitespire.interfaces.IQuestLine;
+import infinitespire.interfaces.PostDungeonUpdateSubscriber;
 
-public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
+public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, PostDungeonUpdateSubscriber{
 	
 	private static final long serialVersionUID = -8923472099668326287L; 
 	public boolean hasUpdate = false;
@@ -21,7 +24,7 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
 		super();
 		
 		if(!shouldSubscribe) return;
-		
+		InfiniteSpire.subscribe(this);
 		BaseMod.subscribe(this);
 	}
 	
@@ -53,24 +56,27 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
 		if(this.isEmpty()) return;
 		
 		for(int i = this.size() - 1; i >= 0; i--) {
-			if(this.get(i).justCompleted) {
+			if (this.get(i).justCompleted) {
 				this.get(i).justCompleted = false;
 				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 			}
-			if(this.get(i).isCompleted()) {
-				if(this.get(i).autoClaim()) {
+			if (this.get(i).isCompleted()) {
+				if (this.get(i).autoClaim()) {
 					this.get(i).giveReward();
 					this.remove(i);
 					continue;
 				}
-				if(this.get(i).shouldRemove()) {
+				if (this.get(i).shouldRemove()) {
 					InfiniteSpire.logger.info("I am giving my reward! " + i + " : " + this.get(i).getTitle());
 					this.get(i).giveReward();
+					if(this.get(i) instanceof IQuestLine) {
+                        ((IQuestLine) this.get(i)).addNextStep(this, i);
+                    }
 					this.remove(i);
 					continue;
 				}
-			}else {
-				if(this.get(i).shouldRemove()) {
+			} else {
+				if (this.get(i).shouldRemove()) {
 					this.remove(i);
 					continue;
 				}
@@ -81,6 +87,16 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber{
 	public void markAllQuestsAsSeen() {
 		for(Quest q : this) {
 			q.isNew = false;
+		}
+	}
+
+	@Override
+	public void receivePostDungeonUpdate() {
+		for(Quest quest : this) {
+			if (quest instanceof IAutoQuest) {
+				if (AbstractDungeon.currMapNode != null && AbstractDungeon.player != null)
+					((IAutoQuest) quest).update();
+			}
 		}
 	}
 }
