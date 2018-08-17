@@ -27,6 +27,7 @@ import infinitespire.abstracts.Quest.QuestRarity;
 import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.quests.*;
 import infinitespire.quests.endless.*;
+import infinitespire.quests.event.*;
 
 public class QuestHelper {
 	
@@ -42,9 +43,11 @@ public class QuestHelper {
 		addQuestType(PickUpCardQuest.class);
 		addQuestType(EndlessQuestPart1.class);
 		addQuestType(EndlessQuestPart2.class);
+		addQuestType(BearQuest.class);
+		addQuestType(BlankyQuest.class);
 	}
 	
-	private static void addQuestType(Class<? extends Quest> type) {
+	public static void addQuestType(Class<? extends Quest> type) {
 		questMap.put(type.getName(), type);
 	}
 	
