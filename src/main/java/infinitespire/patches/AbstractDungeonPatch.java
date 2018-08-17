@@ -73,7 +73,17 @@ public class AbstractDungeonPatch {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.update();
 		}
+
+		public static void Prefix(AbstractDungeon __instance) {
+			InfiniteSpire.publishPreDungeonUpdate();
+		}
+
+		public static void Postfix(AbstractDungeon __instance) {
+			InfiniteSpire.publishPostDungeonUpdate();
+		}
 	}
+
+
 	
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "generateMap")
 	public static class GenerateMap {
