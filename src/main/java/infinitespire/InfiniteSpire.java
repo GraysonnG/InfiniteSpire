@@ -260,10 +260,10 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			logger.info("InfiniteSpire | Initializing Cards for Replay The Spire...");
 		}
 		if(type == LoadType.QUEST) {
-			QuestHelper.addQuestType(CaptainAbeQuest.class);
+			QuestHelper.registerQuest(CaptainAbeQuest.class);
 		}
 	}
-
+	@SuppressWarnings("")
 	private static void initializeFruityMod(LoadType type)throws ClassNotFoundException, NoClassDefFoundError {
 		Class<FruityMod> fruityMod = FruityMod.class;
 		logger.info("InfiniteSpire | InfiniteSpire has successfully detected FruityMod!");
@@ -274,6 +274,14 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		}
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for FruityMod...");
+		}
+	}
+
+	public static void triggerDieQuests(){
+    	for(Quest q : questLog){
+    		if(q instanceof DieQuest){
+    			q.incrementQuestSteps();
+			}
 		}
 	}
 

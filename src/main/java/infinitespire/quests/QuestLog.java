@@ -93,10 +93,7 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
 	@Override
 	public void receivePostDungeonUpdate() {
 		for(Quest quest : this) {
-			if (quest instanceof IAutoQuest) {
-				if (AbstractDungeon.currMapNode != null && AbstractDungeon.player != null)
-					((IAutoQuest) quest).update();
-			}
+			quest.update();
 		}
 	}
 }

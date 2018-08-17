@@ -94,4 +94,6 @@ public abstract class Quest {
 	public boolean isSameQuest(Quest q) {
 		return this.getTitle().equals(q.getTitle());
 	}
+
+	public void update(){ /*NOP */ }
 }
