@@ -7,10 +7,11 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
+import infinitespire.interfaces.IQuestLine;
 import infinitespire.monsters.Nightmare;
 import infinitespire.quests.SlayQuest;
 
-public class EndlessQuestPart1 extends SlayQuest {
+public class EndlessQuestPart1 extends SlayQuest implements IQuestLine{
 	public EndlessQuestPart1() {
 		this.id = EndlessQuestPart1.class.getName();
 		this.color = new Color(0.75f, 0.0f, 1.0f, 1.0f);
@@ -26,7 +27,6 @@ public class EndlessQuestPart1 extends SlayQuest {
 		InfiniteSpire.isEndless = true;
 		AbstractDungeon.topPanel.setPlayerName();
 		CardCrawlGame.sound.play("UNLOCK_PING");
-		InfiniteSpire.questLog.add(1, (new EndlessQuestPart2()).createNew());
 	}
 
 	@Override
@@ -46,4 +46,9 @@ public class EndlessQuestPart1 extends SlayQuest {
 
 	@Override
 	public Quest createNew() {/*NOP*/ return this;}
+
+	@Override
+	public Quest getNextQuestInLine() {
+		return new EndlessQuestPart2();
+	}
 }
