@@ -12,6 +12,7 @@ public class PickUpCardQuestPatches {
 	@SpirePatch(cls="com.megacrit.cardcrawl.vfx.FastCardObtainEffect", method = "update")
 	public static class FastCardObtainPatch {
 		//rloc 7
+		//Inserted after: for (final AbstractRelic r : AbstractDungeon.player.relics) {
 		@SpireInsertPatch(rloc = 7, localvars = {"card"})
 		public static void Insert(Object __instance, AbstractCard card) {
 			for(int i = InfiniteSpire.questLog.size() - 1; i >= 0; i--) {
@@ -30,6 +31,7 @@ public class PickUpCardQuestPatches {
 	@SpirePatch(cls="com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect", method = "update")
 	public static class ShowCardAndObtainPatch {
 		//rloc 7
+		//Inserted after: for (final AbstractRelic r : AbstractDungeon.player.relics) {
 		@SpireInsertPatch(rloc = 7, localvars = {"card"})
 		public static void Insert(Object __instance, AbstractCard card) {
 			for(int i = InfiniteSpire.questLog.size() - 1; i >= 0; i--) {

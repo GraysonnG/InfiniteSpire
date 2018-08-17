@@ -57,7 +57,6 @@ public abstract class Quest {
 	 * 
 	 * @return a copy of the quest without any data attatched to it.
 	 */
-	@Deprecated
 	public abstract Quest getCopy();
 	
 	public void incrementQuestSteps() {
