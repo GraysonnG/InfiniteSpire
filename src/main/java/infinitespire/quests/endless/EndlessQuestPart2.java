@@ -46,6 +46,6 @@ public class EndlessQuestPart2 extends Quest implements IQuestLine{
 
 	@Override
 	public Quest getNextQuestInLine() {
-		return null;
+		return new EndlessQuestPart3();
 	}
 }

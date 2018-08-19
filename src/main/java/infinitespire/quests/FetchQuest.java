@@ -1,6 +1,7 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
@@ -32,6 +33,11 @@ public class FetchQuest extends Quest {
 		if(!this.isCompleted() && AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(this.relicID)) {
 			this.incrementQuestSteps();
 		}
+	}
+
+	@Override
+	public Texture getTexture() {
+		return RelicLibrary.getRelic(relicID).img;
 	}
 
 	@Override
