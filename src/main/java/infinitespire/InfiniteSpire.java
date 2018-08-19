@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import infinitespire.abstracts.Quest;
 import infinitespire.actions.AddQuestAction;
 import infinitespire.interfaces.*;
@@ -133,6 +134,15 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	logger.info("InfiniteSpire | Saving Data...");
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+
+			if(AbstractDungeon.player != null){
+				for(AbstractRelic relic : AbstractDungeon.player.relics){
+					if(relic instanceof BottledSoul) {
+						((BottledSoul) relic).save();
+					}
+				}
+			}
+
 			config.setBool("isEndless", isEndless);
 			config.save();
 		} catch (IOException e) {
@@ -188,7 +198,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		
 		initializeCrossoverRelics();
 		
-    	//RelicLibrary.add(new BottledSoul()); //This relic is broken
+    	RelicLibrary.add(new BottledSoul()); //This relic is broken
     }
     
     private static void initializeQuestLog() {
