@@ -45,8 +45,13 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber{
 	public static final String VERSION = "0.0.7";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
+
+	//These should be removed before basemod 3.0.0
 	private static ArrayList<PreDungeonUpdateSubscriber> preDungeonUpdateSubscribers = new ArrayList<>();
 	private static ArrayList<PostDungeonUpdateSubscriber> postDungeonUpdateSubscribers = new ArrayList<>();
+	//============================================
+
+	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
     
     public static QuestLog questLog = new QuestLog();
     
@@ -85,7 +90,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		Texture modBadge = getTexture("img/infinitespire/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
 		
-		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
+		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.THE_EXORDIUM);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class, BaseMod.EventPool.ANY);
     }
     
@@ -288,6 +293,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public static void subscribe(ISubscriber subscriber){
         subscribeIfInstance(preDungeonUpdateSubscribers, subscriber, PreDungeonUpdateSubscriber.class);
         subscribeIfInstance(postDungeonUpdateSubscribers, subscriber, PostDungeonUpdateSubscriber.class);
+        subscribeIfInstance(onQuestRemovedSubscribers, subscriber, OnQuestRemovedSubscriber.class);
     }
 
     @SuppressWarnings("unchecked")
@@ -309,6 +315,12 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
         }
     }
 
+    public static void publishOnQuestRemoved(){
+    	for(OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers){
+    		subscriber.receiveQuestRemoved();
+		}
+	}
+
 	@Override
 	public void receivePostBattle(AbstractRoom room) {
 		if(room instanceof MonsterRoomBoss) {
@@ -318,7 +330,6 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 				amount -= (InfiniteSpire.questLog.size() + amount) - 21;
 			}
 			if(amount > 0) {
-				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 				AbstractDungeon.actionManager.addToBottom(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
 			}
 		}
