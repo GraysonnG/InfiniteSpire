@@ -22,14 +22,15 @@
 	"Hooded Arms Dealer" : {
 		"NAME" : "Hooded Arms Dealer",
 		"DESCRIPTIONS" : [
-			"You are approached by a man in a hood. NL He shows you rare and powerful weapons. They look otherworldly. NL You ask him the price. NL He replies, #rBLOOD, #yGOLD, or #bTRADE.",
+			"You are approached by a man in a hood. NL He shows you rare and powerful weapons. They look otherworldly. NL You ask him the price. NL He replies, #r@BLOOD@, #y@GOLD@.",
 			"You pick the weapon up and see that you were not the first to use it...",
-			"You tell him you cannot afford the price and walk away."
+			"You tell him you cannot afford the price and walk away.",
+			"You steal the weapon, and feel a sense of dread."
 		],
 		"OPTIONS" : [
 			"#y[Gold] Give ",
 			"#r[Blood] Lose ",
-			"#b[Trade] Remove 2 Cards.",
+			"#p[Steal] Gain 2 Curses.",
 			" Gold.",
 			" HP",
 			"Leave.",
