@@ -32,10 +32,22 @@
 			"#r[Blood] Lose ",
 			"#p[Steal] Gain 2 Curses.",
 			" Gold.",
-			" HP",
+			" HP.",
 			"Leave.",
 			"[Locked] Requires: ",
 			" Pick a #pBlack #pCard."
+		]
+	},
+	"Prism of Light" : {
+		"NAME" : "Prism of Light",
+		"DESCRIPTIONS" : [
+			"You stumble upon a strange multicolored prism.",
+			"You take the prism and the whole world twists around you. NL Looking down you aren't so sure you are the same as before...",
+			"You leave wondering what would have become of you had you taken the prism."
+		],
+		"OPTIONS": [
+			"[Take] Randomize your starter relic.",
+			"Leave."
 		]
 	}
 }

@@ -1,8 +1,9 @@
 {
   "modid": "infinitespire",
   "name": "Infinite Spire",
-  "author_list": ["Blank The Evil", "The_Evil_Pickle"],
+  "author_list": ["Blank The Evil"],
   "description": "Adds a new way to climb the spire forever, complete quests along the way, but be careful, the spire will not be kind to those who do not give up.",
+  "credits" : "Contributors: The_Evil_Pickle",
   "dependencies" : ["basemod"],
   "version": "0.0.9",
   "sts_version": "08-16-2018",
