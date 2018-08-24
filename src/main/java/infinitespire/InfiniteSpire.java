@@ -2,7 +2,13 @@ package infinitespire;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import java.util.ArrayList;
+
+import com.megacrit.cardcrawl.dungeons.Exordium;
+import infinitespire.abstracts.Quest;
+import infinitespire.actions.AddQuestAction;
+import infinitespire.interfaces.*;
+import infinitespire.quests.event.CaptainAbeQuest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +27,6 @@ import basemod.interfaces.*;
 import infinitespire.abstracts.Relic;
 import infinitespire.cards.*;
 import infinitespire.cards.black.*;
-import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.events.*;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
@@ -37,13 +42,12 @@ import fruitymod.patches.AbstractCardEnum;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
-EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber {
+EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber{
 	public static final String VERSION = "0.0.7";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
-   
-	@SuppressWarnings("unused")
-	private static HashMap<String, Texture> imgMap = new HashMap<String, Texture>();
-    
+
+	private static final ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
+
     public static QuestLog questLog = new QuestLog();
     
     public static boolean isEndless = false;
@@ -56,11 +60,12 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     public static String createID(String id) {
     	return "infinitespire:" + id;
     }
-    
-    private enum LoadType {
+
+	private enum LoadType {
     	RELIC,
     	CARD,
     	KEYWORD,
+		QUEST
     }
     
     public InfiniteSpire() {
@@ -68,7 +73,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     }
     
     public static void initialize() {
-        logger.info("VERSION: 0.0.5");
+        logger.info("VERSION: 0.0.9");
         new InfiniteSpire();
     }
     
@@ -79,8 +84,9 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		Texture modBadge = getTexture("img/infinitespire/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
 		
-		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.ANY);
-		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class, BaseMod.EventPool.ANY);
+		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
+		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
+		BaseMod.addEvent(PrismEvent.ID,PrismEvent.class, Exordium.ID);
     }
     
     @Override
@@ -122,6 +128,13 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	logger.info("InfiniteSpire | Saving Data...");
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+
+			if(AbstractDungeon.player != null){
+				if(AbstractDungeon.player.hasRelic(BottledSoul.ID)){
+					((BottledSoul) AbstractDungeon.player.getRelic(BottledSoul.ID)).save();
+				}
+			}
+
 			config.setBool("isEndless", isEndless);
 			config.save();
 		} catch (IOException e) {
@@ -172,13 +185,12 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		RelicLibrary.addBlue(new Freezer());
 		
 		RelicLibrary.addRed(new BurningSword());
-		
-		
+
 		Relic.addQuestRelic(new HolyWater());
 		
 		initializeCrossoverRelics();
 		
-    	//RelicLibrary.add(new BottledSoul()); //This relic is broken
+    	RelicLibrary.add(new BottledSoul()); //This relic is broken
     }
     
     private static void initializeQuestLog() {
@@ -186,11 +198,12 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	
        
         QuestHelper.init();
+        initalizeCrossoverQuests();
         loadData();
     }
     
     private static void initializeCards() {
-    	BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK.toString(), CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, 
+    	BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR,
 				Color.BLACK.cpy(), CARD_COLOR, "img/infinitespire/cards/ui/512/boss-attack.png", "img/infinitespire/cards/ui/512/boss-skill.png",
 				"img/infinitespire/cards/ui/512/boss-power.png", "img/infinitespire/cards/ui/512/boss-orb.png", "img/infinitespire/cards/ui/1024/boss-attack.png", 
 				"img/infinitespire/cards/ui/1024/boss-skill.png", "img/infinitespire/cards/ui/1024/boss-power.png", "img/infinitespire/cards/ui/1024/boss-orb.png");
@@ -200,7 +213,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	logger.info("InfiniteSpire | Initializing cards...");    	
     	CardHelper.addCard(new OneForAll());
     	CardHelper.addCard(new Neurotoxin());
-    	
+
+    	//Black Cards
     	CardHelper.addCard(new FinalStrike());
     	CardHelper.addCard(new ThousandBlades());
     	CardHelper.addCard(new Gouge());
@@ -224,8 +238,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			logger.info("InfiniteSpire failed to detect FruityMod...");
 		}
     }
-    
-    @SuppressWarnings("unused")
+
 	private static void initializeCrossoverCards() {
     	try {
 			initializeReplayTheSpire(LoadType.CARD);
@@ -233,7 +246,15 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
 		}
     }
-    
+
+    private static void initalizeCrossoverQuests(){
+    	try{
+    		initializeReplayTheSpire(LoadType.QUEST);
+		} catch (ClassNotFoundException | NoClassDefFoundError e) {
+			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
+		}
+	}
+
 	@SuppressWarnings("unused")
 	private static void initializeReplayTheSpire(LoadType type) throws ClassNotFoundException, NoClassDefFoundError {
 		Class<ReplayTheSpireMod> replayTheSpire = ReplayTheSpireMod.class;
@@ -246,8 +267,10 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for Replay The Spire...");
 		}
+		if(type == LoadType.QUEST) {
+			QuestHelper.registerQuest(CaptainAbeQuest.class);
+		}
 	}
-	
 	@SuppressWarnings("unused")
 	private static void initializeFruityMod(LoadType type)throws ClassNotFoundException, NoClassDefFoundError {
 		Class<FruityMod> fruityMod = FruityMod.class;
@@ -255,10 +278,35 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		
 		if(type == LoadType.RELIC) {
 			logger.info("InfiniteSpire | Initializing Relics for FruityMod...");
-			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE.toString());
+			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
 		}
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for FruityMod...");
+		}
+	}
+
+	public static void triggerDieQuests(){
+    	for(Quest q : questLog){
+    		if(q instanceof DieQuest){
+    			q.incrementQuestSteps();
+			}
+		}
+	}
+
+	public static void subscribe(ISubscriber subscriber){
+		subscribeIfInstance(onQuestRemovedSubscribers, subscriber, OnQuestRemovedSubscriber.class);
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T> void subscribeIfInstance(ArrayList<T> list, ISubscriber sub, Class<T> clazz) {
+		if(clazz.isInstance(sub)){
+			list.add((T) sub);
+		}
+	}
+
+	public static void publishOnQuestRemoved(Quest quest){
+		for(OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers){
+			subscriber.receiveQuestRemoved(quest);
 		}
 	}
 
@@ -271,8 +319,27 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 				amount -= (InfiniteSpire.questLog.size() + amount) - 21;
 			}
 			if(amount > 0) {
-				AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
-				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(amount));
+				AbstractDungeon.actionManager.addToBottom(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
+			}
+		}
+	}
+
+	@Override
+	public void receivePreDungeonUpdate() {
+    	//This is code to add event quests when their shouldBegin requirements are met
+		for(Class<? extends Quest> questClass: QuestHelper.questMap.values()){
+			try {
+				//check to see if questclass implements eventquest
+				if(IAutoQuest.class.isAssignableFrom(questClass)){
+					Quest quest = questClass.newInstance();
+					//check to see if it shouldBegin and it isnt already in the quest log
+					if(AbstractDungeon.player != null && ((IAutoQuest) quest).shouldBegin()
+                            && !InfiniteSpire.questLog.hasQuest(quest)) {
+						AbstractDungeon.actionManager.addToBottom(new AddQuestAction(quest.createNew()));
+					}
+				}
+			}catch(InstantiationException | IllegalAccessException e){
+				e.printStackTrace();
 			}
 		}
 	}

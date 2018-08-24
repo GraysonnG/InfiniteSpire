@@ -21,6 +21,7 @@ public class FutureSight extends BlackCard {
 		super(ID, NAME, TEXTURE, COST, DESCRIPTION, CardType.SKILL, CardTarget.SELF);
 		this.baseMagicNumber = MAGIC;
 		this.magicNumber = MAGIC;
+		this.exhaust = true;
 	}
 	
 	@Override

@@ -27,24 +27,27 @@ import infinitespire.abstracts.Quest.QuestRarity;
 import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.quests.*;
 import infinitespire.quests.endless.*;
+import infinitespire.quests.event.*;
 
 public class QuestHelper {
 	
-	public static HashMap<String, Class<? extends Quest>> questMap = new HashMap<String, Class<? extends Quest>>();
+	public static HashMap<String, Class<? extends Quest>> questMap = new HashMap<>();
 	
 	public static void init() {
-		addQuestType(FetchQuest.class);
-		addQuestType(DieQuest.class);
-		addQuestType(SlayQuest.class);
-		addQuestType(FlawlessQuest.class);
-		addQuestType(OneTurnKillQuest.class);
-		addQuestType(RemoveCardQuest.class);
-		addQuestType(PickUpCardQuest.class);
-		addQuestType(EndlessQuestPart1.class);
-		addQuestType(EndlessQuestPart2.class);
+		registerQuest(FetchQuest.class);
+		registerQuest(DieQuest.class);
+		registerQuest(SlayQuest.class);
+		registerQuest(FlawlessQuest.class);
+		registerQuest(OneTurnKillQuest.class);
+		registerQuest(RemoveCardQuest.class);
+		registerQuest(PickUpCardQuest.class);
+		registerQuest(EndlessQuestPart1.class);
+		registerQuest(EndlessQuestPart2.class);
+		registerQuest(BearQuest.class);
+		registerQuest(BlankyQuest.class);
 	}
 	
-	private static void addQuestType(Class<? extends Quest> type) {
+	public static void registerQuest(Class<? extends Quest> type) {
 		questMap.put(type.getName(), type);
 	}
 	
@@ -61,7 +64,7 @@ public class QuestHelper {
 		int attempts = 100;
 		QuestAmount qs = new QuestAmount();
 
-		ArrayList<Quest> questsToAdd = new ArrayList<Quest>();
+		ArrayList<Quest> questsToAdd = new ArrayList<>();
 		do {
 			Quest q = getRandomQuest();
 			
@@ -93,11 +96,9 @@ public class QuestHelper {
 			questsToAdd.add(q);
 			questsAdded++;
 			
-		}while(questsAdded < amount && attempts > 0);
-		
-		ArrayList<Quest> retVal = new ArrayList<Quest>();
-		retVal.addAll(questsToAdd);
-		return retVal;
+		}while(questsAdded < amount);
+
+		return questsToAdd;
 	}
 
 	public static Quest getRandomQuest() {

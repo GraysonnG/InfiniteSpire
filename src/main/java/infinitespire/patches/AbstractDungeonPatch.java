@@ -74,6 +74,8 @@ public class AbstractDungeonPatch {
 				InfiniteSpire.questLogScreen.update();
 		}
 	}
+
+
 	
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "generateMap")
 	public static class GenerateMap {

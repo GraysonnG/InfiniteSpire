@@ -26,6 +26,7 @@ public abstract class BlackCard extends Card {
 
 	@SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "renderTitle")
 	public static class renderTitlePatch{
+		//Inserted after: font.getData().setScale(this.drawScale);
 		@SpireInsertPatch(rloc=64, localvars = {"font", "renderColor"})
 		public static SpireReturn<?> Insert(AbstractCard __instance, SpriteBatch sb, BitmapFont font, Color renderColor) {
 			if(__instance instanceof BlackCard) {
@@ -34,7 +35,8 @@ public abstract class BlackCard extends Card {
 					color = TITLE_COLOR.cpy();
 				}
 				color.a = renderColor.a;
-				FontHelper.renderRotatedText(sb, font, __instance.name, __instance.current_x, __instance.current_y, 0f, 175f * __instance.drawScale * Settings.scale, __instance.angle, false, color);
+				FontHelper.renderRotatedText(sb, font, __instance.name, __instance.current_x, __instance.current_y,
+						0f, 175f * __instance.drawScale * Settings.scale, __instance.angle, false, color);
 				return SpireReturn.Return(null);
 			}
 			return SpireReturn.Continue();
@@ -50,12 +52,15 @@ public abstract class BlackCard extends Card {
 					FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, SingleCardViewPopup.TEXT[4], Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
 				}else if(card.isSeen) {
 					if(card.upgraded) {
-						FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, card.name, Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, TITLE_COLOR);
+						FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small,
+								card.name, Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, TITLE_COLOR);
 					} else {
-						FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, card.name, Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
+						FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small,
+								card.name, Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
 					}
 				}else {
-					FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, SingleCardViewPopup.TEXT[5], Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
+					FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small,
+							SingleCardViewPopup.TEXT[5], Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
 				}
 				return SpireReturn.Return(null);
 			}

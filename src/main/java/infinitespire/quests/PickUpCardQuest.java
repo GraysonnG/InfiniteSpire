@@ -34,7 +34,7 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Gain " + gold + " Gold. Remove a Card.";
+		return "Gain " + gold + " Gold.";
 	}
 
 	@Override

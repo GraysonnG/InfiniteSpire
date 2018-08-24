@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
+import com.megacrit.cardcrawl.relics.Omamori;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 
 import infinitespire.helpers.CardHelper;
@@ -82,10 +83,19 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 				this.pickCard();
 				break;
 			case 2:
-				AbstractDungeon.gridSelectScreen.open(
-						CardGroup.getGroupWithoutBottledCards(
-								AbstractDungeon.player.masterDeck.getPurgeableCards()), 2, 
-								"Remove 2 cards.", false, false, false, true);
+				CardGroup group = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
+				for(int i = 0; i < 2; i++) {
+					if(AbstractDungeon.player.hasRelic(Omamori.ID)){
+						Omamori relic = (Omamori) AbstractDungeon.player.getRelic(Omamori.ID);
+						if(relic.counter > 0) {
+							relic.use();
+							continue;
+						}
+					}
+
+					group.addToBottom(AbstractDungeon.returnRandomCurse());
+				}
+				AbstractDungeon.gridSelectScreen.openConfirmationGrid(group, "Become Cursed.");
 				break;
 			case 3:
 				break;

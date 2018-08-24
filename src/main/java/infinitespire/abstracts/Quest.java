@@ -1,6 +1,9 @@
 package infinitespire.abstracts;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import infinitespire.InfiniteSpire;
+import infinitespire.util.TextureLoader;
 
 public abstract class Quest {
 	
@@ -9,9 +12,10 @@ public abstract class Quest {
 	public Color color;
 	public QuestType type;
 	public QuestRarity rarity;
-	public boolean isNew, justCompleted = false;
-	
-	private boolean completed, remove;
+	public String textureString;
+	public boolean isNew, justCompleted = false, completed, abandon;
+
+	private boolean remove;
 	
 	public enum QuestType {
 		RED,
@@ -34,6 +38,7 @@ public abstract class Quest {
 		this.completed = false;
 		this.remove = false;
 		this.isNew = true;
+		this.textureString = "";
 	}
 	/**
 	 * This is called when the player clicks on a quest in the log or when the quest log looks for completed auto complete quests.
@@ -52,12 +57,18 @@ public abstract class Quest {
 	 * @return The title of the quest.
 	 */
 	public abstract String getTitle();
-	
+
+	public Texture getTexture(){
+		if(textureString.isEmpty()){
+			return TextureLoader.getTexture("img/infinitespire/ui/missingtexture.png");
+		}
+
+		return TextureLoader.getTexture(textureString);
+	}
 	/**
 	 * 
 	 * @return a copy of the quest without any data attatched to it.
 	 */
-	@Deprecated
 	public abstract Quest getCopy();
 	
 	public void incrementQuestSteps() {
@@ -85,6 +96,7 @@ public abstract class Quest {
 	}
 	
 	public void removeQuest() {
+	    InfiniteSpire.publishOnQuestRemoved(this);
 		remove = true;
 	}
 	
@@ -95,4 +107,6 @@ public abstract class Quest {
 	public boolean isSameQuest(Quest q) {
 		return this.getTitle().equals(q.getTitle());
 	}
+
+	public void update(){ /*NOP */ }
 }

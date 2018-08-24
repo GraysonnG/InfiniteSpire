@@ -8,8 +8,9 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.CardHelper;
+import infinitespire.interfaces.IQuestLine;
 
-public class EndlessQuestPart2 extends Quest {
+public class EndlessQuestPart2 extends Quest implements IQuestLine{
 
 	private static final Color COLOR = new Color(0.75f, 0.0f, 1.0f, 1.0f);
 	
@@ -41,5 +42,10 @@ public class EndlessQuestPart2 extends Quest {
 	@Override
 	public Quest getCopy() {
 		return new EndlessQuestPart2();
+	}
+
+	@Override
+	public Quest getNextQuestInLine() {
+		return new EndlessQuestPart3();
 	}
 }

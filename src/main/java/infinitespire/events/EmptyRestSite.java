@@ -107,9 +107,10 @@ public class EmptyRestSite extends AbstractImageEvent {
 				} else {
 					imageEventText.updateBodyText(DESCRIPTIONS[4]);
 					CardCrawlGame.sound.play("SHOVEL");
-		            AbstractDungeon.getCurrRoom().rewards.clear();
-		            AbstractDungeon.getCurrRoom().rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
-		            AbstractDungeon.combatRewardScreen.open();
+                    AbstractDungeon.combatRewardScreen.open();
+		            AbstractDungeon.combatRewardScreen.rewards.clear();
+		            AbstractDungeon.combatRewardScreen.rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
+		            AbstractDungeon.combatRewardScreen.positionRewards();
 				}
 		        break;
 			case 4:

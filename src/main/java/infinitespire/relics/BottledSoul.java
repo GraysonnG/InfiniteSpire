@@ -1,5 +1,9 @@
 package infinitespire.relics;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import infinitespire.patches.AbstractCardPatch;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,20 +19,22 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 
 import infinitespire.InfiniteSpire;
 
+import java.io.IOException;
+
 public class BottledSoul extends AbstractRelic {
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	public static final String ID = "Bottled Soul";
 	public static final String NAME = "Bottled Soul";
-	public boolean cardSelected;
-	public int cardIndex;
+	private boolean cardSelected;
+	private int cardIndex = -1;
 	public AbstractCard card;
 	private AbstractRoom.RoomPhase prevPhase;
 	
 	public BottledSoul() {
 		super(ID, "", RelicTier.UNCOMMON, LandingSound.CLINK);
-		Texture texture = InfiniteSpire.getTexture("img/relics/bottledsoul.png");
-		Texture outline = InfiniteSpire.getTexture("img/relics/bottledsoul-outline.png");
+		Texture texture = InfiniteSpire.getTexture("img/infinitespire/relics/bottledsoul.png");
+		Texture outline = InfiniteSpire.getTexture("img/infinitespire/relics/bottledsoul-outline.png");
 		img = texture;
 		largeImg = texture;
 		outlineImg = outline;
@@ -43,9 +49,29 @@ public class BottledSoul extends AbstractRelic {
 	public AbstractCard getCard() {
 		return this.card.makeCopy();
 	}
-	
-	
-	
+
+	@Override
+	public void renderTip(SpriteBatch sb){
+		super.renderTip(sb);
+		if (InputHelper.mX < 1400.0f * Settings.scale && card != null) {
+			renderCardPreview(sb);
+		}
+	}
+
+
+	private void renderCardPreview(SpriteBatch sb) {
+		AbstractCard renderableCard = card.makeStatEquivalentCopy();
+
+		if (renderableCard != null && this.hb.hovered) {
+			renderableCard.drawScale = 0.5f;
+			renderableCard.current_x = InputHelper.mX + (renderableCard.hb.width / 2f) + 10f * Settings.scale +
+					this.hb.width + 280.0f * Settings.scale;
+			renderableCard.current_y = InputHelper.mY - renderableCard.hb.height / 2f;
+			renderableCard.render(sb);
+		}
+
+	}
+
 	@Override
 	public void onPlayCard(AbstractCard c, AbstractMonster m) {
 		
@@ -76,16 +102,31 @@ public class BottledSoul extends AbstractRelic {
 			AbstractDungeon.getCurrRoom().phase = prevPhase;
 		}
 	}
-	
+
 	public void onUnequip() {
+		this.cardIndex = -1;
+		this.card.exhaust = false;
+		AbstractCardPatch.Field.isBottledSoulCard.set(card, false);
+		this.card = null;
 	}
-	
-	public void save(SpireConfig config) {
-		
+
+	//this needs to happen when you pick the relic up
+	public void save() {
+	    this.cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
+		try {
+            SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+            config.setInt("bottledSoulIndex", cardIndex);
+			InfiniteSpire.logger.info("Bottled Soul saved with index: " + cardIndex);
+            config.save();
+        }catch(IOException e){
+		    e.printStackTrace();
+        }
 	}
 	
 	public void load(SpireConfig config) {
-		
+		this.cardIndex = config.getInt("bottledSoulIndex");
+		this.card = AbstractDungeon.player.masterDeck.group.get(this.cardIndex);
+		bottleCard(card);
 	}
 	
 	public void update() {
@@ -93,10 +134,20 @@ public class BottledSoul extends AbstractRelic {
 		if(!this.cardSelected && !AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 			this.cardSelected = true;
 			this.card = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
+			bottleCard(card);
 			AbstractDungeon.getCurrRoom().phase = prevPhase;
 			InfiniteSpire.logger.info("Bottled Soul: "+ this.card.name);
+			AbstractDungeon.gridSelectScreen.selectedCards.clear();
 		}
 	}
+
+	private void bottleCard(AbstractCard card){
+		if (cardIndex == -1) {
+			this.cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
+		}
+        this.card.exhaust = false;
+        AbstractCardPatch.Field.isBottledSoulCard.set(card, true);
+    }
 
 	@Override
 	public AbstractRelic makeCopy() {
