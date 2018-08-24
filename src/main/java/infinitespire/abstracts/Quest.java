@@ -13,8 +13,8 @@ public abstract class Quest {
 	public QuestType type;
 	public QuestRarity rarity;
 	public String textureString;
-	public boolean isNew, justCompleted = false, completed;
-	
+	public boolean isNew, justCompleted = false, completed, abandon;
+
 	private boolean remove;
 	
 	public enum QuestType {
@@ -96,7 +96,7 @@ public abstract class Quest {
 	}
 	
 	public void removeQuest() {
-	    InfiniteSpire.publishOnQuestRemoved();
+	    InfiniteSpire.publishOnQuestRemoved(this);
 		remove = true;
 	}
 	

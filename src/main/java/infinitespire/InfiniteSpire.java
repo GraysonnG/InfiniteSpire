@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.dungeons.Exordium;
 import infinitespire.abstracts.Quest;
 import infinitespire.actions.AddQuestAction;
 import infinitespire.interfaces.*;
@@ -27,7 +27,6 @@ import basemod.interfaces.*;
 import infinitespire.abstracts.Relic;
 import infinitespire.cards.*;
 import infinitespire.cards.black.*;
-import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.events.*;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
@@ -47,13 +46,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public static final String VERSION = "0.0.7";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
-	//These should be removed before basemod 3.0.0
-	private static ArrayList<PreDungeonUpdateSubscriber> preDungeonUpdateSubscribers = new ArrayList<>();
-	private static ArrayList<PostDungeonUpdateSubscriber> postDungeonUpdateSubscribers = new ArrayList<>();
-	//============================================
+	private static final ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
 
-	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
-    
     public static QuestLog questLog = new QuestLog();
     
     public static boolean isEndless = false;
@@ -75,7 +69,6 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     }
     
     public InfiniteSpire() {
-    	InfiniteSpire.subscribe(this);
     	BaseMod.subscribe(this);
     }
     
@@ -91,8 +84,9 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		Texture modBadge = getTexture("img/infinitespire/modbadge.png");
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil", "Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", null);
 		
-		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, BaseMod.EventPool.THE_EXORDIUM);
-		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class, BaseMod.EventPool.ANY);
+		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
+		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
+		BaseMod.addEvent(PrismEvent.ID,PrismEvent.class, Exordium.ID);
     }
     
     @Override
@@ -136,10 +130,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
 			if(AbstractDungeon.player != null){
-				for(AbstractRelic relic : AbstractDungeon.player.relics){
-					if(relic instanceof BottledSoul) {
-						((BottledSoul) relic).save();
-					}
+				if(AbstractDungeon.player.hasRelic(BottledSoul.ID)){
+					((BottledSoul) AbstractDungeon.player.getRelic(BottledSoul.ID)).save();
 				}
 			}
 
@@ -211,7 +203,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     }
     
     private static void initializeCards() {
-    	BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK.toString(), CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, 
+    	BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR, CARD_COLOR,
 				Color.BLACK.cpy(), CARD_COLOR, "img/infinitespire/cards/ui/512/boss-attack.png", "img/infinitespire/cards/ui/512/boss-skill.png",
 				"img/infinitespire/cards/ui/512/boss-power.png", "img/infinitespire/cards/ui/512/boss-orb.png", "img/infinitespire/cards/ui/1024/boss-attack.png", 
 				"img/infinitespire/cards/ui/1024/boss-skill.png", "img/infinitespire/cards/ui/1024/boss-power.png", "img/infinitespire/cards/ui/1024/boss-orb.png");
@@ -263,6 +255,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void initializeReplayTheSpire(LoadType type) throws ClassNotFoundException, NoClassDefFoundError {
 		Class<ReplayTheSpireMod> replayTheSpire = ReplayTheSpireMod.class;
 		logger.info("InfiniteSpire | InfiniteSpire has successfully detected Replay The Spire!");
@@ -278,14 +271,14 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			QuestHelper.registerQuest(CaptainAbeQuest.class);
 		}
 	}
-	@SuppressWarnings("")
+	@SuppressWarnings("unused")
 	private static void initializeFruityMod(LoadType type)throws ClassNotFoundException, NoClassDefFoundError {
 		Class<FruityMod> fruityMod = FruityMod.class;
 		logger.info("InfiniteSpire | InfiniteSpire has successfully detected FruityMod!");
 		
 		if(type == LoadType.RELIC) {
 			logger.info("InfiniteSpire | Initializing Relics for FruityMod...");
-			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE.toString());
+			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
 		}
 		if(type == LoadType.CARD) {
 			logger.info("InfiniteSpire | Initializing Cards for FruityMod...");
@@ -301,33 +294,19 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	}
 
 	public static void subscribe(ISubscriber subscriber){
-        subscribeIfInstance(preDungeonUpdateSubscribers, subscriber, PreDungeonUpdateSubscriber.class);
-        subscribeIfInstance(postDungeonUpdateSubscribers, subscriber, PostDungeonUpdateSubscriber.class);
-        subscribeIfInstance(onQuestRemovedSubscribers, subscriber, OnQuestRemovedSubscriber.class);
-    }
+		subscribeIfInstance(onQuestRemovedSubscribers, subscriber, OnQuestRemovedSubscriber.class);
+	}
 
-    @SuppressWarnings("unchecked")
-    private static <T> void subscribeIfInstance(ArrayList<T> list, ISubscriber sub, Class<T> clazz) {
-        if(clazz.isInstance(sub)){
-            list.add((T) sub);
-        }
-    }
+	@SuppressWarnings("unchecked")
+	private static <T> void subscribeIfInstance(ArrayList<T> list, ISubscriber sub, Class<T> clazz) {
+		if(clazz.isInstance(sub)){
+			list.add((T) sub);
+		}
+	}
 
-    public static void publishPreDungeonUpdate(){
-        for(PreDungeonUpdateSubscriber subscriber : preDungeonUpdateSubscribers){
-            subscriber.receivePreDungeonUpdate();
-        }
-    }
-
-    public static void publishPostDungeonUpdate(){
-        for(PostDungeonUpdateSubscriber subscriber : postDungeonUpdateSubscribers){
-            subscriber.receivePostDungeonUpdate();
-        }
-    }
-
-    public static void publishOnQuestRemoved(){
-    	for(OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers){
-    		subscriber.receiveQuestRemoved();
+	public static void publishOnQuestRemoved(Quest quest){
+		for(OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers){
+			subscriber.receiveQuestRemoved(quest);
 		}
 	}
 

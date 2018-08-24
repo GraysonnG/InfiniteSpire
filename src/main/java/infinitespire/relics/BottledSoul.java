@@ -60,7 +60,8 @@ public class BottledSoul extends AbstractRelic {
 
 
 	private void renderCardPreview(SpriteBatch sb) {
-		AbstractCard renderableCard = card.makeCopy();
+		AbstractCard renderableCard = card.makeStatEquivalentCopy();
+
 		if (renderableCard != null && this.hb.hovered) {
 			renderableCard.drawScale = 0.5f;
 			renderableCard.current_x = InputHelper.mX + (renderableCard.hb.width / 2f) + 10f * Settings.scale +
@@ -115,7 +116,7 @@ public class BottledSoul extends AbstractRelic {
 		try {
             SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
             config.setInt("bottledSoulIndex", cardIndex);
-
+			InfiniteSpire.logger.info("Bottled Soul saved with index: " + cardIndex);
             config.save();
         }catch(IOException e){
 		    e.printStackTrace();
@@ -136,6 +137,7 @@ public class BottledSoul extends AbstractRelic {
 			bottleCard(card);
 			AbstractDungeon.getCurrRoom().phase = prevPhase;
 			InfiniteSpire.logger.info("Bottled Soul: "+ this.card.name);
+			AbstractDungeon.gridSelectScreen.selectedCards.clear();
 		}
 	}
 

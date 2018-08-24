@@ -6,7 +6,7 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractEvent;
-import com.megacrit.cardcrawl.events.thecity.MaskedBandits;
+import com.megacrit.cardcrawl.events.city.MaskedBandits;
 import com.megacrit.cardcrawl.relics.*;
 import com.megacrit.cardcrawl.rewards.RewardItem;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
@@ -81,7 +81,7 @@ public class BearQuest extends Quest implements IAutoQuest {
         return new BearQuest();
     }
 
-    @SpirePatch(cls = "com.megacrit.cardcrawl.events.thecity.MaskedBandits", method = "buttonEffect")
+    @SpirePatch(cls = "com.megacrit.cardcrawl.events.city.MaskedBandits", method = "buttonEffect")
     public static class ButtonEffect {
 
         public static boolean hasChosen = false;

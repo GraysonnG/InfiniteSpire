@@ -21,7 +21,7 @@ public class CubicDiamond extends Relic {
 	}
 	
 	private AbstractRelic selectRelic(AbstractRelic original) {
-		AbstractRelic relicToAdd = RelicLibrary.starterList.get(AbstractDungeon.cardRandomRng.random(RelicLibrary.starterList.size() - 1));;
+		AbstractRelic relicToAdd = RelicLibrary.starterList.get(AbstractDungeon.cardRandomRng.random(RelicLibrary.starterList.size() - 1));
 		
 		if(relicToAdd.relicId.equals(original.relicId)) {
 			relicToAdd = selectRelic(original);

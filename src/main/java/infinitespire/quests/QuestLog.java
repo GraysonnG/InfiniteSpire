@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
 import basemod.BaseMod;
-import basemod.interfaces.PostUpdateSubscriber;
+import basemod.interfaces.*;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.effects.QuestLogUpdateEffect;
-import infinitespire.interfaces.IAutoQuest;
 import infinitespire.interfaces.IQuestLine;
-import infinitespire.interfaces.PostDungeonUpdateSubscriber;
 
 public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, PostDungeonUpdateSubscriber{
 	
@@ -24,7 +22,6 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
 		super();
 		
 		if(!shouldSubscribe) return;
-		InfiniteSpire.subscribe(this);
 		BaseMod.subscribe(this);
 	}
 	
