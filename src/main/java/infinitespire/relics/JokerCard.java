@@ -8,12 +8,13 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.powers.JokerCardPower;
 
 public class JokerCard extends Relic {
 
-	public static final String ID = "Joker Card";
+	public static final String ID = InfiniteSpire.createID("Joker Card");
 	
 	public JokerCard() {
 		super(ID, "jokercard", RelicTier.RARE, LandingSound.FLAT);

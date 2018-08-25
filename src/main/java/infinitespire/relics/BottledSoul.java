@@ -26,7 +26,7 @@ import java.io.IOException;
 public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
-	public static final String ID = "Bottled Soul";
+	public static final String ID = InfiniteSpire.createID("Bottled Soul");
 	public static final String NAME = "Bottled Soul";
 	private boolean cardSelected;
 	private int cardIndex = -1;

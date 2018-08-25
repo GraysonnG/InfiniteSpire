@@ -6,10 +6,11 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.RegenPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 
 public class LycheeNut extends Relic {
-	public static final String ID = "Lychee Nut";
+	public static final String ID = InfiniteSpire.createID("Lychee Nut");
 	public static final String NAME = "Lychee Nut";
 
 	public LycheeNut() {

@@ -10,7 +10,7 @@ import infinitespire.abstracts.Relic;
 
 public class Freezer extends Relic {
 
-	public static final String ID = "Freezer";
+	public static final String ID = InfiniteSpire.createID("Freezer");
 	
 	public Freezer() {
 		super(ID, "freezer", RelicTier.COMMON, LandingSound.CLINK);

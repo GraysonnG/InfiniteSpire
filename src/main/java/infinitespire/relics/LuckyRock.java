@@ -13,7 +13,7 @@ import infinitespire.powers.CriticalPower;
 
 public class LuckyRock extends Relic {
 
-	private static final String ID = "Lucky Rock";
+	private static final String ID = InfiniteSpire.createID("Lucky Rock");
 
 	public LuckyRock() {
 		super(ID, "luckyrock", RelicTier.COMMON, LandingSound.SOLID);

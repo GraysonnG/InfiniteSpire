@@ -4,11 +4,12 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 
 public class HolyWater extends Relic {
 
-	public static final String ID = "Holy Water";
+	public static final String ID = InfiniteSpire.createID("Holy Water");
 	
 	public HolyWater() {
 		super(ID, "holywater", RelicTier.RARE, LandingSound.CLINK);

@@ -8,7 +8,7 @@ import infinitespire.abstracts.Relic;
 
 public class BlanksBlanky extends Relic {
 
-	public static final String ID = "Blanks Blanky";
+	public static final String ID = InfiniteSpire.createID("Blanks Blanky");
 	
 	public BlanksBlanky() {
 		super(ID, "blanksblanky", RelicTier.SPECIAL, LandingSound.MAGICAL);
