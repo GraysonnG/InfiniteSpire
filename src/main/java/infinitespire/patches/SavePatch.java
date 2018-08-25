@@ -48,17 +48,17 @@ public class SavePatch {
 	@SpirePatch(cls = "com.megacrit.cardcrawl.core.CardCrawlGame", method = "loadPlayerSave")
 	public static class PlayerLoad {
 		public static void Postfix(CardCrawlGame game, AbstractPlayer player){
-			for(AbstractRelic relic : player.relics){
-				if(relic.relicId.equals(BottledSoul.ID)){
-					try {
-						SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
-						config.load();
-						((BottledSoul) relic).load(config);
-					} catch(IOException e){
-						e.printStackTrace();
-					}
-				}
-			}
+//			for(AbstractRelic relic : player.relics){
+//				if(relic.relicId.equals(BottledSoul.ID)){
+//					try {
+//						SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+//						config.load();
+//						//((BottledSoul) relic).load(config);
+//					} catch(IOException e){
+//						e.printStackTrace();
+//					}
+//				}
+//			}
 		}
 	}
 }
