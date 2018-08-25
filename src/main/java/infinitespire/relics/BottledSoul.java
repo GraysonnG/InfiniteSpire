@@ -1,5 +1,7 @@
 package infinitespire.relics;
 
+import basemod.BaseMod;
+import basemod.interfaces.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -21,7 +23,7 @@ import infinitespire.InfiniteSpire;
 
 import java.io.IOException;
 
-public class BottledSoul extends AbstractRelic {
+public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	public static final String ID = "Bottled Soul";
@@ -40,6 +42,8 @@ public class BottledSoul extends AbstractRelic {
 		outlineImg = outline;
 		this.cardSelected = true;
 		this.card = null;
+
+		BaseMod.subscribe(this);
 	}
 	
 	public String getUpdatedDescription() {
@@ -103,14 +107,13 @@ public class BottledSoul extends AbstractRelic {
 		}
 	}
 
+	//this is what happens when you unequip the relic
 	public void onUnequip() {
 		this.cardIndex = -1;
-		this.card.exhaust = false;
 		AbstractCardPatch.Field.isBottledSoulCard.set(card, false);
 		this.card = null;
 	}
 
-	//this needs to happen when you pick the relic up
 	public void save() {
 	    this.cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
 		try {
@@ -145,7 +148,6 @@ public class BottledSoul extends AbstractRelic {
 		if (cardIndex == -1) {
 			this.cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
 		}
-        this.card.exhaust = false;
         AbstractCardPatch.Field.isBottledSoulCard.set(card, true);
     }
 
@@ -154,4 +156,14 @@ public class BottledSoul extends AbstractRelic {
 		return new BottledSoul();
 	}
 
+	@Override
+	public void receiveStartGame() {
+		try {
+			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+			config.load();
+			this.load(config);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to load Bottled Soul.");
+		}
+	}
 }
