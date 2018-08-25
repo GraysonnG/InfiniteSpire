@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.RegalPillow;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.interfaces.IAutoQuest;
@@ -13,6 +14,7 @@ public class BlankyQuest extends Quest implements IAutoQuest {
 
     public static final String ID = BlankyQuest.class.getName();
     public static final Color COLOR = new Color(0f,0.8f,1f,1f);
+    public static boolean isAbandoned;
     public int heal;
 
     public BlankyQuest() {
@@ -21,7 +23,7 @@ public class BlankyQuest extends Quest implements IAutoQuest {
 
     @Override
     public boolean shouldBegin() {
-       return AbstractDungeon.player.hasRelic(RegalPillow.ID) && !AbstractDungeon.player.hasRelic(BlanksBlanky.ID);
+       return !isAbandoned && AbstractDungeon.player.hasRelic(RegalPillow.ID) && !AbstractDungeon.player.hasRelic(BlanksBlanky.ID);
     }
 
     @Override
@@ -40,6 +42,14 @@ public class BlankyQuest extends Quest implements IAutoQuest {
        if(AbstractDungeon.player.hasRelic(BlanksBlanky.ID) && !this.isCompleted()) {
            this.incrementQuestSteps();
        }
+    }
+
+    @Override
+    public void removeQuest() {
+        super.removeQuest();
+        if(this.abandon){
+            isAbandoned = true;
+        }
     }
 
     @Override
