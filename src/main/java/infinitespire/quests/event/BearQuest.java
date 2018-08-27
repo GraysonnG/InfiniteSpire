@@ -2,6 +2,7 @@ package infinitespire.quests.event;
 
 import basemod.helpers.SuperclassFinder;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -23,14 +24,20 @@ public class BearQuest extends Quest implements IAutoQuest {
     public static final String ID = BearQuest.class.getName();
     private static final Color COLOR = new Color(1.0f, 0.75f, 0f, 1f);
     private static boolean addedOption = false;
+    private static boolean isAbandoned = false;
 
     public BearQuest() {
         super(ID, COLOR, 1, Quest.QuestType.BLUE, Quest.QuestRarity.SPECIAL);
     }
 
     @Override
+    public Texture getTexture() {
+        return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/chip.png");
+    }
+
+    @Override
     public boolean shouldBegin() {
-        if(AbstractDungeon.player.hasRelic(GamblingChip.ID) &&
+        if(!isAbandoned && AbstractDungeon.player.hasRelic(GamblingChip.ID) &&
                 AbstractDungeon.eventList.contains("Masked Bandits") &&
                 !AbstractDungeon.player.hasRelic(RedMask.ID)) {
             return true;

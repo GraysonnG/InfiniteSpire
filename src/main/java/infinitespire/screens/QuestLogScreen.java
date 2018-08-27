@@ -1,9 +1,9 @@
 package infinitespire.screens;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -14,11 +14,12 @@ import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.patches.ScreenStatePatch;
 import infinitespire.quests.QuestLog;
+
+import java.util.ArrayList;
 
 public class QuestLogScreen {
 	
@@ -128,7 +129,6 @@ public class QuestLogScreen {
 				y + 22.0f * Settings.scale, Color.WHITE, 1f);
 	}
 
-	//this is coded badly but oh well
 	public void renderQuest(int index, int hbI, SpriteBatch sb, Quest quest) {
 		float xOffset = 1;
 		
@@ -147,7 +147,7 @@ public class QuestLogScreen {
 		float width = 500f * Settings.scale;
 		float xPos = ((Settings.WIDTH / 4f) * xOffset) - (width / 2f);
 		float yPos = Settings.HEIGHT - (450f * Settings.scale);
-		float textXOffset = 111f * Settings.scale;
+		float textXOffset = 115f * Settings.scale;
 		float textYOffset = 80f * Settings.scale;
 
 		String boxString = quest.getRewardString();
@@ -170,9 +170,9 @@ public class QuestLogScreen {
 		//Render the base Quest texutre in the color of the quest
 		sb.setColor(quest.color);
 		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
-		sb.setColor(Color.WHITE);
-		//Render the icon on the left
-		//sb.draw(quest.getTexture(), xPos + 10 * Settings.scale, yPos + 10 * Settings.scale, 0, 0, 96, 96, Settings.scale, Settings.scale, 0.0f, 0, 0, 128, 128, false, false);
+        //Render the icon
+		renderQuestIcon(sb, quest, xPos, yPos);
+
 		if(quest.isNew || quest.isCompleted())
 			sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questNewOverlay.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
 		if(quest.abandon && !quest.isCompleted())
@@ -216,7 +216,7 @@ public class QuestLogScreen {
 		tempHitbox.render(sb);
 	}
 	
-	public void renderQuestCompletionBar(SpriteBatch sb, Quest quest, float xPos, float yPos) {
+	private void renderQuestCompletionBar(SpriteBatch sb, Quest quest, float xPos, float yPos) {
 		
 		xPos += 15f * Settings.scale;
 		
@@ -235,5 +235,62 @@ public class QuestLogScreen {
         }
        
         FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, quest.currentSteps + "/" + quest.maxSteps, xPos + fullWidth / 2f, yPos + (10 * Settings.scale), Color.WHITE);
+	}
+
+	private void renderQuestIcon(SpriteBatch sb, Quest quest, float xPos, float yPos){
+		float x = xPos + 10 * Settings.scale;
+		float y = yPos + 10 * Settings.scale;
+		float imgX = x + 4 * Settings.scale;
+		float imgY = y + 4 * Settings.scale;
+
+		Texture text = quest.getTexture();
+
+		sb.setColor(Color.WHITE);
+		sb.draw(text, imgX, imgY, 0, 0, 88, 88,
+				Settings.scale, Settings.scale, 0.0f,
+				0, 0, 96, 96,
+				false, false);
+
+		sb.setColor(quest.color);
+		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/frame.png"),
+				x, y,
+				0, 0, 96, 96,
+				Settings.scale, Settings.scale, 0.0f,
+				0, 0, 96, 96,
+				false, false);
+		sb.setColor(Color.WHITE);
+	}
+
+	@SuppressWarnings("unused")
+	private Texture getQuestTexture(Texture text){
+		Texture retVal = text;
+		if(text.getWidth() > 96 || text.getHeight() > 96){
+			if(!text.getTextureData().isPrepared()){
+				text.getTextureData().prepare();
+			}
+			Pixmap mapOrig = text.getTextureData().consumePixmap();
+			Pixmap mapProperSize = new Pixmap(96, 96, mapOrig.getFormat());
+
+			int origW = mapOrig.getWidth();
+			int origH = mapOrig.getHeight();
+
+			int origS = origW >= origH ? origH : origW;
+
+			int pSrcX = origW >= origH ? (origW - origH) / 2 : 0;
+			int pSrcY = origH >= origW ? (origH - origW) / 2 : 0;
+
+			int sclX = pSrcX / 3;
+			int sclY = pSrcY / 3;
+
+			mapProperSize.drawPixmap(mapOrig,
+					pSrcX + sclX, pSrcY + sclY,
+					origS - sclX * 2, origS - sclY * 2,
+					0, 0,96,96);
+
+			text = new Texture(mapProperSize);
+			mapOrig.dispose();
+			mapProperSize.dispose();
+		}
+		return text;
 	}
 }

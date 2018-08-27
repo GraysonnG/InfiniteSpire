@@ -8,8 +8,7 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
-import basemod.BaseMod;
-import basemod.interfaces.PostUpdateSubscriber;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
@@ -37,7 +36,8 @@ public class FetchQuest extends Quest {
 
 	@Override
 	public Texture getTexture() {
-		return RelicLibrary.getRelic(relicID).img;
+		return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/chest.png");
+		//return RelicLibrary.getRelic(relicID).img;
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 package infinitespire.quests.endless;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
-import infinitespire.interfaces.IQuestLine;
 import infinitespire.monsters.Guardian;
 import infinitespire.quests.SlayQuest;
 
@@ -19,6 +20,11 @@ public class EndlessQuestPart3 extends SlayQuest {
     @Override
     public void giveReward() {
         //special unlock that changes things
+    }
+
+    @Override
+    public Texture getTexture() {
+        return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/nightmare.png");
     }
 
     @Override

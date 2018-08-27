@@ -1,10 +1,12 @@
 package infinitespire.quests.event;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.replay.CaptainAbe;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.interfaces.IAutoQuest;
@@ -14,6 +16,7 @@ public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
     public int gold;
     public static final String ID = CaptainAbeQuest.class.getName();
     public static final Color COLOR = new Color(0.2f, 0.2f, 0.2f, 1f);
+    private static boolean isAbandoned = false;
 
     public CaptainAbeQuest() {
         this.id = CaptainAbeQuest.class.getName();
@@ -26,7 +29,7 @@ public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
 
     @Override
     public boolean shouldBegin() {
-        if(AbstractDungeon.getCurrRoom() instanceof MonsterRoomBoss) return false;
+        if(isAbandoned || AbstractDungeon.getCurrRoom() instanceof MonsterRoomBoss) return false;
         return AbstractDungeon.bossKey.equals("Pondfish");
     }
 
@@ -34,6 +37,11 @@ public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
     public void giveReward() {
         CardCrawlGame.sound.play("GOLD_GAIN");
         AbstractDungeon.player.gainGold(gold);
+    }
+
+    @Override
+    public Texture getTexture() {
+        return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/boss.png");
     }
 
     @Override

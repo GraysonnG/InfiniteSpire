@@ -1,9 +1,10 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
@@ -20,6 +21,11 @@ public class OneTurnKillQuest extends Quest {
 	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");
 		AbstractDungeon.player.gainGold(cost);
+	}
+
+	@Override
+	public Texture getTexture() {
+		return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/elite.png");
 	}
 
 	@Override

@@ -1,10 +1,11 @@
 package infinitespire.quests.event;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.RegalPillow;
-import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.interfaces.IAutoQuest;
@@ -29,6 +30,11 @@ public class BlankyQuest extends Quest implements IAutoQuest {
     @Override
     public void giveReward() {
         AbstractDungeon.actionManager.addToBottom(new HealAction(AbstractDungeon.player, AbstractDungeon.player, heal));
+    }
+
+    @Override
+    public Texture getTexture() {
+        return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/event.png");
     }
 
     @Override
