@@ -1,52 +1,61 @@
 package infinitespire;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
-import com.megacrit.cardcrawl.dungeons.Exordium;
-import infinitespire.abstracts.Quest;
-import infinitespire.actions.AddQuestAction;
-import infinitespire.interfaces.*;
-import infinitespire.quests.event.CaptainAbeQuest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import basemod.BaseMod;
+import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.rooms.*;
-
-import basemod.BaseMod;
-import basemod.interfaces.*;
-import infinitespire.abstracts.Relic;
-import infinitespire.cards.*;
-import infinitespire.cards.black.*;
-import infinitespire.events.*;
-import infinitespire.helpers.CardHelper;
-import infinitespire.helpers.QuestHelper;
-import infinitespire.patches.CardColorEnumPatch;
-import infinitespire.quests.*;
-import infinitespire.relics.*;
-import infinitespire.screens.*;
-import infinitespire.util.TextureLoader;
-import replayTheSpire.ReplayTheSpireMod;
-
+import com.megacrit.cardcrawl.localization.EventStrings;
+import com.megacrit.cardcrawl.localization.MonsterStrings;
+import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.FruityMod;
 import fruitymod.patches.AbstractCardEnum;
+import infinitespire.abstracts.Quest;
+import infinitespire.abstracts.Relic;
+import infinitespire.actions.AddQuestAction;
+import infinitespire.cards.Neurotoxin;
+import infinitespire.cards.OneForAll;
+import infinitespire.cards.black.*;
+import infinitespire.events.EmptyRestSite;
+import infinitespire.events.HoodedArmsDealer;
+import infinitespire.events.PrismEvent;
+import infinitespire.helpers.CardHelper;
+import infinitespire.helpers.QuestHelper;
+import infinitespire.interfaces.IAutoQuest;
+import infinitespire.interfaces.OnQuestAddedSubscriber;
+import infinitespire.interfaces.OnQuestIncrementSubscriber;
+import infinitespire.interfaces.OnQuestRemovedSubscriber;
+import infinitespire.patches.CardColorEnumPatch;
+import infinitespire.quests.DieQuest;
+import infinitespire.quests.QuestLog;
+import infinitespire.quests.event.CaptainAbeQuest;
+import infinitespire.relics.*;
+import infinitespire.screens.QuestLogScreen;
+import infinitespire.util.TextureLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import replayTheSpire.ReplayTheSpireMod;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
-EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber{
+EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
 	public static final String VERSION = "0.0.7";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
-	private static final ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
+	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
+	private static ArrayList<OnQuestIncrementSubscriber> onQuestIncrementSubscribers = new ArrayList<>();
+	private static ArrayList<OnQuestAddedSubscriber> onQuestAddedSubscribers = new ArrayList<>();
 
     public static QuestLog questLog = new QuestLog();
     
@@ -129,11 +138,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
-			if(AbstractDungeon.player != null){
-				if(AbstractDungeon.player.hasRelic(BottledSoul.ID)){
-					((BottledSoul) AbstractDungeon.player.getRelic(BottledSoul.ID)).save();
-				}
-			}
+			BottledSoul.save(config);
 
 			config.setBool("isEndless", isEndless);
 			config.save();
@@ -148,6 +153,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	logger.info("InfiniteSpire | Clearing Saved Data...");
     	isEndless = false;
     	QuestHelper.clearQuestLog();
+    	BottledSoul.clear();
     	saveData();
     }
     
@@ -157,6 +163,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
 			isEndless = config.getBool("isEndless");
+
+			BottledSoul.load(config);
 		
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -198,7 +206,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	
        
         QuestHelper.init();
-        initalizeCrossoverQuests();
+        initializeCrossoverQuests();
         loadData();
     }
     
@@ -247,7 +255,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		}
     }
 
-    private static void initalizeCrossoverQuests(){
+    private static void initializeCrossoverQuests(){
     	try{
     		initializeReplayTheSpire(LoadType.QUEST);
 		} catch (ClassNotFoundException | NoClassDefFoundError e) {
@@ -295,6 +303,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
 	public static void subscribe(ISubscriber subscriber){
 		subscribeIfInstance(onQuestRemovedSubscribers, subscriber, OnQuestRemovedSubscriber.class);
+		subscribeIfInstance(onQuestIncrementSubscribers, subscriber, OnQuestIncrementSubscriber.class);
+		subscribeIfInstance(onQuestAddedSubscribers, subscriber, OnQuestAddedSubscriber.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -307,6 +317,18 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public static void publishOnQuestRemoved(Quest quest){
 		for(OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers){
 			subscriber.receiveQuestRemoved(quest);
+		}
+	}
+
+	public static void publishOnQuestIncrement(Quest quest){
+    	for(OnQuestIncrementSubscriber subscriber : onQuestIncrementSubscribers){
+    		subscriber.receiveQuestIncrement(quest);
+		}
+	}
+
+	public static void publishOnQuestAdded(Quest quest){
+    	for(OnQuestAddedSubscriber subscriber: onQuestAddedSubscribers){
+    		subscriber.receiveQuestAdded(quest);
 		}
 	}
 
