@@ -57,8 +57,8 @@ public class QuestLogScreen {
 
 		hbs.clear();
 
-		for(int i = 0; i < InfiniteSpire.questLog.size(); i++) {
-			InfiniteSpire.questLog.get(i).abandon = false;
+		for(Quest quest : InfiniteSpire.questLog) {
+			quest.abandon = false;
 			hbs.add(new Hitbox(480f * Settings.scale, 96f * Settings.scale));
 		}
 		this.yScale = 0.0f;
@@ -100,6 +100,7 @@ public class QuestLogScreen {
 		}
 		yScale = MathHelper.scaleLerpSnap(yScale, 1.0f);
 		this.renderBanner(sb);
+		this.renderTipScroll(sb);
 		justClicked = false;
 		justClickedRight = false;
 	}
@@ -127,6 +128,18 @@ public class QuestLogScreen {
 				0.0f, 0, 0, 1112, 238, false, false);
 		FontHelper.renderFontCentered(sb, FontHelper.bannerFont, "Quest Log", Settings.WIDTH / 2.0f,
 				y + 22.0f * Settings.scale, Color.WHITE, 1f);
+	}
+
+	private void renderTipScroll(SpriteBatch sb){
+		float y = Settings.HEIGHT - 285.0f * Settings.scale;
+		float x = 512f * Settings.scale * (yScale - 1f);
+		float bannerOffset = 185f * Settings.scale;
+
+		sb.setColor(Color.WHITE.cpy());
+		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/tipScroll.png"),
+				x, y - bannerOffset, 512f * Settings.scale, 256 * Settings.scale);
+
+		FontHelper.renderFontLeft(sb, FontHelper.topPanelAmountFont,"Tip: Right Click to Abandon", x + 25f * Settings.scale, y, Color.WHITE.cpy());
 	}
 
 	public void renderQuest(int index, int hbI, SpriteBatch sb, Quest quest) {
@@ -159,7 +172,7 @@ public class QuestLogScreen {
 		}
 
 		if(quest.abandon){
-			boxString = "Left Click to Abandon";
+			boxString = "Left Click to Confirm Abandon";
 		}
 
 		yPos -= (100 * Settings.scale) * index * yScale;
