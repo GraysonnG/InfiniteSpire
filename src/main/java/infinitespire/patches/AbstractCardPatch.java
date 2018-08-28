@@ -26,6 +26,7 @@ public class AbstractCardPatch {
             if(Field.isBottledSoulCard.get(card)){
                 bottledSoul.currentX = card.current_x + 390.0f * card.drawScale / 3.0f * Settings.scale;
                 bottledSoul.currentY = card.current_y + 546.0f * card.drawScale / 3.0f * Settings.scale;
+                bottledSoul.scale = card.drawScale;
                 bottledSoul.renderOutline(sb, false);
                 bottledSoul.render(sb);
             }

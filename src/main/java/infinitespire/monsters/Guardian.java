@@ -14,9 +14,11 @@ public class Guardian extends AbstractMonster{
     private final ArrayList<Integer> THRESHOLDS;
     private static final int[] ATTACKS = {15, 20, 25, 50};
     private static final int[] DEFENDS = {5, 10, 20, 50};
+    private static final int NUKE = 999999;
     private Queue<Move> moveQueue = new LinkedList<Move>();
 
     private int phase;
+    private int turn = 0;
 
     public Guardian() {
         super(NAME, ID, 10000, 0.0f, 0.0f, 160f, 300f, null);
@@ -43,7 +45,6 @@ public class Guardian extends AbstractMonster{
         for(int i = THRESHOLDS.size() -1; i >= 0; i--) {
             if(this.currentHealth < THRESHOLDS.get(i)){
                 this.phase++;
-
             }
         }
     }
@@ -53,6 +54,7 @@ public class Guardian extends AbstractMonster{
         switch(this.nextMove){
 
         }
+        this.turn++;
     }
 
     @Override
@@ -74,7 +76,9 @@ public class Guardian extends AbstractMonster{
     }
 
     private void phase1(int i){
+        if(this.turn % 3 == 0){
 
+        }
     }
 
     private void phase2(int i){
