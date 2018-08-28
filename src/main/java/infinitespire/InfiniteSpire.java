@@ -100,13 +100,13 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     
     @Override
 	public void receiveEditStrings() {
-    	String relicStrings = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
+    	String relicStrings = Gdx.files.internal("local/infinitespire/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
 		
-    	String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
+    	String eventStrings = Gdx.files.internal("local/infinitespire/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
 		
-		String monsterStrings = Gdx.files.internal("local/monsters.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		String monsterStrings = Gdx.files.internal("local/infinitespire/monsters.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
     }
 
