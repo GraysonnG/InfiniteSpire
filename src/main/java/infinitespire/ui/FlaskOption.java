@@ -37,7 +37,8 @@ public class FlaskOption extends RestOption {
         CardCrawlGame.metricData.addCampfireChoiceData("REST");
         
         //I can assume i have the relic at this point because it let me do the thing
-        ((MagicFlask)AbstractDungeon.player.getRelic("Magic Flask")).useFlask();
+		//As usual assume made and ass out of me
+        ((MagicFlask)AbstractDungeon.player.getRelic(MagicFlask.ID)).useFlask();
         shouldReOpen = true;
         this.usable = false;
         this.img = this.disabledImg;
