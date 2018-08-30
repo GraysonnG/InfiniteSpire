@@ -55,7 +55,7 @@ public class OneForAll extends Card {
 		
 		if(this.damage >= 10 && this.damage < 20) {
 			effect = AttackEffect.BLUNT_HEAVY;
-		} else {
+		} else if(this.damage >= 20){
 			effect = AttackEffect.SMASH;
 		}
 		
