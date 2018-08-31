@@ -17,8 +17,8 @@ import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
+import infinitespire.abstracts.Relic;
 import infinitespire.relics.BlanksBlanky;
-import infinitespire.relics.Relic;
 
 public class EmptyRestSite extends AbstractImageEvent {
 
@@ -36,7 +36,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 	}
 	
 	public EmptyRestSite() {
-		super("Empty Rest Site", DESCRIPTIONS[0], "img/events/emptyrestsite.jpg");
+		super("Empty Rest Site", DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
 		
 		this.healAmount = (int)(AbstractDungeon.player.maxHealth * 0.3f);
 		if(AbstractDungeon.player.hasRelic("Regal Pillow")) {
@@ -53,6 +53,8 @@ public class EmptyRestSite extends AbstractImageEvent {
 			this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[3], "g")); //Dig
 		}
 		state = State.RESTING;
+		
+		AbstractDungeon.getCurrRoom().rewards.clear();
 	}
 	
 	
@@ -105,9 +107,10 @@ public class EmptyRestSite extends AbstractImageEvent {
 				} else {
 					imageEventText.updateBodyText(DESCRIPTIONS[4]);
 					CardCrawlGame.sound.play("SHOVEL");
-		            AbstractDungeon.getCurrRoom().rewards.clear();
-		            AbstractDungeon.getCurrRoom().rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
-		            AbstractDungeon.combatRewardScreen.open();
+                    AbstractDungeon.combatRewardScreen.open();
+		            AbstractDungeon.combatRewardScreen.rewards.clear();
+		            AbstractDungeon.combatRewardScreen.rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
+		            AbstractDungeon.combatRewardScreen.positionRewards();
 				}
 		        break;
 			case 4:
@@ -123,7 +126,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 			break;
 		case LEAVING:
 			this.imageEventText.clearAllDialogs();
-			this.imageEventText.clearRemainingOptions();
+			this.imageEventText.setDialogOption(OPTIONS[5]);
 			openMap();
 			break;
 		}

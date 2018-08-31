@@ -18,20 +18,16 @@ import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
 
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
-import infinitespire.quests.*;
+import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
-import infinitespire.rooms.PerkRoom;
-import infinitespire.screens.PerkScreen;
 
 public class AbstractDungeonPatch {
 	
 	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.AbstractDungeon", method="closeCurrentScreen")
 	public static class CloseCurrentScreen {
 		public static void Prefix() {
-			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN || AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN) {
-				PerkScreen.isDone = true;
-				
+			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN) {
 					try {
 						Method overlayReset = AbstractDungeon.class.getDeclaredMethod("genericScreenOverlayReset");
 						overlayReset.setAccessible(true);
@@ -41,6 +37,7 @@ public class AbstractDungeonPatch {
 						e.printStackTrace();
 					}
 				AbstractDungeon.overlayMenu.hideBlackScreen();
+				InfiniteSpire.questLogScreen.close();
 			}
 		}
 	}
@@ -63,8 +60,6 @@ public class AbstractDungeonPatch {
 		
 		@SpireInsertPatch(rloc = 111) //112
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
-			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
-				InfiniteSpire.perkscreen.render(sb);
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.render(sb);
 		}
@@ -75,12 +70,12 @@ public class AbstractDungeonPatch {
 		
 		@SpireInsertPatch(rloc = 94)
 		public static void Insert(AbstractDungeon __instance) {
-			if(AbstractDungeon.screen == ScreenStatePatch.PERK_SCREEN)
-				InfiniteSpire.perkscreen.update();
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.update();
 		}
 	}
+
+
 	
 	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "generateMap")
 	public static class GenerateMap {
@@ -88,9 +83,7 @@ public class AbstractDungeonPatch {
 		@SpireInsertPatch(rloc = 37)// after AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
 		public static void Insert() {
 			Settings.isEndless = InfiniteSpire.isEndless;
-			
 			addHolyWaterToRareRelicPool();
-			insertPerkRooms();
 			addInitialQuests();
 			for(int i = 0; i < 3; i++) {
 				insertNightmareNode();
@@ -99,9 +92,10 @@ public class AbstractDungeonPatch {
 		
 		private static void addInitialQuests() {
 			InfiniteSpire.logger.info("adding initial quests");
-			if(AbstractDungeon.floorNum <= 1 && InfiniteSpire.questLog.isEmpty()) {
+			if(AbstractDungeon.floorNum <= 1 &&  InfiniteSpire.questLog.isEmpty()) {
 				InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
-				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(3));
+				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(9));
+				InfiniteSpire.questLog.markAllQuestsAsSeen();
 				QuestHelper.saveQuestLog();
 			}
 		}
@@ -111,15 +105,6 @@ public class AbstractDungeonPatch {
 			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
 				AbstractDungeon.rareRelicPool.add(HolyWater.ID);
 				Collections.shuffle(AbstractDungeon.rareRelicPool, new java.util.Random(AbstractDungeon.relicRng.randomLong()));
-			}
-		}
-	
-		private static void insertPerkRooms() {
-			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
-				InfiniteSpire.logger.info("Setting row 1 of map to PerkRoom.class");
-				for(MapRoomNode node : AbstractDungeon.map.get(0)) {
-					node.setRoom(new PerkRoom());
-				}
 			}
 		}
 		

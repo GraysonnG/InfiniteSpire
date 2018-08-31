@@ -6,6 +6,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.abstracts.Relic;
+
 public class BurningSword extends Relic {
 
 	public static final String ID = "Burning Sword";

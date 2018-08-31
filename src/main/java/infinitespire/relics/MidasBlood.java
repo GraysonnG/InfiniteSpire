@@ -4,6 +4,8 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.abstracts.Relic;
+
 public class MidasBlood extends Relic {
 	public static final String ID = "Midas Blood";
 	

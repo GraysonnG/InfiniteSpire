@@ -17,7 +17,7 @@ public class GolemPower extends AbstractPower {
 		this.amount = 0;
 		this.name = "Golem's Might";
 		this.ID = "is_GolemPower";
-		this.img = InfiniteSpire.getTexture("img/powers/golem.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/golem.png");
 		this.type = PowerType.BUFF;
 		this.isTurnBased = true;
 		this.updateDescription();

@@ -4,6 +4,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.abstracts.Relic;
+
 public class CubicDiamond extends Relic {
 
 	public static final String ID = "Cubic Diamond";
@@ -19,7 +21,7 @@ public class CubicDiamond extends Relic {
 	}
 	
 	private AbstractRelic selectRelic(AbstractRelic original) {
-		AbstractRelic relicToAdd = RelicLibrary.starterList.get(AbstractDungeon.cardRandomRng.random(RelicLibrary.starterList.size() - 1));;
+		AbstractRelic relicToAdd = RelicLibrary.starterList.get(AbstractDungeon.cardRandomRng.random(RelicLibrary.starterList.size() - 1));
 		
 		if(relicToAdd.relicId.equals(original.relicId)) {
 			relicToAdd = selectRelic(original);

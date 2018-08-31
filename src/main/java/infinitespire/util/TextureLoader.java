@@ -24,7 +24,7 @@ public class TextureLoader {
         		loadTexture(textureString);
         	} catch (GdxRuntimeException e) {
         		logger.error("Could not find texture: " + textureString);
-	        	return getTexture("img/ui/missingtexture.png");
+	        	return getTexture("img/infinitespire/ui/missingtexture.png");
         	}
         }
         return textures.get(textureString);

@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.monsters.exordium.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Quest;
 import infinitespire.util.StringManip;
 
 public class SlayQuest extends Quest {
@@ -115,7 +116,7 @@ public class SlayQuest extends Quest {
 			monsterMap.put(Exploder.ID, "Exploder");
 			monsterMap.put(Spiker.ID, "Spiker");
 			monsterMap.put(Repulsor.ID, "Repulsor");
-			monsterMap.put(SnakeMage.ID, "idek");
+			monsterMap.put(SnakeMage.ID, "Reptomancer");
 			monsterMap.put(OrbWalker.ID, "Orb Walker");
 			
 			//ELITES IN THEBEYOND

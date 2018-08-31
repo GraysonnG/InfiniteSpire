@@ -5,6 +5,8 @@ import com.megacrit.cardcrawl.actions.common.HealAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
+import infinitespire.abstracts.Quest;
+
 public class DieQuest extends Quest {
 
 	public static final String ID = DieQuest.class.getName().toString();

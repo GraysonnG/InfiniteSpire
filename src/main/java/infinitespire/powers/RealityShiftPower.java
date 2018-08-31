@@ -11,7 +11,7 @@ public class RealityShiftPower extends AbstractPower {
 		this.amount = 50;
 		this.name = "Reality Shift";
 		this.ID = "is_Reality_Shift";
-		this.img = InfiniteSpire.getTexture("img/powers/realityshift.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/realityshift.png");
 		this.type = PowerType.BUFF;
 		this.isTurnBased = true;
 		this.updateDescription();

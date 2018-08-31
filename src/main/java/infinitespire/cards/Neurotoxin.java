@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 
 import basemod.abstracts.DynamicVariable;
+import infinitespire.abstracts.Card;
 
 public class Neurotoxin extends Card {
 	
@@ -19,7 +20,7 @@ public class Neurotoxin extends Card {
 	private int poisonCreep;
 	
 	public Neurotoxin() {
-		super(ID, NAME, "img/cards/neurotoxin.png", COST, DESCRIPTION, CardType.SKILL, CardColor.GREEN, CardRarity.UNCOMMON, CardTarget.ENEMY);
+		super(ID, NAME, "img/infinitespire/cards/neurotoxin.png", COST, DESCRIPTION, CardType.SKILL, CardColor.GREEN, CardRarity.UNCOMMON, CardTarget.ENEMY);
 		this.misc = 1;
 		this.baseMagicNumber = misc;
 		this.magicNumber = this.baseMagicNumber;

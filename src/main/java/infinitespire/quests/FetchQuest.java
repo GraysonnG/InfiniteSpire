@@ -1,6 +1,7 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
@@ -9,12 +10,13 @@ import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
 import basemod.BaseMod;
 import basemod.interfaces.PostUpdateSubscriber;
+import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
-public class FetchQuest extends Quest implements PostUpdateSubscriber{
+public class FetchQuest extends Quest {
 	
-	public static final String ID = FetchQuest.class.getName().toString();
-	private static final Color COLOR = new Color(0f, 0.75f, 1f, 1f);
+	public static final String ID = FetchQuest.class.getName();
+	private static final Color COLOR = new Color(0f, 1f, 0.75f, 1f);
 	private static final QuestType TYPE = QuestType.GREEN;
 	private static final int MAX_STEPS = 1;
 	public int cost;
@@ -24,14 +26,18 @@ public class FetchQuest extends Quest implements PostUpdateSubscriber{
 	
 	public FetchQuest() {
 		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.COMMON);
-		BaseMod.subscribe(this);
 	}
-	
+
 	@Override
-	public void receivePostUpdate() {
+	public void update(){
 		if(!this.isCompleted() && AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(this.relicID)) {
 			this.incrementQuestSteps();
 		}
+	}
+
+	@Override
+	public Texture getTexture() {
+		return RelicLibrary.getRelic(relicID).img;
 	}
 
 	@Override

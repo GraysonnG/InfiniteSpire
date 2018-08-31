@@ -1,20 +1,19 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
-import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
 public class RemoveCardQuest extends Quest {
 	
-	private static final Color COLOR = new Color(0f, 1f, 0.25f, 1f);
+	private static final Color COLOR = new Color(0f, 0.5f, 1f, 1f);
 	public int cost;
 	
 	public RemoveCardQuest() {
-		super(RemoveCardQuest.class.getName(), COLOR, 5, QuestType.GREEN, QuestRarity.COMMON);
+		super(RemoveCardQuest.class.getName(), COLOR, 5, QuestType.BLUE, QuestRarity.COMMON);
 	}
 
 	@Override
@@ -42,17 +41,5 @@ public class RemoveCardQuest extends Quest {
 	@Override
 	public Quest getCopy() {
 		return new RemoveCardQuest();
-	}
-
-	@SpirePatch(cls = "com.megacrit.cardcrawl.cards.CardGroup", method="removeCard", paramtypes = {"com.megacrit.cardcrawl.cards.AbstractCard"})
-	public static class PostRemoveCardHook {
-		public static void Prefix() {
-			for(Quest q : InfiniteSpire.questLog) {
-				InfiniteSpire.logger.info(q.id);
-				if(q instanceof RemoveCardQuest) {
-					q.incrementQuestSteps();
-				}
-			}
-		}
 	}
 }
