@@ -13,7 +13,6 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
-import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.FruityMod;
@@ -33,7 +32,6 @@ import infinitespire.interfaces.IAutoQuest;
 import infinitespire.interfaces.OnQuestAddedSubscriber;
 import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
-import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
@@ -52,7 +50,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.0.10";
+	public static final String VERSION = "0.0.11";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -100,13 +98,14 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID,PrismEvent.class, Exordium.ID);
 
-		BaseMod.addMonster(LordOfAnnihilation.ID, new BaseMod.GetMonster() {
+		/*BaseMod.addMonster(LordOfAnnihilation.ID, new BaseMod.GetMonster() {
             @Override
             public AbstractMonster get() {
                 return new LordOfAnnihilation();
             }
         });
 		BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
+    	*/
     }
     
     @Override
