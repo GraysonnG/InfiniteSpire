@@ -28,18 +28,25 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public Texture getTexture() {
-		Texture texture;
+		Texture texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-skill.png");
+		AbstractCard c = null;
 
-		switch(CardLibrary.getCard(this.cardID).type){
-			case ATTACK:
-				texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-attack.png");
-				break;
-			case POWER:
-				texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-power.png");
-				break;
-			case SKILL:
+		if(cardID != null){
+			c = CardLibrary.getCard(this.cardID);
+		}
+
+		if(c != null) {
+			switch (CardLibrary.getCard(this.cardID).type) {
+				case ATTACK:
+					texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-attack.png");
+					break;
+				case POWER:
+					texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-power.png");
+					break;
 				default:
-					texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-skill.png");
+					//basically dont load anything
+					break;
+			}
 		}
 
 		return texture;
