@@ -124,7 +124,7 @@ public class SlayQuest extends Quest {
 			monsterMap.put(Exploder.ID, "Exploder");
 			monsterMap.put(Spiker.ID, "Spiker");
 			monsterMap.put(Repulsor.ID, "Repulsor");
-			monsterMap.put(SnakeMage.ID, "Reptomancer");
+			monsterMap.put(Reptomancer.ID, "Reptomancer");
 			monsterMap.put(OrbWalker.ID, "Orb Walker");
 			
 			//ELITES IN THEBEYOND
