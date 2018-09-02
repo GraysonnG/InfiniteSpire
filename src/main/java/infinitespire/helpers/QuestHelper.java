@@ -1,13 +1,5 @@
 package infinitespire.helpers;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -18,16 +10,21 @@ import com.google.gson.GsonBuilder;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import com.megacrit.cardcrawl.relics.Circlet;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
-
+import com.megacrit.cardcrawl.relics.Circlet;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestRarity;
 import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.quests.*;
-import infinitespire.quests.endless.*;
-import infinitespire.quests.event.*;
+import infinitespire.quests.endless.EndlessQuestPart1;
+import infinitespire.quests.endless.EndlessQuestPart2;
+import infinitespire.quests.event.BearQuest;
+import infinitespire.quests.event.BlankyQuest;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class QuestHelper {
 	
@@ -122,7 +119,6 @@ public class QuestHelper {
 		Gson gson = builder.create();
 		
 		String saveString = gson.toJson(InfiniteSpire.questLog, QuestLog.class);
-		InfiniteSpire.logger.info(saveString);
 		return saveString;
 	}
 	
@@ -139,8 +135,6 @@ public class QuestHelper {
 					for(Class<? extends Quest> qC : questMap.values()) {
 						if(qC.getName().equals(questString.get("id").asString())) {
 							Quest quest = gson.fromJson(questString.toJson(OutputType.json), qC);
-							InfiniteSpire.logger.info("Loaded: " + gson.toJson(quest));
-							InfiniteSpire.logger.info("... as type " + quest.getClass().getName());
 							tempLog.add(quest);
 						}
 					}

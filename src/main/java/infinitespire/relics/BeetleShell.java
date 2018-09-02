@@ -7,12 +7,13 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.powers.BeetleShellPower;
 
 public class BeetleShell extends Relic {
 
-	public static final String ID = "Beetle Shell";
+	public static final String ID = InfiniteSpire.createID("Beetle Shell");
 	
 	public BeetleShell() {
 		super(ID, "beetleshell", RelicTier.COMMON, LandingSound.SOLID);

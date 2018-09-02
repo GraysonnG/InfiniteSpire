@@ -1,14 +1,15 @@
 package infinitespire.quests.endless;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.CardHelper;
 import infinitespire.interfaces.IQuestLine;
+
+import java.util.ArrayList;
 
 public class EndlessQuestPart2 extends Quest implements IQuestLine{
 
@@ -22,6 +23,12 @@ public class EndlessQuestPart2 extends Quest implements IQuestLine{
 	public void giveReward() {
 		ArrayList<AbstractCard> randomBlackCards = CardHelper.getBlackRewardCards();
 		AbstractDungeon.cardRewardScreen.open(randomBlackCards, null, "Select a Card.");
+	}
+
+
+	@Override
+	public Texture getTexture() {
+		return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/boss.png");
 	}
 
 	@Override

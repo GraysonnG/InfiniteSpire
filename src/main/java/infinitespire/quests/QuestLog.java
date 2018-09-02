@@ -1,16 +1,16 @@
 package infinitespire.quests;
 
-import java.util.ArrayList;
-
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
 import basemod.BaseMod;
-import basemod.interfaces.*;
+import basemod.interfaces.PostDungeonUpdateSubscriber;
+import basemod.interfaces.PostUpdateSubscriber;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestType;
 import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.interfaces.IQuestLine;
+
+import java.util.ArrayList;
 
 public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, PostDungeonUpdateSubscriber{
 	
@@ -70,12 +70,10 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
                         ((IQuestLine) this.get(i)).addNextStep(this, i);
                     }
 					this.remove(i);
-					continue;
 				}
 			} else {
 				if (this.get(i).shouldRemove()) {
 					this.remove(i);
-					continue;
 				}
 			}
 		}

@@ -1,11 +1,12 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
@@ -23,6 +24,32 @@ public class PickUpCardQuest extends Quest {
 	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");
 		AbstractDungeon.player.gainGold(this.gold);
+	}
+
+	@Override
+	public Texture getTexture() {
+		Texture texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-skill.png");
+		AbstractCard c = null;
+
+		if(cardID != null){
+			c = CardLibrary.getCard(this.cardID);
+		}
+
+		if(c != null) {
+			switch (CardLibrary.getCard(this.cardID).type) {
+				case ATTACK:
+					texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-attack.png");
+					break;
+				case POWER:
+					texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-power.png");
+					break;
+				default:
+					//basically dont load anything
+					break;
+			}
+		}
+
+		return texture;
 	}
 
 	@Override

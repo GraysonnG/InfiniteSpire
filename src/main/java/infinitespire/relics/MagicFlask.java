@@ -19,7 +19,7 @@ import infinitespire.ui.FlaskOption;
 
 public class MagicFlask extends Relic implements PostCampfireSubscriber{
 	
-	public static final String ID = "Magic Flask";
+	public static final String ID = InfiniteSpire.createID("Magic Flask");
 	public static final String NAME = "Magic Flask";
 	
 	private final Texture textureUsed;

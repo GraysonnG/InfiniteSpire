@@ -29,6 +29,7 @@ public class AddQuestAction extends AbstractGameAction{
             if (!InfiniteSpire.questLog.hasQuest(quest) && InfiniteSpire.questLog.getAmount(quest.type) < 7) {
                 InfiniteSpire.questLog.add(quest.createNew());
                 AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
+                InfiniteSpire.publishOnQuestAdded(quest);
             }
         }
 

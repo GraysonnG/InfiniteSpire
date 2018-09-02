@@ -77,6 +77,9 @@ public abstract class Quest {
 			this.completed = true;
 			this.justCompleted = true;
 		}
+		if(this.currentSteps < this.maxSteps && !completed){
+			InfiniteSpire.publishOnQuestIncrement(this);
+		}
 	}
 	
 	/**

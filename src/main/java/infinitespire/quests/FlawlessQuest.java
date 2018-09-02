@@ -1,10 +1,11 @@
 package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 
 public class FlawlessQuest extends Quest {
@@ -18,6 +19,11 @@ public class FlawlessQuest extends Quest {
 		AbstractRelic relic = AbstractDungeon.returnRandomRelic(RelicTier.RARE);
 		relic.instantObtain();
 		relic.playLandingSFX();
+	}
+
+	@Override
+	public Texture getTexture() {
+		return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/boss.png");
 	}
 
 	@Override
