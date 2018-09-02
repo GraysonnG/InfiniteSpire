@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.FruityMod;
@@ -32,6 +33,7 @@ import infinitespire.interfaces.IAutoQuest;
 import infinitespire.interfaces.OnQuestAddedSubscriber;
 import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
+import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
@@ -60,6 +62,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     public static QuestLog questLog = new QuestLog();
     
     public static boolean isEndless = false;
+    public static boolean hasDefeatedGuardian;
     public static boolean shouldLoad = false;
 
     public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
@@ -96,6 +99,14 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID,PrismEvent.class, Exordium.ID);
+
+		BaseMod.addMonster(LordOfAnnihilation.ID, new BaseMod.GetMonster() {
+            @Override
+            public AbstractMonster get() {
+                return new LordOfAnnihilation();
+            }
+        });
+		BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
     }
     
     @Override

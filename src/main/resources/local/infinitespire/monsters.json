@@ -8,5 +8,23 @@
 		],
 		"NAME": "Nightmare",
 		"DIALOG": []
-	}
+	},
+	"LordOfAnnihilation":{
+		"MOVES": [
+			"Temporal Rift",
+			"Absolute Burial",
+			"Final Void",
+			"Ultimate Memoricia",
+			"Dark Armor",
+			"Defend Order",
+			"Divine Shield"
+		],
+		"NAME": "The Lord of Annihilation",
+		"DIALOG": []
+	},
+    "ShieldPylon":{
+        "MOVES" : [],
+        "NAME" : "Shield Pylon",
+        "DIALOG": []
+    }
 }
