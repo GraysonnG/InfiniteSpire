@@ -1,9 +1,11 @@
 package infinitespire.patches;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.lib.ByRef;
+import com.evacipated.cardcrawl.modthespire.lib.SpireField;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import infinitespire.relics.BottledSoul;
@@ -39,15 +41,6 @@ public class AbstractCardPatch {
                 Field.isBottledSoulCard.set(card[0], true);
                 card[0].exhaust = false;
             }
-        }
-    }
-
-    @SpirePatch(cls = "com.megacrit.cardcrawl.cards.CardGroup", method = "getGroupWithoutBottledCards")
-    public static class GetGroupWithoutBottledCards{
-        @SpirePostfixPatch
-        public static CardGroup removeBottledSoulCardFromGroup(CardGroup __result, CardGroup cards){
-            __result.group.removeIf(Field.isBottledSoulCard::get);
-            return __result;
         }
     }
 }
