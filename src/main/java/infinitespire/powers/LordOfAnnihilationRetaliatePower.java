@@ -5,17 +5,17 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 import infinitespire.monsters.LordOfAnnihilation;
 
-public class GuardianRetaliatePower extends AbstractPower {
+public class LordOfAnnihilationRetaliatePower extends AbstractPower {
 
     LordOfAnnihilation gOwner;
 
-    public GuardianRetaliatePower(LordOfAnnihilation owner){
+    public LordOfAnnihilationRetaliatePower(LordOfAnnihilation owner){
         this.owner = owner;
         this.gOwner = owner;
         this.amount = 0;
         this.name = "Divine Shield";
         this.ID = "is_DivineShield";
-        this.img = InfiniteSpire.getTexture("img/infinitespire/powers/golem.png");
+        this.img = InfiniteSpire.getTexture("img/infinitespire/powers/retaliate.png");
         this.type = PowerType.BUFF;
         this.isTurnBased = true;
         this.updateDescription();
