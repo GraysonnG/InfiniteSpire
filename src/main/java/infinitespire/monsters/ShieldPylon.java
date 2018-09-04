@@ -6,13 +6,13 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
-import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.FrailPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 import infinitespire.InfiniteSpire;
+import infinitespire.powers.PylonExplosionPower;
 
 public class ShieldPylon extends AbstractMonster{
 
@@ -21,20 +21,24 @@ public class ShieldPylon extends AbstractMonster{
 
     private AbstractMonster boss;
 
-    private static final int offset = Settings.WIDTH / 5;
+    private static final int offsetX = 1920 / 6;
+    private static final int offsetY = 1080 / 8;
 
-    public ShieldPylon(LordOfAnnihilation boss, int xOffset){
-        super(NAME, ID, 1250, 0.0f, 0.0f, 100f, 100f, null, xOffset * offset, Settings.HEIGHT / 8);
+    public ShieldPylon(LordOfAnnihilation boss, float xOffset, float yOffset){
+        super(NAME, ID, boss.maxHealth / 16, 0.0f, 0.0f, 100f, 100f, null, xOffset * offsetX, yOffset * offsetY);
         this.type = EnemyType.NORMAL;
         this.dialogX = xOffset;
         this.dialogY = 0;
         this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/guardian/pylon.png");
-        this.setHp(boss.maxHealth / 8);
+        this.setHp(boss.maxHealth / 16);
         this.boss = boss;
         this.damage.add(new DamageInfo(this, 25));
     }
 
-
+    @Override
+    public void usePreBattleAction() {
+        AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new PylonExplosionPower(this, (LordOfAnnihilation) boss), 1));
+    }
 
     @Override
     public void takeTurn() {

@@ -5,6 +5,8 @@ import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.actions.unique.RemoveAllPowersAction;
 import com.megacrit.cardcrawl.actions.utility.LoseBlockAction;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -12,12 +14,22 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.*;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
+import com.megacrit.cardcrawl.powers.FrailPower;
+import com.megacrit.cardcrawl.powers.VulnerablePower;
+import com.megacrit.cardcrawl.powers.WeakPower;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import infinitespire.InfiniteSpire;
-import infinitespire.powers.GuardianRetaliatePower;
+import infinitespire.actions.FastHealAction;
 import infinitespire.powers.LordOfAnnihilationIntangiblePower;
+import infinitespire.powers.LordOfAnnihilationPylonPower;
+import infinitespire.powers.LordOfAnnihilationRetaliatePower;
+import infinitespire.powers.SuperSlowPower;
 
 import java.util.ArrayList;
+
+;
 
 public class LordOfAnnihilation extends AbstractMonster{
     public static final String ID = "LordOfAnnihilation";
@@ -51,6 +63,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         this.dialogY = 40f * Settings.scale;
         this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/guardian/guardian.png");
         this.setHp(10000);
+        this.maxHealth = 10000;
 
         phase = 0;
         this.intentPhase = IntentPhase.NORMAL;
@@ -84,14 +97,31 @@ public class LordOfAnnihilation extends AbstractMonster{
             this.intentPhase = IntentPhase.THRESHOLD;
             makeThresholdIntent(phase);
             this.createIntent();
-            //maybe end your turn. none of the threshold intents are attacks
+
+            endPlayerTurn();
+        }
+
+        if(phase < 3 && this.currentHealth <= 0){
+            this.currentHealth = 1;
+            this.phase = 3;
+            this.intentPhase = IntentPhase.THRESHOLD;
+            makeThresholdIntent(phase);
+            this.createIntent();
+
+            endPlayerTurn();
         }
     }
 
-    @Override
-    public void applyPowers(){
-
+    private void endPlayerTurn(){
+        AbstractDungeon.actionManager.cardQueue.clear();
+        for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
+            AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
+        }
+        AbstractDungeon.player.limbo.group.clear();
+        AbstractDungeon.player.releaseCard();
+        AbstractDungeon.overlayMenu.endTurnButton.disable(true);
     }
+
 
     @Override
     public void die() {
@@ -142,7 +172,7 @@ public class LordOfAnnihilation extends AbstractMonster{
             case 4: //nuke
                 manager.addToBottom(new LoseBlockAction(player, this, player.currentBlock));
                 manager.addToBottom(new LoseHPAction(player, this, player.maxHealth / 3));
-                manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 5),5));
+                manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 2),2));
                 break;
             //----------------------Defends--------------------------
             case 5: //small defend with debuff
@@ -156,32 +186,49 @@ public class LordOfAnnihilation extends AbstractMonster{
                 manager.addToBottom(new GainBlockAction(this, this, DEFENDS[3]));
                 break;
             //-----------------------MISC----------------------------
-            case 8:
-                manager.addToBottom(new ApplyPowerAction(this, this, new GuardianRetaliatePower(this)));
-                manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 6),5));
+            case 8: //give retaliate power
+                manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationRetaliatePower(this)));
+                manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 3),3));
                 break;
-            case 9:
+            case 9: //buff wipe himself and spawn pylons
                 manager.addToBottom(new RemoveAllPowersAction(this, false));
 
-                manager.addToBottom(new SpawnMonsterAction(
-                        new ShieldPylon(this, -1), true));
-                manager.addToBottom(new SpawnMonsterAction(
-                        new ShieldPylon(this, 1), true));
+                ArrayList<ShieldPylon> pylons = new ArrayList<>();
 
-                manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationIntangiblePower(this, 10), 10));
+                pylons.add(new ShieldPylon(this, -0.5f , 1));
+                pylons.add(new ShieldPylon(this, 0.5f, 1));
+                pylons.add(new ShieldPylon(this, -1 , 0.5f));
+                pylons.add(new ShieldPylon(this, 1, 0.5f));
+
+                for(ShieldPylon pylon : pylons){
+                    manager.addToBottom(new SpawnMonsterAction(pylon, true));
+                    pylon.usePreBattleAction();
+                }
+
+                manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationPylonPower(this)));
 
                 break;
-            case 10: //resets the players buffs and deck
-                for(AbstractPower p : this.powers){
-                    manager.addToBottom(new RemoveSpecificPowerAction(this, this, p));
-                }
-                for(AbstractPower p : player.powers){
-                    manager.addToBottom(new RemoveSpecificPowerAction(this, this, p));
-                }
-                //do code to clear all card piles except master deck and then reconstruct the deck into the drawpile
+            case 10: //total buff wipe, full heal, gain super slow, triggers at battle start relics
+                manager.addToBottom(new RemoveAllPowersAction(player, false));
+                manager.addToBottom(new RemoveAllPowersAction(this, false));
+                manager.addToBottom(new ApplyPowerAction(this, this, new SuperSlowPower(this, 0),0));
+                manager.addToBottom(new WaitAction(0.5f));
 
+                for(int i = 0; i < 10; i++) {
+                    manager.addToBottom(new FastHealAction(this,this, 999));
+                }
 
-                break;
+                for(AbstractRelic relic : player.relics){
+                    relic.atBattleStartPreDraw();
+                    relic.atBattleStart();
+                }
+
+                for(AbstractCard card : player.masterDeck.group){
+                    if(card.type == AbstractCard.CardType.POWER){
+                        player.drawPile.addToRandomSpot(card);
+                    }
+                }
+
         }
         this.intentPhase = IntentPhase.NORMAL;
         AbstractDungeon.actionManager.addToBottom(new RollMoveAction(this));
@@ -214,7 +261,7 @@ public class LordOfAnnihilation extends AbstractMonster{
     }
 
     private void phase1(int i){
-        if(this.turn % 3 == 0){
+        if(this.turn % 3 == 0 && this.turn > 0){
             this.setMove(MOVES[0], (byte) 3, Intent.ATTACK, this.damage.get(3).base);
         }else{
             if(AbstractDungeon.monsterRng.randomBoolean()){
@@ -226,7 +273,15 @@ public class LordOfAnnihilation extends AbstractMonster{
     }
 
     private void phase2(int i){
-        phase1(i);
+        if(this.turn % 3 == 0 && this.turn > 0){
+            this.setMove(MOVES[1], (byte) 3, Intent.ATTACK, this.damage.get(4).base);
+        }else{
+            if(AbstractDungeon.monsterRng.randomBoolean()){
+                this.setMove((byte) 3, Intent.ATTACK, this.damage.get(3).base);
+            }else{
+                this.setMove(MOVES[5],(byte) 7, Intent.DEFEND);
+            }
+        }
     }
 
     private void phase3(int i){
@@ -248,6 +303,12 @@ public class LordOfAnnihilation extends AbstractMonster{
     private void applyRandomDebuff(){
         AbstractPlayer player = AbstractDungeon.player;
         GameActionManager manager = AbstractDungeon.actionManager;
+
+//        if(InfiniteSpire.isReplayLoaded && AbstractDungeon.miscRng.random(3) == 0){
+//            manager.addToBottom(new ApplyPowerAction(player, this, new tobyspowerhouse.powers.TPH_ConfusionPower(player, 2),2));
+//            return;
+//        }
+
         switch(AbstractDungeon.monsterRng.random(2)){
             case 0:
                 manager.addToBottom(new ApplyPowerAction(player, this,
@@ -262,9 +323,5 @@ public class LordOfAnnihilation extends AbstractMonster{
                         new VulnerablePower(player, 2, true), 2));
                 break;
         }
-    }
-
-    private void spawnRandomElite(){
-
     }
 }

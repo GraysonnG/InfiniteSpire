@@ -1,7 +1,8 @@
 package infinitespire.relics;
 
-import java.util.ArrayList;
-
+import basemod.BaseMod;
+import basemod.ReflectionHacks;
+import basemod.interfaces.PostCampfireSubscriber;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -9,13 +10,11 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.CampfireUI;
 import com.megacrit.cardcrawl.rooms.RestRoom;
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption;
-
-import basemod.BaseMod;
-import basemod.ReflectionHacks;
-import basemod.interfaces.PostCampfireSubscriber;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.ui.FlaskOption;
+
+import java.util.ArrayList;
 
 public class MagicFlask extends Relic implements PostCampfireSubscriber{
 	
@@ -27,7 +26,7 @@ public class MagicFlask extends Relic implements PostCampfireSubscriber{
 	public MagicFlask() {
 		super(ID, "magicflask", RelicTier.RARE, LandingSound.SOLID);
 		BaseMod.subscribe(this);
-		textureUsed = InfiniteSpire.getTexture("img/relics/magicflask-used.png");
+		textureUsed = InfiniteSpire.getTexture("img/infinitespire/relics/magicflask-used.png");
 		this.counter = 3;
 	}
 	

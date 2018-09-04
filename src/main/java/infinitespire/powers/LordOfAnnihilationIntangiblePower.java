@@ -13,6 +13,7 @@ public class LordOfAnnihilationIntangiblePower extends IntangiblePower {
     public LordOfAnnihilationIntangiblePower(AbstractCreature owner, int turns) {
         super(owner, turns);
         this.ID = "inf_loaIntangible";
+        this.updateDescription();
     }
 
     @Override
@@ -27,6 +28,11 @@ public class LordOfAnnihilationIntangiblePower extends IntangiblePower {
         } else {
             return 1;
         }
+    }
+
+    @Override
+    public void updateDescription() {
+        this.description = "Reduce ALL damage taken and HP loss to #b1 this turn.";
     }
 
     @Override
