@@ -81,27 +81,28 @@ public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 
 	public void onEquip() {
 		cardSelected = false;
-		if(AbstractDungeon.isScreenUp) {
-			AbstractDungeon.dynamicBanner.hide();
-			AbstractDungeon.overlayMenu.cancelButton.hide();
-			AbstractDungeon.previousScreen = AbstractDungeon.screen;
-		}
-		
-		prevPhase = AbstractRoom.RoomPhase.valueOf(AbstractDungeon.getCurrRoom().phase.toString());
-		
-		AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
 		
 		CardGroup group = new CardGroup(CardGroupType.UNSPECIFIED);
 		for(AbstractCard card : AbstractDungeon.player.masterDeck.group) {
-			if(card.exhaust) {
+			if (card.exhaust) {
 				group.addToBottom(card);
 			}
 		}
-		if(group.size() > 0) {
+
+		if(CardGroup.getGroupWithoutBottledCards(group).size() > 0) {
+			if(AbstractDungeon.isScreenUp) {
+				AbstractDungeon.dynamicBanner.hide();
+				AbstractDungeon.overlayMenu.cancelButton.hide();
+				AbstractDungeon.previousScreen = AbstractDungeon.screen;
+			}
+
+			prevPhase = AbstractRoom.RoomPhase.valueOf(AbstractDungeon.getCurrRoom().phase.toString());
+
+			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
+
 			AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a Card.", false, false, false, false);
-		}else {
+		} else {
 			cardSelected = true;
-			AbstractDungeon.getCurrRoom().phase = prevPhase;
 		}
 	}
 
