@@ -39,7 +39,7 @@
 	},
 	"infinitespire:Cubic Diamond" : {
 		"NAME" : "Cubic Diamond",
-		"FLAVOR" : "TBD",
+		"FLAVOR" : "Feels weird.",
 		"DESCRIPTIONS" : [
 			"Upon pick up, replace your starter relic with a random starter relic."
 		]
@@ -60,14 +60,14 @@
 	},
 	"infinitespire:Beetle Shell" : {
 		"NAME" : "Beetle Shell",
-		"FLAVOR" : "",
+		"FLAVOR" : "Hard as a rock.",
 		"DESCRIPTIONS" : [
 			"Every #b10th time you gain #yBlock, gain double the #yBlock."
 		]
 	},
 	"infinitespire:Burning Sword" : {
 		"NAME" : "Burning Sword",
-		"FLAVOR" : "",
+		"FLAVOR" : "F is for #rFIRE!",
 		"DESCRIPTIONS" : [
 			"At the start of combat, gain #b2 #yStrength."
 		]
@@ -111,7 +111,7 @@
 		"NAME" : "Joker Card",
 		"FLAVOR" : "It could be anything!",
 		"DESCRIPTIONS" : [
-			"Every #b10th card you play is played twice."
+			"Every #b15th card you play is played twice."
 		]
 	},
 	"infinitespire:Satchel" : {
@@ -119,6 +119,52 @@
 		"FLAVOR" : "It's not a purse!",
 		"DESCRIPTIONS" : [
 			"At the end of each turn Retain #b1 card."
+		]
+	},
+	"infinitespire:MutagenicDexterity" : {
+		"NAME" : "Mutagenic Dexterity",
+		"FLAVOR" : "The subject is able to endure more damage, only for a short while.",
+		"DESCRIPTIONS" : [
+			"Start each combat with #b3 #yDexterity that is lost at the end of your turn."
+		]
+	},
+	"infinitespire:SolderingIron" : {
+		"NAME" : "Soldering Iron",
+		"FLAVOR" : "OUCH! Hot!",
+		"DESCRIPTIONS" : [
+			"Start each combat with #b1 additional Orb slot."
+		]
+	},
+	"infinitespire:EmpoweringShard" : {
+		"NAME" : "Empowering Shard",
+		"FLAVOR" : "It feels like it holds great power...",
+		"DESCRIPTIONS" : [
+			"For each act you climb gain #b",
+			" #yStrength at the start of combat."
+		]
+	},
+    "infinitespire:WardingShard" : {
+        "NAME" : "Warding Shard",
+        "FLAVOR" : "It glows!",
+        "DESCRIPTIONS" : [
+            "For each act you climb gain #b",
+			" #yDexterity at the start of combat."
+        ]
+    },
+    "infinitespire:FocusingShard" : {
+        "NAME" : "Focusing Shard",
+        "FLAVOR" : "Sharp!",
+        "DESCRIPTIONS" : [
+            "For each act you climb #yUpgrade #b",
+			" random card at the start of combat."
+        ]
+    },
+	"infinitespire:HealingShard" : {
+		"NAME" : "Healing Shard",
+		"FLAVOR" : "",
+		"DESCRIPTIONS" : [
+			"For each act you climb heal #b",
+			" #yHP at the end of combat."
 		]
 	}
 }
