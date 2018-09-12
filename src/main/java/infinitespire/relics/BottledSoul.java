@@ -75,8 +75,10 @@ public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 
 	@Override
 	public void onMasterDeckChange() {
-		cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
-		bottleCard(card);
+		if (cardSelected && card != null && cardIndex != MAX_VALUE) {
+			cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
+			bottleCard(card);
+		}
 	}
 
 	public void onEquip() {
@@ -109,7 +111,9 @@ public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 	//this is what happens when you unequip the relic
 	public void onUnequip() {
 		cardIndex = MAX_VALUE;
-		AbstractCardPatch.Field.isBottledSoulCard.set(card, false);
+		if(card != null) {
+			AbstractCardPatch.Field.isBottledSoulCard.set(card, false);
+		}
 		cardSelected = false;
 		card = null;
 	}
