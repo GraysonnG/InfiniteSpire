@@ -135,6 +135,12 @@ public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 	public static void load(SpireConfig config) {
 		cardIndex = config.getInt("bottledSoulIndex");
 		cardSelected = config.getBool("bottledSoulHasCard");
+		if(AbstractDungeon.player != null && cardSelected)
+			try {
+				bottleCard(AbstractDungeon.player.masterDeck.group.get(cardIndex));
+			}catch(IndexOutOfBoundsException e){
+
+			}
 	}
 
 	public static void clear(){
@@ -162,10 +168,9 @@ public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 		}
 	}
 
-	private void bottleCard(AbstractCard card){
+	private static void bottleCard(AbstractCard card){
 		cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
         AbstractCardPatch.Field.isBottledSoulCard.set(card, true);
-        AbstractDungeon.player.hand.refreshHandLayout();
     }
 
 	@Override

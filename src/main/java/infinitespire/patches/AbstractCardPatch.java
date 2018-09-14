@@ -1,14 +1,14 @@
 package infinitespire.patches;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.ByRef;
-import com.evacipated.cardcrawl.modthespire.lib.SpireField;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import infinitespire.relics.BottledSoul;
+
+import java.io.IOException;
 
 public class AbstractCardPatch {
 
@@ -37,10 +37,24 @@ public class AbstractCardPatch {
     public static class MakeStatCopy {
         @SpireInsertPatch(rloc = 6, localvars = {"card"})
         public static void Insert(AbstractCard __instance, @ByRef AbstractCard[] card) {
+            if(AbstractDungeon.player.hasRelic(BottledSoul.ID)){
+               loadBottledSoul();
+            }
+
             if(Field.isBottledSoulCard.get(__instance)) {
                 Field.isBottledSoulCard.set(card[0], true);
                 card[0].exhaust = false;
             }
+        }
+    }
+
+    private static void loadBottledSoul(){
+        try {
+            SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+            config.load();
+            BottledSoul.load(config);
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 }
