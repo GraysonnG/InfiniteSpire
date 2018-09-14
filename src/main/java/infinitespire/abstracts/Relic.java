@@ -1,15 +1,14 @@
 package infinitespire.abstracts;
 
-import java.util.ArrayList;
-import java.util.Scanner;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.helpers.GameDictionary;
 import com.megacrit.cardcrawl.helpers.PowerTip;
 import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-
 import infinitespire.InfiniteSpire;
+
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public abstract class Relic extends AbstractRelic {
 	
@@ -67,4 +66,13 @@ public abstract class Relic extends AbstractRelic {
         }
         desc.close();
 	}
+
+    @Override
+    public AbstractRelic makeCopy() {
+        try{
+            return (AbstractRelic)this.getClass().newInstance();
+        }catch(IllegalAccessException | InstantiationException e){
+            throw new RuntimeException("InfiniteSpire failed to auto-generate makeCopy for relic: " + this.relicId);
+        }
+    }
 }
