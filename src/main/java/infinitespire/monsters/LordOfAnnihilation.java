@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.actions.unique.RemoveAllPowersAction;
 import com.megacrit.cardcrawl.actions.utility.LoseBlockAction;
 import com.megacrit.cardcrawl.actions.utility.WaitAction;
+import com.megacrit.cardcrawl.blights.Shield;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
@@ -22,6 +23,7 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.actions.FastHealAction;
+import infinitespire.patches.MainMenuPatch;
 import infinitespire.powers.LordOfAnnihilationIntangiblePower;
 import infinitespire.powers.LordOfAnnihilationPylonPower;
 import infinitespire.powers.LordOfAnnihilationRetaliatePower;
@@ -29,20 +31,19 @@ import infinitespire.powers.SuperSlowPower;
 
 import java.util.ArrayList;
 
-;
-
 public class LordOfAnnihilation extends AbstractMonster{
     public static final String ID = "LordOfAnnihilation";
     private static final String NAME = "The Lord of Annihilation";
 
-    public static final MonsterStrings monsterStrings = CardCrawlGame.languagePack.getMonsterStrings(ID);
-    public static final String[] MOVES = monsterStrings.MOVES;
+    private static final MonsterStrings monsterStrings = CardCrawlGame.languagePack.getMonsterStrings(ID);
+    private static final String[] MOVES = monsterStrings.MOVES;
     public static final String[] DIALOG = monsterStrings.DIALOG;
 
     private final ArrayList<Integer> THRESHOLDS;
+    private static final int MAX_HP = 10000;
 
     //the first index of these are not used
-    private static final int[] ATTACKS = {-1, 20, 35, 50, 60};
+    private static final int[] ATTACKS = {-1, 15, 25, 35, 50};
     private static final int[] DEFENDS = {-1, 20, 35, 50};
 
     private static final int NUKE = 100;
@@ -57,18 +58,26 @@ public class LordOfAnnihilation extends AbstractMonster{
     }
 
     public LordOfAnnihilation() {
-        super(NAME, ID, 10000, 0.0f, 0.0f, 300f, 300f, null);
+        super(NAME, ID, MAX_HP, 0.0f, 0.0f, 300f, 300f, null);
         this.type = EnemyType.BOSS;
         this.dialogX = -160.0f * Settings.scale;
         this.dialogY = 40f * Settings.scale;
         this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/guardian/guardian.png");
-        this.setHp(10000);
-        this.maxHealth = 10000;
+
+        int spearStacks = 0;
+        if(AbstractDungeon.player != null) {
+            spearStacks = AbstractDungeon.player.getBlight(Shield.ID).counter - 2;
+        }
+
+        if(spearStacks < 0) spearStacks = 0;
+
+        this.maxHealth = MAX_HP * (spearStacks + 1);
+        this.currentHealth = maxHealth;
 
         phase = 0;
         this.intentPhase = IntentPhase.NORMAL;
 
-        ArrayList<Integer> th = new ArrayList<Integer>();
+        ArrayList<Integer> th = new ArrayList<>();
 
         th.add((int)(maxHealth * 0.75));
         th.add((int)(maxHealth * 0.50));
@@ -128,6 +137,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         super.die();
         if(this.isDead){
             InfiniteSpire.hasDefeatedGuardian = true;
+            MainMenuPatch.setMainMenuBG(null);
         }
     }
 
@@ -169,6 +179,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                 break;
             case 11: //larger attack
                 manager.addToBottom(new DamageAction(player, this.damage.get(4), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
+                break;
             case 4: //nuke
                 manager.addToBottom(new LoseBlockAction(player, this, player.currentBlock));
                 manager.addToBottom(new LoseHPAction(player, this, player.maxHealth / 3));
@@ -186,6 +197,9 @@ public class LordOfAnnihilation extends AbstractMonster{
                 manager.addToBottom(new GainBlockAction(this, this, DEFENDS[3]));
                 break;
             //-----------------------MISC----------------------------
+            case 12:
+                manager.addToBottom(new LoseBlockAction(player, this, player.currentBlock));
+                break;
             case 8: //give retaliate power
                 manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationRetaliatePower(this)));
                 manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 3),3));
@@ -228,7 +242,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                         player.drawPile.addToRandomSpot(card);
                     }
                 }
-
+                break;
         }
         this.intentPhase = IntentPhase.NORMAL;
         AbstractDungeon.actionManager.addToBottom(new RollMoveAction(this));
@@ -236,6 +250,10 @@ public class LordOfAnnihilation extends AbstractMonster{
 
     @Override
     protected void getMove(int i) {
+
+        if(this.turn == 0)
+            this.setMove((byte) 6, Intent.DEFEND);
+
         switch(intentPhase) {
             case NORMAL:
                 switch (phase) {
@@ -264,7 +282,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         if(this.turn % 3 == 0 && this.turn > 0){
             this.setMove(MOVES[0], (byte) 3, Intent.ATTACK, this.damage.get(3).base);
         }else{
-            if(AbstractDungeon.monsterRng.randomBoolean()){
+            if(i >= 50){
                 this.setMove((byte) 2, Intent.ATTACK, this.damage.get(2).base);
             }else{
                 this.setMove(MOVES[5],(byte) 6, Intent.DEFEND);
@@ -276,7 +294,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         if(this.turn % 3 == 0 && this.turn > 0){
             this.setMove(MOVES[1], (byte) 3, Intent.ATTACK, this.damage.get(4).base);
         }else{
-            if(AbstractDungeon.monsterRng.randomBoolean()){
+            if(i >= 50){
                 this.setMove((byte) 3, Intent.ATTACK, this.damage.get(3).base);
             }else{
                 this.setMove(MOVES[5],(byte) 7, Intent.DEFEND);
@@ -289,10 +307,10 @@ public class LordOfAnnihilation extends AbstractMonster{
     }
 
     private void phase4(int i){
-        if(this.turn % 3 == 0){
-            this.setMove(MOVES[2], (byte) 11, Intent.ATTACK, this.damage.get(4).base);
+        if(this.turn % 2 == 0){
+            this.setMove((byte) 12, Intent.MAGIC);
         } else {
-            if(AbstractDungeon.monsterRng.randomBoolean()) {
+            if(i >= 50) {
                 this.setMove((byte) 2, Intent.ATTACK, this.damage.get(2).base);
             } else {
                 this.setMove((byte) 1, Intent.ATTACK_DEBUFF, this.damage.get(1).base);
@@ -303,11 +321,6 @@ public class LordOfAnnihilation extends AbstractMonster{
     private void applyRandomDebuff(){
         AbstractPlayer player = AbstractDungeon.player;
         GameActionManager manager = AbstractDungeon.actionManager;
-
-//        if(InfiniteSpire.isReplayLoaded && AbstractDungeon.miscRng.random(3) == 0){
-//            manager.addToBottom(new ApplyPowerAction(player, this, new tobyspowerhouse.powers.TPH_ConfusionPower(player, 2),2));
-//            return;
-//        }
 
         switch(AbstractDungeon.monsterRng.random(2)){
             case 0:

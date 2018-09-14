@@ -31,8 +31,10 @@ public class ShieldPylon extends AbstractMonster{
         this.dialogY = 0;
         this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/guardian/pylon.png");
         this.setHp(boss.maxHealth / 16);
+        this.maxHealth = boss.maxHealth / 16;
+        this.currentHealth = maxHealth;
         this.boss = boss;
-        this.damage.add(new DamageInfo(this, 25));
+        this.damage.add(new DamageInfo(this, 10));
     }
 
     @Override
