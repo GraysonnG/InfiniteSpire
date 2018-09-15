@@ -62,12 +62,12 @@
 		"NAME" : "Beetle Shell",
 		"FLAVOR" : "Hard as a rock.",
 		"DESCRIPTIONS" : [
-			"Every #b10th time you gain #yBlock, gain double the #yBlock."
+			"Every #b10th time you gain #yBlock from a card, gain double the #yBlock."
 		]
 	},
 	"infinitespire:Burning Sword" : {
 		"NAME" : "Burning Sword",
-		"FLAVOR" : "F is for #rFIRE!",
+		"FLAVOR" : "Bursting with powerful energy.",
 		"DESCRIPTIONS" : [
 			"At the start of combat, gain #b2 #yStrength."
 		]
@@ -81,7 +81,7 @@
 	},
 	"infinitespire:Spectral Dust" : {
 		"NAME" : "Spectral Dust",
-		"FLAVOR" : "It sparkles!",
+		"FLAVOR" : "So light it could blow away with a single breath.",
 		"DESCRIPTIONS" : [
 			"Whenever an #yEthereal card is #yExhausted, deal #b2 damage to a random enemy."
 		]
@@ -109,7 +109,7 @@
 	},
 	"infinitespire:Joker Card" : {
 		"NAME" : "Joker Card",
-		"FLAVOR" : "It could be anything!",
+		"FLAVOR" : "Takes the form of any other card.",
 		"DESCRIPTIONS" : [
 			"Every #b15th card you play is played twice."
 		]
@@ -145,7 +145,7 @@
 	},
     "infinitespire:WardingShard" : {
         "NAME" : "Warding Shard",
-        "FLAVOR" : "It glows!",
+        "FLAVOR" : "It's unbreakable!",
         "DESCRIPTIONS" : [
             "For each act you climb gain #b",
 			" #yDexterity at the start of combat."
@@ -161,7 +161,7 @@
     },
 	"infinitespire:HealingShard" : {
 		"NAME" : "Healing Shard",
-		"FLAVOR" : "",
+		"FLAVOR" : "Nice and cool.",
 		"DESCRIPTIONS" : [
 			"For each act you climb heal #b",
 			" #yHP at the end of combat."
