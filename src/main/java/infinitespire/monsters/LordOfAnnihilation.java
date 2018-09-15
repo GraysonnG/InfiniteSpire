@@ -93,6 +93,9 @@ public class LordOfAnnihilation extends AbstractMonster{
 
     @Override
     public void usePreBattleAction() {
+        CardCrawlGame.music.unsilenceBGM();
+        AbstractDungeon.scene.fadeOutAmbiance();
+        AbstractDungeon.getCurrRoom().playBgmInstantly("BOSS_BEYOND");
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
                 new LordOfAnnihilationIntangiblePower(this, 1),1));
     }
@@ -135,10 +138,9 @@ public class LordOfAnnihilation extends AbstractMonster{
     @Override
     public void die() {
         super.die();
-        if(this.isDead){
-            InfiniteSpire.hasDefeatedGuardian = true;
-            MainMenuPatch.setMainMenuBG(null);
-        }
+        InfiniteSpire.hasDefeatedGuardian = true;
+        MainMenuPatch.setMainMenuBG(null);
+        InfiniteSpire.saveData();
     }
 
     public void changeIntentToNuke(){
