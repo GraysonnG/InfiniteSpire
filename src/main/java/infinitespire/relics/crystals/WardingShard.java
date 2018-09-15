@@ -11,7 +11,7 @@ public class WardingShard extends InfiniteRelic {
     public static final String ID = InfiniteSpire.createID("WardingShard");
 
     public WardingShard(){
-        super(ID, "wardingshard", RelicTier.SPECIAL, LandingSound.CLINK);
+        super(ID, "wardingshard", LandingSound.CLINK);
     }
 
     @Override

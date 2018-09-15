@@ -13,7 +13,7 @@ public class FocusingShard extends InfiniteRelic{
     public static final String ID = InfiniteSpire.createID("FocusingShard");
 
     public FocusingShard(){
-        super(ID, "focusingshard", RelicTier.SPECIAL, LandingSound.CLINK);
+        super(ID, "focusingshard", LandingSound.CLINK);
     }
 
     @Override

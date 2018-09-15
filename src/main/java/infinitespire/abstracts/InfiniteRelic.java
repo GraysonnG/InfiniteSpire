@@ -4,8 +4,8 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 
 public abstract class InfiniteRelic extends Relic {
-    public InfiniteRelic(String setId, String textureID, RelicTier tier, LandingSound sfx) {
-        super(setId, textureID, tier, sfx);
+    public InfiniteRelic(String setId, String textureID, LandingSound sfx) {
+        super(setId, textureID, RelicTier.UNCOMMON, sfx);
         this.counter = 1;
         if(AbstractDungeon.player != null)
             this.updateDescription(AbstractDungeon.player.chosenClass);

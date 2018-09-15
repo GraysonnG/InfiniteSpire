@@ -10,7 +10,7 @@ public class HealingShard extends InfiniteRelic{
     public static final String ID = InfiniteSpire.createID("HealingShard");
 
     public HealingShard(){
-        super(ID, "healingshard", RelicTier.SPECIAL, LandingSound.CLINK);
+        super(ID, "healingshard",  LandingSound.CLINK);
     }
 
     @Override
