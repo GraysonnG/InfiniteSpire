@@ -137,10 +137,10 @@ public class LordOfAnnihilation extends AbstractMonster{
 
     @Override
     public void die() {
-        super.die();
         InfiniteSpire.hasDefeatedGuardian = true;
         MainMenuPatch.setMainMenuBG(null);
         InfiniteSpire.saveData();
+        super.die();
     }
 
     public void changeIntentToNuke(){
