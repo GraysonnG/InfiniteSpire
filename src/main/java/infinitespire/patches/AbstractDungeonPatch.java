@@ -101,7 +101,7 @@ public class AbstractDungeonPatch {
 
 		@SpirePrefixPatch
 		public static SpireReturn<Void> LordOfAnnihilationInitBoss(TheBeyond __instance){
-			if(AbstractDungeon.bossCount >= 6){
+			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
 				TheBeyond.bossList.clear();
 				TheBeyond.bossList.add(LordOfAnnihilation.ID);
 				return SpireReturn.Return(null);

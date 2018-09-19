@@ -160,7 +160,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
 			BottledSoul.save(config);
-
+			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.save();
 		} catch (IOException e) {
