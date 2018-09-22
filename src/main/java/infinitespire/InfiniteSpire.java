@@ -135,9 +135,11 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public void receiveEditKeywords() {
 		String[] golemsMight = {"golem's might", "golem's", "golem", "golem"};
 		String[] crit = {"critical", "crit"};
-		
+		String[] shattered = {"shattered"};
+
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
+		BaseMod.addKeyword(shattered, "For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
 	}
 
 	@Override
