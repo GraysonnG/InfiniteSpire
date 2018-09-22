@@ -270,6 +270,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	CardHelper.addCard(new FutureSight());
     	CardHelper.addCard(new Punishment());
     	CardHelper.addCard(new UltimateForm());
+    	CardHelper.addCard(new Execution());
     }
 	@SuppressWarnings("unused")
 
