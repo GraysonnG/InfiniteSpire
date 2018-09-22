@@ -203,6 +203,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                 manager.addToBottom(new LoseBlockAction(player, this, player.currentBlock));
                 break;
             case 8: //give retaliate power
+				manager.addToBottom(new RemoveAllPowersAction(this, false));
                 manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationRetaliatePower(this)));
                 manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 3),3));
                 break;
@@ -243,6 +244,15 @@ public class LordOfAnnihilation extends AbstractMonster{
                     if(card.type == AbstractCard.CardType.POWER){
                         player.drawPile.addToRandomSpot(card);
                     }
+                }
+                break;
+            case 13: //quarter heal, lower slow by 75%
+                manager.addToBottom(new HealAction(this, this, this.maxHealth / 4));
+
+                if(this.hasPower("is_Shattered")){
+                    float amt = (float) this.getPower("is_Shattered").amount;
+                    amt *= 3.0f / 4.0f;
+                    this.getPower("is_Shattered").amount = (int) amt;
                 }
                 break;
         }
@@ -310,6 +320,10 @@ public class LordOfAnnihilation extends AbstractMonster{
 
     private void phase4(int i){
         if(this.turn % 2 == 0){
+            if(this.turn % 4 == 0 && this.currentHealth != this.maxHealth){
+                this.setMove((byte) 13, Intent.BUFF);
+                return;
+            }
             this.setMove((byte) 12, Intent.MAGIC);
         } else {
             if(i >= 50) {
