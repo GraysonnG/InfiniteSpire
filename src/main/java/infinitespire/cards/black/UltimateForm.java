@@ -15,7 +15,7 @@ public class UltimateForm extends BlackCard {
 	private static final String TEXTURE = "img/infinitespire/cards/ultimateform.png";
 	private static final int COST = 5;
 	private static final String DESCRIPTION = "Gain !M! Strength and Dexterity each turn. NL If you have orb slots gain !M! Focus each turn.";
-	private static final int MAGIC = 3;
+	private static final int MAGIC = 2;
 	
 	public UltimateForm() {
 		super(ID, NAME, TEXTURE, COST, DESCRIPTION, CardType.POWER, CardTarget.SELF);
@@ -32,6 +32,7 @@ public class UltimateForm extends BlackCard {
 	public void upgrade() {
 		if(!upgraded) {
 			this.upgradeName();
+			this.upgradeMagicNumber(1);
 		}
 	}
 

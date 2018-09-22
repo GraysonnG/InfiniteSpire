@@ -29,7 +29,7 @@ public class JokerCard extends Relic {
 	@Override
 	public void atBattleStart() {
 		AbstractPlayer p = AbstractDungeon.player;
-		if(this.counter == 9) {
+		if(this.counter == 14) {
 			this.beginPulse();
 			this.pulse = true;
 			AbstractDungeon.player.hand.refreshHandLayout();
@@ -43,13 +43,13 @@ public class JokerCard extends Relic {
 			return;
 		
 		this.counter++;
-		if(this.counter == 10) {
+		if(this.counter == 15) {
 			this.counter = 0;
 			this.flash();
 			this.pulse = false;
 		}
 		
-		if(this.counter == 9) {
+		if(this.counter == 14) {
 			this.beginPulse();
 			this.pulse = true;
 			AbstractDungeon.player.hand.refreshHandLayout();

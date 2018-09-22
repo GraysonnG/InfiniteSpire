@@ -37,6 +37,10 @@ import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
+import infinitespire.relics.crystals.EmpoweringShard;
+import infinitespire.relics.crystals.FocusingShard;
+import infinitespire.relics.crystals.HealingShard;
+import infinitespire.relics.crystals.WardingShard;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.util.TextureLoader;
 import org.apache.logging.log4j.LogManager;
@@ -49,7 +53,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.0.11";
+	public static final String VERSION = "0.1.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -74,14 +78,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	return "infinitespire:" + id;
     }
 
-	private enum LoadType {
-    	RELIC,
-    	CARD,
-    	KEYWORD,
-		QUEST
-    }
-    
-    public InfiniteSpire() {
+	public InfiniteSpire() {
     	BaseMod.subscribe(this);
     }
     
@@ -138,9 +135,11 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public void receiveEditKeywords() {
 		String[] golemsMight = {"golem's might", "golem's", "golem", "golem"};
 		String[] crit = {"critical", "crit"};
-		
+		String[] shattered = {"shattered"};
+
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
+		BaseMod.addKeyword(shattered, "For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
 	}
 
 	@Override
@@ -163,7 +162,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
 			BottledSoul.save(config);
-
+			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.save();
 		} catch (IOException e) {
@@ -214,8 +213,15 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		RelicLibrary.add(new JokerCard());
 		RelicLibrary.add(new Satchel());
 		RelicLibrary.add(new BottledSoul()); //This relic is broken
+		RelicLibrary.add(new MutagenicDexterity());
+
+		RelicLibrary.add(new EmpoweringShard());
+		RelicLibrary.add(new WardingShard());
+		RelicLibrary.add(new FocusingShard());
+		RelicLibrary.add(new HealingShard());
 
 		RelicLibrary.addBlue(new Freezer());
+		RelicLibrary.addBlue(new SolderingIron());
 		
 		RelicLibrary.addRed(new BurningSword());
 
@@ -266,6 +272,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	CardHelper.addCard(new FutureSight());
     	CardHelper.addCard(new Punishment());
     	CardHelper.addCard(new UltimateForm());
+    	CardHelper.addCard(new Execution());
     }
 	@SuppressWarnings("unused")
 
