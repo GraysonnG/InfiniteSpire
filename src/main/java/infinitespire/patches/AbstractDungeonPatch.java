@@ -85,6 +85,7 @@ public class AbstractDungeonPatch {
 
 		@SpirePrefixPatch
 		public static SpireReturn<?> LordOfAnnihilationSpawner(AbstractDungeon __instance, String key){
+			InfiniteSpire.logger.info("bossCount: " + AbstractDungeon.bossCount);
 			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
 				DungeonMap.boss = InfiniteSpire.getTexture("img/infinitespire/ui/map/bossIcon.png");
 				DungeonMap.bossOutline = InfiniteSpire.getTexture("img/infinitespire/ui/map/bossIcon-outline.png");
@@ -101,7 +102,12 @@ public class AbstractDungeonPatch {
 
 		@SpirePrefixPatch
 		public static SpireReturn<Void> LordOfAnnihilationInitBoss(TheBeyond __instance){
+			InfiniteSpire.logger.info("bossCount: " + AbstractDungeon.bossCount);
 			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
+				if(AbstractDungeon.bossCount > 8 && AbstractDungeon.miscRng.randomBoolean(1 / (TheBeyond.bossList.size() + 1))){
+					return SpireReturn.Continue();
+				}
+
 				TheBeyond.bossList.clear();
 				TheBeyond.bossList.add(LordOfAnnihilation.ID);
 				return SpireReturn.Return(null);
