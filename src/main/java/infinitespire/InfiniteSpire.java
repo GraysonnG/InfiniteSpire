@@ -42,6 +42,7 @@ import infinitespire.relics.crystals.FocusingShard;
 import infinitespire.relics.crystals.HealingShard;
 import infinitespire.relics.crystals.WardingShard;
 import infinitespire.screens.QuestLogScreen;
+import infinitespire.ui.buttons.QuestLogButton;
 import infinitespire.util.TextureLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,7 +106,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		//this should be removed after im done testing
 		//BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
 
-
+		BaseMod.addTopPanelItem(new QuestLogButton());
     }
 
     public static boolean checkForMod(String classPath){
