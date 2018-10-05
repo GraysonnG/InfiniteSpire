@@ -1,9 +1,7 @@
 package infinitespire.quests;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -11,10 +9,12 @@ import com.megacrit.cardcrawl.monsters.beyond.*;
 import com.megacrit.cardcrawl.monsters.city.*;
 import com.megacrit.cardcrawl.monsters.exordium.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.util.StringManip;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SlayQuest extends Quest {
 	
@@ -31,6 +31,14 @@ public class SlayQuest extends Quest {
 	public SlayQuest() {
 		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.COMMON);
 		this.preInitialize();
+	}
+
+	@Override
+	public Texture getTexture() {
+		Texture retVal = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/slay.png");
+		if(this.isElite(this.monster))
+			retVal = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/elite.png");
+		return retVal;
 	}
 
 	public void onEnemyKilled(AbstractCreature creature) {
@@ -107,7 +115,7 @@ public class SlayQuest extends Quest {
 			monsterMap.put(SnakePlant.ID, "Snake Plant");
 			
 			//ELITES FROM CITY
-			eliteMap.put(GremlinLeader.ID, "Gemlin Leader");
+			eliteMap.put(GremlinLeader.ID, "Gremlin Leader");
 			eliteMap.put(Snecko.ID, "Snecko");
 			eliteMap.put(BookOfStabbing.ID, "Book Of Stabbing");
 			eliteMap.put(Taskmaster.ID, "Taskmaster");
@@ -116,7 +124,7 @@ public class SlayQuest extends Quest {
 			monsterMap.put(Exploder.ID, "Exploder");
 			monsterMap.put(Spiker.ID, "Spiker");
 			monsterMap.put(Repulsor.ID, "Repulsor");
-			monsterMap.put(SnakeMage.ID, "Reptomancer");
+			monsterMap.put(Reptomancer.ID, "Reptomancer");
 			monsterMap.put(OrbWalker.ID, "Orb Walker");
 			
 			//ELITES IN THEBEYOND

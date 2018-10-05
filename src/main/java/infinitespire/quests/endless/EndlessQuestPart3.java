@@ -1,15 +1,16 @@
 package infinitespire.quests.endless;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
-import infinitespire.interfaces.IQuestLine;
-import infinitespire.monsters.Guardian;
+import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.SlayQuest;
 
 public class EndlessQuestPart3 extends SlayQuest {
     public EndlessQuestPart3() {
         this.id = EndlessQuestPart3.class.getName();
-        this.monster = Guardian.ID;
+        this.monster = LordOfAnnihilation.ID;
         this.color = new Color(0.75f, 0.0f, 1.0f, 1.0f);
         this.type = QuestType.BLUE;
         this.rarity = QuestRarity.SPECIAL;
@@ -19,6 +20,11 @@ public class EndlessQuestPart3 extends SlayQuest {
     @Override
     public void giveReward() {
         //special unlock that changes things
+    }
+
+    @Override
+    public Texture getTexture() {
+        return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/nightmare.png");
     }
 
     @Override

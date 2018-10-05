@@ -1,57 +1,74 @@
 package infinitespire;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-
-import com.megacrit.cardcrawl.dungeons.Exordium;
-import infinitespire.abstracts.Quest;
-import infinitespire.actions.AddQuestAction;
-import infinitespire.interfaces.*;
-import infinitespire.quests.event.CaptainAbeQuest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import basemod.BaseMod;
+import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
-import com.megacrit.cardcrawl.localization.*;
-import com.megacrit.cardcrawl.rooms.*;
-
-import basemod.BaseMod;
-import basemod.interfaces.*;
+import com.megacrit.cardcrawl.localization.EventStrings;
+import com.megacrit.cardcrawl.localization.MonsterStrings;
+import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import fruitymod.seeker.patches.AbstractCardEnum;
+import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
-import infinitespire.cards.*;
+import infinitespire.actions.AddQuestAction;
+import infinitespire.cards.Neurotoxin;
+import infinitespire.cards.OneForAll;
 import infinitespire.cards.black.*;
-import infinitespire.events.*;
+import infinitespire.events.EmptyRestSite;
+import infinitespire.events.HoodedArmsDealer;
+import infinitespire.events.PrismEvent;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
+import infinitespire.interfaces.IAutoQuest;
+import infinitespire.interfaces.OnQuestAddedSubscriber;
+import infinitespire.interfaces.OnQuestIncrementSubscriber;
+import infinitespire.interfaces.OnQuestRemovedSubscriber;
+import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.patches.CardColorEnumPatch;
-import infinitespire.quests.*;
+import infinitespire.quests.DieQuest;
+import infinitespire.quests.QuestLog;
+import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
-import infinitespire.screens.*;
+import infinitespire.relics.crystals.EmpoweringShard;
+import infinitespire.relics.crystals.FocusingShard;
+import infinitespire.relics.crystals.HealingShard;
+import infinitespire.relics.crystals.WardingShard;
+import infinitespire.screens.QuestLogScreen;
 import infinitespire.util.TextureLoader;
-import replayTheSpire.ReplayTheSpireMod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import fruitymod.FruityMod;
-import fruitymod.patches.AbstractCardEnum;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
-EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber{
-	public static final String VERSION = "0.0.7";
+EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
+	public static final String VERSION = "0.1.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
-	private static final ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
+	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
+	private static ArrayList<OnQuestIncrementSubscriber> onQuestIncrementSubscribers = new ArrayList<>();
+	private static ArrayList<OnQuestAddedSubscriber> onQuestAddedSubscribers = new ArrayList<>();
 
     public static QuestLog questLog = new QuestLog();
     
     public static boolean isEndless = false;
+    public static boolean hasDefeatedGuardian;
     public static boolean shouldLoad = false;
+
+    public static boolean isReplayLoaded = false;
+    public static boolean isFruityLoaded = false;
+    public static boolean iskiomodLoaded = false;
 
     public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
     
@@ -61,20 +78,16 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	return "infinitespire:" + id;
     }
 
-	private enum LoadType {
-    	RELIC,
-    	CARD,
-    	KEYWORD,
-		QUEST
-    }
-    
-    public InfiniteSpire() {
+	public InfiniteSpire() {
     	BaseMod.subscribe(this);
     }
     
     public static void initialize() {
-        logger.info("VERSION: 0.0.9");
+        logger.info("VERSION:" + VERSION);
         new InfiniteSpire();
+
+		InfiniteSpire.isReplayLoaded = InfiniteSpire.checkForMod("replayTheSpire.ReplayTheSpireMod");
+		InfiniteSpire.isFruityLoaded = InfiniteSpire.checkForMod("fruitymod.FruityMod");
     }
     
     @Override
@@ -87,17 +100,34 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID,PrismEvent.class, Exordium.ID);
+
+		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
+		//this should be removed after im done testing
+		//BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
+
+
     }
+
+    public static boolean checkForMod(String classPath){
+    	try {
+			Class.forName(classPath);
+			InfiniteSpire.logger.info("Found mod: " + classPath);
+			return true;
+		}catch(ClassNotFoundException | NoClassDefFoundError e){
+			InfiniteSpire.logger.info("Could not find mod: " + classPath);
+			return false;
+		}
+	}
     
     @Override
 	public void receiveEditStrings() {
-    	String relicStrings = Gdx.files.internal("local/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
+    	String relicStrings = Gdx.files.internal("local/infinitespire/relics.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
 		
-    	String eventStrings = Gdx.files.internal("local/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
+    	String eventStrings = Gdx.files.internal("local/infinitespire/events.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
 		
-		String monsterStrings = Gdx.files.internal("local/monsters.json").readString(String.valueOf(StandardCharsets.UTF_8));
+		String monsterStrings = Gdx.files.internal("local/infinitespire/monsters.json").readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
     }
 
@@ -105,9 +135,11 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public void receiveEditKeywords() {
 		String[] golemsMight = {"golem's might", "golem's", "golem", "golem"};
 		String[] crit = {"critical", "crit"};
-		
+		String[] shattered = {"shattered"};
+
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
+		BaseMod.addKeyword(shattered, "For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
 	}
 
 	@Override
@@ -129,12 +161,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
-			if(AbstractDungeon.player != null){
-				if(AbstractDungeon.player.hasRelic(BottledSoul.ID)){
-					((BottledSoul) AbstractDungeon.player.getRelic(BottledSoul.ID)).save();
-				}
-			}
-
+			BottledSoul.save(config);
+			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.save();
 		} catch (IOException e) {
@@ -148,6 +176,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	logger.info("InfiniteSpire | Clearing Saved Data...");
     	isEndless = false;
     	QuestHelper.clearQuestLog();
+    	BottledSoul.clear();
     	saveData();
     }
     
@@ -157,6 +186,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
 			isEndless = config.getBool("isEndless");
+
+			BottledSoul.load(config);
 		
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -181,16 +212,29 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		RelicLibrary.add(new LuckyRock());
 		RelicLibrary.add(new JokerCard());
 		RelicLibrary.add(new Satchel());
-		
+		RelicLibrary.add(new BottledSoul()); //This relic is broken
+		RelicLibrary.add(new MutagenicDexterity());
+
+		RelicLibrary.add(new EmpoweringShard());
+		RelicLibrary.add(new WardingShard());
+		RelicLibrary.add(new FocusingShard());
+		RelicLibrary.add(new HealingShard());
+
 		RelicLibrary.addBlue(new Freezer());
+		RelicLibrary.addBlue(new SolderingIron());
 		
 		RelicLibrary.addRed(new BurningSword());
 
 		Relic.addQuestRelic(new HolyWater());
+
+		if(isReplayLoaded){
+			RelicLibrary.add(new BrokenMirror());
+		}
+		if(isFruityLoaded){
+			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
+		}
 		
-		initializeCrossoverRelics();
-		
-    	RelicLibrary.add(new BottledSoul()); //This relic is broken
+
     }
     
     private static void initializeQuestLog() {
@@ -198,7 +242,11 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	
        
         QuestHelper.init();
-        initalizeCrossoverQuests();
+
+        if(isReplayLoaded){
+			QuestHelper.registerQuest(CaptainAbeQuest.class);
+		}
+
         loadData();
     }
     
@@ -224,66 +272,9 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	CardHelper.addCard(new FutureSight());
     	CardHelper.addCard(new Punishment());
     	CardHelper.addCard(new UltimateForm());
+    	CardHelper.addCard(new Execution());
     }
-  
-    private static void initializeCrossoverRelics() {
-    	try {
-			initializeReplayTheSpire(LoadType.RELIC);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
-		}
-    	try {
-			initializeFruityMod(LoadType.RELIC);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect FruityMod...");
-		}
-    }
-
-	private static void initializeCrossoverCards() {
-    	try {
-			initializeReplayTheSpire(LoadType.CARD);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
-		}
-    }
-
-    private static void initalizeCrossoverQuests(){
-    	try{
-    		initializeReplayTheSpire(LoadType.QUEST);
-		} catch (ClassNotFoundException | NoClassDefFoundError e) {
-			logger.info("InfiniteSpire failed to detect ReplayTheSpire...");
-		}
-	}
-
 	@SuppressWarnings("unused")
-	private static void initializeReplayTheSpire(LoadType type) throws ClassNotFoundException, NoClassDefFoundError {
-		Class<ReplayTheSpireMod> replayTheSpire = ReplayTheSpireMod.class;
-		logger.info("InfiniteSpire | InfiniteSpire has successfully detected Replay The Spire!");
-		
-		if(type == LoadType.RELIC) {
-			logger.info("InfiniteSpire | Initializing Relics for Replay The Spire...");
-			RelicLibrary.add(new BrokenMirror());
-		}
-		if(type == LoadType.CARD) {
-			logger.info("InfiniteSpire | Initializing Cards for Replay The Spire...");
-		}
-		if(type == LoadType.QUEST) {
-			QuestHelper.registerQuest(CaptainAbeQuest.class);
-		}
-	}
-	@SuppressWarnings("unused")
-	private static void initializeFruityMod(LoadType type)throws ClassNotFoundException, NoClassDefFoundError {
-		Class<FruityMod> fruityMod = FruityMod.class;
-		logger.info("InfiniteSpire | InfiniteSpire has successfully detected FruityMod!");
-		
-		if(type == LoadType.RELIC) {
-			logger.info("InfiniteSpire | Initializing Relics for FruityMod...");
-			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
-		}
-		if(type == LoadType.CARD) {
-			logger.info("InfiniteSpire | Initializing Cards for FruityMod...");
-		}
-	}
 
 	public static void triggerDieQuests(){
     	for(Quest q : questLog){
@@ -295,6 +286,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
 	public static void subscribe(ISubscriber subscriber){
 		subscribeIfInstance(onQuestRemovedSubscribers, subscriber, OnQuestRemovedSubscriber.class);
+		subscribeIfInstance(onQuestIncrementSubscribers, subscriber, OnQuestIncrementSubscriber.class);
+		subscribeIfInstance(onQuestAddedSubscribers, subscriber, OnQuestAddedSubscriber.class);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -307,6 +300,18 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 	public static void publishOnQuestRemoved(Quest quest){
 		for(OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers){
 			subscriber.receiveQuestRemoved(quest);
+		}
+	}
+
+	public static void publishOnQuestIncrement(Quest quest){
+    	for(OnQuestIncrementSubscriber subscriber : onQuestIncrementSubscribers){
+    		subscriber.receiveQuestIncrement(quest);
+		}
+	}
+
+	public static void publishOnQuestAdded(Quest quest){
+    	for(OnQuestAddedSubscriber subscriber: onQuestAddedSubscribers){
+    		subscriber.receiveQuestAdded(quest);
 		}
 	}
 

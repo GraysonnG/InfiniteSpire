@@ -6,11 +6,12 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.ReflectionPower;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 
 public class BrokenMirror extends Relic {
 	
-	public static final String ID = "Broken Mirror";
+	public static final String ID = InfiniteSpire.createID("Broken Mirror");
 	
 	public BrokenMirror() {
 		super(ID, "brokenmirror", RelicTier.UNCOMMON, LandingSound.CLINK);

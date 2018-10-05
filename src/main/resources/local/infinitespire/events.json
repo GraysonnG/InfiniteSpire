@@ -1,0 +1,53 @@
+{
+	"Empty Rest Site" : {
+		"NAME" :  "Empty Rest Site",
+		"DESCRIPTIONS" : [
+			"You've stumbled upon an abandoned rest site. Or so you thought, the previous climber appears to have died from their wounds. You feel a sense of dread looking upon sight...",
+			" NL NL You feel tired and decide to sleep...",
+			" NL NL Using that sense of dread as motivation, you upgrade your arsenal. NL #y@CLANG@ #y@CLAAANG@ #y@CLANG!@",
+			" NL NL You feel bad for the last climber and leave an offering for their lost soul...",
+			" NL NL You see a patch of dirt that looks like it was disturbed, and near by a tattered shovel. As you dig your shovel breaks! But at the bottom of the hole you dug you see something that is not a rock or dirt...",
+			"You see a small blanket. NL It reminds you of home. NL Dropping your pillow, you take the blanket instead."
+		],
+		"OPTIONS" : [
+			"[Rest] Take a nap and gain",
+			"[Smith] Upgrade a card.",
+			"[Toke] Remove a card.",
+			"[Dig] Obtain a random relic.",
+			"Obtain Blank's Blanky",
+			"Leave.",
+			"[Locked]"
+		]
+	},
+	"Hooded Arms Dealer" : {
+		"NAME" : "Hooded Arms Dealer",
+		"DESCRIPTIONS" : [
+			"You are approached by a man in a hood. NL He shows you rare and powerful weapons. They look otherworldly. NL You ask him the price. NL He replies, #r@BLOOD@, #y@GOLD@.",
+			"You pick the weapon up and see that you were not the first to use it...",
+			"You tell him you cannot afford the price and walk away.",
+			"You steal the weapon, and feel a sense of dread."
+		],
+		"OPTIONS" : [
+			"#y[Gold] Give ",
+			"#r[Blood] Lose ",
+			"#p[Steal] Gain 2 Curses.",
+			" Gold.",
+			" HP.",
+			"Leave.",
+			"[Locked] Requires: ",
+			" Pick a #pBlack #pCard."
+		]
+	},
+	"Prism of Light" : {
+		"NAME" : "Prism of Light",
+		"DESCRIPTIONS" : [
+			"You stumble upon a strange multicolored prism.",
+			"You take the prism and the whole world twists around you. NL Looking down you aren't so sure you are the same as before...",
+			"You leave wondering what would have become of you had you taken the prism."
+		],
+		"OPTIONS": [
+			"[Take] Randomize your starter relic.",
+			"Leave."
+		]
+	}
+}

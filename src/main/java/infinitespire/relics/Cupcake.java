@@ -7,10 +7,11 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 
 public class Cupcake extends Relic {
-	public static final String ID = "Cupcake";
+	public static final String ID = InfiniteSpire.createID("Cupcake");
 	public static final String NAME = "Cupcake";
 	
 	private static final int CARD_LIMIT = 6;

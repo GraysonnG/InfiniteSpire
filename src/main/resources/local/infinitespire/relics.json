@@ -1,0 +1,170 @@
+{
+	"infinitespire:Bottled Soul":{
+		"NAME" : "Bottled Soul",
+		"FLAVOR" : "Looking inside you see the shadow of your formar self.",
+		"DESCRIPTIONS" : [
+			"Upon pickup, choose an #yExhaust card. Whenever you play that card, it no longer #yExhausts."
+		]
+	},
+	"infinitespire:Golems Mask":{
+		"NAME" : "Golem's Mask",
+		"FLAVOR" : "Just like the golem, slow and steady.",
+		"DESCRIPTIONS" : [
+			"On the first turn of combat, gain #yGolem's #yMight."
+		]
+	},
+	"infinitespire:Lychee Nut" : {
+		"NAME" : "Lychee Nut",
+		"FLAVOR" : "It's kinda sweet.",
+		"DESCRIPTIONS" : [
+			"Upon pick up, lose #b25% of your max HP. At the start of combat gain #b3 #yRegen."
+		]
+	},
+	"infinitespire:Cupcake" : {
+		"NAME" : "Cupcake",
+		"FLAVOR" : "It's mostly icing.",
+		"DESCRIPTIONS" : [
+			"Each turn, after #b6 cards played, all cards cost #b1 more energy.",
+			"Gain [R] at the start of each turn. ",
+			"Gain [G] at the start of each turn. ",
+			"Gain [B] at the start of each turn. "
+		]
+	},
+	"infinitespire:Magic Flask" : {
+		"NAME" : "Magic Flask",
+		"FLAVOR" : "The flames feel warmer...",
+		"DESCRIPTIONS" : [
+			"At campfires, the rest option may now be taken for free. After #b3 uses the flask is no longer useable."
+		]
+	},
+	"infinitespire:Cubic Diamond" : {
+		"NAME" : "Cubic Diamond",
+		"FLAVOR" : "Feels weird.",
+		"DESCRIPTIONS" : [
+			"Upon pick up, replace your starter relic with a random starter relic."
+		]
+	},
+	"infinitespire:Midas Blood" : {
+		"NAME" : "Midas Blood",
+		"FLAVOR" : "Taking damage never felt so good.",
+		"DESCRIPTIONS" : [
+			"Whenever you take HP damage, gain #b2 gold."
+		]
+	},
+	"infinitespire:Freezer" : {
+		"NAME" : "Freezer",
+		"FLAVOR" : "It's cold to the touch.",
+		"DESCRIPTIONS" : [
+			"At the start of combat, #ychannel #b1 #yFrost orb."
+		]
+	},
+	"infinitespire:Beetle Shell" : {
+		"NAME" : "Beetle Shell",
+		"FLAVOR" : "Hard as a rock.",
+		"DESCRIPTIONS" : [
+			"Every #b10th time you gain #yBlock from a card, gain double the #yBlock."
+		]
+	},
+	"infinitespire:Burning Sword" : {
+		"NAME" : "Burning Sword",
+		"FLAVOR" : "Bursting with powerful energy.",
+		"DESCRIPTIONS" : [
+			"At the start of combat, gain #b2 #yStrength."
+		]
+	},
+	"infinitespire:Broken Mirror" : {
+		"NAME" : "Broken Mirror",
+		"FLAVOR" : "It's sharp.",
+		"DESCRIPTIONS" : [
+			"At the start of combat, gain #b3 #yReflection."
+		]
+	},
+	"infinitespire:Spectral Dust" : {
+		"NAME" : "Spectral Dust",
+		"FLAVOR" : "So light it could blow away with a single breath.",
+		"DESCRIPTIONS" : [
+			"Whenever an #yEthereal card is #yExhausted, deal #b2 damage to a random enemy."
+		]
+	},
+	"infinitespire:Holy Water" : {
+		"NAME" : "Holy Water",
+		"FLAVOR" : "Tastes like nothing.",
+		"DESCRIPTIONS" : [
+			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
+		]
+	},
+	"infinitespire:Blanks Blanky" : {
+		"NAME" : "Blank's Blanky",
+		"FLAVOR" : "It's more like a comforter.",
+		"DESCRIPTIONS" : [
+			"When resting at Rest Sites, heal to full."
+		]
+	},
+	"infinitespire:Lucky Rock" : {
+		"NAME" : "Lucky Rock",
+		"FLAVOR" : "It's feels smooth.",
+		"DESCRIPTIONS" : [
+			"Each time you play an attack card, you have a #b5% chance to gain #yCritical."
+		]
+	},
+	"infinitespire:Joker Card" : {
+		"NAME" : "Joker Card",
+		"FLAVOR" : "Takes the form of any other card.",
+		"DESCRIPTIONS" : [
+			"Every #b15th card you play is played twice."
+		]
+	},
+	"infinitespire:Satchel" : {
+		"NAME" : "Satchel",
+		"FLAVOR" : "It's not a purse!",
+		"DESCRIPTIONS" : [
+			"At the end of each turn Retain #b1 card."
+		]
+	},
+	"infinitespire:MutagenicDexterity" : {
+		"NAME" : "Mutagenic Dexterity",
+		"FLAVOR" : "The subject is able to endure more damage, only for a short while.",
+		"DESCRIPTIONS" : [
+			"Start each combat with #b3 #yDexterity that is lost at the end of your turn."
+		]
+	},
+	"infinitespire:SolderingIron" : {
+		"NAME" : "Soldering Iron",
+		"FLAVOR" : "OUCH! Hot!",
+		"DESCRIPTIONS" : [
+			"Start each combat with #b1 additional Orb slot."
+		]
+	},
+	"infinitespire:EmpoweringShard" : {
+		"NAME" : "Empowering Shard",
+		"FLAVOR" : "It feels like it holds great power...",
+		"DESCRIPTIONS" : [
+			"For each act you climb gain #b",
+			" #yStrength at the start of combat."
+		]
+	},
+    "infinitespire:WardingShard" : {
+        "NAME" : "Warding Shard",
+        "FLAVOR" : "It's unbreakable!",
+        "DESCRIPTIONS" : [
+            "For each act you climb gain #b",
+			" #yDexterity at the start of combat."
+        ]
+    },
+    "infinitespire:FocusingShard" : {
+        "NAME" : "Focusing Shard",
+        "FLAVOR" : "Sharp!",
+        "DESCRIPTIONS" : [
+            "For each act you climb #yUpgrade #b",
+			" random card at the start of combat."
+        ]
+    },
+	"infinitespire:HealingShard" : {
+		"NAME" : "Healing Shard",
+		"FLAVOR" : "Nice and cool.",
+		"DESCRIPTIONS" : [
+			"For each act you climb heal #b",
+			" #yHP at the end of combat."
+		]
+	}
+}

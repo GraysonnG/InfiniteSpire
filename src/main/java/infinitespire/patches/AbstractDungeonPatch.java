@@ -1,30 +1,35 @@
 package infinitespire.patches;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
 import com.megacrit.cardcrawl.cards.green.Nightmare;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
+import com.megacrit.cardcrawl.dungeons.TheBeyond;
+import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
-
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
+import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class AbstractDungeonPatch {
+
+	public static final String CLS = "com.megacrit.cardcrawl.dungeons.AbstractDungeon";
 	
-	@SpirePatch(cls="com.megacrit.cardcrawl.dungeons.AbstractDungeon", method="closeCurrentScreen")
+	@SpirePatch(cls = CLS, method="closeCurrentScreen")
 	public static class CloseCurrentScreen {
 		public static void Prefix() {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN) {
@@ -42,7 +47,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 	
-	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "nextRoomTransition")
+	@SpirePatch(cls = CLS, method = "nextRoomTransition")
 	public static class NextRoomTransition {
 		@SpireInsertPatch(rloc = 10) 
 		public static SpireReturn<?> Insert(AbstractDungeon __instance){
@@ -55,7 +60,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 	
-	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "render")
+	@SpirePatch(cls = CLS, method = "render")
 	public static class Render {
 		
 		@SpireInsertPatch(rloc = 111) //112
@@ -65,7 +70,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 	
-	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "update")
+	@SpirePatch(cls = CLS, method = "update")
 	public static class Update {
 		
 		@SpireInsertPatch(rloc = 94)
@@ -75,9 +80,45 @@ public class AbstractDungeonPatch {
 		}
 	}
 
+	@SpirePatch(cls = CLS, method = "setBoss")
+	public static class SetBoss {
+
+		@SpirePrefixPatch
+		public static SpireReturn<?> LordOfAnnihilationSpawner(AbstractDungeon __instance, String key){
+			InfiniteSpire.logger.info("bossCount: " + AbstractDungeon.bossCount);
+			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
+				DungeonMap.boss = InfiniteSpire.getTexture("img/infinitespire/ui/map/bossIcon.png");
+				DungeonMap.bossOutline = InfiniteSpire.getTexture("img/infinitespire/ui/map/bossIcon-outline.png");
+				AbstractDungeon.bossKey = LordOfAnnihilation.ID;
+
+				return SpireReturn.Return(null);
+			}
+			return SpireReturn.Continue();
+		}
+	}
+
+	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.TheBeyond", method = "initializeBoss")
+	public static class InitBoss {
+
+		@SpirePrefixPatch
+		public static SpireReturn<Void> LordOfAnnihilationInitBoss(TheBeyond __instance){
+			InfiniteSpire.logger.info("bossCount: " + AbstractDungeon.bossCount);
+			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
+				if(AbstractDungeon.bossCount > 8 && AbstractDungeon.miscRng.randomBoolean(1 / (TheBeyond.bossList.size() + 1))){
+					return SpireReturn.Continue();
+				}
+
+				TheBeyond.bossList.clear();
+				TheBeyond.bossList.add(LordOfAnnihilation.ID);
+				return SpireReturn.Return(null);
+			}
+			return SpireReturn.Continue();
+		}
+	}
+
 
 	
-	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.AbstractDungeon", method = "generateMap")
+	@SpirePatch(cls = CLS, method = "generateMap")
 	public static class GenerateMap {
 									//SL:637 = 36 right now
 		@SpireInsertPatch(rloc = 37)// after AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);

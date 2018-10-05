@@ -1,6 +1,7 @@
 package infinitespire.quests.endless;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -27,6 +28,11 @@ public class EndlessQuestPart1 extends SlayQuest implements IQuestLine{
 		InfiniteSpire.isEndless = true;
 		AbstractDungeon.topPanel.setPlayerName();
 		CardCrawlGame.sound.play("UNLOCK_PING");
+	}
+
+	@Override
+	public Texture getTexture() {
+		return InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/nightmare.png");
 	}
 
 	@Override

@@ -8,12 +8,13 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.powers.JokerCardPower;
 
 public class JokerCard extends Relic {
 
-	public static final String ID = "Joker Card";
+	public static final String ID = InfiniteSpire.createID("Joker Card");
 	
 	public JokerCard() {
 		super(ID, "jokercard", RelicTier.RARE, LandingSound.FLAT);
@@ -28,7 +29,7 @@ public class JokerCard extends Relic {
 	@Override
 	public void atBattleStart() {
 		AbstractPlayer p = AbstractDungeon.player;
-		if(this.counter == 9) {
+		if(this.counter == 14) {
 			this.beginPulse();
 			this.pulse = true;
 			AbstractDungeon.player.hand.refreshHandLayout();
@@ -42,13 +43,13 @@ public class JokerCard extends Relic {
 			return;
 		
 		this.counter++;
-		if(this.counter == 10) {
+		if(this.counter == 15) {
 			this.counter = 0;
 			this.flash();
 			this.pulse = false;
 		}
 		
-		if(this.counter == 9) {
+		if(this.counter == 14) {
 			this.beginPulse();
 			this.pulse = true;
 			AbstractDungeon.player.hand.refreshHandLayout();
