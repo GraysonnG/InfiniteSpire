@@ -9,6 +9,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 
 import infinitespire.abstracts.BlackCard;
 
+@Deprecated
 public class ThousandBlades extends BlackCard {
 
 	private static final String ID = "ThousandBlades";
