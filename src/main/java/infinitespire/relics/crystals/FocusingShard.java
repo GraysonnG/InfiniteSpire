@@ -23,7 +23,7 @@ public class FocusingShard extends InfiniteRelic{
         CardGroup drawPile = player.drawPile.getUpgradableCards();
 
         if(drawPile.size() > 0) {
-            for (int i = 0; i < this.counter; i++) {
+            for (int i = 0; i < this.counter && i < drawPile.size(); i++) {
                 AbstractCard card = drawPile.group.get(AbstractDungeon.miscRng.random(drawPile.size() - 1));
                 card.upgrade();
                 AbstractDungeon.effectList.add(new ShowCardBrieflyEffect(card.makeStatEquivalentCopy()));
