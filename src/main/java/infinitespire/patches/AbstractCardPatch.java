@@ -37,7 +37,7 @@ public class AbstractCardPatch {
     public static class MakeStatCopy {
         @SpireInsertPatch(rloc = 6, localvars = {"card"})
         public static void Insert(AbstractCard __instance, @ByRef AbstractCard[] card) {
-            if(AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(BottledSoul.ID)){
+            if(AbstractDungeon.player != null && AbstractDungeon.player.relics != null && AbstractDungeon.player.hasRelic(BottledSoul.ID)){
                loadBottledSoul();
             }
 
