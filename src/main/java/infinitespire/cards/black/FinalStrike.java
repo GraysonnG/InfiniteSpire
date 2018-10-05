@@ -1,7 +1,5 @@
 package infinitespire.cards.black;
 
-import basemod.helpers.BaseModTags;
-import basemod.helpers.CardTags;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -30,6 +28,7 @@ public class FinalStrike extends BlackCard {
 		this.baseDamage = 10;
 		this.baseMagicNumber = 5;
 		this.magicNumber = 5;
+		this.tags.add(CardTags.STRIKE);
 	}
 	
 	@Override
@@ -105,13 +104,13 @@ public class FinalStrike extends BlackCard {
 	private static int countCards() {
 		int count = 0;
 		for(AbstractCard card : AbstractDungeon.player.hand.group)
-			if(isStrike(card) || CardTags.hasTag(card, BaseModTags.STRIKE)) count++;
+			if(isStrike(card) || card.tags.contains(CardTags.STRIKE)) count++;
 		
 		for(AbstractCard card : AbstractDungeon.player.drawPile.group) 
-			if(isStrike(card) || CardTags.hasTag(card, BaseModTags.STRIKE)) count++;
+			if(isStrike(card) || card.tags.contains(CardTags.STRIKE)) count++;
 		
 		for(AbstractCard card : AbstractDungeon.player.discardPile.group)
-			if(isStrike(card) || CardTags.hasTag(card, BaseModTags.STRIKE)) count++;
+			if(isStrike(card) || card.tags.contains(CardTags.STRIKE)) count++;
 		
 		return count;
 	}
