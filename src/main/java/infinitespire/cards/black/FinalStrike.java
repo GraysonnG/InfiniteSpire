@@ -1,5 +1,7 @@
 package infinitespire.cards.black;
 
+import basemod.helpers.BaseModTags;
+import basemod.helpers.CardTags;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
@@ -10,7 +12,6 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-
 import infinitespire.abstracts.BlackCard;
 
 public class FinalStrike extends BlackCard {
@@ -104,13 +105,13 @@ public class FinalStrike extends BlackCard {
 	private static int countCards() {
 		int count = 0;
 		for(AbstractCard card : AbstractDungeon.player.hand.group)
-			if(isStrike(card)) count++;
+			if(isStrike(card) || CardTags.hasTag(card, BaseModTags.STRIKE)) count++;
 		
 		for(AbstractCard card : AbstractDungeon.player.drawPile.group) 
-			if(isStrike(card)) count++;
+			if(isStrike(card) || CardTags.hasTag(card, BaseModTags.STRIKE)) count++;
 		
 		for(AbstractCard card : AbstractDungeon.player.discardPile.group)
-			if(isStrike(card)) count++;
+			if(isStrike(card) || CardTags.hasTag(card, BaseModTags.STRIKE)) count++;
 		
 		return count;
 	}
