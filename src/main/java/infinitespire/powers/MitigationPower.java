@@ -19,13 +19,13 @@ public class MitigationPower extends AbstractPower {
 		this.amount = turnsOfMitigation;
 		this.name = "Mitigation";
 		this.ID = PowerID;
-		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/crit.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/mitigation.png");
 		this.type = PowerType.BUFF;
 		this.priority = 99999;
 		this.isTurnBased = true;
-		this.updateDescription();
-
 		this.amountToMitigate = amountToMitigate;
+
+		this.updateDescription();
 	}
 
 	@Override
@@ -43,6 +43,12 @@ public class MitigationPower extends AbstractPower {
 			if(amount <= 0){
 				AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(owner, owner, this));
 			}
+			updateDescription();
 		}
+	}
+
+	@Override
+	public void updateDescription() {
+		this.description = owner.name + " will receive #b" + (int)(100 - (100 * amountToMitigate)) + "% less damage for " + amount + " turns.";
 	}
 }

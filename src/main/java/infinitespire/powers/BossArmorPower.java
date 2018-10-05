@@ -21,18 +21,42 @@ public class BossArmorPower extends AbstractPower{
 		this.amount = thresholdDamage;
 		this.name = "Boss Armor";
 		this.ID = PowerID;
-		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/jokercard.png");
+		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/bossarmor.png");
 		this.type = PowerType.BUFF;
 		this.priority = 99999; //nobody make anything bigger than this
-		this.updateDescription();
 
 		this.mitigationAmount = amountToMitigate;
 		this.turnsOfMitigation = turnsOfMitigation;
 		this.thresholdDamage = thresholdDamage;
+
+		this.updateDescription();
+	}
+
+	@Override
+	public void updateDescription() {
+		this.description = "After taking #b" + thresholdDamage + " damage this turn, " + owner.name +
+			" will gain Mitigation for #b" + turnsOfMitigation + (turnsOfMitigation > 1 ? " turns." : " turn.");
 	}
 
 	public BossArmorPower(int thresholdDamage, float amountToMitigate, AbstractCreature owner){
 		this(thresholdDamage, 1, amountToMitigate, owner);
+	}
+
+	@Override
+	public float atDamageFinalReceive(float damage, DamageInfo.DamageType type) {
+
+		if(owner.hasPower(MitigationPower.PowerID)) return damage;
+
+		float newDamage = damage;
+
+		if(newDamage > this.amount){
+			float amountOver = newDamage - amount;
+			newDamage -= amountOver;
+			amountOver *= this.mitigationAmount;
+			newDamage += amountOver;
+		}
+
+		return newDamage;
 	}
 
 	@Override
@@ -42,24 +66,16 @@ public class BossArmorPower extends AbstractPower{
 
 		if(owner.hasPower(MitigationPower.PowerID)) return damageAmount;
 
-		int newDamage = damageAmount;
-
-		if(newDamage > this.amount){
-			float amountOver = newDamage - amount;
-			newDamage -= amountOver;
-			amountOver *= this.mitigationAmount;
-			newDamage += (int) amountOver;
-		}
 
 		amount -= damageAmount;
 
-		InfiniteSpire.logger.info("newDamage" + newDamage);
+
 		if(amount <= 0){
 			amount = -1;
 			AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(owner, owner,
 				new MitigationPower(turnsOfMitigation, 0.1f, owner), turnsOfMitigation));
 		}
-		return newDamage;
+		return damageAmount;
 	}
 
 	@Override
