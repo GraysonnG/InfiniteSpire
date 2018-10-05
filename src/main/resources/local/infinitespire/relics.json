@@ -132,7 +132,7 @@
 		"NAME" : "Soldering Iron",
 		"FLAVOR" : "OUCH! Hot!",
 		"DESCRIPTIONS" : [
-			"Start each combat with #b1 additional Orb slot."
+			"Every 3 orbs you channel in one turn, gain #b1 Orb slot"
 		]
 	},
 	"infinitespire:EmpoweringShard" : {
@@ -165,6 +165,14 @@
 		"DESCRIPTIONS" : [
 			"For each act you climb heal #b",
 			" #yHP at the end of combat."
+		]
+	},
+	"infinitespire:ShieldingShard" : {
+		"NAME" : "Shielding Shard",
+		"FLAVOR" : "Nice and cool.",
+		"DESCRIPTIONS" : [
+			"For each act you climb gain #b",
+			" #yTemporary #yHP at the start of combat."
 		]
 	}
 }

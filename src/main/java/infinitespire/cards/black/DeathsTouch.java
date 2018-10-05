@@ -21,7 +21,7 @@ public class DeathsTouch extends BlackCard {
 	private static final String IMG = "img/infinitespire/cards/deathstouch.png";
 	private static final int COST = -1;
 											//Basically a better perfected strike
-	private static final String DESCRIPTION = "Deal !D! damage. Apply !M! Poison X times.";
+	private static final String DESCRIPTION = "Deal !D! damage. Apply !M! Poison X + 1 times.";
 	private static final CardType TYPE = CardType.ATTACK;
 	private static final CardTarget TARGET = CardTarget.ENEMY;
 	
@@ -55,7 +55,7 @@ public class DeathsTouch extends BlackCard {
 			this.energyOnUse = EnergyPanel.totalCount;
 		}
 		
-		int poisonTicks = this.energyOnUse;
+		int poisonTicks = this.energyOnUse + 1;
 		
 		if(p.hasRelic(ChemicalX.ID)) {
 			p.getRelic(ChemicalX.ID).flash();

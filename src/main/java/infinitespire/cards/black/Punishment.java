@@ -16,8 +16,8 @@ public class Punishment extends BlackCard {
 	private static final String NAME = "Punishment";
 	private static final String TEXTURE = "img/infinitespire/cards/punishment.png";
 	private static final int COST = 1;
-	private static final String DESCRIPTION = "Deal 1 damage for each card in your deck.";
-	private static final String DESCRIPTION_2 = "Deal 1 damage for each card in your deck. NL ( !D! )";
+	private static final String DESCRIPTION = "Deal 1 damage for each card in your draw, hand, and discard pile.";
+	private static final String DESCRIPTION_2 = "Deal 1 damage for each card in your draw, hand, and discard pile. NL ( !D! )";
 	
 	public Punishment() {
 		super(ID, NAME, TEXTURE, COST, DESCRIPTION, CardType.ATTACK, CardTarget.ENEMY);

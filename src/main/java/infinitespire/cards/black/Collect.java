@@ -13,7 +13,7 @@ public class Collect extends BlackCard {
 	private static final String ID = "Collect";
 	private static final String NAME = "Collect";
 	private static final String TEXTURE = "img/infinitespire/cards/collect.png";
-	private static final int COST = 1;
+	private static final int COST = 0;
 	private static final String DESCRIPTION = "Draw !M! cards and Upgrade them.";
 	private static final int MAGIC = 3;
 	
