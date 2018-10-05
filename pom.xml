@@ -19,6 +19,13 @@
       <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/BaseMod.jar</systemPath>
     </dependency>
     <dependency>
+      <groupId>StSLib</groupId>
+      <artifactId>StSLib</artifactId>
+      <version>1.0.1</version>
+      <scope>system</scope>
+      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/StsLib.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>com.evacipated.cardcrawl</groupId>
       <artifactId>ModTheSpire</artifactId>
       <version>2.9.1</version>
@@ -45,6 +52,13 @@
       <version>0.6.9</version>
       <scope>system</scope>
       <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/FruityMod.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>hubris</groupId>
+      <artifactId>hubris</artifactId>
+      <version>0.3.0</version>
+      <scope>system</scope>
+      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/Hubris.jar</systemPath>
     </dependency>
   </dependencies>
   <build>

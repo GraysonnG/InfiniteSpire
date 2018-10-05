@@ -5,6 +5,7 @@ import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -37,10 +38,7 @@ import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
-import infinitespire.relics.crystals.EmpoweringShard;
-import infinitespire.relics.crystals.FocusingShard;
-import infinitespire.relics.crystals.HealingShard;
-import infinitespire.relics.crystals.WardingShard;
+import infinitespire.relics.crystals.*;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
 import infinitespire.util.TextureLoader;
@@ -69,7 +67,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
     public static boolean isReplayLoaded = false;
     public static boolean isFruityLoaded = false;
-    public static boolean iskiomodLoaded = false;
+    public static boolean isHubrisLoaded = false;
 
     public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
     
@@ -89,6 +87,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
 		InfiniteSpire.isReplayLoaded = InfiniteSpire.checkForMod("replayTheSpire.ReplayTheSpireMod");
 		InfiniteSpire.isFruityLoaded = InfiniteSpire.checkForMod("fruitymod.FruityMod");
+		InfiniteSpire.isHubrisLoaded = InfiniteSpire.checkForMod("com.evacipated.cardcrawl.mod.hubris.HubrisMod");
     }
     
     @Override
@@ -104,9 +103,14 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
 		//this should be removed after im done testing
-		//BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
+		BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
 
 		BaseMod.addTopPanelItem(new QuestLogButton());
+
+		//RegisterBottlerBottle
+		if(InfiniteSpire.checkForMod("com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler")){
+			TheBottler.addBottleRelic(BottledSoul.ID);
+		}
     }
 
     public static boolean checkForMod(String classPath){
@@ -137,11 +141,13 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		String[] golemsMight = {"golem's might", "golem's", "golem", "golem"};
 		String[] crit = {"critical", "crit"};
 		String[] shattered = {"shattered"};
+		String[] mitigation = {"mitigation"};
 
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
 		BaseMod.addKeyword(shattered, "For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
-	}
+		BaseMod.addKeyword(mitigation, "Reduces all damage by a percentage.");
+    }
 
 	@Override
 	public void receiveEditCards() {
@@ -188,7 +194,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			config.load();
 			isEndless = config.getBool("isEndless");
 
-			BottledSoul.load(config);
+			if(AbstractDungeon.player != null)
+				BottledSoul.load(config);
 		
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -234,7 +241,9 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 		if(isFruityLoaded){
 			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
 		}
-		
+		if(isHubrisLoaded){
+			RelicLibrary.add(new ShieldingShard());
+		}
 
     }
     
@@ -265,7 +274,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
     	//Black Cards
     	CardHelper.addCard(new FinalStrike());
-    	CardHelper.addCard(new ThousandBlades());
+    	//CardHelper.addCard(new ThousandBlades());
     	CardHelper.addCard(new Gouge());
     	CardHelper.addCard(new DeathsTouch());
     	CardHelper.addCard(new Collect());
@@ -274,6 +283,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
     	CardHelper.addCard(new Punishment());
     	CardHelper.addCard(new UltimateForm());
     	CardHelper.addCard(new Execution());
+    	CardHelper.addCard(new TheBestDefense());
+    	CardHelper.addCard(new Fortify());
     }
 	@SuppressWarnings("unused")
 
