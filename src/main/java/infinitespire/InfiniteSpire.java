@@ -38,7 +38,10 @@ import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
-import infinitespire.relics.crystals.*;
+import infinitespire.relics.crystals.EmpoweringShard;
+import infinitespire.relics.crystals.FocusingShard;
+import infinitespire.relics.crystals.HealingShard;
+import infinitespire.relics.crystals.WardingShard;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
 import infinitespire.util.TextureLoader;
@@ -52,7 +55,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber,
 EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.1.0";
+	public static final String VERSION = "0.2.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -103,7 +106,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
 		//this should be removed after im done testing
-		BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
+		//BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID, "img/infinitespire/ui/map/bossIcon.png", "img/infinitespire/ui/map/bossIcon-outline.png");
 
 		BaseMod.addTopPanelItem(new QuestLogButton());
 
@@ -235,6 +238,8 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 
 		Relic.addQuestRelic(new HolyWater());
 
+
+
 		if(isReplayLoaded){
 			RelicLibrary.add(new BrokenMirror());
 		}
@@ -242,7 +247,7 @@ EditRelicsSubscriber, EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSu
 			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
 		}
 		if(isHubrisLoaded){
-			RelicLibrary.add(new ShieldingShard());
+			//RelicLibrary.add(new ShieldingShard());
 		}
 
     }
