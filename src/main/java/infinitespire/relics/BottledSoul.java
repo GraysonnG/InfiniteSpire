@@ -19,6 +19,7 @@ import infinitespire.patches.AbstractCardPatch;
 import java.io.IOException;
 import java.util.function.Predicate;
 
+//WHY WONT YOU JUST WORK GAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHH
 public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSubscriber{
 
 	public static final String ID = InfiniteSpire.createID("Bottled Soul");
@@ -77,14 +78,16 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 			}
 		}
 
-		if(AbstractDungeon.isScreenUp){
-			AbstractDungeon.dynamicBanner.hide();
-			AbstractDungeon.overlayMenu.cancelButton.hide();
-			AbstractDungeon.previousScreen = AbstractDungeon.screen;
+		if(group.size() > 0){
+			if(AbstractDungeon.isScreenUp){
+				AbstractDungeon.dynamicBanner.hide();
+				AbstractDungeon.overlayMenu.cancelButton.hide();
+				AbstractDungeon.previousScreen = AbstractDungeon.screen;
+			}
+			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
+			AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a card.",
+				false, false, false, false);
 		}
-		AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
-		AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a card.",
-			false, false, false, false);
 	}
 
 	@Override
