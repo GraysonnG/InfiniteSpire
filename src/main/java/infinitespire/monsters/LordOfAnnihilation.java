@@ -24,10 +24,7 @@ import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.actions.FastHealAction;
 import infinitespire.patches.MainMenuPatch;
-import infinitespire.powers.LordOfAnnihilationIntangiblePower;
-import infinitespire.powers.LordOfAnnihilationPylonPower;
-import infinitespire.powers.LordOfAnnihilationRetaliatePower;
-import infinitespire.powers.SuperSlowPower;
+import infinitespire.powers.*;
 
 import java.util.ArrayList;
 
@@ -45,6 +42,7 @@ public class LordOfAnnihilation extends AbstractMonster{
     //the first index of these are not used
     private static final int[] ATTACKS = {-1, 15, 25, 35, 50};
     private static final int[] DEFENDS = {-1, 20, 35, 50};
+    private boolean hasTakenTurn = false;
 
     private static final int NUKE = 100;
 
@@ -60,18 +58,19 @@ public class LordOfAnnihilation extends AbstractMonster{
     public LordOfAnnihilation() {
         super(NAME, ID, MAX_HP, 0.0f, 0.0f, 300f, 300f, null);
         this.type = EnemyType.BOSS;
+
         this.dialogX = -160.0f * Settings.scale;
         this.dialogY = 40f * Settings.scale;
         this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/guardian/guardian.png");
 
-        int spearStacks = 0;
-        if(AbstractDungeon.player != null) {
-            spearStacks = AbstractDungeon.player.getBlight(Shield.ID).counter - 2;
+        int shieldStacks = 0;
+        if(AbstractDungeon.player != null && AbstractDungeon.player.hasBlight(Shield.ID)) {
+            shieldStacks = AbstractDungeon.player.getBlight(Shield.ID).counter - 2;
         }
 
-        if(spearStacks < 0) spearStacks = 0;
+        if(shieldStacks < 0) shieldStacks = 0;
 
-        this.maxHealth = MAX_HP * (spearStacks + 1);
+        this.maxHealth = MAX_HP * (int) Math.pow(2, (shieldStacks));
         this.currentHealth = maxHealth;
 
         phase = 0;
@@ -97,13 +96,16 @@ public class LordOfAnnihilation extends AbstractMonster{
         AbstractDungeon.scene.fadeOutAmbiance();
         AbstractDungeon.getCurrRoom().playBgmInstantly("BOSS_BEYOND");
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
-                new LordOfAnnihilationIntangiblePower(this, 1),1));
+            new LordOfAnnihilationIntangiblePower(this, 1),1));
+        AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
+            new BossArmorPower(1000, 2, 0.1f, this)));
+
     }
 
     @Override
     public void damage(DamageInfo info) {
         super.damage(info);
-        if(phase < 3 && this.currentHealth <= THRESHOLDS.get(phase)) {
+        if(phase < 3 && this.currentHealth <= THRESHOLDS.get(phase) && !hasTakenTurn) {
             InfiniteSpire.logger.info(currentHealth  + " : " + THRESHOLDS.get(phase));
             phase++;
             this.intentPhase = IntentPhase.THRESHOLD;
@@ -164,6 +166,9 @@ public class LordOfAnnihilation extends AbstractMonster{
 
     @Override
     public void takeTurn() {
+        if(hasTakenTurn) {
+            return;
+        }
         AbstractPlayer player = AbstractDungeon.player;
         GameActionManager manager = AbstractDungeon.actionManager;
 
@@ -206,8 +211,16 @@ public class LordOfAnnihilation extends AbstractMonster{
 				manager.addToBottom(new RemoveAllPowersAction(this, false));
                 manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationRetaliatePower(this)));
                 manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 3),3));
+                manager.addToBottom(new ApplyPowerAction(this, this,
+                    new BossArmorPower(1000, 2, 0.1f, this)));
                 break;
             case 9: //buff wipe himself and spawn pylons
+
+
+                if(AbstractDungeon.getCurrRoom().monsters.monsters.size() > 1){
+                    break;
+                }
+
                 manager.addToBottom(new RemoveAllPowersAction(this, false));
 
                 ArrayList<ShieldPylon> pylons = new ArrayList<>();
@@ -223,7 +236,6 @@ public class LordOfAnnihilation extends AbstractMonster{
                 }
 
                 manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationPylonPower(this)));
-
                 break;
             case 10: //total buff wipe, full heal, gain super slow, triggers at battle start relics
                 manager.addToBottom(new RemoveAllPowersAction(player, false));
@@ -257,6 +269,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                 break;
         }
         this.intentPhase = IntentPhase.NORMAL;
+        this.hasTakenTurn = true;
         AbstractDungeon.actionManager.addToBottom(new RollMoveAction(this));
     }
 
@@ -288,6 +301,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                 break;
         }
         this.turn++;
+        hasTakenTurn = false;
     }
 
     private void phase1(int i){

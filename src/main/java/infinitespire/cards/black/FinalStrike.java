@@ -10,7 +10,6 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-
 import infinitespire.abstracts.BlackCard;
 
 public class FinalStrike extends BlackCard {
@@ -29,6 +28,7 @@ public class FinalStrike extends BlackCard {
 		this.baseDamage = 10;
 		this.baseMagicNumber = 5;
 		this.magicNumber = 5;
+		this.tags.add(CardTags.STRIKE);
 	}
 	
 	@Override
@@ -104,13 +104,13 @@ public class FinalStrike extends BlackCard {
 	private static int countCards() {
 		int count = 0;
 		for(AbstractCard card : AbstractDungeon.player.hand.group)
-			if(isStrike(card)) count++;
+			if(isStrike(card) || card.tags.contains(CardTags.STRIKE)) count++;
 		
 		for(AbstractCard card : AbstractDungeon.player.drawPile.group) 
-			if(isStrike(card)) count++;
+			if(isStrike(card) || card.tags.contains(CardTags.STRIKE)) count++;
 		
 		for(AbstractCard card : AbstractDungeon.player.discardPile.group)
-			if(isStrike(card)) count++;
+			if(isStrike(card) || card.tags.contains(CardTags.STRIKE)) count++;
 		
 		return count;
 	}

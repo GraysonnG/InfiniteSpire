@@ -15,7 +15,7 @@ public class AbstractPlayerEverythingPatch {
 	    public static class Damage2 {
 	    	//This covers Fairy in a bottle prevent death function
 	    	//Inserted after: this.currentHealth = 0;
-	    	@SpireInsertPatch(rloc = 88)
+	    	@SpireInsertPatch(rloc = 89)
 	    	public static void Insert(AbstractPlayer player, DamageInfo info) {
 	    		for(Quest q : InfiniteSpire.questLog) {
 	    			if(q instanceof DieQuest) {
@@ -29,7 +29,7 @@ public class AbstractPlayerEverythingPatch {
 	    public static class Damage3 {
 	    	//This covers Lizard Tail prevent death function
 	    	//Inserted after: this.currentHealth = 0;
-	    	@SpireInsertPatch(rloc = 97)
+	    	@SpireInsertPatch(rloc = 98)
 	    	public static void Insert(AbstractPlayer player, DamageInfo info) {
 	    		for(Quest q : InfiniteSpire.questLog) {
 	    			if(q instanceof DieQuest) {

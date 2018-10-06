@@ -1,181 +1,134 @@
 package infinitespire.relics;
 
 import basemod.BaseMod;
+import basemod.abstracts.CustomBottleRelic;
 import basemod.interfaces.StartGameSubscriber;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.evacipated.cardcrawl.mod.hubris.patches.cards.AbstractCard.BottleRainField;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
-import com.megacrit.cardcrawl.cards.CardGroup.CardGroupType;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Relic;
 import infinitespire.patches.AbstractCardPatch;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.function.Predicate;
 
-public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
-	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
+public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSubscriber{
 
 	public static final String ID = InfiniteSpire.createID("Bottled Soul");
-	public static final String NAME = "Bottled Soul";
-	private static boolean cardSelected;
-	private static final int MAX_VALUE = 9999999;
-	private static int cardIndex = MAX_VALUE;
-	public static AbstractCard card;
-	private AbstractRoom.RoomPhase prevPhase;
-	
-	public BottledSoul() {
-		super(ID, "", RelicTier.UNCOMMON, LandingSound.CLINK);
-		Texture texture = InfiniteSpire.getTexture("img/infinitespire/relics/bottledsoul.png");
-		Texture outline = InfiniteSpire.getTexture("img/infinitespire/relics/bottledsoul-outline.png");
-		img = texture;
-		largeImg = texture;
-		outlineImg = outline;
-		cardSelected = true;
-		BottledSoul.card = null;
+	private static final String CONFIG_KEY = "bottledSoul";
+	private boolean cardSelected = true;
+	private AbstractCard card = null;
+
+	public BottledSoul(){
+		super(ID, "bottledsoul", RelicTier.UNCOMMON, LandingSound.CLINK);
 		BaseMod.subscribe(this);
 	}
-	
-	public String getUpdatedDescription() {
-		return this.DESCRIPTIONS[0];
+
+	@Override
+	public Predicate<AbstractCard> isOnCard() {
+		return AbstractCardPatch.Field.isBottledSoulCard::get;
 	}
-	
-	public AbstractCard getCard() {
+
+	public AbstractCard getCard(){
 		return card.makeCopy();
 	}
 
+	public static void save(SpireConfig config){
+		if(AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(BottledSoul.ID)){
+			BottledSoul relic = (BottledSoul) AbstractDungeon.player.getRelic(ID);
+			config.setInt(CONFIG_KEY, AbstractDungeon.player.masterDeck.group.indexOf(relic.card));
+		}else{
+			config.remove(CONFIG_KEY);
+		}
+	}
+
+	public static void load(SpireConfig config){
+		if(AbstractDungeon.player.hasRelic(ID) && config.has(CONFIG_KEY)){
+			BottledSoul relic = (BottledSoul) AbstractDungeon.player.getRelic(ID);
+			int cardIndex = config.getInt(CONFIG_KEY);
+
+			if(cardIndex >= 0 && cardIndex < AbstractDungeon.player.masterDeck.group.size()){
+				relic.card = AbstractDungeon.player.masterDeck.group.get(cardIndex);
+				if(relic.card != null){
+					AbstractCardPatch.Field.isBottledSoulCard.set(relic.card, true);
+					//setdescription after loading
+				}
+			}
+		}
+	}
+
+	public static void clear(){};
+
 	@Override
-	public void renderTip(SpriteBatch sb){
-		super.renderTip(sb);
-		if (InputHelper.mX < 1400.0f * Settings.scale && card != null) {
-			renderCardPreview(sb);
-		}
-	}
-
-
-	private void renderCardPreview(SpriteBatch sb) {
-		AbstractCard renderableCard = card.makeStatEquivalentCopy();
-
-		if (renderableCard != null && this.hb.hovered) {
-			renderableCard.drawScale = 0.5f;
-			renderableCard.current_x = InputHelper.mX + (renderableCard.hb.width / 2f) + 10f * Settings.scale +
-					this.hb.width + 280.0f * Settings.scale;
-			renderableCard.current_y = InputHelper.mY - renderableCard.hb.height / 2f;
-			renderableCard.render(sb);
-		}
-
-	}
-
-	@Override
-	public void onMasterDeckChange() {
-		if (cardSelected && card != null && cardIndex != MAX_VALUE) {
-			cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
-			bottleCard(card);
-		}
-	}
-
 	public void onEquip() {
 		cardSelected = false;
-		
-		CardGroup group = new CardGroup(CardGroupType.UNSPECIFIED);
+
+		CardGroup group = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
 		for(AbstractCard card : AbstractDungeon.player.masterDeck.group) {
 			if (card.exhaust) {
 				group.addToBottom(card);
 			}
 		}
 
-		if(CardGroup.getGroupWithoutBottledCards(group).size() > 0) {
-			if(AbstractDungeon.isScreenUp) {
-				AbstractDungeon.dynamicBanner.hide();
-				AbstractDungeon.overlayMenu.cancelButton.hide();
-				AbstractDungeon.previousScreen = AbstractDungeon.screen;
-			}
-
-			prevPhase = AbstractRoom.RoomPhase.valueOf(AbstractDungeon.getCurrRoom().phase.toString());
-
-			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
-
-			AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a Card.", false, false, false, false);
-		} else {
-			cardSelected = true;
+		if(AbstractDungeon.isScreenUp){
+			AbstractDungeon.dynamicBanner.hide();
+			AbstractDungeon.overlayMenu.cancelButton.hide();
+			AbstractDungeon.previousScreen = AbstractDungeon.screen;
 		}
+		AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
+		AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a card.",
+			false, false, false, false);
 	}
 
-	//this is what happens when you unequip the relic
+	@Override
 	public void onUnequip() {
-		cardIndex = MAX_VALUE;
-		if(card != null) {
-			AbstractCardPatch.Field.isBottledSoulCard.set(card, false);
-		}
-		cardSelected = false;
-		card = null;
-	}
-
-	public static void save(SpireConfig config) {
-		if(AbstractDungeon.player != null)
-	    	cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
-
-		if(cardIndex == -1){
-			cardIndex = MAX_VALUE;
-		}
-
-	    config.setInt("bottledSoulIndex", cardIndex);
-		config.setBool("bottledSoulHasCard", cardSelected);
-	    InfiniteSpire.logger.info("Bottled Soul saved with index: " + cardIndex);
-		InfiniteSpire.logger.info("Bottled Soul has card: " + cardSelected);
-	}
-	
-	public static void load(SpireConfig config) {
-		cardIndex = config.getInt("bottledSoulIndex");
-		cardSelected = config.getBool("bottledSoulHasCard");
-		if(AbstractDungeon.player != null && cardSelected)
-			try {
-				bottleCard(AbstractDungeon.player.masterDeck.group.get(cardIndex));
-			}catch(IndexOutOfBoundsException e){
-
+		if(card != null){
+			AbstractCard cardInDeck = AbstractDungeon.player.masterDeck.getSpecificCard(card);
+			if(cardInDeck != null){
+				AbstractCardPatch.Field.isBottledSoulCard.set(cardInDeck, false);
 			}
+		}
 	}
 
-	public static void clear(){
-		cardIndex = MAX_VALUE;
-		card = null;
-		cardSelected = false;
+	@Override
+	public void renderTip(SpriteBatch sb){
+		super.renderTip(sb);
+
+		if (InputHelper.mX < 1400.0f * Settings.scale && card != null) {
+			renderCardPreview(sb);
+		}
 	}
-	
-	public void update() {
+
+	private void renderCardPreview(SpriteBatch sb){
+		AbstractCard renderCard = card.makeStatEquivalentCopy();
+		if(renderCard != null){
+			renderCard.drawScale = 0.5f;
+			renderCard.current_x = InputHelper.mX + (renderCard.hb.width / 2f) + 10f * Settings.scale +
+				this.hb.width + 280.0f * Settings.scale;
+			renderCard.current_y = InputHelper.mY - renderCard.hb.height / 2f;
+			renderCard.render(sb);
+		}
+	}
+
+	@Override
+	public void update(){
 		super.update();
+
 		if (!cardSelected && !AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 			cardSelected = true;
 			card = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
-			bottleCard(card);
-			AbstractDungeon.getCurrRoom().phase = prevPhase;
-			InfiniteSpire.logger.info("Bottled Soul: " + card.name);
+			BottleRainField.inBottleRain.set(card, true);
+			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.COMPLETE;
+
 			AbstractDungeon.gridSelectScreen.selectedCards.clear();
 		}
-
-		if (BottledSoul.card == null && BottledSoul.cardIndex != MAX_VALUE && BottledSoul.cardIndex != -1) {
-			if (AbstractDungeon.player != null) {
-				card = AbstractDungeon.player.masterDeck.group.get(cardIndex);
-				bottleCard(card);
-			}
-		}
-	}
-
-	private static void bottleCard(AbstractCard card){
-		cardIndex = AbstractDungeon.player.masterDeck.group.indexOf(card);
-        AbstractCardPatch.Field.isBottledSoulCard.set(card, true);
-    }
-
-	@Override
-	public AbstractRelic makeCopy() {
-		return new BottledSoul();
 	}
 
 	@Override
@@ -183,9 +136,11 @@ public class BottledSoul extends AbstractRelic implements StartGameSubscriber{
 		try {
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
-			load(config);
-		} catch (IOException e) {
-			throw new RuntimeException("Failed to load Bottled Soul.");
+
+			BottledSoul.load(config);
+
+		}catch(IOException e){
+			e.printStackTrace();
 		}
 	}
 }

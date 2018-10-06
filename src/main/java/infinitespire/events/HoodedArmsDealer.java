@@ -1,19 +1,19 @@
 package infinitespire.events;
 
-import java.util.ArrayList;
-
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.relics.Omamori;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
-
+import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
+
+import java.util.ArrayList;
 
 public class HoodedArmsDealer extends AbstractImageEvent {
 
@@ -83,7 +83,6 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 				this.pickCard();
 				break;
 			case 2:
-				CardGroup group = new CardGroup(CardGroup.CardGroupType.UNSPECIFIED);
 				for(int i = 0; i < 2; i++) {
 					if(AbstractDungeon.player.hasRelic(Omamori.ID)){
 						Omamori relic = (Omamori) AbstractDungeon.player.getRelic(Omamori.ID);
@@ -93,9 +92,13 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 						}
 					}
 
-					group.addToBottom(AbstractDungeon.returnRandomCurse());
+					AbstractDungeon.effectList.add(new ShowCardAndObtainEffect(
+						AbstractDungeon.returnRandomCurse(),
+						Settings.WIDTH / 2f,
+						Settings.HEIGHT/ 2f));
 				}
-				AbstractDungeon.gridSelectScreen.openConfirmationGrid(group, "Become Cursed.");
+
+				this.pickCard();
 				break;
 			case 3:
 				break;

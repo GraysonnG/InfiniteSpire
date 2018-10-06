@@ -3,11 +3,13 @@ package infinitespire.cards.black;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
 
@@ -20,7 +22,7 @@ public class Gouge extends BlackCard {
 	private static final String IMG = "img/infinitespire/cards/gouge.png";
 	private static final int COST = 0;
 	
-	private static final String DESCRIPTION = "Deal !D! damage. NL Apply !M! Weak and Vulnerable";
+	private static final String DESCRIPTION = "Deal !D! damage. NL Remove Artifact. NL Apply !M! Weak and Vulnerable";
 	private static final CardType TYPE = CardType.ATTACK;
 	private static final CardTarget TARGET = CardTarget.ENEMY;
 	private static final int DAMAGE = 5;
@@ -41,7 +43,7 @@ public class Gouge extends BlackCard {
 	public void upgrade() {
 		if(!this.upgraded) {
 			this.upgradeName();
-			this.upgradeDamage(2);
+			this.upgradeDamage(4);
 			this.upgradeMagicNumber(1);
 		}
 	}
@@ -49,6 +51,7 @@ public class Gouge extends BlackCard {
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AttackEffect.SLASH_DIAGONAL));
+		AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(m, p, ArtifactPower.POWER_ID));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new WeakPower(m, this.magicNumber, false), this.magicNumber));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new VulnerablePower(m, this.magicNumber, false), this.magicNumber));
 	}
