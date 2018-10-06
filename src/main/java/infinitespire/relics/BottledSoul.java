@@ -4,7 +4,6 @@ import basemod.BaseMod;
 import basemod.abstracts.CustomBottleRelic;
 import basemod.interfaces.StartGameSubscriber;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.mod.hubris.patches.cards.AbstractCard.BottleRainField;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
@@ -127,7 +126,7 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 		if (!cardSelected && !AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
 			cardSelected = true;
 			card = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
-			BottleRainField.inBottleRain.set(card, true);
+			AbstractCardPatch.Field.isBottledSoulCard.set(card, true);
 			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.COMPLETE;
 
 			AbstractDungeon.gridSelectScreen.selectedCards.clear();
