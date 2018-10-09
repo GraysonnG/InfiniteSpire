@@ -12,7 +12,7 @@ public class Execution extends BlackCard {
 	private static final String NAME = "Execution";
 	private static final String TEXTURE = "img/infinitespire/cards/execution.png";
 	private static final int COST = 2;
-	private static final String DESCRIPTION = "Apply Shattered debuff to an enemy. NL Exhaust.";
+	private static final String DESCRIPTION = "Apply Shredded to an enemy. NL Exhaust.";
 
 	public Execution() {
 		super(ID, NAME, TEXTURE, COST, DESCRIPTION, CardType.SKILL, CardTarget.ENEMY);
