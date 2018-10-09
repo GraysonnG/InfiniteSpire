@@ -19,7 +19,7 @@ public class PickUpCardQuestPatches {
 				Quest q = InfiniteSpire.questLog.get(i);
 				if(q instanceof PickUpCardQuest) {
 					PickUpCardQuest quest = ((PickUpCardQuest) q);
-					if(quest.cardID.equals(card.cardID)) {
+					if(quest.isCard(card)) {
 						quest.incrementQuestSteps();
 						return;
 					}
@@ -38,7 +38,7 @@ public class PickUpCardQuestPatches {
 				Quest q = InfiniteSpire.questLog.get(i);
 				if(q instanceof PickUpCardQuest) {
 					PickUpCardQuest quest = ((PickUpCardQuest) q);
-					if(quest.cardID.equals(card.cardID)) {
+					if(quest.isCard(card)) {
 						quest.incrementQuestSteps();
 						return;
 					}

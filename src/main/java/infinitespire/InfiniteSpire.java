@@ -150,7 +150,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public void receiveEditKeywords() {
 		String[] golemsMight = { "golem's might", "golem's", "golem", "golem" };
 		String[] crit = { "critical", "crit" };
-		String[] shattered = { "shattered" };
+		String[] shattered = { "shredded" };
 		String[] mitigation = { "mitigation" };
 
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
