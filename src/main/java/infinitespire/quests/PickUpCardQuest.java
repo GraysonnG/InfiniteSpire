@@ -2,10 +2,12 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.relics.NlothsGift;
 import com.megacrit.cardcrawl.relics.PrismaticShard;
 import infinitespire.InfiniteSpire;
@@ -18,10 +20,24 @@ public class PickUpCardQuest extends Quest {
 	public String cardID;
 	public int gold;
 
+
 	public PickUpCardQuest() {
 		super(PickUpCardQuest.class.getName(), COLOR, 1, QuestType.GREEN, QuestRarity.COMMON);
 	}
-	
+
+	public void render(SpriteBatch sb){
+		if(isHovered) {
+			AbstractCard rCard = CardLibrary.getCard(this.cardID);
+			if (rCard != null) {
+				rCard.drawScale = 0.75f;
+				rCard.current_x = InputHelper.mX - (rCard.hb.width / 2f);
+				rCard.current_y = InputHelper.mY;
+				rCard.render(sb);
+			}
+		}
+	}
+
+
 	@Override
 	public void giveReward() {
 		CardCrawlGame.sound.play("GOLD_GAIN");

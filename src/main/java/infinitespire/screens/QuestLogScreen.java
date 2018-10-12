@@ -100,6 +100,10 @@ public class QuestLogScreen {
 		this.renderTipScroll(sb);
 		justClicked = false;
 		justClickedRight = false;
+
+		for(Quest quest : gameQuestLog){
+			quest.render(sb);
+		}
 	}
 
 	public void update() {
@@ -195,6 +199,7 @@ public class QuestLogScreen {
 			//Render the progress bar
 			renderQuestCompletionBar(sb, quest, xPos + textXOffset + (4f * Settings.scale), yPos + 25f * (Settings.scale));
 			quest.abandon = false;
+			quest.isHovered = false;
 		} else {
 			//Render a light alpha version of the quest texture above the normal one to make it look highlighted
 			sb.setBlendFunction(770, 1);
@@ -206,7 +211,10 @@ public class QuestLogScreen {
             //Change the completedAlpha so completed quests "glow"
             this.completedSin += Gdx.graphics.getDeltaTime() * 4f;
 			this.completedAlpha = ((float) Math.sin(completedSin) + 1f) / 2f;
-            
+
+			//Set isHovered
+			quest.isHovered = true;
+
 			//Onclick action
 			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, boxString, xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
 			if(justClicked && (quest.isCompleted() || quest.abandon) && tempHitbox.hovered) {

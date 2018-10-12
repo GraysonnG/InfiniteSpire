@@ -2,6 +2,7 @@ package infinitespire.abstracts;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import infinitespire.InfiniteSpire;
 import infinitespire.util.TextureLoader;
 
@@ -14,6 +15,8 @@ public abstract class Quest {
 	public QuestRarity rarity;
 	public String textureString;
 	public boolean isNew, justCompleted = false, completed, abandon;
+
+	public transient boolean isHovered;
 
 	private boolean remove;
 	
@@ -111,5 +114,8 @@ public abstract class Quest {
 		return this.getTitle().equals(q.getTitle());
 	}
 
-	public void update(){ /*NOP */ }
+	public void update(){ /* NOP */ }
+
+	public void render(SpriteBatch sb) {
+	}
 }
