@@ -2,6 +2,7 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
@@ -31,6 +32,16 @@ public class FetchQuest extends Quest {
 	public void update(){
 		if(!this.isCompleted() && AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(this.relicID)) {
 			this.incrementQuestSteps();
+		}
+	}
+
+	@Override
+	public void render(SpriteBatch sb){
+		if(this.isHovered){
+			AbstractRelic r = RelicLibrary.getRelic(relicID);
+			if(r != null){
+				r.renderTip(sb);
+			}
 		}
 	}
 
