@@ -14,7 +14,7 @@ public class SuperSlowPower extends AbstractPower {
     public SuperSlowPower(AbstractMonster owner, int amount){
         this.owner = owner;
         this.amount = amount;
-        this.name = "Shattered";
+        this.name = "Shredded";
         this.ID = "is_Shattered";
         this.img = TextureLoader.getTexture("img/infinitespire/powers/superslow.png");
         this.type = PowerType.DEBUFF;

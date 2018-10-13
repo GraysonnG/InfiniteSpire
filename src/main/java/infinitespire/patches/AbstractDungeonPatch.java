@@ -116,8 +116,6 @@ public class AbstractDungeonPatch {
 		}
 	}
 
-
-	
 	@SpirePatch(cls = CLS, method = "generateMap")
 	public static class GenerateMap {
 									//SL:637 = 36 right now
@@ -126,7 +124,8 @@ public class AbstractDungeonPatch {
 			Settings.isEndless = InfiniteSpire.isEndless;
 			addHolyWaterToRareRelicPool();
 			addInitialQuests();
-			for(int i = 0; i < 3; i++) {
+			//number of nightmares increases with number of bosses beaten (max 3), is increased by 1 if the "kill a nightmare" quest has not been completed or discarded.
+			for(int i = 0; i < Math.min(AbstractDungeon.bossCount + ((InfiniteSpire.questLog.get(0) instanceof EndlessQuestPart1) ? 1 : 0), 3); i++) {
 				insertNightmareNode();
 			}
 		}
