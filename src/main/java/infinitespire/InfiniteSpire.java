@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler;
+import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -55,7 +56,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 		EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.2.1";
+	public static final String VERSION = "0.2.3";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -88,9 +89,13 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		logger.info("VERSION:" + VERSION);
 		new InfiniteSpire();
 
-		InfiniteSpire.isReplayLoaded = InfiniteSpire.checkForMod("replayTheSpire.ReplayTheSpireMod");
-		InfiniteSpire.isFruityLoaded = InfiniteSpire.checkForMod("fruitymod.FruityMod");
-		InfiniteSpire.isHubrisLoaded = InfiniteSpire.checkForMod("com.evacipated.cardcrawl.mod.hubris.HubrisMod");
+		InfiniteSpire.isReplayLoaded = Loader.isModLoaded("ReplayTheSpireMod");
+		InfiniteSpire.isFruityLoaded = Loader.isModLoaded("fruitymod-sts");
+		InfiniteSpire.isHubrisLoaded = Loader.isModLoaded("hubris");
+
+		logger.info("Found Mod ReplayTheSpire: " + isReplayLoaded);
+		logger.info("Found Mod FruityMod: " + isFruityLoaded);
+		logger.info("Found Mod Hubris: " + isHubrisLoaded);
 	}
 
 	@Override
