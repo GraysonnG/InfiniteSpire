@@ -43,7 +43,12 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 	public static void save(SpireConfig config){
 		if(AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(BottledSoul.ID)){
 			BottledSoul relic = (BottledSoul) AbstractDungeon.player.getRelic(ID);
-			config.setInt(CONFIG_KEY, AbstractDungeon.player.masterDeck.group.indexOf(relic.card));
+			int indexOfCard = AbstractDungeon.player.masterDeck.group.indexOf(relic.card);
+			if(indexOfCard != -1)
+				config.setInt(CONFIG_KEY, indexOfCard);
+			else
+				config.remove(CONFIG_KEY);
+
 		}else{
 			config.remove(CONFIG_KEY);
 		}

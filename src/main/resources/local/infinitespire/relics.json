@@ -34,7 +34,8 @@
 		"NAME" : "Magic Flask",
 		"FLAVOR" : "The flames feel warmer...",
 		"DESCRIPTIONS" : [
-			"At campfires, the rest option may now be taken for free. After #b3 uses the flask is no longer useable."
+			"At campfires, the rest option may now be taken for free. This consumes #b1 use. NL Starts with #b3 uses. Kill bosses to gain #b2 more uses.",
+			"NL NL #ySynergy: Bottled Heart"
 		]
 	},
 	"infinitespire:Cubic Diamond" : {
