@@ -175,5 +175,12 @@
 			"For each act you climb gain #b",
 			" #yTemporary #yHP at the start of combat."
 		]
+	},
+	"infinitespire:DarkRift" : {
+		"NAME" : "Dark Rift",
+		"FLAVOR" : "It looks like a small galaxy!",
+		"DESCRIPTIONS" : [
+			"At the start of combat, add a random [#3D00D6]Black[] card to your draw pile."
+		]
 	}
 }
