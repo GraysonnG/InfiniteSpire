@@ -213,7 +213,10 @@ public class QuestLogScreen {
 			this.completedAlpha = ((float) Math.sin(completedSin) + 1f) / 2f;
 
 			//Set isHovered
-			quest.isHovered = true;
+			if(tempHitbox.hovered)
+				quest.isHovered = true;
+			else
+				quest.isHovered = false;
 
 			//Onclick action
 			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, boxString, xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);

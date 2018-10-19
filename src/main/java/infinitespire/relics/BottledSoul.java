@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.function.Predicate;
 
 //WHY WONT YOU JUST WORK GAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHH
+//REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSubscriber{
 
 	public static final String ID = InfiniteSpire.createID("Bottled Soul");
@@ -43,22 +44,31 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 	public static void save(SpireConfig config){
 		if(AbstractDungeon.player != null && AbstractDungeon.player.hasRelic(BottledSoul.ID)){
 			BottledSoul relic = (BottledSoul) AbstractDungeon.player.getRelic(ID);
-			config.setInt(CONFIG_KEY, AbstractDungeon.player.masterDeck.group.indexOf(relic.card));
+			int indexOfCard = AbstractDungeon.player.masterDeck.group.indexOf(relic.card);
+			if(indexOfCard != -1)
+				config.setInt(CONFIG_KEY, indexOfCard);
+			else
+				config.remove(CONFIG_KEY);
+
 		}else{
 			config.remove(CONFIG_KEY);
 		}
 	}
 
+	//this is the offending code if you are smarter than me and see why this relic is broken let me know
 	public static void load(SpireConfig config){
 		if(AbstractDungeon.player.hasRelic(ID) && config.has(CONFIG_KEY)){
 			BottledSoul relic = (BottledSoul) AbstractDungeon.player.getRelic(ID);
 			int cardIndex = config.getInt(CONFIG_KEY);
 
 			if(cardIndex >= 0 && cardIndex < AbstractDungeon.player.masterDeck.group.size()){
-				relic.card = AbstractDungeon.player.masterDeck.group.get(cardIndex);
-				if(relic.card != null){
-					AbstractCardPatch.Field.isBottledSoulCard.set(relic.card, true);
-					//setdescription after loading
+				if(relic.card == null) {
+					relic.card = AbstractDungeon.player.masterDeck.group.get(cardIndex);
+					InfiniteSpire.logger.info("Get Bottled Soul Card Index: " + cardIndex);
+					if (relic.card != null) {
+						AbstractCardPatch.Field.isBottledSoulCard.set(relic.card, true);
+						InfiniteSpire.logger.info("Set Bottled Soul Card: " + relic.card.cardID);
+					}
 				}
 			}
 		}

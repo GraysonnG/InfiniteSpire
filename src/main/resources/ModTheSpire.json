@@ -5,8 +5,8 @@
   "description": "Adds a new way to climb the spire forever, complete quests along the way, but be careful, the spire will not be kind to those who do not give up.",
   "credits" : "Contributors: The_Evil_Pickle",
   "dependencies" : ["basemod","stslib"],
-  "version": "0.2.2",
-  "sts_version": "10-04-2018",
-  "mts_version": "3.2.0",
+  "version": "0.3.0",
+  "sts_version": "10-18-2018",
+  "mts_version": "3.4.0",
   "update_json": "https://api.github.com/repos/GraysonnG/InfiniteSpire/releases/latest"
 }

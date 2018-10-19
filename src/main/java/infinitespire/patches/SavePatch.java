@@ -6,16 +6,16 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import infinitespire.InfiniteSpire;
 
 public class SavePatch {
-	@SpirePatch(cls = "com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue", method = "loadSaveString", 
+	@SpirePatch(cls = "com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue", method = "loadSaveString",
 			paramtypes= {"java.lang.String"})
 	public static class LoadGame1 {
-		
+
 		public static void Prefix(String filePath) {
 			InfiniteSpire.loadData();
 		}
 	}
-	
-	@SpirePatch(cls = "com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue", method = "loadSaveFile", 
+
+	@SpirePatch(cls = "com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue", method = "loadSaveFile",
 			paramtypes= {"java.lang.String"})
 	public static class LoadGame2 {
 		public static void Prefix(String filePath) {
@@ -33,7 +33,7 @@ public class SavePatch {
 	
 	@SpirePatch(cls = "com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue", method = "deleteSave")
 	public static class DeleteSave {
-		public static void Prefix(AbstractPlayer.PlayerClass pClass) {
+		public static void Prefix(AbstractPlayer p) {
 			InfiniteSpire.clearData();
 		}
 	}

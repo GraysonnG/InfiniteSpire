@@ -1,7 +1,5 @@
 package infinitespire.monsters;
 
-import java.util.Random;
-
 import com.badlogic.gdx.Gdx;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction;
@@ -20,10 +18,11 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect;
-
 import infinitespire.InfiniteSpire;
 import infinitespire.powers.RealityShiftPower;
 import infinitespire.powers.SpireBlightPower;
+
+import java.util.Random;
 
 public class Nightmare extends AbstractMonster {
 	
@@ -32,7 +31,7 @@ public class Nightmare extends AbstractMonster {
 	public static final MonsterStrings monsterStrings = CardCrawlGame.languagePack.getMonsterStrings("Nightmare");
 	public static final String[] MOVES = Nightmare.monsterStrings.MOVES;
 	public static final String[] DIALOG = Nightmare.monsterStrings.DIALOG;
-	
+
 	private int textureIndex = 0;
 	
 	private float spriteEffect;

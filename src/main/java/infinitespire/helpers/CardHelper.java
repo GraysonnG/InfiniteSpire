@@ -1,13 +1,12 @@
 package infinitespire.helpers;
 
-import java.util.ArrayList;
-
+import basemod.BaseMod;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-
-import basemod.BaseMod;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
+
+import java.util.ArrayList;
 
 public class CardHelper {
 	private static ArrayList<BlackCard> blackCards = new ArrayList<BlackCard>();
@@ -44,5 +43,9 @@ public class CardHelper {
 			blackCards.add((BlackCard) card);
 		}
 		BaseMod.addCard(card);
+	}
+
+	public static BlackCard[] getBlackCards() {
+		return blackCards.toArray(new BlackCard[0]);
 	}
 }

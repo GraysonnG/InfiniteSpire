@@ -42,6 +42,7 @@ public class QuestHelper {
 		registerQuest(EndlessQuestPart2.class);
 		registerQuest(BearQuest.class);
 		registerQuest(BlankyQuest.class);
+		registerQuest(ActKillQuest.class);
 	}
 	
 	public static void registerQuest(Class<? extends Quest> type) {

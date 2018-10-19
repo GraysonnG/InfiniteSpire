@@ -20,7 +20,6 @@ public class QuestLogButton extends TopPanelItem {
 
 	@Override
 	protected void onClick() {
-		InfiniteSpire.logger.info("hello?");
 		if(!CardCrawlGame.isPopupOpen){
 			toggleQuestLogScreen();
 		}
