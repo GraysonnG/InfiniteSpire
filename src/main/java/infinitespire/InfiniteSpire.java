@@ -11,6 +11,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
+import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
@@ -34,6 +35,7 @@ import infinitespire.interfaces.OnQuestAddedSubscriber;
 import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
 import infinitespire.monsters.LordOfAnnihilation;
+import infinitespire.monsters.MassOfShapes;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
@@ -112,10 +114,19 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		BaseMod.addEvent(PrismEvent.ID, PrismEvent.class, Exordium.ID);
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
+		BaseMod.addMonster(MassOfShapes.ID, MassOfShapes::new);
+
+		BaseMod.addBoss(TheBeyond.ID, MassOfShapes.ID,
+			"img/infinitespire/ui/map/massBoss.png",
+			"img/infinitespire/ui/map/massBoss-outline.png");
+
+		//MonsterInfo massOfShapes = new MonsterInfo("infinitespire:MassOfShapes", );
 		// this should be removed after im done testing
 		// BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
 		// "img/infinitespire/ui/map/bossIcon.png",
 		// "img/infinitespire/ui/map/bossIcon-outline.png");
+
+		//BaseMod.addEliteEncounter(TheBeyond.ID, )
 
 		BaseMod.addTopPanelItem(new QuestLogButton());
 
@@ -302,6 +313,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new Execution());
 		CardHelper.addCard(new TheBestDefense());
 		CardHelper.addCard(new Fortify());
+		//CardHelper.addCard(new UNNAMED_1());
 	}
 
 	@SuppressWarnings("unused")

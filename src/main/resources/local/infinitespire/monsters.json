@@ -26,5 +26,10 @@
         "MOVES" : [],
         "NAME" : "Shield Pylon",
         "DIALOG": []
-    }
+    },
+	"infinitespire:MassOfShapes":{
+		"MOVES" : [],
+		"NAME" : "Mass Of Shapes",
+		"DIALOG": []
+	}
 }
