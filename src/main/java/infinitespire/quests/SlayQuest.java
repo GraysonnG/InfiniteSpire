@@ -21,7 +21,7 @@ public class SlayQuest extends Quest {
 	private static HashMap<String, String> monsterMap = new HashMap<String, String>();
 	private static HashMap<String, String> eliteMap = new HashMap<String, String>();
 	
-	public static final String ID = SlayQuest.class.getName().toString();
+	public static final String ID = SlayQuest.class.getName();
 	private static final Color COLOR = new Color(1f, 0.1f, 0.1f, 1f);
 	private static final int MAX_STEPS = 999;
 	private static final QuestType TYPE = QuestType.RED;
@@ -124,7 +124,6 @@ public class SlayQuest extends Quest {
 			monsterMap.put(Exploder.ID, "Exploder");
 			monsterMap.put(Spiker.ID, "Spiker");
 			monsterMap.put(Repulsor.ID, "Repulsor");
-			monsterMap.put(Reptomancer.ID, "Reptomancer");
 			monsterMap.put(OrbWalker.ID, "Orb Walker");
 			
 			//ELITES IN THEBEYOND
@@ -132,6 +131,7 @@ public class SlayQuest extends Quest {
 			eliteMap.put(Nemesis.ID, "Nemesis");
 			eliteMap.put(SpireGrowth.ID, "Spire Growth");
 			eliteMap.put(Transient.ID, "Transient");
+			eliteMap.put(Reptomancer.ID, "Reptomancer");
 		}
 	}
 
