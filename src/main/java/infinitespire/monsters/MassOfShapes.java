@@ -64,7 +64,7 @@ public class MassOfShapes extends AbstractMonster {
 		super.damage(info);
 
 		if(this.currentBlock == 0) {
-			if (info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded) {
+			if (info.owner != null && info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded) {
 				if (this.minions.size() < 3 && AbstractDungeon.miscRng.random(0, 99) <= SPAWN_CHANCE) {
 					AbstractMonster monster;
 
