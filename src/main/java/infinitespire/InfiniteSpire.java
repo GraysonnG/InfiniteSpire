@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
+import com.megacrit.cardcrawl.localization.PotionStrings;
 import com.megacrit.cardcrawl.localization.RelicStrings;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
@@ -37,6 +38,7 @@ import infinitespire.interfaces.OnQuestRemovedSubscriber;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.monsters.MassOfShapes;
 import infinitespire.patches.CardColorEnumPatch;
+import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
 import infinitespire.quests.event.CaptainAbeQuest;
@@ -120,14 +122,13 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			"img/infinitespire/ui/map/massBoss.png",
 			"img/infinitespire/ui/map/massBoss-outline.png");
 
-		//MonsterInfo massOfShapes = new MonsterInfo("infinitespire:MassOfShapes", );
 		// this should be removed after im done testing
 		// BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
 		// "img/infinitespire/ui/map/bossIcon.png",
 		// "img/infinitespire/ui/map/bossIcon-outline.png");
 
-		//BaseMod.addEliteEncounter(TheBeyond.ID, )
 
+		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
 		BaseMod.addTopPanelItem(new QuestLogButton());
 
 		// RegisterBottlerBottle
@@ -160,6 +161,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String monsterStrings = Gdx.files.internal("local/infinitespire/monsters.json")
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
+
+		String potionStrings = Gdx.files.internal("local/infinitespire/potions.json")
+			.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
 	}
 
 	@Override

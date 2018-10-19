@@ -1,0 +1,8 @@
+{
+	"infinitespire:BlackPotion":{
+		"NAME": "Black Potion",
+		"DESCRIPTIONS": [
+			"Choose #b1 of #b3 random [#3D00D6]Black[] cards to add to your hand, it costs #b0 this turn."
+		]
+	}
+}
