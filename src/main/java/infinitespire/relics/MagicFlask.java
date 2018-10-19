@@ -51,7 +51,7 @@ public class MagicFlask extends Relic implements PostCampfireSubscriber {
 		super.update();
 		if(counter <= 0 && img != textureUsed) {
 			img = textureUsed;
-		}else if(img == textureUsed) {
+		}else if(img == textureUsed && counter > 0) {
 			img = InfiniteSpire.getTexture("img/infinitespire/relics/magicflask.png");
 		}
 	}
