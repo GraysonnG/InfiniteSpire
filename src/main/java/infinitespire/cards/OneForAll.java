@@ -59,7 +59,7 @@ public class OneForAll extends Card {
 			effect = AttackEffect.SMASH;
 		}
 		
-		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.cardID, this.misc, this.magicNumber));
+		AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(this.uuid, this.misc, this.magicNumber));
 		AbstractDungeon.actionManager.addToBottom(new DamageAction(
 				m,
 				new DamageInfo(p, this.damage, DamageType.NORMAL), 

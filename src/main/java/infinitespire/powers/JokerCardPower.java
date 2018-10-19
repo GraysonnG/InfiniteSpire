@@ -1,8 +1,6 @@
 package infinitespire.powers;
 
-import com.megacrit.cardcrawl.actions.common.ModifyDamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
-import com.megacrit.cardcrawl.actions.defect.IncreaseMiscAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardQueueItem;
@@ -11,7 +9,6 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-
 import infinitespire.InfiniteSpire;
 
 public class JokerCardPower extends AbstractPower {
@@ -35,7 +32,7 @@ public class JokerCardPower extends AbstractPower {
 			if(action.target != null) {
 				m = (AbstractMonster)action.target;
 			}
-			AbstractCard copy = card.makeStatEquivalentCopy();
+			AbstractCard copy = card.makeSameInstanceOf();
 			AbstractDungeon.player.limbo.addToBottom(copy);
 			copy.current_x = card.current_x;
 			copy.current_y = card.current_y;
@@ -47,12 +44,7 @@ public class JokerCardPower extends AbstractPower {
 			}
 			copy.purgeOnUse = true;
 			AbstractDungeon.actionManager.cardQueue.add(new CardQueueItem(copy, m, card.energyOnUse));
-			if (copy.cardID.equals("Rampage")) {
-	            AbstractDungeon.actionManager.addToBottom(new ModifyDamageAction(card, copy.magicNumber));
-	        }
-	        else if (copy.cardID.equals("Genetic Algorithm")) {
-	            AbstractDungeon.actionManager.addToBottom(new IncreaseMiscAction(card.cardID, card.misc + card.magicNumber, card.magicNumber));
-	        }
+
 			AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(owner, owner, this.ID));
 		}
 	}	
