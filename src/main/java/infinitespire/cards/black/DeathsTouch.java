@@ -50,7 +50,7 @@ public class DeathsTouch extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		if(this.energyOnUse < EnergyPanel.totalCount) {
 			this.energyOnUse = EnergyPanel.totalCount;
 		}

@@ -37,7 +37,7 @@ public class UltimateForm extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new UltimateFormPower(p, this.magicNumber), this.magicNumber));
 	}
 }

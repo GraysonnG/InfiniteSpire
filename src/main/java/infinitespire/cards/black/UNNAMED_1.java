@@ -37,7 +37,7 @@ public class UNNAMED_1 extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster abstractMonster) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster abstractMonster) {
 		if(this.energyOnUse < EnergyPanel.totalCount) {
 			this.energyOnUse = EnergyPanel.totalCount;
 		}

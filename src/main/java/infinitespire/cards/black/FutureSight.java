@@ -38,7 +38,7 @@ public class FutureSight extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new GainEnergyAction(this.magicNumber));
 	}
 

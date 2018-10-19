@@ -32,7 +32,7 @@ public class TheBestDefense extends BlackCard{
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		int amountOfBlock = p.currentBlock;
 
 		AbstractDungeon.actionManager.addToBottom(new RemoveAllBlockAction(p, p));
