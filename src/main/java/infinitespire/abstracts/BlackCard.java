@@ -34,7 +34,7 @@ public abstract class BlackCard extends Card {
 
 	}
 
-	//Use useWithEffect instead!
+	//Use useWithEffect instead unless you have made your own VFX for your black card!
 	@Deprecated
 	@Override
 	public void use(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
