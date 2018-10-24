@@ -1,7 +1,7 @@
 {
 	"infinitespire:Bottled Soul":{
 		"NAME" : "Bottled Soul",
-		"FLAVOR" : "Looking inside you see the shadow of your formar self.",
+		"FLAVOR" : "A broken bottle... A broken soul...",
 		"DESCRIPTIONS" : [
 			"Upon pickup, choose an #yExhaust card. Whenever you play that card, it no longer #yExhausts."
 		]
