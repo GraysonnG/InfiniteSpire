@@ -133,7 +133,7 @@ public class AbstractDungeonPatch {
 		private static void addInitialQuests() {
 			InfiniteSpire.logger.info("adding initial quests");
 			if(AbstractDungeon.floorNum <= 1 &&  InfiniteSpire.questLog.isEmpty()) {
-				InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
+				if(InfiniteSpire.startWithEndlessQuest)	InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
 				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(9));
 				InfiniteSpire.questLog.markAllQuestsAsSeen();
 				QuestHelper.saveQuestLog();
