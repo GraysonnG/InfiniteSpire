@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.ScreenShake;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.ArtifactPower;
@@ -93,13 +94,16 @@ public class LordOfAnnihilation extends AbstractMonster{
     @Override
     public void usePreBattleAction() {
         CardCrawlGame.music.unsilenceBGM();
+
+        if(!AbstractDungeon.loading_post_combat) InfiniteSpire.lordBackgroundEffect.beginEffect();
+
         AbstractDungeon.scene.fadeOutAmbiance();
-        AbstractDungeon.getCurrRoom().playBgmInstantly("BOSS_BEYOND");
+        CardCrawlGame.music.playTempBgmInstantly("MINDBLOOM", true);
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
             new LordOfAnnihilationIntangiblePower(this, 1),1));
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
             new BossArmorPower(1000, 2, 0.1f, this)));
-
+        CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.HIGH, ScreenShake.ShakeDur.MED, false);
     }
 
     @Override
@@ -142,7 +146,10 @@ public class LordOfAnnihilation extends AbstractMonster{
         InfiniteSpire.hasDefeatedGuardian = true;
         MainMenuPatch.setMainMenuBG(null);
         InfiniteSpire.saveData();
+        InfiniteSpire.lordBackgroundEffect.stopEffect();
         super.die();
+        this.onBossVictoryLogic();
+        this.onFinalBossVictoryLogic();
     }
 
     public void changeIntentToNuke(){
