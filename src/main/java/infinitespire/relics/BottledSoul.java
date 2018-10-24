@@ -28,7 +28,7 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 	private AbstractCard card = null;
 
 	public BottledSoul(){
-		super(ID, "bottledsoul", RelicTier.UNCOMMON, LandingSound.CLINK);
+		super(ID, "bottledsoul-cracked", RelicTier.UNCOMMON, LandingSound.CLINK);
 		BaseMod.subscribe(this);
 	}
 

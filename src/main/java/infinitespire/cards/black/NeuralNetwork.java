@@ -1,12 +1,10 @@
 package infinitespire.cards.black;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.DrawPower;
-
 import infinitespire.abstracts.BlackCard;
 
 public class NeuralNetwork extends BlackCard {
@@ -24,11 +22,6 @@ public class NeuralNetwork extends BlackCard {
 		this.baseMagicNumber = MAGIC;
 		this.magicNumber = MAGIC;
 	}
-	
-	@Override
-	public AbstractCard makeCopy() {
-		return new NeuralNetwork();
-	}
 
 	@Override
 	public void upgrade() {
@@ -41,7 +34,7 @@ public class NeuralNetwork extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new DrawPower(p, this.magicNumber), this.magicNumber));
 	}
 

@@ -2,7 +2,9 @@ package infinitespire.cards.black;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.utility.WaitAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.red.PerfectedStrike;
@@ -11,6 +13,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.abstracts.BlackCard;
+import infinitespire.effects.uniqueVFX.FinalStrikeEffect;
 
 public class FinalStrike extends BlackCard {
 
@@ -18,7 +21,7 @@ public class FinalStrike extends BlackCard {
 	private static final String NAME = "Final Strike";
 	private static final String IMG = "img/infinitespire/cards/finalstrike.png";
 	private static final int COST = 2;
-											//Basically a better perfected strike
+
 	private static final String DESCRIPTION = "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike.";
 	private static final CardType TYPE = CardType.ATTACK;
 	private static final CardTarget TARGET = CardTarget.ENEMY;
@@ -125,7 +128,10 @@ public class FinalStrike extends BlackCard {
 
 	@Override
 	public void use(AbstractPlayer p, AbstractMonster m) {
-		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AttackEffect.SLASH_DIAGONAL));
+		if(m != null) AbstractDungeon.actionManager.addToBottom(new VFXAction(new FinalStrikeEffect(m.hb.cX, m.hb.cY)));
+
+		AbstractDungeon.actionManager.addToBottom(new WaitAction(0.8f));
+		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AttackEffect.NONE));
 	}
 
 }

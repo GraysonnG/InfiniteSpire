@@ -28,7 +28,7 @@ public class Execution extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
+	public void useWithEffect(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
 		AbstractDungeon.actionManager.addToBottom(
 			new ApplyPowerAction(abstractMonster, abstractPlayer,
 				new SuperSlowPower(abstractMonster, 0), 0));

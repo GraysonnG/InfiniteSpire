@@ -1,15 +1,21 @@
 package infinitespire.abstracts;
 
+import basemod.ReflectionHacks;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
+import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
-
-import basemod.ReflectionHacks;
+import infinitespire.effects.BlackCardEffect;
 import infinitespire.patches.CardColorEnumPatch;
 
 public abstract class BlackCard extends Card {
@@ -22,6 +28,18 @@ public abstract class BlackCard extends Card {
 		super(id, name, img, cost, rawDescription, type, COLOR, RARITY, target);
 		this.setOrbTexture("img/infinitespire/cards/ui/512/boss-orb.png", "img/infinitespire/cards/ui/1024/boss-orb.png");
 		this.setBannerTexture("img/infinitespire/cards/ui/512/boss-banner.png", "img/infinitespire/cards/ui/1024/boss-banner.png");
+	}
+
+	public void useWithEffect(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
+
+	}
+
+	//Use useWithEffect instead unless you have made your own VFX for your black card!
+	@Deprecated
+	@Override
+	public void use(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
+		AbstractDungeon.actionManager.addToBottom(new VFXAction(new BlackCardEffect(), 0.15f));
+		useWithEffect(abstractPlayer, abstractMonster);
 	}
 
 	@SpirePatch(cls = "com.megacrit.cardcrawl.cards.AbstractCard", method = "renderTitle")

@@ -1,6 +1,5 @@
 package infinitespire.monsters;
 
-import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.*;
@@ -11,12 +10,12 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
-import com.megacrit.cardcrawl.helpers.MonsterHelper;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.powers.ThornsPower;
 import com.megacrit.cardcrawl.vfx.combat.ExplosionSmallEffect;
+import infinitespire.actions.SpawnShapeAction;
 import infinitespire.powers.ClusterPower;
 import infinitespire.util.TextureLoader;
 
@@ -64,18 +63,9 @@ public class MassOfShapes extends AbstractMonster {
 		super.damage(info);
 
 		if(this.currentBlock == 0) {
-			if (info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded) {
+			if (info.owner != null && info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded) {
 				if (this.minions.size() < 3 && AbstractDungeon.miscRng.random(0, 99) <= SPAWN_CHANCE) {
-					AbstractMonster monster;
-
-					Vector2 minPos = getMinionPosBySlotNum(getNextOpenMinionSlot());
-
-					monster = MonsterHelper.getAncientShape(minPos.x, minPos.y);
-
-					addMinion(monster);
-
-					AbstractDungeon.actionManager.addToTop(new RollMoveAction(monster));
-					AbstractDungeon.actionManager.addToTop(new SpawnMonsterAction(monster, true));
+					AbstractDungeon.actionManager.addToTop(new SpawnShapeAction(getNextOpenMinionSlot(), this));
 				}
 			}
 		}
@@ -143,26 +133,7 @@ public class MassOfShapes extends AbstractMonster {
 		this.turn++;
 	}
 
-	private Vector2 getMinionPosBySlotNum(int slotNum){
-		Vector2 pos = new Vector2();
 
-		switch(slotNum){
-			case 0:
-				pos.x = -360f;
-				pos.y = 10f;
-				break;
-			case 1:
-				pos.x = -535f;
-				pos.y = 25f;
-				break;
-			case 2:
-				pos.x = -400f;
-				pos.y = 185f;
-				break;
-		}
-
-		return pos;
-	}
 
 	private int getNextOpenMinionSlot() {
 		boolean[] slots = {true, true, true};

@@ -49,7 +49,7 @@ public class Gouge extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AttackEffect.SLASH_DIAGONAL));
 		AbstractDungeon.actionManager.addToBottom(new RemoveSpecificPowerAction(m, p, ArtifactPower.POWER_ID));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new WeakPower(m, this.magicNumber, false), this.magicNumber));

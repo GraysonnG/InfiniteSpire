@@ -38,7 +38,7 @@ public class Collect extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		AbstractDungeon.actionManager.addToBottom(new DrawCardAndUpgradeAction(p, this.magicNumber));
 	}
 }

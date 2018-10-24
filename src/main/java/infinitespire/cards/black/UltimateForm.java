@@ -1,11 +1,13 @@
 package infinitespire.cards.black;
 
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import infinitespire.abstracts.BlackCard;
+import infinitespire.effects.uniqueVFX.UltimateFormEffect;
 import infinitespire.powers.UltimateFormPower;
 
 public class UltimateForm extends BlackCard {
@@ -37,7 +39,8 @@ public class UltimateForm extends BlackCard {
 	}
 
 	@Override
-	public void use(AbstractPlayer p, AbstractMonster m) {
+	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
+		AbstractDungeon.actionManager.addToBottom(new VFXAction(p, new UltimateFormEffect(p.hb.cX, p.hb.cY), 1.0f));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new UltimateFormPower(p, this.magicNumber), this.magicNumber));
 	}
 }

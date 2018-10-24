@@ -36,7 +36,7 @@ public class Fortify extends BlackCard{
 	}
 
 	@Override
-	public void use(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
+	public void useWithEffect(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
 		for(int i = 0; i < magicNumber; i++){
 			AbstractDungeon.actionManager.addToBottom(new GainBlockAction(abstractPlayer, abstractPlayer, block, true));
 		}
