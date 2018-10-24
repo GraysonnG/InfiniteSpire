@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
-
 import infinitespire.InfiniteSpire;
 
 public class QuestLogUpdateEffect extends AbstractGameEffect{
@@ -17,7 +16,8 @@ public class QuestLogUpdateEffect extends AbstractGameEffect{
 	private Color color;
 	private Texture texture;
 	private float x, y;
-	
+
+	//TODO: make position make sense
 	public QuestLogUpdateEffect() {
 		this.scale = Settings.scale;
 		this.color = new Color(1f, 1f, 1f, 1f);
