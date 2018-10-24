@@ -4,6 +4,7 @@ import basemod.BaseMod;
 import basemod.interfaces.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
 import com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler;
 import com.evacipated.cardcrawl.modthespire.Loader;
@@ -25,6 +26,7 @@ import infinitespire.abstracts.Relic;
 import infinitespire.actions.AddQuestAction;
 import infinitespire.cards.Neurotoxin;
 import infinitespire.cards.OneForAll;
+import infinitespire.cards.Pacifist;
 import infinitespire.cards.black.*;
 import infinitespire.events.EmptyRestSite;
 import infinitespire.events.HoodedArmsDealer;
@@ -47,6 +49,7 @@ import infinitespire.relics.crystals.EmpoweringShard;
 import infinitespire.relics.crystals.FocusingShard;
 import infinitespire.relics.crystals.HealingShard;
 import infinitespire.relics.crystals.WardingShard;
+import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
 import infinitespire.util.TextureLoader;
@@ -59,8 +62,8 @@ import java.util.ArrayList;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
-		EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.3.0";
+	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
+	public static final String VERSION = "0.4.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -68,6 +71,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	private static ArrayList<OnQuestAddedSubscriber> onQuestAddedSubscribers = new ArrayList<>();
 
 	public static QuestLog questLog = new QuestLog();
+	public static final String GDX_INFINITE_PURPLE_NAME = createID("Purple");
+	public static final String GDX_INFINITE_RED_NAME = createID("Red");
 
 	public static boolean isEndless = false;
 	public static boolean hasDefeatedGuardian;
@@ -78,6 +83,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean isHubrisLoaded = false;
 
 	public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
+	public static LordBackgroundEffect lordBackgroundEffect = new LordBackgroundEffect();
 
 	public static Color CARD_COLOR = new Color(0f, 0f, 0f, 1f);
 
@@ -100,6 +106,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		logger.info("Found Mod ReplayTheSpire: " + isReplayLoaded);
 		logger.info("Found Mod FruityMod: " + isFruityLoaded);
 		logger.info("Found Mod Hubris: " + isHubrisLoaded);
+
+		Colors.put(GDX_INFINITE_PURPLE_NAME, Color.valueOf("#3D00D6").cpy());
+		Colors.put(GDX_INFINITE_RED_NAME, Color.valueOf("#FF4A4A").cpy());
 	}
 
 	@Override
@@ -123,9 +132,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			"img/infinitespire/ui/map/massBoss-outline.png");
 
 		// this should be removed after im done testing
-		// BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
-		// "img/infinitespire/ui/map/bossIcon.png",
-		// "img/infinitespire/ui/map/bossIcon-outline.png");
+//		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
+//		 "img/infinitespire/ui/map/bossIcon.png",
+//		 "img/infinitespire/ui/map/bossIcon-outline.png");
 
 
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
@@ -277,7 +286,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		if (isHubrisLoaded) {
 			// RelicLibrary.add(new ShieldingShard());
 		}
-
 	}
 
 	private static void initializeQuestLog() {
@@ -319,6 +327,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new Execution());
 		CardHelper.addCard(new TheBestDefense());
 		CardHelper.addCard(new Fortify());
+		CardHelper.addCard(new Pacifist());
 		//CardHelper.addCard(new UNNAMED_1());
 	}
 
