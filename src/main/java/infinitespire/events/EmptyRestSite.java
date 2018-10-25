@@ -109,7 +109,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 					CardCrawlGame.sound.play("SHOVEL");
                     AbstractDungeon.combatRewardScreen.open();
 		            AbstractDungeon.combatRewardScreen.rewards.clear();
-		            AbstractDungeon.combatRewardScreen.rewards.add(new RewardItem(AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier())));
+		            AbstractDungeon.combatRewardScreen.rewards.add(new RewardItem(AbstractDungeon.returnRandomRelicEnd(AbstractDungeon.returnRandomRelicTier())));
 		            AbstractDungeon.combatRewardScreen.positionRewards();
 				}
 		        break;

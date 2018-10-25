@@ -50,7 +50,7 @@ public class SlayQuest extends Quest {
 	
 	@Override
 	public void giveReward() {
-		AbstractRelic relic = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
+		AbstractRelic relic = AbstractDungeon.returnRandomRelicEnd(AbstractDungeon.returnRandomRelicTier());
 		relic.instantObtain();
 		relic.playLandingSFX();
 	}

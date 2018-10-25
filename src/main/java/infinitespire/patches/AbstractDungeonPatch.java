@@ -1,10 +1,9 @@
 package infinitespire.patches;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.green.Nightmare;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -12,11 +11,13 @@ import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.endless.EndlessQuestPart1;
+import infinitespire.relics.BottledSoul;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
 
@@ -57,6 +58,26 @@ public class AbstractDungeonPatch {
 			}
 			
 			return SpireReturn.Continue();
+		}
+	}
+
+	@SpirePatch(cls = CLS, method = "returnEndRandomRelicKey")
+	public static class BottledSoulFilter{
+		@SpirePostfixPatch
+		public static String Postfix(String retVal, AbstractRelic.RelicTier tier) {
+			if(retVal.equals(BottledSoul.ID)) {
+				boolean hasExhaust = false;
+				for(AbstractCard card : CardGroup.getGroupWithoutBottledCards(AbstractDungeon.player.masterDeck).group) {
+					if(card.exhaust){
+						hasExhaust = true;
+						break;
+					}
+				}
+				if(!hasExhaust) return AbstractDungeon.returnEndRandomRelicKey(tier);
+
+				return retVal;
+			}
+			return retVal;
 		}
 	}
 	
