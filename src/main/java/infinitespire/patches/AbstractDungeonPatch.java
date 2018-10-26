@@ -84,7 +84,7 @@ public class AbstractDungeonPatch {
 	@SpirePatch(cls = CLS, method = "render")
 	public static class Render {
 		
-		@SpireInsertPatch(rloc = 111) //112
+		@SpireInsertPatch(rloc = 102) //112
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.render(sb);

@@ -72,7 +72,7 @@ public class EmptyRestSite extends AbstractImageEvent {
         }
         if (!AbstractDungeon.isScreenUp && !AbstractDungeon.gridSelectScreen.selectedCards.isEmpty() && AbstractDungeon.gridSelectScreen.forPurge) {
         	CardCrawlGame.sound.play("CARD_EXHAUST");
-            AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(AbstractDungeon.gridSelectScreen.selectedCards.get(0), Settings.WIDTH / 2, Settings.HEIGHT / 2));
+            AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(AbstractDungeon.gridSelectScreen.selectedCards.get(0), Settings.WIDTH / 2f, Settings.HEIGHT / 2f));
             AbstractDungeon.player.masterDeck.removeCard(AbstractDungeon.gridSelectScreen.selectedCards.get(0));
             AbstractDungeon.gridSelectScreen.selectedCards.clear();
         }
