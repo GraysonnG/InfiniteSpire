@@ -49,6 +49,7 @@ import infinitespire.relics.crystals.EmpoweringShard;
 import infinitespire.relics.crystals.FocusingShard;
 import infinitespire.relics.crystals.HealingShard;
 import infinitespire.relics.crystals.WardingShard;
+import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
@@ -380,7 +381,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				amount -= (InfiniteSpire.questLog.size() + amount) - 21;
 			}
 			if (amount > 0) {
-				AbstractDungeon.actionManager.addToBottom(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
+				//AbstractDungeon.actionManager.addToBottom(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
+				room.rewards.add(new QuestReward(amount));
 			}
 		}
 	}
