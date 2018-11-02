@@ -2,6 +2,7 @@ package infinitespire.patches;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.green.Nightmare;
@@ -20,6 +21,8 @@ import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.relics.BottledSoul;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
+import javassist.CannotCompileException;
+import javassist.CtBehavior;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -47,7 +50,8 @@ public class AbstractDungeonPatch {
 			}
 		}
 	}
-	
+
+	//TODO: Replace with Locator
 	@SpirePatch(cls = CLS, method = "nextRoomTransition")
 	public static class NextRoomTransition {
 		@SpireInsertPatch(rloc = 10) 
@@ -80,24 +84,47 @@ public class AbstractDungeonPatch {
 			return retVal;
 		}
 	}
-	
+
 	@SpirePatch(cls = CLS, method = "render")
 	public static class Render {
-		
-		@SpireInsertPatch(rloc = 102) //112
+
+		@SpireInsertPatch(locator = RenderLocator.class)
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.render(sb);
 		}
+
+		private static class RenderLocator extends SpireInsertLocator{
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
+				Matcher finalMatcher = new Matcher.FieldAccessMatcher(
+					"com.megacrit.cardcrawl.dungeons.AbstractDungeon", "screen");
+
+				return LineFinder.findInOrder(ctBehavior, new ArrayList<>(), finalMatcher);
+			}
+		}
 	}
-	
+
 	@SpirePatch(cls = CLS, method = "update")
 	public static class Update {
-		
-		@SpireInsertPatch(rloc = 94)
+
+		@SpireInsertPatch(locator = UpdateLocator.class)
 		public static void Insert(AbstractDungeon __instance) {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.update();
+		}
+
+		private static class UpdateLocator extends SpireInsertLocator {
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
+				Matcher matcher = new Matcher.FieldAccessMatcher(
+					AbstractDungeon.class, "turnPhaseEffectActive"
+				);
+
+				int[] line = LineFinder.findInOrder(ctBehavior, matcher);
+
+				return line;
+			}
 		}
 	}
 
@@ -137,6 +164,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 
+	//TODO: Replace with Locator
 	@SpirePatch(cls = CLS, method = "generateMap")
 	public static class GenerateMap {
 									//SL:637 = 36 right now
