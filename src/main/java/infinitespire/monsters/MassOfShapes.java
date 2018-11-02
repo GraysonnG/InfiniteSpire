@@ -2,7 +2,9 @@ package infinitespire.monsters;
 
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.*;
+import com.megacrit.cardcrawl.actions.utility.HideHealthBarAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.status.Dazed;
@@ -15,6 +17,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.powers.ThornsPower;
 import com.megacrit.cardcrawl.vfx.combat.ExplosionSmallEffect;
+import com.megacrit.cardcrawl.vfx.combat.InflameEffect;
 import infinitespire.actions.SpawnShapeAction;
 import infinitespire.powers.ClusterPower;
 import infinitespire.util.TextureLoader;
@@ -56,6 +59,22 @@ public class MassOfShapes extends AbstractMonster {
 	public void update(){
 		super.update();
 		minions.removeIf((minion) -> minion.minion.isDead);
+	}
+
+	@Override
+	public void die() {
+		this.useFastShakeAnimation(5.0f);
+		CardCrawlGame.screenShake.rumble(4.0f);
+		this.deathTimer += 1.5f;
+		super.die();
+		this.onBossVictoryLogic();
+		for (final AbstractMonster m : AbstractDungeon.getCurrRoom().monsters.monsters) {
+			if (!m.isDead && !m.isDying) {
+				AbstractDungeon.actionManager.addToTop(new HideHealthBarAction(m));
+				AbstractDungeon.actionManager.addToTop(new SuicideAction(m));
+				AbstractDungeon.actionManager.addToTop(new VFXAction(m, new InflameEffect(m), 0.2f));
+			}
+		}
 	}
 
 	@Override

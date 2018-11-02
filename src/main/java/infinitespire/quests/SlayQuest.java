@@ -50,7 +50,7 @@ public class SlayQuest extends Quest {
 	
 	@Override
 	public void giveReward() {
-		AbstractRelic relic = AbstractDungeon.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
+		AbstractRelic relic = AbstractDungeon.returnRandomRelicEnd(AbstractDungeon.returnRandomRelicTier());
 		relic.instantObtain();
 		relic.playLandingSFX();
 	}
@@ -148,7 +148,7 @@ public class SlayQuest extends Quest {
 	
 	@Override
 	public String getRewardString() {
-		return "Recieve a Random Relic";
+		return "Receive a Random Relic";
 	}
 
 	public int getCost(String string) {

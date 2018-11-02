@@ -63,7 +63,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.4.0";
+	public static final String VERSION = "0.5.2";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -77,6 +77,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean isEndless = false;
 	public static boolean hasDefeatedGuardian;
 	public static boolean shouldLoad = false;
+	public static boolean startWithEndlessQuest = true;
 
 	public static boolean isReplayLoaded = false;
 	public static boolean isFruityLoaded = false;
@@ -93,6 +94,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 	public InfiniteSpire() {
 		BaseMod.subscribe(this);
+		BaseMod.subscribe(new InfiniteSpireInit());
 	}
 
 	public static void initialize() {
@@ -114,11 +116,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	@Override
 	public void receivePostInitialize() {
 		initializeQuestLog();
-
-		Texture modBadge = getTexture("img/infinitespire/modbadge.png");
-		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil",
-				"Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.",
-				null);
 
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
@@ -212,6 +209,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			BottledSoul.save(config);
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
+			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -234,6 +232,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
 			isEndless = config.getBool("isEndless");
+			startWithEndlessQuest = config.getBool("startWithEndlessQuest");
 
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);

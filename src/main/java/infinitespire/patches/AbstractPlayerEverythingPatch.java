@@ -28,7 +28,7 @@ public class AbstractPlayerEverythingPatch {
 	    @SpirePatch(cls = "com.megacrit.cardcrawl.characters.AbstractPlayer", method = "damage")
 	    public static class Damage3 {
 	    	//This covers Lizard Tail prevent death function
-	    	//Inserted after: this.currentHealth = 0;
+	    	//Inserted before: this.currentHealth = 0;
 	    	@SpireInsertPatch(rloc = 98)
 	    	public static void Insert(AbstractPlayer player, DamageInfo info) {
 	    		for(Quest q : InfiniteSpire.questLog) {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.monsters.replay.CaptainAbe;
+import com.megacrit.cardcrawl.mod.replay.monsters.replay.CaptainAbe;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;

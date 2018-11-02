@@ -16,7 +16,7 @@ public class FlawlessQuest extends Quest {
 
 	@Override
 	public void giveReward() {
-		AbstractRelic relic = AbstractDungeon.returnRandomRelic(RelicTier.RARE);
+		AbstractRelic relic = AbstractDungeon.returnRandomRelicEnd(RelicTier.RARE);
 		relic.instantObtain();
 		relic.playLandingSFX();
 	}

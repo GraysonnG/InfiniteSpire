@@ -27,12 +27,14 @@ public class PickUpCardQuest extends Quest {
 
 	public void render(SpriteBatch sb){
 		if(isHovered) {
-			AbstractCard rCard = CardLibrary.getCard(this.cardID);
-			if (rCard != null) {
-				rCard.drawScale = 0.75f;
-				rCard.current_x = InputHelper.mX - (rCard.hb.width / 2f);
-				rCard.current_y = InputHelper.mY;
-				rCard.render(sb);
+			if(this.cardID != null) {
+				AbstractCard rCard = CardLibrary.getCard(this.cardID);
+				if (rCard != null) {
+					rCard.drawScale = 0.75f;
+					rCard.current_x = InputHelper.mX - (rCard.hb.width / 2f);
+					rCard.current_y = InputHelper.mY;
+					rCard.render(sb);
+				}
 			}
 		}
 	}

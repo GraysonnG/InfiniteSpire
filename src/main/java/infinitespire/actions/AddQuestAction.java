@@ -11,16 +11,29 @@ import java.util.Collection;
 
 public class AddQuestAction extends AbstractGameAction{
     private ArrayList<Quest> quests;
+    private boolean doEffect;
 
     public AddQuestAction(Quest questToAdd){
         quests = new ArrayList<>();
         quests.add(questToAdd);
+        doEffect = true;
 
     }
 
     public AddQuestAction(Collection<Quest> questsToAdd){
         quests = new ArrayList<>();
         quests.addAll(questsToAdd);
+        doEffect = true;
+    }
+
+    public AddQuestAction(Quest questToAdd, boolean doEffect){
+        this(questToAdd);
+        this.doEffect = doEffect;
+    }
+
+    public AddQuestAction(Collection<Quest> questsToAdd, boolean doEffect){
+        this(questsToAdd);
+        this.doEffect = doEffect;
     }
 
     @Override
@@ -28,7 +41,7 @@ public class AddQuestAction extends AbstractGameAction{
         for(Quest quest : quests) {
             if (!InfiniteSpire.questLog.hasQuest(quest) && InfiniteSpire.questLog.getAmount(quest.type) < 7) {
                 InfiniteSpire.questLog.add(quest.createNew());
-                AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
+                if(doEffect) AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
                 InfiniteSpire.publishOnQuestAdded(quest);
             }
         }

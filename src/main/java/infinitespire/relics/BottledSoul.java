@@ -74,7 +74,7 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 		}
 	}
 
-	public static void clear(){};
+	public static void clear(){}
 
 	@Override
 	public void onEquip() {
@@ -96,6 +96,8 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.INCOMPLETE;
 			AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(group), 1, "Select a card.",
 				false, false, false, false);
+		} else {
+			cardSelected = true;
 		}
 	}
 

@@ -1,10 +1,10 @@
 package infinitespire.patches;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
-import com.evacipated.cardcrawl.modthespire.lib.SpireReturn;
+import com.evacipated.cardcrawl.modthespire.lib.*;
+import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.cards.green.Nightmare;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -12,13 +12,17 @@ import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
+import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.endless.EndlessQuestPart1;
+import infinitespire.relics.BottledSoul;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
+import javassist.CannotCompileException;
+import javassist.CtBehavior;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -46,7 +50,8 @@ public class AbstractDungeonPatch {
 			}
 		}
 	}
-	
+
+	//TODO: Replace with Locator
 	@SpirePatch(cls = CLS, method = "nextRoomTransition")
 	public static class NextRoomTransition {
 		@SpireInsertPatch(rloc = 10) 
@@ -59,24 +64,67 @@ public class AbstractDungeonPatch {
 			return SpireReturn.Continue();
 		}
 	}
-	
+
+	@SpirePatch(cls = CLS, method = "returnEndRandomRelicKey")
+	public static class BottledSoulFilter{
+		@SpirePostfixPatch
+		public static String Postfix(String retVal, AbstractRelic.RelicTier tier) {
+			if(retVal.equals(BottledSoul.ID)) {
+				boolean hasExhaust = false;
+				for(AbstractCard card : CardGroup.getGroupWithoutBottledCards(AbstractDungeon.player.masterDeck).group) {
+					if(card.exhaust){
+						hasExhaust = true;
+						break;
+					}
+				}
+				if(!hasExhaust) return AbstractDungeon.returnEndRandomRelicKey(tier);
+
+				return retVal;
+			}
+			return retVal;
+		}
+	}
+
 	@SpirePatch(cls = CLS, method = "render")
 	public static class Render {
-		
-		@SpireInsertPatch(rloc = 111) //112
+
+		@SpireInsertPatch(locator = RenderLocator.class)
 		public static void Insert(AbstractDungeon __instance, SpriteBatch sb) {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.render(sb);
 		}
+
+		private static class RenderLocator extends SpireInsertLocator{
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
+				Matcher finalMatcher = new Matcher.FieldAccessMatcher(
+					"com.megacrit.cardcrawl.dungeons.AbstractDungeon", "screen");
+
+				return LineFinder.findInOrder(ctBehavior, new ArrayList<>(), finalMatcher);
+			}
+		}
 	}
-	
+
 	@SpirePatch(cls = CLS, method = "update")
 	public static class Update {
-		
-		@SpireInsertPatch(rloc = 94)
+
+		@SpireInsertPatch(locator = UpdateLocator.class)
 		public static void Insert(AbstractDungeon __instance) {
 			if(AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN)
 				InfiniteSpire.questLogScreen.update();
+		}
+
+		private static class UpdateLocator extends SpireInsertLocator {
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
+				Matcher matcher = new Matcher.FieldAccessMatcher(
+					AbstractDungeon.class, "turnPhaseEffectActive"
+				);
+
+				int[] line = LineFinder.findInOrder(ctBehavior, matcher);
+
+				return line;
+			}
 		}
 	}
 
@@ -116,6 +164,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 
+	//TODO: Replace with Locator
 	@SpirePatch(cls = CLS, method = "generateMap")
 	public static class GenerateMap {
 									//SL:637 = 36 right now
@@ -125,7 +174,7 @@ public class AbstractDungeonPatch {
 			addHolyWaterToRareRelicPool();
 			addInitialQuests();
 			//number of nightmares increases with number of bosses beaten (max 3), is increased by 1 if the "kill a nightmare" quest has not been completed or discarded.
-			for(int i = 0; i < Math.min(AbstractDungeon.bossCount + ((InfiniteSpire.questLog.get(0) instanceof EndlessQuestPart1) ? 1 : 0), 3); i++) {
+			for(int i = 0; i < 3; i++) {
 				insertNightmareNode();
 			}
 		}
@@ -133,7 +182,7 @@ public class AbstractDungeonPatch {
 		private static void addInitialQuests() {
 			InfiniteSpire.logger.info("adding initial quests");
 			if(AbstractDungeon.floorNum <= 1 &&  InfiniteSpire.questLog.isEmpty()) {
-				InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
+				if(InfiniteSpire.startWithEndlessQuest)	InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
 				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(9));
 				InfiniteSpire.questLog.markAllQuestsAsSeen();
 				QuestHelper.saveQuestLog();
