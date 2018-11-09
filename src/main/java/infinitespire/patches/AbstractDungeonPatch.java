@@ -52,6 +52,7 @@ public class AbstractDungeonPatch {
 	}
 
 	//TODO: Replace with Locator
+	//In theory this is able to be removed but idk
 	@SpirePatch(cls = CLS, method = "nextRoomTransition")
 	public static class NextRoomTransition {
 		@SpireInsertPatch(rloc = 10) 

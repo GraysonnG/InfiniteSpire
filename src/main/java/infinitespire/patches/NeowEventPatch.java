@@ -16,7 +16,7 @@ public class NeowEventPatch {
 
 	@SpirePatch(cls = CLS, method = "uniqueBlight")
 	public static class BadBlight {
-
+		//TODO convert to Locator
 		@SpireInsertPatch(rloc = 1, localvars = {"temp"})
 		public static void InsertNewCheck(NeowEvent __insance, @ByRef AbstractBlight[] temp){
 			temp[0] = AbstractDungeon.player.getBlight("TimeMaze");
