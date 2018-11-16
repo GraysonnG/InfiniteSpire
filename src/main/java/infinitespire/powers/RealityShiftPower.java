@@ -29,6 +29,6 @@ public class RealityShiftPower extends AbstractPower {
 
 
 	public void updateDescription() {
-		this.description = "After taking #b" + amount + " damage in a single turn, Nighmare will shift reality forcing you to end your turn.";
+		this.description = "After taking #b" + amount + " damage in a single turn, Nightmare will shift reality forcing you to end your turn.";
 	}
 }
