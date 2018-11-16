@@ -1,10 +1,12 @@
 package infinitespire.cards.black;
 
+import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import infinitespire.abstracts.BlackCard;
+import infinitespire.effects.uniqueVFX.MenacingEffect;
 import infinitespire.powers.MenacingPower;
 
 public class Menacing extends BlackCard {
@@ -37,6 +39,7 @@ public class Menacing extends BlackCard {
 
 	@Override
 	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
+		AbstractDungeon.actionManager.addToBottom(new VFXAction(new MenacingEffect(), 0.5f));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new MenacingPower(p, magicNumber)));
 	}
 }
