@@ -30,7 +30,7 @@ import infinitespire.powers.SpireBlightPower;
 import java.util.Random;
 
 public class Nightmare extends AbstractMonster {
-	
+
 	public static final String ID = "Nightmare";
 	public static final MonsterStrings monsterStrings = CardCrawlGame.languagePack.getMonsterStrings("Nightmare");
 	public static final String NAME = monsterStrings.NAME;
@@ -40,7 +40,7 @@ public class Nightmare extends AbstractMonster {
 	public static int timesNotReceivedBlackCard = 0;
 
 	private int textureIndex = 0;
-	
+
 	private float spriteEffect;
 	private boolean firstTurn = true;
 	private boolean hasActivated = false;
@@ -84,7 +84,7 @@ public class Nightmare extends AbstractMonster {
 
 
 		this.setHp(hpAmount);
-		
+
 		this.damage.add(new DamageInfo(this, this.attackDmg));
 		this.damage.add(new DamageInfo(this, this.slamDmg));
 	}
@@ -107,7 +107,7 @@ public class Nightmare extends AbstractMonster {
 	@Override
 	public void damage(DamageInfo info) {
 		super.damage(info);
-		
+
 		if(this.hasPower("is_Reality_Shift")) {
 			AbstractPower p = this.getPower("is_Reality_Shift");
 			p.amount -= info.output;
@@ -149,7 +149,7 @@ public class Nightmare extends AbstractMonster {
 		this.portalRotation += Gdx.graphics.getDeltaTime(); //look if you get a crash on this line you been sitting on that screen way too long and honestly i just cant be bothered to loop this float so it never crashes
 		spriteEffect += Gdx.graphics.getDeltaTime();
 		this.drawY += (Math.sin(spriteEffect) / (10f * Settings.scale));
-		
+
 		if(Math.round(spriteEffect * 10) % 3 == 0) {
 			if((new Random()).nextInt(3) == 0) {
 				this.textureIndex += 1;
