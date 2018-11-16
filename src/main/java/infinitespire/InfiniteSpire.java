@@ -39,6 +39,7 @@ import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.monsters.MassOfShapes;
+import infinitespire.monsters.Nightmare;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
@@ -112,6 +113,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		Colors.put(GDX_INFINITE_PURPLE_NAME, Color.valueOf("#3D00D6").cpy());
 		Colors.put(GDX_INFINITE_RED_NAME, Color.valueOf("#FF4A4A").cpy());
+
 	}
 
 	@Override
@@ -208,6 +210,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
 			BottledSoul.save(config);
+			Nightmare.save(config);
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
@@ -224,6 +227,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		isEndless = false;
 		QuestHelper.clearQuestLog();
 		BottledSoul.clear();
+		Nightmare.clear();
 		saveData();
 	}
 
@@ -237,6 +241,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);
+
+			Nightmare.load(config);
 
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -328,6 +334,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new TheBestDefense());
 		CardHelper.addCard(new Fortify());
 		CardHelper.addCard(new Pacifist());
+		CardHelper.addCard(new Menacing());
 		//CardHelper.addCard(new UNNAMED_1());
 	}
 
