@@ -6,7 +6,12 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Quest;
+import infinitespire.quests.PickUpCardQuest;
 import infinitespire.relics.BottledSoul;
+import infinitespire.util.TextureLoader;
 
 import java.io.IOException;
 
@@ -30,6 +35,34 @@ public class AbstractCardPatch {
                 bottledSoul.renderOutline(sb, false);
                 bottledSoul.render(sb);
             }
+
+            for(Quest quest : InfiniteSpire.questLog) {
+                if(!quest.isCompleted() && quest instanceof PickUpCardQuest && ((PickUpCardQuest) quest).cardID != null &&((PickUpCardQuest) quest).cardID.equals(card.cardID)) {
+                    if (shouldRenderQuestIcon()) {
+                        sb.draw(TextureLoader.getTexture("img/infinitespire/ui/topPanel/questLogIcon.png"),
+                            card.current_x + 320.0f * card.drawScale / 3.0f * Settings.scale,
+                            card.current_y + 480.0f * card.drawScale / 3.0f * Settings.scale,
+                            32f, 32f, 64f, 64f,
+                            card.drawScale * Settings.scale, card.drawScale * Settings.scale,
+                            0.0f,0,0,
+                            64,64,
+                            false,false);
+                    }
+                }
+            }
+        }
+
+        public static boolean shouldRenderQuestIcon() {
+            boolean result = true;
+
+            if(AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT ||
+                AbstractDungeon.screen == AbstractDungeon.CurrentScreen.MASTER_DECK_VIEW ||
+                AbstractDungeon.screen == ScreenStatePatch.QUEST_LOG_SCREEN ||
+                (AbstractDungeon.screen == AbstractDungeon.CurrentScreen.GRID && AbstractDungeon.gridSelectScreen.forPurge || AbstractDungeon.gridSelectScreen.forTransform || AbstractDungeon.gridSelectScreen.forUpgrade)) {
+                return false;
+            }
+
+            return result;
         }
     }
 

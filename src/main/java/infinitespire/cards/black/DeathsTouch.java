@@ -1,18 +1,12 @@
 package infinitespire.cards.black;
 
-import com.megacrit.cardcrawl.actions.AbstractGameAction.AttackEffect;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.PoisonPower;
-import com.megacrit.cardcrawl.relics.ChemicalX;
 import com.megacrit.cardcrawl.ui.panels.EnergyPanel;
-
 import infinitespire.abstracts.BlackCard;
+import infinitespire.actions.DeathsTouchAction;
 
 public class DeathsTouch extends BlackCard {
 
@@ -54,21 +48,7 @@ public class DeathsTouch extends BlackCard {
 		if(this.energyOnUse < EnergyPanel.totalCount) {
 			this.energyOnUse = EnergyPanel.totalCount;
 		}
-		
-		int poisonTicks = this.energyOnUse + 1;
-		
-		if(p.hasRelic(ChemicalX.ID)) {
-			p.getRelic(ChemicalX.ID).flash();
-			poisonTicks += 2;
-		}
-		
-		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, this.damage, this.damageTypeForTurn), AttackEffect.SLASH_DIAGONAL));
 
-		for(int i = 0; i < poisonTicks; i++) {
-			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(m, p, new PoisonPower(m, p, this.magicNumber), this.magicNumber));
-		}
-		
-		p.energy.use(EnergyPanel.totalCount);
+		AbstractDungeon.actionManager.addToBottom(new DeathsTouchAction(p, m, damage, magicNumber, damageTypeForTurn, freeToPlayOnce, energyOnUse));
 	}
-
 }

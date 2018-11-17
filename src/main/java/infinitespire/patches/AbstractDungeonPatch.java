@@ -5,7 +5,6 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
-import com.megacrit.cardcrawl.cards.green.Nightmare;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
@@ -14,6 +13,7 @@ import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
+import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.monsters.LordOfAnnihilation;
@@ -51,17 +51,31 @@ public class AbstractDungeonPatch {
 		}
 	}
 
-	//TODO: Replace with Locator
-	@SpirePatch(cls = CLS, method = "nextRoomTransition")
-	public static class NextRoomTransition {
-		@SpireInsertPatch(rloc = 10) 
-		public static SpireReturn<?> Insert(AbstractDungeon __instance){
-			if(AbstractDungeon.getCurrRoom() instanceof NightmareEliteRoom && AbstractDungeon.eliteMonsterList.size() <= 0) {
-				AbstractDungeon.eliteMonsterList.add(Nightmare.ID);
-				return SpireReturn.Continue();
+	@SpirePatch(cls = CLS, method = "populatePathTaken")
+	public static class PopulatePathTaken {
+
+		@SpireInsertPatch(
+			locator = PopPathLocator.class
+		)
+		public static void nightmareRoomPatch(AbstractDungeon __instance, SaveFile saveFile) {
+
+			System.out.println(saveFile.current_room);
+
+			if(saveFile.current_room.equals(NightmareEliteRoom.class.getName())){
+				AbstractDungeon.currMapNode = new MapRoomNode(0, -1);
+				AbstractDungeon.currMapNode.room = new NightmareEliteRoom();
 			}
-			
-			return SpireReturn.Continue();
+
+
+			System.out.println(AbstractDungeon.getCurrRoom().getClass().getName());
+		}
+
+		public static class PopPathLocator extends SpireInsertLocator{
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException{
+				Matcher matcher = new Matcher.MethodCallMatcher(AbstractDungeon.class, "nextRoomTransition");
+				return LineFinder.findInOrder(ctBehavior, matcher);
+			}
 		}
 	}
 

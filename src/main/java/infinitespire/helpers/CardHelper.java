@@ -3,10 +3,13 @@ package infinitespire.helpers;
 import basemod.BaseMod;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.helpers.CardLibrary;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
+import infinitespire.patches.CardColorEnumPatch;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class CardHelper {
 	private static ArrayList<BlackCard> blackCards = new ArrayList<BlackCard>();
@@ -35,7 +38,13 @@ public class CardHelper {
 	}
 	
 	public static BlackCard getRandomBlackCard() {
-		return blackCards.get(AbstractDungeon.cardRng.random(blackCards.size() - 1));
+		ArrayList<String> keys = new ArrayList<>();
+		for(Map.Entry<String, AbstractCard> c : CardLibrary.cards.entrySet()) {
+			if(c.getValue().color == CardColorEnumPatch.CardColorPatch.INFINITE_BLACK){
+				keys.add(c.getKey());
+			}
+		}
+		return (BlackCard) CardLibrary.cards.get(keys.get(AbstractDungeon.cardRng.random(0, keys.size() - 1)));
 	}
 	
 	public static void addCard(AbstractCard card) {

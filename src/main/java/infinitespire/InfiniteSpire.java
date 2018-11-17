@@ -39,6 +39,7 @@ import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.monsters.MassOfShapes;
+import infinitespire.monsters.Nightmare;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
@@ -49,6 +50,7 @@ import infinitespire.relics.crystals.EmpoweringShard;
 import infinitespire.relics.crystals.FocusingShard;
 import infinitespire.relics.crystals.HealingShard;
 import infinitespire.relics.crystals.WardingShard;
+import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
@@ -63,7 +65,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.5.2";
+	public static final String VERSION = "0.6.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -111,6 +113,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		Colors.put(GDX_INFINITE_PURPLE_NAME, Color.valueOf("#3D00D6").cpy());
 		Colors.put(GDX_INFINITE_RED_NAME, Color.valueOf("#FF4A4A").cpy());
+
 	}
 
 	@Override
@@ -180,7 +183,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String[] shattered = { "shredded" };
 		String[] mitigation = { "mitigation" };
 
-		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 10% more damage than the last turn.");
+		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 5% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
 		BaseMod.addKeyword(shattered,
 				"For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
@@ -207,6 +210,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 
 			BottledSoul.save(config);
+			Nightmare.save(config);
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
@@ -223,6 +227,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		isEndless = false;
 		QuestHelper.clearQuestLog();
 		BottledSoul.clear();
+		Nightmare.clear();
 		saveData();
 	}
 
@@ -236,6 +241,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);
+
+			Nightmare.load(config);
 
 		} catch (IOException | NumberFormatException e) {
 			logger.error("Failed to load InfiniteSpire data!");
@@ -327,6 +334,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new TheBestDefense());
 		CardHelper.addCard(new Fortify());
 		CardHelper.addCard(new Pacifist());
+		CardHelper.addCard(new Menacing());
 		//CardHelper.addCard(new UNNAMED_1());
 	}
 
@@ -380,7 +388,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				amount -= (InfiniteSpire.questLog.size() + amount) - 21;
 			}
 			if (amount > 0) {
-				AbstractDungeon.actionManager.addToBottom(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
+				//AbstractDungeon.actionManager.addToBottom(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
+				room.rewards.add(new QuestReward(amount));
 			}
 		}
 	}
