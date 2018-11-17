@@ -163,11 +163,13 @@ public class Nightmare extends AbstractMonster {
 
 	@Override
 	public void usePreBattleAction() {
+		GameActionManager manager = AbstractDungeon.actionManager;
+
+		if(this.isAlpha){
+			manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
+		}
+
 		if(isStrong) {
-			GameActionManager manager = AbstractDungeon.actionManager;
-			if(this.isAlpha){
-				manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
-			}
 
 			if(timesDefeated > 0) {
 				manager.addToBottom(new ApplyPowerAction(this, this,
