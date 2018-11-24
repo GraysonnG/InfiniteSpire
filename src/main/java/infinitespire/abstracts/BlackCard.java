@@ -67,11 +67,11 @@ public abstract class BlackCard extends Card {
 		}
 		particles.removeIf(BlackParticle::isDead);
 
-		if(this.particles.size() < 150){
+		if(this.particles.size() < 150 && InfiniteSpire.shouldDoParticles && !Settings.DISABLE_EFFECTS){
 			Vector2 point1 = generateRandomPointAlongEdgeOfHitbox();
-			particles.add(new BlackParticle(point1.x, point1.y, this.drawScale));
+			particles.add(new BlackParticle(point1.x, point1.y, this.drawScale, this.upgraded));
 			Vector2 point2 = generateRandomPointAlongEdgeOfHitbox();
-			particles.add(new BlackParticle(point2.x, point2.y, this.drawScale));
+			particles.add(new BlackParticle(point2.x, point2.y, this.drawScale, this.upgraded));
 		}
 	}
 
@@ -108,12 +108,14 @@ public abstract class BlackCard extends Card {
 		private float lifeSpan;
 		private Color color;
 		private float drawScale;
+		private boolean upgraded;
 
 		private static TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("img/infinitespire/vfx/particle.atlas"));
 
-		public BlackParticle(float x, float y, float drawScale) {
+		public BlackParticle(float x, float y, float drawScale, boolean upgraded) {
 			pos = new Vector2(x, y);
 			this.drawScale = drawScale;
+			this.upgraded = upgraded;
 
 			float speedScale = this.drawScale;
 			float maxV = 2.0f * speedScale;
@@ -125,10 +127,14 @@ public abstract class BlackCard extends Card {
 
 			lifeSpan = MathUtils.random(0.1f, 0.5f);
 
+			color = Color.BLACK.cpy();
+
 			if(Math.random() < 0.25) {
 				color = Colors.get(InfiniteSpire.GDX_INFINITE_PURPLE_NAME).cpy();
-			} else {
-				color = Color.BLACK.cpy();
+			}
+
+			if(Math.random() < 0.05 && upgraded){
+				color = Colors.get(InfiniteSpire.GDX_INFINITE_RED_NAME).cpy();
 			}
 		}
 
