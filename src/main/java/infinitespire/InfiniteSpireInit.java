@@ -26,9 +26,19 @@ public class InfiniteSpireInit implements PostInitializeSubscriber {
 				InfiniteSpire.saveData();
 			});
 
+		ModLabeledToggleButton shouldDoParticles = new ModLabeledToggleButton("Black Cards have Particle Effects",
+			350f, 450f, Settings.CREAM_COLOR, FontHelper.buttonLabelFont, InfiniteSpire.shouldDoParticles, settingsPanel,
+			(me) -> {},
+			(me) -> {
+				InfiniteSpire.shouldDoParticles = me.enabled;
+				InfiniteSpire.saveData();
+			});
+
 		nightmareQuestDefault.toggle.enabled = InfiniteSpire.startWithEndlessQuest;
+		shouldDoParticles.toggle.enabled = InfiniteSpire.shouldDoParticles;
 
 		settingsPanel.addUIElement(nightmareQuestDefault);
+		settingsPanel.addUIElement(shouldDoParticles);
 
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil",
 			"Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", settingsPanel);

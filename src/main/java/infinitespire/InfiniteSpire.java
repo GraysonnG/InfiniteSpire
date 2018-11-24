@@ -80,6 +80,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean hasDefeatedGuardian;
 	public static boolean shouldLoad = false;
 	public static boolean startWithEndlessQuest = true;
+	public static boolean shouldDoParticles = true;
 
 	public static boolean isReplayLoaded = false;
 	public static boolean isFruityLoaded = false;
@@ -214,6 +215,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
+			config.setBool("cardParticles", shouldDoParticles);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -238,7 +240,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			config.load();
 			isEndless = config.getBool("isEndless");
 			startWithEndlessQuest = config.getBool("startWithEndlessQuest");
-
+			if(config.has("cardParticles")) {
+				shouldDoParticles = config.getBool("cardParticles");
+			}
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);
 
