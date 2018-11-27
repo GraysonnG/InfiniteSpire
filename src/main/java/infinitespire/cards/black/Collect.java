@@ -2,19 +2,23 @@ package infinitespire.cards.black;
 
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.actions.DrawCardAndUpgradeAction;
 
 public class Collect extends BlackCard {
 
-	private static final String ID = "Collect";
-	private static final String NAME = "Collect";
+	private static final String ID = InfiniteSpire.createID("Collect");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final String NAME = cardStrings.NAME;
 	private static final String TEXTURE = "img/infinitespire/cards/collect.png";
 	private static final int COST = 0;
-	private static final String DESCRIPTION = "Draw !M! cards and Upgrade them.";
+	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
 	private static final int MAGIC = 3;
 	
 	public Collect() {

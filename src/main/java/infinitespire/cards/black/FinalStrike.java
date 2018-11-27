@@ -9,20 +9,25 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.red.PerfectedStrike;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.effects.uniqueVFX.FinalStrikeEffect;
 
 public class FinalStrike extends BlackCard {
 
-	public static final String ID = "FinalStrike";
-	private static final String NAME = "Final Strike";
+	public static final String ID = InfiniteSpire.createID("FinalStrike");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final String NAME = cardStrings.NAME;
 	private static final String IMG = "img/infinitespire/cards/finalstrike.png";
 	private static final int COST = 2;
 
-	private static final String DESCRIPTION = "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike.";
+	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
 	private static final CardType TYPE = CardType.ATTACK;
 	private static final CardTarget TARGET = CardTarget.ENEMY;
 	

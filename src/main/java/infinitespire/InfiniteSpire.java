@@ -14,10 +14,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
-import com.megacrit.cardcrawl.localization.EventStrings;
-import com.megacrit.cardcrawl.localization.MonsterStrings;
-import com.megacrit.cardcrawl.localization.PotionStrings;
-import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.seeker.patches.AbstractCardEnum;
@@ -46,7 +43,10 @@ import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
-import infinitespire.relics.crystals.*;
+import infinitespire.relics.crystals.EmpoweringShard;
+import infinitespire.relics.crystals.FocusingShard;
+import infinitespire.relics.crystals.ShieldingShard;
+import infinitespire.relics.crystals.WardingShard;
 import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
@@ -307,6 +307,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	private static void initializeCards() {
+		String cardStrings = Gdx.files.internal("local/infinitespire/cards.json")
+			.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
+
 		BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR,
 				CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR, "img/infinitespire/cards/ui/512/boss-attack.png",
 				"img/infinitespire/cards/ui/512/boss-skill.png", "img/infinitespire/cards/ui/512/boss-power.png",
@@ -322,7 +326,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		// Black Cards
 		CardHelper.addCard(new FinalStrike());
-		// CardHelper.addCard(new ThousandBlades());
 		CardHelper.addCard(new Gouge());
 		CardHelper.addCard(new DeathsTouch());
 		CardHelper.addCard(new Collect());
@@ -335,7 +338,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new Fortify());
 		CardHelper.addCard(new Pacifist());
 		CardHelper.addCard(new Menacing());
-		//CardHelper.addCard(new UNNAMED_1());
 	}
 
 	@SuppressWarnings("unused")

@@ -1,21 +1,25 @@
 package infinitespire.cards;
 
+import basemod.abstracts.DynamicVariable;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.defect.IncreaseMiscAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
-
-import basemod.abstracts.DynamicVariable;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Card;
 
 public class Neurotoxin extends Card {
 	
-	public static final String ID = "Neurotoxin";
-	public static final String NAME = "Neurotoxin";
-	public static final String DESCRIPTION = "Apply !M! Poison. NL Each time this card is played, permanently increase it's poison by !inf_P!. NL Exhaust.";
+	public static final String ID = InfiniteSpire.createID("Neurotoxin");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	public static final String NAME = cardStrings.NAME;
+	public static final String DESCRIPTION = cardStrings.DESCRIPTION;
 	private static final int COST = 1;
 	private int poisonCreep;
 	

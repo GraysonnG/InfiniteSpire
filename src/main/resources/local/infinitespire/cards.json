@@ -1,0 +1,65 @@
+{
+	"infinitespire:Neurotoxin": {
+		"NAME": "Neurotoxin",
+		"DESCRIPTION": "Apply !M! Poison. NL Each time this card is played, permanently increase it's poison by !inf_P!. NL Exhaust."
+	},
+	"infinitespire:OneForAll": {
+		"NAME": "One For All",
+		"DESCRIPTION": "Deal !D! damage. NL Each time this card is played, permanently increase it's damage by !M!. NL Exhaust."
+	},
+	"infinitespire:Pacifist":{
+		"NAME": "Pacifist",
+		"DESCRIPTION": "While this card is in your hand you cannot play Attacks."
+	},
+	"infinitespire:Collect": {
+		"NAME": "Collect",
+		"DESCRIPTION": "Draw !M! cards and Upgrade them."
+	},
+	"infinitespire:DeathsTouch": {
+		"NAME": "Deaths Touch",
+		"DESCRIPTION": "Deal !D! damage. Apply !M! Poison X + 1 times."
+	},
+	"infinitespire:Execution": {
+		"NAME": "Execution",
+		"DESCRIPTION": "Apply Shredded to an enemy. NL Exhaust."
+	},
+	"infinitespire:FinalStrike": {
+		"NAME": "Final Strike",
+		"DESCRIPTION": "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike."
+	},
+	"infinitespire:Fortify": {
+		"NAME": "Fortify",
+		"DESCRIPTION": "Gain !B! Block !M! times."
+	},
+	"infinitespire:FutureSight": {
+		"NAME": "Future Sight",
+		"DESCRIPTION": "Gain NL [E]  [E]  [E]  [E] NL energy. NL Exhaust."
+	},
+	"infinitespire:Gouge": {
+		"NAME": "Gouge",
+		"DESCRIPTION": "Deal !D! damage. NL Remove Artifact. NL Apply !M! Weak and Vulnerable"
+	},
+	"infinitespire:Menacing": {
+		"NAME": "Menacing",
+		"DESCRIPTION": "The next attack you play stuns any enemy it hits for 1 turn. NL Exhaust.",
+		"UPGRADE_DESCRIPTION": "The next !M! attacks you play stun any enemy they hit for 1 turn. NL Exhaust."
+	},
+	"infinitespire:NeuralNetwork": {
+		"NAME": "Neural Network",
+		"DESCRIPTION": "Draw !M! additional cards at the start of each turn.",
+		"UPGRADE_DESCRIPTION": "Innate. NL Draw !M! additional cards at the start of each turn."
+	},
+	"infinitespire:Punishment": {
+		"NAME": "Punishment",
+		"DESCRIPTION": "Deal 1 damage for each card in your draw, hand, and discard pile.",
+		"UPGRADE_DESCRIPTION": "Deal 1 damage for each card in your draw, hand, and discard pile. NL ( !D! )"
+	},
+	"infinitespire:TheBestDefense": {
+		"NAME": "The Best Defense",
+		"DESCRIPTION": "Convert all of your Block into Strength, lose that Strength at the end of your turn."
+	},
+	"infinitespire:UltimateForm": {
+		"NAME": "Ultimate Form",
+		"DESCRIPTION": "Gain !M! Strength and Dexterity each turn. NL If you have orb slots gain !M! Focus each turn."
+	}
+}

@@ -2,18 +2,23 @@ package infinitespire.cards.black;
 
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 
 public class Fortify extends BlackCard{
 
-	public static final String ID = "Fortify";
-	private static final String NAME = "Fortify";
+	public static final String ID = InfiniteSpire.createID("Fortify");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final String NAME = cardStrings.NAME;
 	private static final String IMG = "img/infinitespire/cards/fortify.png";
 	private static final int COST = 1;
 
-	private static final String DESCRIPTION = "Gain !B! Block !M! times.";
+	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
 	private static final CardType TYPE = CardType.SKILL;
 	private static final CardTarget TARGET = CardTarget.SELF;
 

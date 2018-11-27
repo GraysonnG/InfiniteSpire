@@ -3,19 +3,24 @@ package infinitespire.cards.black;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.effects.uniqueVFX.MenacingEffect;
 import infinitespire.powers.MenacingPower;
 
 public class Menacing extends BlackCard {
-	private static final String ID = "Menacing";
-	private static final String NAME = "Menacing";
+	private static final String ID = InfiniteSpire.createID("Menacing");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final String NAME = cardStrings.NAME;
 	private static final String TEXTURE = "img/infinitespire/cards/menacing.png";
 	private static final int COST = 1;
-	private static final String DESCRIPTION = "The next attack you play stuns any enemy it hits for 1 turn. NL Exhaust.";
-	private static final String UPG_DESCRIPTION = "The next !M! attacks you play stun any enemy they hit for 1 turn. NL Exhaust.";
+	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
+	private static final String UPG_DESCRIPTION = cardStrings.UPGRADE_DESCRIPTION;
 	private static final CardType TYPE = CardType.SKILL;
 	private static final CardTarget TARGET = CardTarget.SELF;
 	private static final int MAGIC = 1;
