@@ -46,10 +46,7 @@ import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
-import infinitespire.relics.crystals.EmpoweringShard;
-import infinitespire.relics.crystals.FocusingShard;
-import infinitespire.relics.crystals.HealingShard;
-import infinitespire.relics.crystals.WardingShard;
+import infinitespire.relics.crystals.*;
 import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
@@ -280,7 +277,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
 		RelicLibrary.add(new FocusingShard());
-		RelicLibrary.add(new HealingShard());
+		RelicLibrary.add(new ShieldingShard());
 
 		RelicLibrary.addBlue(new Freezer());
 		RelicLibrary.addBlue(new SolderingIron());
@@ -294,9 +291,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		}
 		if (isFruityLoaded) {
 			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
-		}
-		if (isHubrisLoaded) {
-			// RelicLibrary.add(new ShieldingShard());
 		}
 	}
 

@@ -137,40 +137,28 @@
 		"NAME" : "Empowering Shard",
 		"FLAVOR" : "It feels like it holds great power...",
 		"DESCRIPTIONS" : [
-			"For each act you climb gain #b",
-			" #yStrength at the start of combat."
+			"For each act you climb gain #b1 #yStrength at the start of combat."
 		]
 	},
     "infinitespire:WardingShard" : {
         "NAME" : "Warding Shard",
         "FLAVOR" : "It's unbreakable!",
         "DESCRIPTIONS" : [
-            "For each act you climb gain #b",
-			" #yDexterity at the start of combat."
+            "For each act you climb gain #b1 #yDexterity at the start of combat."
         ]
     },
     "infinitespire:FocusingShard" : {
         "NAME" : "Focusing Shard",
         "FLAVOR" : "Sharp!",
         "DESCRIPTIONS" : [
-            "For each act you climb #yUpgrade #b",
-			" random card at the start of combat."
+            "For each act you climb #yUpgrade a random card at the start of combat."
         ]
     },
-	"infinitespire:HealingShard" : {
-		"NAME" : "Healing Shard",
-		"FLAVOR" : "Nice and cool.",
-		"DESCRIPTIONS" : [
-			"For each act you climb heal #b",
-			" #yHP at the end of combat."
-		]
-	},
 	"infinitespire:ShieldingShard" : {
 		"NAME" : "Shielding Shard",
 		"FLAVOR" : "Nice and cool.",
 		"DESCRIPTIONS" : [
-			"For each act you climb gain #b",
-			" #yTemporary #yHP at the start of combat."
+			"For each act you climb gain #b3 #yTemp #yHP at the start of combat."
 		]
 	},
 	"infinitespire:DarkRift" : {

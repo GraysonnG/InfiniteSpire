@@ -20,6 +20,6 @@ public abstract class InfiniteRelic extends Relic {
 
     @Override
     public String getUpdatedDescription() {
-        return DESCRIPTIONS[0] + "1" + DESCRIPTIONS[1];
+        return DESCRIPTIONS[0];
     }
 }

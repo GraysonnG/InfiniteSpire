@@ -12,14 +12,14 @@ public class ShieldingShard extends InfiniteRelic{
 	public static final String ID = InfiniteSpire.createID("ShieldingShard");
 
 	public ShieldingShard(){
-		super(ID, "focusingshard", LandingSound.CLINK);
-		this.counter = 4;
+		super(ID, "healingshard", LandingSound.CLINK);
+		this.counter = 3;
 	}
 
 	@Override
 	public void onVictory() {
 		if(AbstractDungeon.getCurrRoom() instanceof MonsterRoomBoss) {
-			this.counter += 2;
+			this.counter += 3;
 		}
 	}
 
