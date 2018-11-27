@@ -183,12 +183,14 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String[] crit = { "critical", "crit" };
 		String[] shattered = { "shredded" };
 		String[] mitigation = { "mitigation" };
+		String[] deenergized = {"de-energized"};
 
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 5% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
 		BaseMod.addKeyword(shattered,
 				"For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
 		BaseMod.addKeyword(mitigation, "Reduces all damage by a percentage.");
+		BaseMod.addKeyword(deenergized, "At the start of each turn, lose #b1 energy.");
 	}
 
 	@Override

@@ -24,10 +24,7 @@
 		"NAME" : "Cupcake",
 		"FLAVOR" : "It's mostly icing.",
 		"DESCRIPTIONS" : [
-			"Each turn, after #b6 cards played, all cards cost #b1 more energy.",
-			"Gain [R] at the start of each turn. ",
-			"Gain [G] at the start of each turn. ",
-			"Gain [B] at the start of each turn. "
+			"Gain [E] at the start of your turn. After 3 turns, become #yDe-Energized."
 		]
 	},
 	"infinitespire:Magic Flask" : {
