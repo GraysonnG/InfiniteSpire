@@ -273,6 +273,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new BottledSoul()); // This relic is broken
 		RelicLibrary.add(new MutagenicDexterity());
 		RelicLibrary.add(new DarkRift());
+		RelicLibrary.add(new Eraser());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());

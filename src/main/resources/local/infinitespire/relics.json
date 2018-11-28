@@ -167,5 +167,12 @@
 		"DESCRIPTIONS" : [
 			"At the start of combat, add a random [#3D00D6]Black[] card to your draw pile."
 		]
+	},
+	"infinitespire:Eraser": {
+		"NAME": "Eraser",
+		"FLAVOR": "Chewy!",
+		"DESCRIPTIONS" : [
+			"Restart an elite combat against a different elite. The enemies will be stronger. NL Can be used #b3 times."
+		]
 	}
 }
