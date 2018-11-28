@@ -174,5 +174,19 @@
 		"DESCRIPTIONS" : [
 			"Restart an elite combat against a different elite. The enemies will be stronger. NL Can be used #b3 times."
 		]
+	},
+	"infinitespire:Chaos": {
+		"NAME": "Chaos",
+		"FLAVOR": "CHAOS!!!",
+		"DESCRIPTIONS": [
+			"Reroll every relic you hold."
+		]
+	},
+	"infinitespire:EmptyRelic": {
+		"NAME": "EmptyRelic",
+		"FLAVOR": "how are you seeing this?",
+		"DESCRIPTIONS": [
+			"nothing"
+		]
 	}
 }

@@ -274,6 +274,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new MutagenicDexterity());
 		RelicLibrary.add(new DarkRift());
 		RelicLibrary.add(new Eraser());
+		RelicLibrary.add(new Chaos()); // This relic may have bugs lmao sorry
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
