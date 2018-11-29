@@ -67,7 +67,7 @@
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "Bursting with powerful energy.",
 		"DESCRIPTIONS" : [
-			"At the start of each turn, gain #yCritical. The first #yAttack you play adds a #yBurn+ to your hand."
+			"At the start of each turn, gain #yCritical. The first #yAttack you play adds a #yBurn to your hand."
 		]
 	},
 	"infinitespire:Broken Mirror" : {

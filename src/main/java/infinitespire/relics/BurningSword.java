@@ -40,7 +40,6 @@ public class BurningSword extends Relic {
 	public void onPlayCard(AbstractCard c, AbstractMonster m) {
 		if(c.type == AbstractCard.CardType.ATTACK && attacksPlayed == 0){
 			AbstractCard burn = new Burn();
-			burn.upgrade();
 			AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(burn));
 			attacksPlayed++;
 		}
