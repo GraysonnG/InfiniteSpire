@@ -14,10 +14,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
-import com.megacrit.cardcrawl.localization.EventStrings;
-import com.megacrit.cardcrawl.localization.MonsterStrings;
-import com.megacrit.cardcrawl.localization.PotionStrings;
-import com.megacrit.cardcrawl.localization.RelicStrings;
+import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.seeker.patches.AbstractCardEnum;
@@ -48,7 +45,7 @@ import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
 import infinitespire.relics.crystals.EmpoweringShard;
 import infinitespire.relics.crystals.FocusingShard;
-import infinitespire.relics.crystals.HealingShard;
+import infinitespire.relics.crystals.ShieldingShard;
 import infinitespire.relics.crystals.WardingShard;
 import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
@@ -65,7 +62,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.6.0";
+	public static final String VERSION = "0.6.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -80,6 +77,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean hasDefeatedGuardian;
 	public static boolean shouldLoad = false;
 	public static boolean startWithEndlessQuest = true;
+	public static boolean shouldDoParticles = true;
 
 	public static boolean isReplayLoaded = false;
 	public static boolean isFruityLoaded = false;
@@ -182,12 +180,14 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String[] crit = { "critical", "crit" };
 		String[] shattered = { "shredded" };
 		String[] mitigation = { "mitigation" };
+		String[] deenergized = {"de-energized"};
 
 		BaseMod.addKeyword(golemsMight, "Each turn your attacks deal 5% more damage than the last turn.");
 		BaseMod.addKeyword(crit, "The next attack you play will deal 2x damage.");
 		BaseMod.addKeyword(shattered,
 				"For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
 		BaseMod.addKeyword(mitigation, "Reduces all damage by a percentage.");
+		BaseMod.addKeyword(deenergized, "At the start of each turn, lose #b1 energy.");
 	}
 
 	@Override
@@ -214,6 +214,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
 			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
+			config.setBool("cardParticles", shouldDoParticles);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -238,7 +239,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			config.load();
 			isEndless = config.getBool("isEndless");
 			startWithEndlessQuest = config.getBool("startWithEndlessQuest");
-
+			if(config.has("cardParticles")) {
+				shouldDoParticles = config.getBool("cardParticles");
+			}
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);
 
@@ -270,11 +273,13 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new BottledSoul()); // This relic is broken
 		RelicLibrary.add(new MutagenicDexterity());
 		RelicLibrary.add(new DarkRift());
+		RelicLibrary.add(new Eraser());
+		RelicLibrary.add(new Chaos()); // This relic may have bugs lmao sorry
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
 		RelicLibrary.add(new FocusingShard());
-		RelicLibrary.add(new HealingShard());
+		RelicLibrary.add(new ShieldingShard());
 
 		RelicLibrary.addBlue(new Freezer());
 		RelicLibrary.addBlue(new SolderingIron());
@@ -288,9 +293,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		}
 		if (isFruityLoaded) {
 			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
-		}
-		if (isHubrisLoaded) {
-			// RelicLibrary.add(new ShieldingShard());
 		}
 	}
 
@@ -307,6 +309,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	private static void initializeCards() {
+		String cardStrings = Gdx.files.internal("local/infinitespire/cards.json")
+			.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
+
 		BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR,
 				CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR, "img/infinitespire/cards/ui/512/boss-attack.png",
 				"img/infinitespire/cards/ui/512/boss-skill.png", "img/infinitespire/cards/ui/512/boss-power.png",
@@ -322,7 +328,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		// Black Cards
 		CardHelper.addCard(new FinalStrike());
-		// CardHelper.addCard(new ThousandBlades());
 		CardHelper.addCard(new Gouge());
 		CardHelper.addCard(new DeathsTouch());
 		CardHelper.addCard(new Collect());
@@ -335,7 +340,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new Fortify());
 		CardHelper.addCard(new Pacifist());
 		CardHelper.addCard(new Menacing());
-		//CardHelper.addCard(new UNNAMED_1());
 	}
 
 	@SuppressWarnings("unused")

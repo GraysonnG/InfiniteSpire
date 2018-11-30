@@ -7,16 +7,20 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Card;
 
 public class OneForAll extends Card {
 	
-	public static final String ID = "OneForAll";
-	public static final String NAME = "One For All";
-	public static final String DESCRIPTION = "Deal !D! damage. NL Each time this card is played, permanently increase it's damage by !M!. NL Exhaust.";
+	public static final String ID = InfiniteSpire.createID("OneForAll");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	public static final String NAME = cardStrings.NAME;
+	public static final String DESCRIPTION = cardStrings.DESCRIPTION;
 	private static final int COST = 1;
 	
 	public OneForAll() {

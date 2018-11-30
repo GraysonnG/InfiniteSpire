@@ -24,10 +24,7 @@
 		"NAME" : "Cupcake",
 		"FLAVOR" : "It's mostly icing.",
 		"DESCRIPTIONS" : [
-			"Each turn, after #b6 cards played, all cards cost #b1 more energy.",
-			"Gain [R] at the start of each turn. ",
-			"Gain [G] at the start of each turn. ",
-			"Gain [B] at the start of each turn. "
+			"Gain [E] at the start of your turn. After 3 turns, become #yDe-Energized."
 		]
 	},
 	"infinitespire:Magic Flask" : {
@@ -70,7 +67,7 @@
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "Bursting with powerful energy.",
 		"DESCRIPTIONS" : [
-			"At the start of combat, gain #b2 #yStrength."
+			"At the start of each turn, gain #yCritical. The first #yAttack you play adds a #yBurn to your hand."
 		]
 	},
 	"infinitespire:Broken Mirror" : {
@@ -140,40 +137,28 @@
 		"NAME" : "Empowering Shard",
 		"FLAVOR" : "It feels like it holds great power...",
 		"DESCRIPTIONS" : [
-			"For each act you climb gain #b",
-			" #yStrength at the start of combat."
+			"For each act you climb gain #b1 #yStrength at the start of combat."
 		]
 	},
     "infinitespire:WardingShard" : {
         "NAME" : "Warding Shard",
         "FLAVOR" : "It's unbreakable!",
         "DESCRIPTIONS" : [
-            "For each act you climb gain #b",
-			" #yDexterity at the start of combat."
+            "For each act you climb gain #b1 #yDexterity at the start of combat."
         ]
     },
     "infinitespire:FocusingShard" : {
         "NAME" : "Focusing Shard",
         "FLAVOR" : "Sharp!",
         "DESCRIPTIONS" : [
-            "For each act you climb #yUpgrade #b",
-			" random card at the start of combat."
+            "For each act you climb #yUpgrade a random card at the start of combat."
         ]
     },
-	"infinitespire:HealingShard" : {
-		"NAME" : "Healing Shard",
-		"FLAVOR" : "Nice and cool.",
-		"DESCRIPTIONS" : [
-			"For each act you climb heal #b",
-			" #yHP at the end of combat."
-		]
-	},
 	"infinitespire:ShieldingShard" : {
 		"NAME" : "Shielding Shard",
 		"FLAVOR" : "Nice and cool.",
 		"DESCRIPTIONS" : [
-			"For each act you climb gain #b",
-			" #yTemporary #yHP at the start of combat."
+			"For each act you climb gain #b3 #yTemp #yHP at the start of combat."
 		]
 	},
 	"infinitespire:DarkRift" : {
@@ -181,6 +166,27 @@
 		"FLAVOR" : "It looks like a small galaxy!",
 		"DESCRIPTIONS" : [
 			"At the start of combat, add a random [#3D00D6]Black[] card to your draw pile."
+		]
+	},
+	"infinitespire:Eraser": {
+		"NAME": "Eraser",
+		"FLAVOR": "Chewy!",
+		"DESCRIPTIONS" : [
+			"Restart an elite combat against a different elite. The enemies will be stronger. NL Can be used #b3 times."
+		]
+	},
+	"infinitespire:Chaos": {
+		"NAME": "Chaos",
+		"FLAVOR": "CHAOS!!!",
+		"DESCRIPTIONS": [
+			"Upon pickup, replace every relic you hold with a random relic."
+		]
+	},
+	"infinitespire:EmptyRelic": {
+		"NAME": "EmptyRelic",
+		"FLAVOR": "how are you seeing this?",
+		"DESCRIPTIONS": [
+			"nothing"
 		]
 	}
 }

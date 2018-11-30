@@ -88,7 +88,7 @@ public class DrawCardAndUpgradeAction extends AbstractGameAction {
 			}
 			--this.amount;
 			if(!drawPile.isEmpty()) {
-				if(!drawPile.getTopCard().upgraded && drawPile.getTopCard().canUpgrade()) {
+				if(drawPile.getTopCard().canUpgrade()) {
 					drawPile.getTopCard().upgrade();
 				}
 				player.draw();

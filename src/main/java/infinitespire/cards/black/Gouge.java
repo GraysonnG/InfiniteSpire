@@ -7,22 +7,26 @@ import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.ArtifactPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
 import com.megacrit.cardcrawl.powers.WeakPower;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 
 public class Gouge extends BlackCard {
 	
-	public static final String ID = "Gouge";
-	private static final String NAME = "Gouge";
+	public static final String ID = InfiniteSpire.createID("Gouge");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final String NAME = cardStrings.NAME;
 	private static final String IMG = "img/infinitespire/cards/gouge.png";
 	private static final int COST = 0;
 	
-	private static final String DESCRIPTION = "Deal !D! damage. NL Remove Artifact. NL Apply !M! Weak and Vulnerable";
+	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
 	private static final CardType TYPE = CardType.ATTACK;
 	private static final CardTarget TARGET = CardTarget.ENEMY;
 	private static final int DAMAGE = 5;

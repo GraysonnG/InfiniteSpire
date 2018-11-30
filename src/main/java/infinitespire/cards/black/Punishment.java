@@ -5,19 +5,23 @@ import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 
 public class Punishment extends BlackCard {
 	
-	private static final String ID = "Punishment";
-	private static final String NAME = "Punishment";
+	private static final String ID = InfiniteSpire.createID("Punishment");
+
+	private static final CardStrings cardStrings = CardCrawlGame.languagePack.getCardStrings(ID);
+	private static final String NAME = cardStrings.NAME;
 	private static final String TEXTURE = "img/infinitespire/cards/punishment.png";
 	private static final int COST = 1;
-	private static final String DESCRIPTION = "Deal 1 damage for each card in your draw, hand, and discard pile.";
-	private static final String DESCRIPTION_2 = "Deal 1 damage for each card in your draw, hand, and discard pile. NL ( !D! )";
+	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
+	private static final String DESCRIPTION_2 = cardStrings.UPGRADE_DESCRIPTION;
 	
 	public Punishment() {
 		super(ID, NAME, TEXTURE, COST, DESCRIPTION, CardType.ATTACK, CardTarget.ENEMY);

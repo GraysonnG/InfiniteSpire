@@ -36,17 +36,19 @@ public class AbstractCardPatch {
                 bottledSoul.render(sb);
             }
 
-            for(Quest quest : InfiniteSpire.questLog) {
-                if(!quest.isCompleted() && quest instanceof PickUpCardQuest && ((PickUpCardQuest) quest).cardID != null &&((PickUpCardQuest) quest).cardID.equals(card.cardID)) {
-                    if (shouldRenderQuestIcon()) {
-                        sb.draw(TextureLoader.getTexture("img/infinitespire/ui/topPanel/questLogIcon.png"),
-                            card.current_x + 320.0f * card.drawScale / 3.0f * Settings.scale,
-                            card.current_y + 480.0f * card.drawScale / 3.0f * Settings.scale,
-                            32f, 32f, 64f, 64f,
-                            card.drawScale * Settings.scale, card.drawScale * Settings.scale,
-                            0.0f,0,0,
-                            64,64,
-                            false,false);
+            if(AbstractDungeon.getCurrMapNode() != null && AbstractDungeon.getCurrRoom() != null) {
+                for (Quest quest : InfiniteSpire.questLog) {
+                    if (!quest.isCompleted() && quest instanceof PickUpCardQuest && ((PickUpCardQuest) quest).cardID != null && ((PickUpCardQuest) quest).cardID.equals(card.cardID)) {
+                        if (shouldRenderQuestIcon()) {
+                            sb.draw(TextureLoader.getTexture("img/infinitespire/ui/topPanel/questLogIcon.png"),
+                                card.current_x + 320.0f * card.drawScale / 3.0f * Settings.scale,
+                                card.current_y + 480.0f * card.drawScale / 3.0f * Settings.scale,
+                                32f, 32f, 64f, 64f,
+                                card.drawScale * Settings.scale, card.drawScale * Settings.scale,
+                                0.0f, 0, 0,
+                                64, 64,
+                                false, false);
+                        }
                     }
                 }
             }
