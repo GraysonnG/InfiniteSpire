@@ -179,7 +179,7 @@
 		"NAME": "Chaos",
 		"FLAVOR": "CHAOS!!!",
 		"DESCRIPTIONS": [
-			"Reroll every relic you hold."
+			"Upon pickup, replace every relic you hold with a random relic."
 		]
 	},
 	"infinitespire:EmptyRelic": {
