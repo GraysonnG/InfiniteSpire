@@ -182,6 +182,13 @@
 			"Upon pickup, replace every relic you hold with a random relic."
 		]
 	},
+	"infinitespire:CursedDice": {
+		"NAME": "Cursed Dice",
+		"FLAVOR": "Onward unto death! Die like a nail hammered into a coffin!",
+		"DESCRIPTIONS": [
+			"[#2aecd7]Can [#2aecd7]only [#2aecd7]be [#2aecd7]used [#2aecd7]once.[] NL When you would die, shuffle your hand and discard pile into your draw pile, you no longer take damage. If you win before you empty your draw pile and hand, heal #b35% max hp. Otherwise you die!"
+		]
+	},
 	"infinitespire:EmptyRelic": {
 		"NAME": "EmptyRelic",
 		"FLAVOR": "how are you seeing this?",
