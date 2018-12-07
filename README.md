@@ -26,6 +26,7 @@ Infinite Spire isn't supposed to increase the difficulty of the game, it is just
 
 ## Contributers
 - The_Evil_Pickle finding bugs and helping squash them.
+- RedDyeNo5 making an absolutly amazing design for Chaos.
 
 ## Contact
 - Blank The Evil#6534 on Discord
