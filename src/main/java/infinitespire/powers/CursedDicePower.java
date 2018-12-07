@@ -1,6 +1,5 @@
 package infinitespire.powers;
 
-import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
@@ -22,10 +21,5 @@ public class CursedDicePower extends AbstractPower {
 
 	public void updateDescription() {
 		this.description = "You no longer take damage.";
-	}
-
-	@Override
-	public int onAttacked(DamageInfo info, int damageAmount) {
-		return 0;
 	}
 }

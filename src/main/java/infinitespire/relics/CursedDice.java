@@ -2,11 +2,12 @@ package infinitespire.relics;
 
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.GameActionManager;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.actions.common.ShuffleAction;
 import com.megacrit.cardcrawl.actions.defect.ShuffleAllAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -14,7 +15,6 @@ import com.megacrit.cardcrawl.screens.DeathScreen;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
-import infinitespire.powers.CursedDicePower;
 import infinitespire.quests.DieQuest;
 
 public class CursedDice extends Relic {
@@ -34,13 +34,18 @@ public class CursedDice extends Relic {
 		}
 	}
 
+	public boolean isActive(){
+		return this.initialActionTaken && counter > -2;
+	}
+
 	@Override
 	public void onVictory() {
-		if(initialActionTaken) {
+		if(initialActionTaken && counter > -2) {
 			this.setCounter(-2);
 			this.doHeal();
 			this.stopPulse();
-			AbstractDungeon.player.tint.color = Color.WHITE.cpy();
+			this.pulse = false;
+			AbstractDungeon.player.tint.changeColor(Color.WHITE.cpy());
 		}
 	}
 
@@ -73,8 +78,7 @@ public class CursedDice extends Relic {
 			//heal the player to prevent stupid death logic
 			player.heal(1);
 
-			//apply power that prevents any further damage
-			manager.addToTop(new ApplyPowerAction(player, player, new CursedDicePower(player)));
+
 			initialActionTaken = true;
 
 			for(Quest q : InfiniteSpire.questLog) {
@@ -84,6 +88,7 @@ public class CursedDice extends Relic {
 			}
 
 			this.beginPulse();
+			this.pulse = true;
 		}
 	}
 
@@ -91,30 +96,29 @@ public class CursedDice extends Relic {
 		super.update();
 		if(CardCrawlGame.isInARun()) {
 			AbstractPlayer player = AbstractDungeon.player;
-			if (!player.isDead && counter != -2) {
-				if (player.hasPower(CursedDicePower.powerID)) {
-					if (cardsTillDeath == 0) {
-						player.currentHealth = 0;
-						AbstractDungeon.deathScreen = new DeathScreen(AbstractDungeon.getMonsters());
-						player.isDead = true;
-					}
-
-					if (initialActionTaken && (this.counter != cardsTillDeath || this.counter <= -1)) {
-						this.flash();
-						this.counter = cardsTillDeath;
-					}
-
-					cardsTillDeath = player.drawPile.group.size();
-					cardsTillDeath += player.hand.group.size();
-					cardsTillDeath += player.limbo.group.size();
-
-					Color tint = Color.WHITE.cpy();
-					tint.g = (float)cardsTillDeath / (float)playableCards;
-					tint.r = 1.0f;
-					tint.b = (float)cardsTillDeath / (float)playableCards;
-
-					player.tint.changeColor(tint);
+			if (!player.isDead && isActive()) {
+				if (cardsTillDeath == 0) {
+					player.currentHealth = 0;
+					AbstractDungeon.deathScreen = new DeathScreen(AbstractDungeon.getMonsters());
+					player.isDead = true;
 				}
+
+				if (this.counter != cardsTillDeath || this.counter <= -1) {
+					this.flash();
+					this.counter = cardsTillDeath;
+				}
+
+				cardsTillDeath = player.drawPile.group.size();
+				cardsTillDeath += player.hand.group.size();
+				cardsTillDeath += player.discardPile.group.size();
+				cardsTillDeath += player.limbo.group.size();
+
+				Color tint = Color.WHITE.cpy();
+				tint.g = (float)cardsTillDeath / (float)playableCards;
+				tint.r = 1.0f;
+				tint.b = (float)cardsTillDeath / (float)playableCards;
+
+				player.tint.changeColor(tint);
 			}
 			if (this.counter == -2) {
 				this.img = InfiniteSpire.getTexture("img/infinitespire/relics/curseddice-used.png");
@@ -132,5 +136,20 @@ public class CursedDice extends Relic {
 			healAmt = 1;
 		}
 		AbstractDungeon.player.heal(healAmt, true);
+	}
+
+	public void moveCardToExhaust(AbstractCard card, boolean visualOnly) {
+		if(isActive()) {
+			if(!visualOnly) {
+				AbstractDungeon.player.discardPile.moveToExhaustPile(card);
+			}
+		}
+	}
+
+	@Override
+	public int onAttacked(DamageInfo info, int damageAmount) {
+		if(isActive()) return 0;
+
+		return super.onAttacked(info, damageAmount);
 	}
 }
