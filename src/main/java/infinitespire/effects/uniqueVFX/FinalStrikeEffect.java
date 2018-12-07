@@ -107,4 +107,9 @@ public class FinalStrikeEffect extends AbstractGameEffect{
 			this.scale * MathUtils.random(0.99f, 1.01f) * 2.0f * (this.duration + 0.8f), this.rotation);
 		sb.setBlendFunction(770, 771);
 	}
+
+	@Override
+	public void dispose() {
+
+	}
 }

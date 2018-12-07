@@ -58,4 +58,9 @@ public class UltimateFormEffect extends AbstractGameEffect {
 	public void render(SpriteBatch spriteBatch) {
 
 	}
+
+	@Override
+	public void dispose() {
+
+	}
 }

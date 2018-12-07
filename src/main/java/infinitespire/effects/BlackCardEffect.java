@@ -32,4 +32,9 @@ public class BlackCardEffect extends AbstractGameEffect {
 	public void render(SpriteBatch spriteBatch) {
 
 	}
+
+	@Override
+	public void dispose() {
+
+	}
 }
