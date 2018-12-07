@@ -62,7 +62,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.6.1";
+	public static final String VERSION = "0.7.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -213,8 +213,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			Nightmare.save(config);
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
-			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
-			config.setBool("cardParticles", shouldDoParticles);
+			config.setBool("startWithEndless", startWithEndlessQuest);
+			config.setBool("blackCardParticles", shouldDoParticles);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -238,9 +238,15 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
 			isEndless = config.getBool("isEndless");
-			startWithEndlessQuest = config.getBool("startWithEndlessQuest");
+			if(config.has("startWithEndless")) {
+				startWithEndlessQuest = config.getBool("startWithEndless");
+			} else {
+				startWithEndlessQuest = true;
+			}
 			if(config.has("cardParticles")) {
-				shouldDoParticles = config.getBool("cardParticles");
+				shouldDoParticles = config.getBool("blackCardParticles");
+			} else {
+				shouldDoParticles = true;
 			}
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);
@@ -275,6 +281,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new DarkRift());
 		RelicLibrary.add(new Eraser());
 		RelicLibrary.add(new Chaos()); // This relic may have bugs lmao sorry
+		RelicLibrary.add(new CursedDice());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());

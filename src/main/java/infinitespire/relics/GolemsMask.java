@@ -15,7 +15,7 @@ public class GolemsMask extends Relic{
 	private boolean isFirstTurn;
 	
 	public GolemsMask() {
-		super(ID, "golemsstart", RelicTier.BOSS, LandingSound.SOLID);
+		super(ID, "golemsstart", RelicTier.RARE, LandingSound.SOLID);
 	}
 
 	@Override
@@ -31,14 +31,6 @@ public class GolemsMask extends Relic{
 	@Override
 	public void atTurnStart() {
 		if(isFirstTurn) {
-//			AbstractDungeon.actionManager.cardQueue.clear();
-//            for (final AbstractCard c : AbstractDungeon.player.limbo.group) {
-//                AbstractDungeon.effectList.add(new ExhaustCardEffect(c));
-//            }
-//            AbstractDungeon.player.limbo.group.clear();
-//            AbstractDungeon.player.releaseCard();
-//            AbstractDungeon.overlayMenu.endTurnButton.disable(true);
-            
             AbstractDungeon.actionManager.addToTop(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new GolemPower(AbstractDungeon.player)));
 			isFirstTurn = false;
 		}

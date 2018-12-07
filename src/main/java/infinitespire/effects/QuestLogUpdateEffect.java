@@ -46,4 +46,9 @@ public class QuestLogUpdateEffect extends AbstractGameEffect{
 		sb.setBlendFunction(770, 771);
 		sb.draw(this.texture, x, y, 64f, 64f, 128f, 128f, scale, scale, 0.0f, 0, 0, 128, 128, false, false);
 	}
+
+	@Override
+	public void dispose() {
+		
+	}
 }

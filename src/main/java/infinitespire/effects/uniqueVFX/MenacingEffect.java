@@ -89,4 +89,9 @@ public class MenacingEffect extends AbstractGameEffect {
 			sb.draw(InfiniteSpire.getTexture("img/infinitespire/vfx/menacing.png"), this.x, this.y, 128f, 128f, 256f, 256f, size, size, 1f, 0, 0, 256, 256, false, false);
 		}
 	}
+
+	@Override
+	public void dispose() {
+
+	}
 }

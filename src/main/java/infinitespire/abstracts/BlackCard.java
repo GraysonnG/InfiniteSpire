@@ -37,6 +37,7 @@ public abstract class BlackCard extends Card {
 	public static final CardRarity RARITY = CardRarity.SPECIAL;
 	public static final CardColor COLOR = CardColorEnumPatch.CardColorPatch.INFINITE_BLACK;
 	public static final Color TITLE_COLOR = new Color(1f, 0.15f, 0.15f, 1f);
+	private static final float FPS_SCALE = (240f / Settings.MAX_FPS);
 	public ArrayList<BlackParticle> particles;
 	
 	public BlackCard(String id, String name, String img, int cost, String rawDescription, CardType type, CardTarget target) {
@@ -68,10 +69,10 @@ public abstract class BlackCard extends Card {
 		particles.removeIf(BlackParticle::isDead);
 
 		if(this.particles.size() < 150 && InfiniteSpire.shouldDoParticles && !Settings.DISABLE_EFFECTS){
-			Vector2 point1 = generateRandomPointAlongEdgeOfHitbox();
-			particles.add(new BlackParticle(point1.x, point1.y, this.drawScale, this.upgraded));
-			Vector2 point2 = generateRandomPointAlongEdgeOfHitbox();
-			particles.add(new BlackParticle(point2.x, point2.y, this.drawScale, this.upgraded));
+			for(int i = 0; i < 2 * FPS_SCALE; i++){
+				Vector2 point = generateRandomPointAlongEdgeOfHitbox();
+				particles.add(new BlackParticle(point.x, point.y, this.drawScale, this.upgraded));
+			}
 		}
 	}
 
@@ -117,8 +118,12 @@ public abstract class BlackCard extends Card {
 			this.drawScale = drawScale;
 			this.upgraded = upgraded;
 
-			float speedScale = this.drawScale;
-			float maxV = 2.0f * speedScale;
+			float speedScale = MathUtils.clamp(
+				Gdx.graphics.getDeltaTime() * 240f,
+				FPS_SCALE - 0.2f,
+				FPS_SCALE + 0.2f);
+			float maxV = 2.0f * drawScale;
+			maxV = MathUtils.clamp(maxV, 0.01f, FPS_SCALE * 2f);
 
 			float velX = MathUtils.random(-maxV * speedScale / 2f, maxV * speedScale / 2f);
 			float velY = MathUtils.random(0.01f, maxV * speedScale);
@@ -194,7 +199,7 @@ public abstract class BlackCard extends Card {
 			}
 		}
 	}
-	
+
 	@SpirePatch(clz = SingleCardViewPopup.class, method = "renderTitle")
 	public static class RenderSingleCardPopupTitle {
 		@SpirePrefixPatch
