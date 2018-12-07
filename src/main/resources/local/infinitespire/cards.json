@@ -1,11 +1,11 @@
 {
 	"infinitespire:Neurotoxin": {
 		"NAME": "Neurotoxin",
-		"DESCRIPTION": "Apply !M! Poison. NL Each time this card is played, permanently increase it's poison by !inf_P!. NL Exhaust."
+		"DESCRIPTION": "Apply !M! Poison. NL Each time this card is played, permanently increase its poison by !inf_P!. NL Exhaust."
 	},
 	"infinitespire:OneForAll": {
 		"NAME": "One For All",
-		"DESCRIPTION": "Deal !D! damage. NL Each time this card is played, permanently increase it's damage by !M!. NL Exhaust."
+		"DESCRIPTION": "Deal !D! damage. NL Each time this card is played, permanently increase its damage by !M!. NL Exhaust."
 	},
 	"infinitespire:Pacifist":{
 		"NAME": "Pacifist",
