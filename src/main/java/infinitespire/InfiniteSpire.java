@@ -213,8 +213,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			Nightmare.save(config);
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
 			config.setBool("isEndless", isEndless);
-			config.setBool("startWithEndlessQuest", startWithEndlessQuest);
-			config.setBool("cardParticles", shouldDoParticles);
+			config.setBool("startWithEndless", startWithEndlessQuest);
+			config.setBool("blackCardParticles", shouldDoParticles);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -238,9 +238,15 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
 			isEndless = config.getBool("isEndless");
-			startWithEndlessQuest = config.getBool("startWithEndlessQuest");
+			if(config.has("startWithEndless")) {
+				startWithEndlessQuest = config.getBool("startWithEndless");
+			} else {
+				startWithEndlessQuest = true;
+			}
 			if(config.has("cardParticles")) {
-				shouldDoParticles = config.getBool("cardParticles");
+				shouldDoParticles = config.getBool("blackCardParticles");
+			} else {
+				shouldDoParticles = true;
 			}
 			if (AbstractDungeon.player != null)
 				BottledSoul.load(config);
