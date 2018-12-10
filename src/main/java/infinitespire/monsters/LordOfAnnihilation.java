@@ -16,11 +16,9 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ScreenShake;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.ArtifactPower;
-import com.megacrit.cardcrawl.powers.FrailPower;
-import com.megacrit.cardcrawl.powers.VulnerablePower;
-import com.megacrit.cardcrawl.powers.WeakPower;
+import com.megacrit.cardcrawl.powers.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.actions.FastHealAction;
@@ -102,7 +100,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
             new LordOfAnnihilationIntangiblePower(this, 1),1));
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
-            new BossArmorPower(1000, 2, 0.1f, this)));
+            new InvinciblePower(this, this.maxHealth / 10)));
         CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.HIGH, ScreenShake.ShakeDur.MED, false);
     }
 
@@ -147,13 +145,18 @@ public class LordOfAnnihilation extends AbstractMonster{
         MainMenuPatch.setMainMenuBG(null);
         InfiniteSpire.saveData();
         InfiniteSpire.lordBackgroundEffect.stopEffect();
+        AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.BLUE));
+        AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.GREEN));
+        AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.RED));
+        Settings.isEndless = false;
+        AbstractDungeon.topPanel.setPlayerName();
         super.die();
         this.onBossVictoryLogic();
         this.onFinalBossVictoryLogic();
     }
 
     public void changeIntentToNuke(){
-        this.setMove(MOVES[3],(byte) 4, Intent.ATTACK_BUFF, this.damage.get(4).base);
+        this.setMove(MOVES[3], (byte) 4, Intent.ATTACK_BUFF, AbstractDungeon.player.maxHealth / 5);
         this.createIntent();
     }
 
@@ -196,7 +199,8 @@ public class LordOfAnnihilation extends AbstractMonster{
                 break;
             case 4: //nuke
                 manager.addToBottom(new LoseBlockAction(player, this, player.currentBlock));
-                manager.addToBottom(new LoseHPAction(player, this, player.maxHealth / 3));
+                manager.addToBottom(new DamageAction(player, new DamageInfo(this, player.maxHealth / 5), AbstractGameAction.AttackEffect.SMASH));
+                manager.addToBottom(new RemoveAllPowersAction(this, true));
                 manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 2),2));
                 break;
             //----------------------Defends--------------------------
@@ -219,7 +223,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                 manager.addToBottom(new ApplyPowerAction(this, this, new LordOfAnnihilationRetaliatePower(this)));
                 manager.addToBottom(new ApplyPowerAction(this, this, new ArtifactPower(this, 3),3));
                 manager.addToBottom(new ApplyPowerAction(this, this,
-                    new BossArmorPower(1000, 2, 0.1f, this)));
+                    new InvinciblePower(this, this.maxHealth / 10)));
                 break;
             case 9: //buff wipe himself and spawn pylons
 
@@ -323,6 +327,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         }
     }
 
+    //TODO: Rework
     private void phase2(int i){
         if(this.turn % 3 == 0 && this.turn > 0){
             this.setMove(MOVES[1], (byte) 3, Intent.ATTACK, this.damage.get(4).base);
@@ -335,6 +340,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         }
     }
 
+    @SuppressWarnings("unused")
     private void phase3(int i){
         this.setMove((byte) 7, Intent.DEFEND);
     }

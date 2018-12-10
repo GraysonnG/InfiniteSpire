@@ -1,6 +1,5 @@
 package infinitespire.powers;
 
-import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 import infinitespire.monsters.LordOfAnnihilation;
@@ -8,11 +7,12 @@ import infinitespire.monsters.LordOfAnnihilation;
 public class LordOfAnnihilationRetaliatePower extends AbstractPower {
 
     LordOfAnnihilation gOwner;
+    private boolean intentChanged = false;
 
     public LordOfAnnihilationRetaliatePower(LordOfAnnihilation owner){
         this.owner = owner;
         this.gOwner = owner;
-        this.amount = 0;
+        this.amount = -1;
         this.name = "Divine Shield";
         this.ID = "is_DivineShield";
         this.img = InfiniteSpire.getTexture("img/infinitespire/powers/retaliate.png");
@@ -22,9 +22,19 @@ public class LordOfAnnihilationRetaliatePower extends AbstractPower {
     }
 
     @Override
-    public void onApplyPower(AbstractPower power, AbstractCreature target, AbstractCreature source) {
-        if(power.type == PowerType.DEBUFF){
-            gOwner.changeIntentToNuke();
+    public void atEndOfRound() {
+        intentChanged = false;
+    }
+
+    @Override
+    public void update(int slot) {
+        super.update(slot);
+        for(AbstractPower p : owner.powers){
+            if(!intentChanged && p.type == PowerType.DEBUFF) {
+                gOwner.changeIntentToNuke();
+                intentChanged = true;
+                return;
+            }
         }
     }
 
