@@ -44,7 +44,7 @@ public class CardHelper {
 				keys.add(c.getKey());
 			}
 		}
-		return (BlackCard) CardLibrary.cards.get(keys.get(AbstractDungeon.cardRng.random(0, keys.size() - 1)));
+		return (BlackCard) CardLibrary.cards.get(keys.get(AbstractDungeon.cardRng.random(0, keys.size() - 1))).makeStatEquivalentCopy();
 	}
 	
 	public static void addCard(AbstractCard card) {
