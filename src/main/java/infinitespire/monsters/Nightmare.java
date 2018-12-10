@@ -18,12 +18,14 @@ import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import com.megacrit.cardcrawl.powers.InvinciblePower;
 import com.megacrit.cardcrawl.powers.MetallicizePower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.effects.BlackCardEffect;
+import infinitespire.powers.KeyMirrorPower;
 import infinitespire.powers.RealityShiftPower;
 import infinitespire.powers.SpireBlightPower;
 
@@ -47,6 +49,7 @@ public class Nightmare extends AbstractMonster {
 	private boolean isAlpha;
 	private int attackDmg;
 	private int slamDmg;
+	private int debuffDmg;
 	private int blockCount;
 	private int effectCount;
 	private boolean isStrong;
@@ -66,7 +69,11 @@ public class Nightmare extends AbstractMonster {
 			hpAmount += 100;
 		}
 
+		if(CardCrawlGame.playerName.equals("fiiiiilth")){
+			this.name = "Niiiiightmare";
+		}
 
+		this.debuffDmg = 10;
 
 		if(AbstractDungeon.bossCount > 1 || timesDefeated > 0) {
 			isStrong = true;
@@ -82,11 +89,15 @@ public class Nightmare extends AbstractMonster {
 			this.effectCount = 2; //effectively 3
 		}
 
+		if(Settings.hasSapphireKey) {
+			hpAmount += 50;
+		}
 
 		this.setHp(hpAmount);
 
 		this.damage.add(new DamageInfo(this, this.attackDmg));
 		this.damage.add(new DamageInfo(this, this.slamDmg));
+		this.damage.add(new DamageInfo(this, this.debuffDmg));
 	}
 
 	public static void save(SpireConfig config) {
@@ -165,8 +176,28 @@ public class Nightmare extends AbstractMonster {
 	public void usePreBattleAction() {
 		GameActionManager manager = AbstractDungeon.actionManager;
 
+		if(Settings.hasRubyKey) {
+			manager.addToBottom(new ApplyPowerAction(this, this, new KeyMirrorPower(this, KeyMirrorPower.KeyColor.RUBY)));
+		}
+
+		if(Settings.hasSapphireKey) {
+			manager.addToBottom(new ApplyPowerAction(this, this, new KeyMirrorPower(this, KeyMirrorPower.KeyColor.SAPPHIRE)));
+		}
+
+		if(Settings.hasEmeraldKey) {
+			manager.addToBottom(new ApplyPowerAction(this, this, new KeyMirrorPower(this, KeyMirrorPower.KeyColor.EMERALD)));
+		}
+
 		if(this.isAlpha){
 			manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
+
+			if(Settings.hasEmeraldKey) {
+				manager.addToBottom(new ApplyPowerAction(this, this, new InvinciblePower(this, this.maxHealth / 3)));
+			}
+		}
+
+		if(Settings.hasEmeraldKey) {
+			manager.addToBottom(new ApplyPowerAction(this, this, new StrengthPower(this, 2), 2));
 		}
 
 		if(isStrong) {
@@ -191,7 +222,6 @@ public class Nightmare extends AbstractMonster {
 				if(!this.hasPower("is_Reality_Shift")) {
 					AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
 				}
-				this.firstTurn = false;
 				break;
 			case 2:
 				AbstractDungeon.actionManager.addToBottom(new AnimateFastAttackAction(this));
@@ -207,11 +237,17 @@ public class Nightmare extends AbstractMonster {
 				AbstractDungeon.actionManager.addToBottom(new GainBlockAction(this, this, this.blockCount));
 				break;
 			case 5:
-				AbstractCard voidCard = CardLibrary.getCard(VoidCard.ID);
+				AbstractDungeon.actionManager.addToBottom(new AnimateFastAttackAction(this));
+				for(int i = 0; i < this.effectCount; i++) {
+					AbstractDungeon.actionManager.addToBottom(new DamageAction(AbstractDungeon.player, this.damage.get(0), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL, true));
+				}
+				AbstractDungeon.actionManager.addToBottom(new HealAction(this, this, 25));
+				break;
+			case 6:
+				AbstractDungeon.actionManager.addToBottom(new DamageAction(AbstractDungeon.player, this.damage.get(2), AbstractGameAction.AttackEffect.SLASH_VERTICAL));
+				AbstractCard voidCard = CardLibrary.getCopy(VoidCard.ID).makeCopy();
 
-				AbstractDungeon.actionManager.addToTop(new MakeTempCardInDrawPileAction(voidCard, effectCount - 2, true, true));
-				AbstractDungeon.actionManager.addToTop(new MakeTempCardInDiscardAction(voidCard, effectCount - 2));
-
+				AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDrawPileAction(voidCard, 2, true, true));
 				break;
 		}
 		AbstractDungeon.actionManager.addToBottom(new RollMoveAction(this));
@@ -229,14 +265,23 @@ public class Nightmare extends AbstractMonster {
 	public void getMoveAlpha(int num) {
 		this.hasActivated = false;
 		if(firstTurn) {
-			this.setMove(Nightmare.MOVES[0], (byte)1, Intent.MAGIC);
+			if(Settings.hasSapphireKey) {
+				this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.effectCount, true);
+			} else {
+				this.setMove(Nightmare.MOVES[3], (byte) 4, Intent.DEFEND);
+			}
+			firstTurn = false;
 			return;
 		}
-		if(num < 50) {
-			this.setMove(Nightmare.MOVES[2], (byte) 3, Intent.ATTACK_BUFF, this.damage.get(1).base);
-		}else if (num < 60) {
-			this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.effectCount, true);
-		}else {
+		if(num > 20) {
+			if(num % 3 == 0){
+				this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.effectCount, true);
+			} else if(Settings.hasRubyKey && num % 3 == 1) {
+				this.setMove((byte) 6, Intent.ATTACK_DEBUFF, this.damage.get(2).base);
+			} else {
+				this.setMove(Nightmare.MOVES[2], (byte) 3, Intent.ATTACK_BUFF, this.damage.get(1).base);
+			}
+		} else {
 			this.setMove(Nightmare.MOVES[3], (byte) 4, Intent.DEFEND);
 		}
 	}
@@ -245,11 +290,16 @@ public class Nightmare extends AbstractMonster {
 		this.hasActivated = false;
 		if(firstTurn) {
 			this.setMove(Nightmare.MOVES[0], (byte) 1, Intent.MAGIC);
+			firstTurn = false;
 			return;
 		}
 		if (num > 20) {
-			this.setMove(Nightmare.MOVES[2], (byte) 3, Intent.ATTACK_BUFF, this.damage.get(1).base);
-		}else {
+			if(Settings.hasRubyKey && num % 3 == 0){
+				this.setMove(Nightmare.MOVES[1], (byte) 2, Intent.ATTACK, this.damage.get(0).base, this.effectCount, true);
+			} else {
+				this.setMove(Nightmare.MOVES[2], (byte) 3, Intent.ATTACK_BUFF, this.damage.get(1).base);
+			}
+		} else {
 			this.setMove(Nightmare.MOVES[3], (byte) 4, Intent.DEFEND);
 		}
 	}
@@ -271,7 +321,7 @@ public class Nightmare extends AbstractMonster {
 		AbstractDungeon.actionManager.addToTop(new GainBlockAction(this, this, this.blockCount));
 		AbstractDungeon.effectList.add(new BlackCardEffect());
 
-		this.setMove((byte) 5, Intent.STRONG_DEBUFF);
+		this.setMove((byte) 5, Intent.ATTACK_BUFF, this.damage.get(0).base, this.effectCount, true);
 		this.createIntent();
 
 		AbstractDungeon.actionManager.cardQueue.clear();
