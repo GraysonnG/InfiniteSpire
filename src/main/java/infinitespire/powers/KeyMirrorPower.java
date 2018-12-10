@@ -47,10 +47,10 @@ public class KeyMirrorPower extends AbstractPower {
 				this.description = owner.name + " will be more intelligent.";
 				break;
 			case SAPPHIRE:
-				this.description = owner.name + " will be more aggressive";
+				this.description = owner.name + " will be more aggressive.";
 				break;
 			case EMERALD:
-				this.description = owner.name + " will be more powerful";
+				this.description = owner.name + " will be more powerful.";
 				break;
 		}
 	}
