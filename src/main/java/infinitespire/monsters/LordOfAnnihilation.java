@@ -18,12 +18,14 @@ import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
-import com.megacrit.cardcrawl.vfx.ObtainKeyEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.actions.FastHealAction;
 import infinitespire.patches.MainMenuPatch;
-import infinitespire.powers.*;
+import infinitespire.powers.LordOfAnnihilationIntangiblePower;
+import infinitespire.powers.LordOfAnnihilationPylonPower;
+import infinitespire.powers.LordOfAnnihilationRetaliatePower;
+import infinitespire.powers.SuperSlowPower;
 
 import java.util.ArrayList;
 
@@ -145,10 +147,10 @@ public class LordOfAnnihilation extends AbstractMonster{
         MainMenuPatch.setMainMenuBG(null);
         InfiniteSpire.saveData();
         InfiniteSpire.lordBackgroundEffect.stopEffect();
-        AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.BLUE));
-        AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.GREEN));
-        AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.RED));
-        Settings.isEndless = false;
+        // AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.BLUE));
+        // AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.GREEN));
+        // AbstractDungeon.topLevelEffects.add(new ObtainKeyEffect(ObtainKeyEffect.KeyColor.RED));
+        // Settings.isEndless = false;
         AbstractDungeon.topPanel.setPlayerName();
         super.die();
         this.onBossVictoryLogic();

@@ -10,7 +10,7 @@ import infinitespire.util.TextureLoader;
 
 public class QuestReward extends CustomReward {
 
-	private static final Texture ICON = TextureLoader.getTexture("img/infinitespire/ui/cardReward/questreward.png");
+	private static final Texture ICON = TextureLoader.getTexture("img/infinitespire/ui/topPanel/questLogIcon.png");
 
 	protected int amount;
 
