@@ -27,7 +27,7 @@ public class NightmareEliteRoom extends MonsterRoomElite {
 	@Override
 	public void onPlayerEntry() {
 		this.playBGM(null);
-		shouldBeAlpha = AbstractDungeon.bossCount > 1 && AbstractDungeon.monsterRng.randomBoolean(0.1f * Nightmare.timesDefeated) || Settings.isDebug;
+		shouldBeAlpha = AbstractDungeon.monsterRng.randomBoolean(0.1f * Nightmare.timesDefeated) || Settings.isDebug;
 
 		if(AbstractDungeon.bossCount <= 2) shouldBeAlpha = false;
 

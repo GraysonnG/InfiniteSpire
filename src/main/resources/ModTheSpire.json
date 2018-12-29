@@ -6,7 +6,7 @@
   "credits" : "Contributors: The_Evil_Pickle, RedDyeNo5",
   "dependencies" : ["basemod","stslib"],
   "version": "0.9.2",
-  "sts_version": "12-06-2018",
+  "sts_version": "12-20-2018",
   "mts_version": "3.6.2",
   "update_json": "https://api.github.com/repos/GraysonnG/InfiniteSpire/releases/latest"
 }
