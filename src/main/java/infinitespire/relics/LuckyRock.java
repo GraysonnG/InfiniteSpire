@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 
+import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.powers.CriticalPower;
@@ -22,7 +23,7 @@ public class LuckyRock extends Relic {
 	@Override
 	public void onAttack(DamageInfo info, int damageAmount, AbstractCreature target) {
 		InfiniteSpire.logger.info("Lucky Rock");
-		if(willCrit(0.05f, info)) {
+		if(AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT && willCrit(0.05f, info)) {
 			AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, AbstractDungeon.player, new CriticalPower(AbstractDungeon.player), 1));
 			this.flash();
 		}
