@@ -28,6 +28,7 @@ public class CardGroupPatch {
 		@SpirePostfixPatch
 		public static CardGroup removeBottledSoulCardFromGroup(CardGroup __result, CardGroup cards){
 			__result.group.removeIf(AbstractCardPatch.Field.isBottledSoulCard::get);
+			__result.group.removeIf(AbstractCardPatch.Field.isBottledMercuryCard::get);
 			return __result;
 		}
 	}

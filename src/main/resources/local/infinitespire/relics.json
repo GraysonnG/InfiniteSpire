@@ -195,5 +195,12 @@
 		"DESCRIPTIONS": [
 			"nothing"
 		]
+	},
+	"infinitespire:BottledMercury": {
+		"NAME": "Bottled Mercury",
+		"FLAVOR": "Tastes real bad...",
+		"DESCRIPTIONS":  [
+			"Upon pickup choose a card, when it is played, if it is an #yAttack, gain #b1 #yStrength, if it is a #ySkill, gain #b2 #yDexterity, if it is a #yPower, gain #b1 #yFocus."
+		]
 	}
 }
