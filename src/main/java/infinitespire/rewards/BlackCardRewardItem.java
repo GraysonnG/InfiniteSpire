@@ -3,7 +3,9 @@ package infinitespire.rewards;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rewards.RewardItem;
+import com.megacrit.cardcrawl.rewards.RewardSave;
 import infinitespire.helpers.CardHelper;
+import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.util.TextureLoader;
 
 public class BlackCardRewardItem extends CustomReward {
@@ -12,7 +14,7 @@ public class BlackCardRewardItem extends CustomReward {
 	private static final String TEXT = "Add a Black Card to your deck";
 
 	public BlackCardRewardItem() {
-		super(TEXTURE, TEXT, RewardItem.RewardType.CARD);
+		super(TEXTURE, TEXT, RewardItemTypeEnumPatch.BLACK_CARD);
 		this.cards = CardHelper.getBlackRewardCards();
 	}
 
@@ -23,5 +25,15 @@ public class BlackCardRewardItem extends CustomReward {
 			AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.COMBAT_REWARD;
 		}
 		return false;
+	}
+
+	@Override
+	public RewardSave createRewardSaveFromItem(RewardItem item) {
+		return new RewardSave(item.type.toString(), null);
+	}
+
+	@Override
+	public RewardItem createRewardItemFromSave(RewardSave save) {
+		return new BlackCardRewardItem();
 	}
 }

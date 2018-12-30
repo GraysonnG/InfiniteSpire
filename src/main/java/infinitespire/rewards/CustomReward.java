@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster;
 import com.megacrit.cardcrawl.helpers.controller.CInputActionSet;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.rewards.RewardItem;
+import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
 import com.megacrit.cardcrawl.vfx.RewardGlowEffect;
 
@@ -70,6 +71,9 @@ public abstract class CustomReward extends RewardItem {
 			this.isDone = true;
 		}
 	}
+
+	public abstract RewardSave createRewardSaveFromItem(RewardItem item);
+	public abstract RewardItem createRewardItemFromSave(RewardSave save);
 
 	@Override
 	public void render(SpriteBatch sb) {
