@@ -348,6 +348,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new Fortify());
 		CardHelper.addCard(new Pacifist());
 		CardHelper.addCard(new Menacing());
+		CardHelper.addVirusTypes();
+		CardHelper.addCard(new Virus.MasterVirus());
 	}
 
 	@SuppressWarnings("unused")

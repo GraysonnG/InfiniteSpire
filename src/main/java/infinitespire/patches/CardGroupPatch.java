@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
+import infinitespire.cards.black.Virus;
 import infinitespire.quests.RemoveCardQuest;
 
 public class CardGroupPatch {
@@ -29,6 +30,8 @@ public class CardGroupPatch {
 		public static CardGroup removeBottledSoulCardFromGroup(CardGroup __result, CardGroup cards){
 			__result.group.removeIf(AbstractCardPatch.Field.isBottledSoulCard::get);
 			__result.group.removeIf(AbstractCardPatch.Field.isBottledMercuryCard::get);
+			__result.group.removeIf((card) -> card instanceof Virus.MasterVirus);
+			__result.group.removeIf((card) -> card instanceof Virus);
 			return __result;
 		}
 	}

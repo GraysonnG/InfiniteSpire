@@ -10,10 +10,10 @@
 			"You see a small blanket. NL It reminds you of home. NL Dropping your pillow, you take the blanket instead."
 		],
 		"OPTIONS" : [
-			"[Rest] Take a nap and gain",
-			"[Smith] Upgrade a card.",
-			"[Toke] Remove a card.",
-			"[Dig] Obtain a random relic.",
+			"#g[Rest] Take a nap and gain",
+			"#g[Smith] Upgrade a card.",
+			"#g[Toke] Remove a card.",
+			"#g[Dig] Obtain a random relic.",
 			"Obtain Blank's Blanky",
 			"Leave.",
 			"[Locked]"
