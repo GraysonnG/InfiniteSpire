@@ -1,5 +1,5 @@
 {
-	"Empty Rest Site" : {
+	"infinitespire:Empty Rest Site" : {
 		"NAME" :  "Empty Rest Site",
 		"DESCRIPTIONS" : [
 			"You've stumbled upon an abandoned rest site. Or so you thought, the previous climber appears to have died from their wounds. You feel a sense of dread looking upon sight...",
@@ -19,7 +19,7 @@
 			"[Locked]"
 		]
 	},
-	"Hooded Arms Dealer" : {
+	"infinitespire:Hooded Arms Dealer" : {
 		"NAME" : "Hooded Arms Dealer",
 		"DESCRIPTIONS" : [
 			"You are approached by a man in a hood. NL He shows you rare and powerful weapons. They look otherworldly. NL You ask him the price. NL He replies, #r@BLOOD@, #y@GOLD@.",
@@ -38,7 +38,7 @@
 			" Pick a #pBlack #pCard."
 		]
 	},
-	"Prism of Light" : {
+	"infinitespire:Prism of Light" : {
 		"NAME" : "Prism of Light",
 		"DESCRIPTIONS" : [
 			"You stumble upon a strange multicolored prism.",

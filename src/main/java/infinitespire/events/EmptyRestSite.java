@@ -17,15 +17,18 @@ import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
 
+import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.relics.BlanksBlanky;
 
 public class EmptyRestSite extends AbstractImageEvent {
 
-	public static final String ID = "Empty Rest Site";
-	private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString("Empty Rest Site");
+	public static final String ID = InfiniteSpire.createID("Empty Rest Site");
+	private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
 	private static final String[] DESCRIPTIONS = eventStrings.DESCRIPTIONS;
 	private static final String[] OPTIONS = eventStrings.OPTIONS;
+	private static final String NAME = eventStrings.NAME;
+
 	private boolean hasRegalPillow;
 	private int healAmount;
 	private State state;
@@ -36,7 +39,7 @@ public class EmptyRestSite extends AbstractImageEvent {
 	}
 	
 	public EmptyRestSite() {
-		super("Empty Rest Site", DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
+		super(NAME, DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
 		
 		this.healAmount = (int)(AbstractDungeon.player.maxHealth * 0.3f);
 		if(AbstractDungeon.player.hasRelic("Regal Pillow")) {

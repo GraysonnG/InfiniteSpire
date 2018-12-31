@@ -10,6 +10,7 @@ import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.relics.Omamori;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardAndObtainEffect;
+import infinitespire.InfiniteSpire;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
 
@@ -17,10 +18,12 @@ import java.util.ArrayList;
 
 public class HoodedArmsDealer extends AbstractImageEvent {
 
-	private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString("Hooded Arms Dealer");
+	public static final String ID = InfiniteSpire.createID("Hooded Arms Dealer");
+	private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
 	private static final String[] DESCRIPTIONS = eventStrings.DESCRIPTIONS;
 	private static final String[] OPTIONS = eventStrings.OPTIONS;
-	public static final String ID = eventStrings.NAME;
+	private static final String NAME = eventStrings.NAME;
+
 	private int goldCount;
 	private int hpCount;
 	private State state;
@@ -31,7 +34,7 @@ public class HoodedArmsDealer extends AbstractImageEvent {
 	}
 	
 	public HoodedArmsDealer() {
-		super(ID, DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
+		super(NAME, DESCRIPTIONS[0], "img/infinitespire/events/emptyrestsite.jpg");
 		this.goldCount = QuestHelper.makeRandomCost(500);
 		this.hpCount = QuestHelper.makeRandomCost(AbstractDungeon.player.maxHealth / 4);
 		this.state = State.PAYING;
