@@ -44,6 +44,7 @@ public class Virus extends BlackCard {
 
 	public static Virus getRandomVirus(boolean masterUpgraded, AbstractCard prohibit){
 		Virus virus = getRandomVirus(masterUpgraded);
+
 		if(virus.cardID.equals(prohibit.cardID)){
 			return getRandomVirus(masterUpgraded, prohibit);
 		}
@@ -77,9 +78,19 @@ public class Virus extends BlackCard {
 	@Override
 	public void useWithEffect(AbstractPlayer player, AbstractMonster monster) {
 		useConsumer.accept(this, player, monster);
-		AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDiscardAction(Virus.getRandomVirus(this.masterUpgraded, this), 1));
+		Virus v = Virus.getRandomVirus(this.masterUpgraded, this);
+		if(this.upgraded){
+			v.upgrade();
+			v.upgraded = true;
+		}
+		AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDiscardAction(v, 1));
 		if(AbstractDungeon.cardRng.randomBoolean(this.masterUpgraded ? 0.5f : 0.25f)) {
-			AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(Virus.getRandomVirus(this.masterUpgraded, this)));
+			Virus v2 = Virus.getRandomVirus(this.masterUpgraded, this);
+			if(this.upgraded) {
+				v2.upgrade();
+				v2.upgraded = true;
+			}
+			AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(v2));
 		}
 	}
 
@@ -111,10 +122,10 @@ public class Virus extends BlackCard {
 	public static class MasterVirus extends BlackCard {
 		public static final String ID = InfiniteSpire.createID("Virus");
 		private static final String NAME = "Virus";
-		private static final String IMG = "img/infinitespire/cards/beta.png";
+		private static final String IMG = "img/infinitespire/cards/virus.png";
 		private static final int COST = -2;
-		public static final String DESCRIPTION = "Purge. NL Add a random [#b400ff]Virus[] to your discard pile. You have a 25% chance to generate another random [#b400ff]Virus[].";
-		public static final String UPGRADED_DESCRIPTION = "Purge. NL Add a random [#b400ff]Virus[] to your discard pile. You have a [#7efc00]50%[] chance to generate another random [#b400ff]Virus[].";
+		public static final String DESCRIPTION = "Purge. NL Add a random [#9166ff]Virus[] to your discard pile. You have a 25% chance to generate another random [#9166ff]Virus[].";
+		public static final String UPGRADED_DESCRIPTION = "Purge. NL Add a random [#9166ff]Virus[] to your discard pile. You have a [#7efc00]50%[] chance to generate another random [#9166ff]Virus[].";
 		private static final CardType TYPE = CardType.STATUS;
 		private static final CardTarget TARGET = CardTarget.NONE;
 

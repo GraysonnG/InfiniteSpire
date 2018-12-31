@@ -68,7 +68,7 @@ public class CardHelper {
 	public static void addVirusTypes() {
 		Virus burning = new Virus(
 			InfiniteSpire.createID("Virus: Burning"), "Virus: Burning",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Deal !D! damage.",
 			AbstractCard.CardType.ATTACK, AbstractCard.CardTarget.ENEMY, false,
 			(me, player, monster) -> {
@@ -89,7 +89,7 @@ public class CardHelper {
 		);
 		Virus coagulating = new Virus(
 			InfiniteSpire.createID("Virus: Coagulating"), "Virus: Coagulating",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Gain !B! block.",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.SELF, false,
 			(me, player, monster) -> {
@@ -109,7 +109,7 @@ public class CardHelper {
 		);
 		Virus toxic = new Virus(
 			InfiniteSpire.createID("Virus: Toxic"), "Virus: Toxic",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Apply !M! Poison.",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.ENEMY, false,
 			(me, player, monster) -> {
@@ -131,7 +131,7 @@ public class CardHelper {
 		);
 		Virus creeping = new Virus(
 			InfiniteSpire.createID("Virus: Growing"), "Virus: Creeping",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Draw 1 Card.",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.SELF, false,
 			(me, player, monster) -> {
@@ -152,11 +152,14 @@ public class CardHelper {
 		);
 		Virus spreading = new Virus(
 			InfiniteSpire.createID("Virus: Spreading"), "Virus: Spreading",
-			"img/infinitespire/cards/beta.png", 3,
-			"Add a [#b400ff]Virus[] to your deck.",
+			"img/infinitespire/cards/virus.png", 3,
+			"Add a [#9166ff]Virus[] to your deck.",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.SELF, false,
 			(me, player, monster) -> {
 				Virus.MasterVirus card = new Virus.MasterVirus();
+				if(me.upgraded){
+					card.upgrade();
+				}
 				card.upgraded = me.upgraded;
 				AbstractDungeon.actionManager.addToBottom(new AddCardToDeckAction(card));
 			},
@@ -171,7 +174,7 @@ public class CardHelper {
 		);
 		Virus weakening = new Virus(
 			InfiniteSpire.createID("Virus: Weakening"), "Virus: Weakening",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Apply !M! Weak.",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.ENEMY, false,
 			(me, player, monster) -> {
@@ -202,7 +205,7 @@ public class CardHelper {
 		);
 		Virus afflicting = new Virus(
 			InfiniteSpire.createID("Virus: Afflicting"), "Virus: Afflicting",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Apply !M! Vulnerable.",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.ENEMY, false,
 			(me, player, monster) -> {
@@ -233,7 +236,7 @@ public class CardHelper {
 		);
 		Virus energetic = new Virus(
 			InfiniteSpire.createID("Virus: Energetic"), "Virus: Energetic",
-			"img/infinitespire/cards/beta.png", 0,
+			"img/infinitespire/cards/virus.png", 0,
 			"Gain [E] .",
 			AbstractCard.CardType.SKILL, AbstractCard.CardTarget.SELF, false,
 			(me, p, m) -> {
