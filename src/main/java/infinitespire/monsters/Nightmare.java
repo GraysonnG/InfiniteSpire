@@ -77,7 +77,7 @@ public class Nightmare extends AbstractMonster {
 
 		if(AbstractDungeon.bossCount > 1 || timesDefeated > 0) {
 			isStrong = true;
-			hpAmount *= 2;
+			hpAmount *= 1.5f;
 			this.attackDmg = 5;
 			this.slamDmg = 25;
 			this.blockCount = 30;
