@@ -43,7 +43,7 @@ public class DiscoverPatch {
 				}
 
 				if(!dupe) {
-					AbstractCard c = tmp.makeCopy();
+					AbstractCard c = tmp.makeStatEquivalentCopy();
 					derp.add(c);
 				}
 			}

@@ -7,7 +7,6 @@ import com.megacrit.cardcrawl.actions.unique.AddCardToDeckAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.PoisonPower;
 import com.megacrit.cardcrawl.powers.VulnerablePower;
@@ -16,10 +15,9 @@ import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.actions.DrawCardAndUpgradeAction;
 import infinitespire.cards.black.Virus;
-import infinitespire.patches.CardColorEnumPatch;
+import infinitespire.crossover.HubrisCrossover;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class CardHelper {
 	private static ArrayList<BlackCard> blackCards = new ArrayList<BlackCard>();
@@ -31,7 +29,7 @@ public class CardHelper {
 		
 		do {
 			boolean isUnique = true;
-			BlackCard card = getRandomBlackCard();
+			AbstractCard card = getRandomBlackCard().makeStatEquivalentCopy();
 			for(AbstractCard c : cards) {
 				if(c.cardID.equals(card.cardID)) {
 					isUnique = false;
@@ -47,15 +45,12 @@ public class CardHelper {
 		return cards;
 	}
 	
-	public static BlackCard getRandomBlackCard() {
-		ArrayList<String> keys = new ArrayList<>();
-		for(Map.Entry<String, AbstractCard> c : CardLibrary.cards.entrySet()) {
-			if(c.getValue().color == CardColorEnumPatch.CardColorPatch.INFINITE_BLACK){
-				keys.add(c.getKey());
-			}
+	public static AbstractCard getRandomBlackCard() {
+		BlackCard card =  blackCards.get(AbstractDungeon.cardRng.random(blackCards.size() -1));
+		if(InfiniteSpire.isHubrisLoaded){
+			HubrisCrossover.loadInfiniteBlow();
 		}
-		AbstractCard card = CardLibrary.cards.get(keys.get(AbstractDungeon.cardRng.random(0, keys.size() - 1)));
-		return (BlackCard) card.makeStatEquivalentCopy();
+		return card.makeStatEquivalentCopy();
 	}
 	
 	public static void addCard(AbstractCard card) {
