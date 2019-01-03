@@ -1,9 +1,8 @@
 package infinitespire.rewards;
 
+import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.rewards.RewardItem;
-import com.megacrit.cardcrawl.rewards.RewardSave;
 import infinitespire.helpers.CardHelper;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.util.TextureLoader;
@@ -25,15 +24,5 @@ public class BlackCardRewardItem extends CustomReward {
 			AbstractDungeon.previousScreen = AbstractDungeon.CurrentScreen.COMBAT_REWARD;
 		}
 		return false;
-	}
-
-	@Override
-	public RewardSave createRewardSaveFromItem(RewardItem item) {
-		return new RewardSave(item.type.toString(), null);
-	}
-
-	@Override
-	public RewardItem createRewardItemFromSave(RewardSave save) {
-		return new BlackCardRewardItem();
 	}
 }

@@ -1,9 +1,8 @@
 package infinitespire.rewards;
 
+import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.rewards.RewardItem;
-import com.megacrit.cardcrawl.rewards.RewardSave;
 import infinitespire.InfiniteSpire;
 import infinitespire.effects.QuestLogUpdateEffect;
 import infinitespire.helpers.QuestHelper;
@@ -23,19 +22,8 @@ public class QuestReward extends CustomReward {
 
 	@Override
 	public boolean claimReward() {
-		//AbstractDungeon.actionManager.addToTop(new AddQuestAction(QuestHelper.getRandomQuests(amount)));
 		AbstractDungeon.topLevelEffects.add(new QuestLogUpdateEffect());
 		InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(amount));
 		return true;
-	}
-
-	@Override
-	public RewardSave createRewardSaveFromItem(RewardItem item) {
-		return new RewardSave(item.type.toString(), null, ((QuestReward)item).amount, 0);
-	}
-
-	@Override
-	public RewardItem createRewardItemFromSave(RewardSave save) {
-		return new QuestReward(save.amount);
 	}
 }
