@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>InfiniteSpire</groupId>
   <artifactId>InfiniteSpire</artifactId>
-  <version>0.9.2</version>
+  <version>0.10.0</version>
   <dependencies>
     <dependency>
       <groupId>com.megacrit.cardcrawl</groupId>
@@ -16,28 +16,28 @@
       <artifactId>basemod</artifactId>
       <version>2.19.0</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/BaseMod.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>StSLib</groupId>
       <artifactId>StSLib</artifactId>
       <version>1.0.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/StsLib.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/workshop/content/646570/1609158507/StSLib.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.evacipated.cardcrawl</groupId>
       <artifactId>ModTheSpire</artifactId>
       <version>2.9.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/ModTheSpire.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>replaythespire</groupId>
       <artifactId>replaythespire</artifactId>
       <version>1.0.10</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/ReplayTheSpireMod.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/workshop/content/646570/1610173938/ReplayTheSpireMod.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>coloredmap</groupId>
@@ -58,7 +58,7 @@
       <artifactId>hubris</artifactId>
       <version>0.3.0</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/Hubris.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/workshop/content/646570/1609159603/Hubris.jar</systemPath>
     </dependency>
   </dependencies>
   <build>
@@ -75,11 +75,22 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.3.1</version>
-        <configuration>
-          <outputDirectory>D:/Steam/steamapps/common/SlayTheSpire/mods</outputDirectory>
-        </configuration>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <target>
+                <copy file="target/InfiniteSpire.jar" tofile="D:/StSWorkspace/InfiniteSpire/content/InfiniteSpire.jar" />
+                <copy file="target/InfiniteSpire.jar" tofile="D:/Steam/steamapps/common/SlayTheSpire/mods/InfiniteSpire.jar" />
+              </target>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
