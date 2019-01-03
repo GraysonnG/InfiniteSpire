@@ -70,7 +70,7 @@ public abstract class Relic extends AbstractRelic {
     @Override
     public AbstractRelic makeCopy() {
         try{
-            return (AbstractRelic)this.getClass().newInstance();
+            return this.getClass().newInstance();
         }catch(IllegalAccessException | InstantiationException e){
             throw new RuntimeException("InfiniteSpire failed to auto-generate makeCopy for relic: " + this.relicId);
         }

@@ -29,6 +29,8 @@ public class NightmareEliteRoom extends MonsterRoomElite {
 		this.playBGM(null);
 		shouldBeAlpha = AbstractDungeon.monsterRng.randomBoolean(0.1f * Nightmare.timesDefeated) || Settings.isDebug;
 
+		if(AbstractDungeon.bossCount <= 2) shouldBeAlpha = false;
+
 		AbstractDungeon.lastCombatMetricKey = "infiniteSpire:Nightmare";
 		MonsterGroup group = new MonsterGroup(new Nightmare(shouldBeAlpha));
 

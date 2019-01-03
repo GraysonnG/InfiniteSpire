@@ -4,14 +4,16 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import infinitespire.InfiniteSpire;
 import infinitespire.relics.CubicDiamond;
 
 public class PrismEvent extends AbstractImageEvent {
 
-    private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString("Prism of Light");
+    public static final String ID = InfiniteSpire.createID("Prism of Light");
+    private static final EventStrings eventStrings = CardCrawlGame.languagePack.getEventString(ID);
     private static final String[] DESCRIPTIONS = eventStrings.DESCRIPTIONS;
     private static final String[] OPTIONS = eventStrings.OPTIONS;
-    public static final String ID = eventStrings.NAME;
+    private static final String NAME = eventStrings.NAME;
 
     private State state;
 
@@ -21,7 +23,7 @@ public class PrismEvent extends AbstractImageEvent {
     }
 
     public PrismEvent() {
-        super(ID, DESCRIPTIONS[0], "img/infinitespire/events/prismoflight.jpg");
+        super(NAME, DESCRIPTIONS[0], "img/infinitespire/events/prismoflight.jpg");
         this.imageEventText.setDialogOption(OPTIONS[0]);
         this.imageEventText.setDialogOption(OPTIONS[1]);
         this.state = State.CHOOSING;

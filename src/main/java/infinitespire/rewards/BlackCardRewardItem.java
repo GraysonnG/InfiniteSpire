@@ -1,9 +1,10 @@
 package infinitespire.rewards;
 
+import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.rewards.RewardItem;
 import infinitespire.helpers.CardHelper;
+import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.util.TextureLoader;
 
 public class BlackCardRewardItem extends CustomReward {
@@ -12,7 +13,7 @@ public class BlackCardRewardItem extends CustomReward {
 	private static final String TEXT = "Add a Black Card to your deck";
 
 	public BlackCardRewardItem() {
-		super(TEXTURE, TEXT, RewardItem.RewardType.CARD);
+		super(TEXTURE, TEXT, RewardItemTypeEnumPatch.BLACK_CARD);
 		this.cards = CardHelper.getBlackRewardCards();
 	}
 

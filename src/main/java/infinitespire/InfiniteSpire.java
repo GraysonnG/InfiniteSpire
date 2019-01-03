@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.seeker.patches.AbstractCardEnum;
@@ -38,6 +39,7 @@ import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.monsters.MassOfShapes;
 import infinitespire.monsters.Nightmare;
 import infinitespire.patches.CardColorEnumPatch;
+import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
@@ -47,6 +49,7 @@ import infinitespire.relics.crystals.EmpoweringShard;
 import infinitespire.relics.crystals.FocusingShard;
 import infinitespire.relics.crystals.ShieldingShard;
 import infinitespire.relics.crystals.WardingShard;
+import infinitespire.rewards.BlackCardRewardItem;
 import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
@@ -62,7 +65,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.9.0";
+	public static final String VERSION = "0.10.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -118,11 +121,30 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public void receivePostInitialize() {
 		initializeQuestLog();
 
+		BaseMod.registerCustomReward(
+			RewardItemTypeEnumPatch.BLACK_CARD,
+			(rewardSave) -> { //on load
+				return new BlackCardRewardItem();
+			}, (customReward) -> { //on save
+				return new RewardSave(customReward.type.toString(), null);
+			});
+
+		BaseMod.registerCustomReward(
+			RewardItemTypeEnumPatch.QUEST,
+			(rewardSave) -> { //on load
+				return new QuestReward(rewardSave.amount);
+			}, (customReward) -> { // on save
+				return new RewardSave(customReward.type.toString(), null, ((QuestReward)customReward).amount, 0);
+			});
+
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID, PrismEvent.class, Exordium.ID);
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
+		BaseMod.addMonster(Nightmare.ID, ()->{
+			return new Nightmare(false);
+		});
 		BaseMod.addMonster(MassOfShapes.ID, MassOfShapes::new);
 
 		BaseMod.addBoss(TheBeyond.ID, MassOfShapes.ID,
@@ -282,6 +304,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new Eraser());
 		RelicLibrary.add(new Chaos()); // This relic may have bugs lmao sorry
 		RelicLibrary.add(new CursedDice());
+		RelicLibrary.add(new BottledMercury());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
@@ -347,6 +370,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		CardHelper.addCard(new Fortify());
 		CardHelper.addCard(new Pacifist());
 		CardHelper.addCard(new Menacing());
+		CardHelper.addVirusTypes();
+		CardHelper.addCard(new Virus.MasterVirus());
 	}
 
 	@SuppressWarnings("unused")

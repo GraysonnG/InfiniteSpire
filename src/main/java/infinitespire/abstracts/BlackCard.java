@@ -22,6 +22,7 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.screens.SingleCardViewPopup;
 import infinitespire.InfiniteSpire;
+import infinitespire.cards.black.Virus;
 import infinitespire.effects.BlackCardEffect;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.util.TextureLoader;
@@ -310,6 +311,9 @@ public abstract class BlackCard extends Card {
 			if(__instance instanceof BlackCard) {
 				Color textColor = Color.valueOf("d0beff").cpy();
 				textColor.a = renderColor.a;
+				if(__instance instanceof Virus || __instance instanceof Virus.MasterVirus){
+					text = "Virus";
+				}
 				FontHelper.renderRotatedText(sb, font, text, curX, curY - 22.0f * dScale * Settings.scale, 0.0f, -1.0f * dScale * Settings.scale, angle, false, textColor);
 				return SpireReturn.Return(null);
 			}
@@ -337,6 +341,9 @@ public abstract class BlackCard extends Card {
 		localvars = {"card", "label"})
 		public static SpireReturn<Void> blackCardTypeColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, String label) {
 			if(card instanceof BlackCard) {
+				if(card instanceof Virus || card instanceof Virus.MasterVirus){
+					label = "Virus";
+				}
 				FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTypeFont, label, Settings.WIDTH / 2.0f + 3.0f * Settings.scale, Settings.HEIGHT / 2.0f - 40.0f * Settings.scale, Color.valueOf("d0beff"));
 				return SpireReturn.Return(null);
 			}
