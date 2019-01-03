@@ -55,6 +55,10 @@ public class Nightmare extends AbstractMonster {
 	private boolean isStrong;
 	private float portalRotation = 0.0f;
 
+	public Nightmare() {
+		this(false);
+	}
+
 	public Nightmare(boolean isAlpha) {
 		super(NAME, ID, 200, -0.0F, -10.0F, 160f, 300f, null);
 		this.isAlpha = isAlpha;
