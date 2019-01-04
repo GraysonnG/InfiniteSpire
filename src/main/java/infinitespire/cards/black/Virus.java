@@ -134,7 +134,7 @@ public class Virus extends BlackCard {
 		}
 
 		public AbstractCard makeCopy(){
-			if(CardCrawlGame.isInARun() && AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT && !AbstractDungeon.isScreenUp) {
+			if(!AbstractDungeon.loading_post_combat && CardCrawlGame.isInARun() && AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT && !AbstractDungeon.isScreenUp) {
 				return Virus.getRandomVirus(upgraded);
 			}
 			return super.makeCopy();
