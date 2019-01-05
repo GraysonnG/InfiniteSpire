@@ -104,7 +104,7 @@ public abstract class BlackCard extends Card {
 		super.render(sb);
 	}
 
-	private static class BlackParticle {
+	public static class BlackParticle {
 		private Vector2 pos;
 		private Vector2 vel;
 		private float lifeSpan;
