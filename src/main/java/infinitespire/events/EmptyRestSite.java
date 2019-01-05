@@ -6,8 +6,7 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.events.*;
-import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.events.AbstractImageEvent;
 import com.megacrit.cardcrawl.localization.EventStrings;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.RegalPillow;
@@ -16,7 +15,6 @@ import com.megacrit.cardcrawl.rooms.AbstractRoom.RoomPhase;
 import com.megacrit.cardcrawl.vfx.UpgradeShineEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ShowCardBrieflyEffect;
-
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 import infinitespire.relics.BlanksBlanky;
@@ -46,14 +44,14 @@ public class EmptyRestSite extends AbstractImageEvent {
 			healAmount += 15;
 		}
 		
-		this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[0] + " " + healAmount + " HP.", "g"));
-		this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[1], "g")); //Smith
-		this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[2], "g")); //Toke
-		if(AbstractDungeon.player.hasRelic("Regal Pillow")) {
-			this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[4], "b"));
+		this.imageEventText.setDialogOption(OPTIONS[0] + " " + healAmount + " HP.");
+		this.imageEventText.setDialogOption(OPTIONS[1]); //Smith
+		this.imageEventText.setDialogOption(OPTIONS[2]); //Toke
+		if(AbstractDungeon.player.hasRelic(RegalPillow.ID)) {
+			this.imageEventText.setDialogOption(OPTIONS[4]); //Blanky
 			hasRegalPillow = true;
 		} else {
-			this.imageEventText.setDialogOption(FontHelper.colorString(OPTIONS[3], "g")); //Dig
+			this.imageEventText.setDialogOption(OPTIONS[3]); //Dig
 		}
 		state = State.RESTING;
 		

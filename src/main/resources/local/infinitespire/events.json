@@ -14,7 +14,7 @@
 			"#g[Smith] Upgrade a card.",
 			"#g[Toke] Remove a card.",
 			"#g[Dig] Obtain a random relic.",
-			"Obtain Blank's Blanky",
+			"Obtain #bBlank's #bBlanky",
 			"Leave.",
 			"[Locked]"
 		]
@@ -30,7 +30,7 @@
 		"OPTIONS" : [
 			"#y[Gold] Give ",
 			"#r[Blood] Lose ",
-			"#p[Steal] Gain 2 Curses.",
+			"#p[Steal] Gain #r2 Curses.",
 			" Gold.",
 			" HP.",
 			"Leave.",
