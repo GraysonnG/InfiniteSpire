@@ -46,14 +46,14 @@ public class CardHelper {
 		return cards;
 	}
 	
-	public static AbstractCard getRandomBlackCard() {
+	public static BlackCard getRandomBlackCard() {
 		BlackCard card =  blackCards.get(AbstractDungeon.cardRng.random(blackCards.size() -1));
 		UnlockTracker.markCardAsSeen(card.cardID);
 		card.isSeen = true;
 		if(InfiniteSpire.isHubrisLoaded){
 			HubrisCrossover.loadInfiniteBlow();
 		}
-		return card.makeStatEquivalentCopy();
+		return (BlackCard) card.makeStatEquivalentCopy();
 	}
 	
 	public static void addCard(AbstractCard card) {
