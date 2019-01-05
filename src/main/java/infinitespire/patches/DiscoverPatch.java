@@ -27,8 +27,10 @@ public class DiscoverPatch {
 				AbstractCard tmp;
 				if(!randomCardPool) {
 					tmp = CardHelper.getRandomBlackCard().makeStatEquivalentCopy();
+					tmp.isSeen = true;
 				} else {
 					tmp = getTrulyRandomCard();
+					tmp.isSeen = true;
 				}
 
 				if(tmp.hasTag(AbstractCard.CardTags.HEALING)){
