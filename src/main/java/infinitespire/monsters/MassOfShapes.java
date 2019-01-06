@@ -52,6 +52,9 @@ public class MassOfShapes extends AbstractMonster {
 
 	@Override
 	public void usePreBattleAction() {
+		CardCrawlGame.music.unsilenceBGM();
+		AbstractDungeon.scene.fadeOutAmbiance();
+		AbstractDungeon.getCurrRoom().playBgmInstantly("BOSS_BEYOND");
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new ClusterPower(this)));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new ThornsPower(this, 3), 3));
 	}
