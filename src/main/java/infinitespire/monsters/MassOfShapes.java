@@ -211,18 +211,20 @@ public class MassOfShapes extends AbstractMonster {
 
 	@Override
 	protected void getMove(int roll) {
-		if(this.turn % 3 == 0) {
-			this.setMove(MoveBytes.ADD_DAZED, Intent.DEBUFF);
-		}
-		if(this.turn % 3 == 1) {
-			if(roll < 50) {
-				this.setMove(MoveBytes.EXPLODE, Intent.ATTACK, this.damage.get(0).base);
-			} else {
-				this.setMove(MoveBytes.GROUP_SLAM, Intent.ATTACK, damage.get(1).base, 10, true);
-			}
-		}
-		if(this.turn % 3 == 2) {
-			this.setMove(MoveBytes.GAIN_THORNS, Intent.DEFEND_BUFF);
+		switch(this.turn % 3) {
+			case 0:
+				if(roll < 50) {
+					this.setMove(MoveBytes.EXPLODE, Intent.ATTACK, this.damage.get(0).base);
+				} else {
+					this.setMove(MoveBytes.GROUP_SLAM, Intent.ATTACK, damage.get(1).base, 10, true);
+				}
+				break;
+			case 1:
+				this.setMove(MoveBytes.ADD_DAZED, Intent.DEBUFF);
+				break;
+			case 2:
+				this.setMove(MoveBytes.GAIN_THORNS, Intent.DEFEND_BUFF);
+				break;
 		}
 		this.turn++;
 	}
