@@ -53,6 +53,7 @@ public class BottledMercury extends Relic implements CustomBottleRelic, CustomSa
 			card = AbstractDungeon.player.masterDeck.group.get(cardIndex);
 			if(card != null) {
 				AbstractCardPatch.Field.isBottledMercuryCard.set(card, true);
+				cardSelected = true;
 			}
 		}
 	}

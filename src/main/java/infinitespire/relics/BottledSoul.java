@@ -67,6 +67,7 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 					InfiniteSpire.logger.info("Get Bottled Soul Card Index: " + cardIndex);
 					if (relic.card != null) {
 						AbstractCardPatch.Field.isBottledSoulCard.set(relic.card, true);
+						relic.cardSelected = true;
 						InfiniteSpire.logger.info("Set Bottled Soul Card: " + relic.card.cardID);
 					}
 				}
@@ -140,7 +141,6 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 			card = AbstractDungeon.gridSelectScreen.selectedCards.get(0);
 			AbstractCardPatch.Field.isBottledSoulCard.set(card, true);
 			AbstractDungeon.getCurrRoom().phase = AbstractRoom.RoomPhase.COMPLETE;
-
 			AbstractDungeon.gridSelectScreen.selectedCards.clear();
 		}
 	}
