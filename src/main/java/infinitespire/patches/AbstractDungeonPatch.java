@@ -32,7 +32,8 @@ import java.util.Collections;
 public class AbstractDungeonPatch {
 
 	public static final String CLS = "com.megacrit.cardcrawl.dungeons.AbstractDungeon";
-	
+
+	//TODO Delete this
 	@SpirePatch(cls = CLS, method="closeCurrentScreen")
 	public static class CloseCurrentScreen {
 		public static void Prefix() {
@@ -99,6 +100,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 
+	//TODO: Move to postfix to allow rendering on top of other screens
 	@SpirePatch(cls = CLS, method = "render")
 	public static class Render {
 
@@ -119,6 +121,7 @@ public class AbstractDungeonPatch {
 		}
 	}
 
+	//TODO: Move to prefix spire return to allow ignoring inputs on other screens
 	@SpirePatch(cls = CLS, method = "update")
 	public static class Update {
 
