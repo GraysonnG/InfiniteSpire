@@ -17,7 +17,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.InvinciblePower;
 import com.megacrit.cardcrawl.powers.MetallicizePower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
@@ -117,24 +116,6 @@ public class Nightmare extends AbstractMonster {
 	public static void clear(){
 		timesDefeated = 0;
 		timesNotReceivedBlackCard = 0;
-	}
-
-	@Override
-	public void damage(DamageInfo info) {
-		super.damage(info);
-
-		if(this.hasPower("is_Reality_Shift")) {
-			AbstractPower p = this.getPower("is_Reality_Shift");
-			p.amount -= info.output;
-			if(p.amount <= 0) {
-				p.amount = 0;
-				p.flash();
-				if(!hasActivated) {
-					onEnoughDamageTaken();
-				}
-			}
-			p.updateDescription();
-		}
 	}
 
 	@Override
