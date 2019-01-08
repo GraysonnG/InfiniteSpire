@@ -31,7 +31,7 @@ public class NightmareEliteRoom extends MonsterRoomElite {
 
 		if(AbstractDungeon.bossCount <= 2) shouldBeAlpha = false;
 
-		AbstractDungeon.lastCombatMetricKey = Nightmare.ID;
+		AbstractDungeon.lastCombatMetricKey = Nightmare.ID + (shouldBeAlpha ? "_Alpha" : "");
 		MonsterGroup group = new MonsterGroup(new Nightmare(shouldBeAlpha));
 
 		this.monsters = group;
