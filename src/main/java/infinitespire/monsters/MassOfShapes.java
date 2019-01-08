@@ -43,9 +43,9 @@ public class MassOfShapes extends AbstractMonster {
 	private static final int MAX_HP = 550;
 	private static final int SMALL_BLOCK = 15;
 	private static final int LARGE_BLOCK = 30;
-	private static final int EXPLODE = 25;
+	private static final int EXPLODE = 30;
 	private static final int SPAWN_CHANCE = 33;
-	private static final int SLAM = 2;
+	private static final int SLAM = 3;
 
 	private static final float FPS_SCALE = (240f / Settings.MAX_FPS);
 
@@ -143,13 +143,13 @@ public class MassOfShapes extends AbstractMonster {
 				}
 			}
 		}
-		if(this.currentHealth < (this.maxHealth / 3) * 2 && shapes.size() > 20) {
-			for(int i = 0; i < 10; i++){
+		if(this.currentHealth < (this.maxHealth / 3) * 2 && getAliveShapes() > 20) {
+			for(int i = 0; i < 10 && i < shapes.size(); i++){
 				shapes.get(i).die();
 			}
 		}
-		if(this.currentHealth < (this.maxHealth / 3) && shapes.size() > 10) {
-			for(int i = 0; i < 10; i++){
+		if(this.currentHealth < (this.maxHealth / 3) && getAliveShapes() > 10) {
+			for(int i = 0; i < 10 && i < shapes.size(); i++){
 				shapes.get(i).die();
 			}
 		}
@@ -243,6 +243,18 @@ public class MassOfShapes extends AbstractMonster {
 		return -1;
 	}
 
+	private int getAliveShapes(){
+		int count = 0;
+
+		for(Shape s : shapes){
+			if(!s.isDying){
+				count++;
+			}
+		}
+
+		return count;
+	}
+
 	private Shape.ShapeType getRandomShapeType(){
 		double rand = Math.random();
 
@@ -290,6 +302,7 @@ public class MassOfShapes extends AbstractMonster {
 		private Vector2 velocity = new Vector2();
 		private float rotation;
 		private MassOfShapes mon;
+		public boolean isDying;
 
 		private enum ShapeType {
 			EXPLODER,
@@ -331,6 +344,7 @@ public class MassOfShapes extends AbstractMonster {
 		}
 
 		private void die() {
+			isDying = true;
 			velocity = new Vector2(1, new Random().random()).nor().scl(5 * FPS_SCALE);
 		}
 
