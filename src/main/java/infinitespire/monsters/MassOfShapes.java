@@ -78,7 +78,7 @@ public class MassOfShapes extends AbstractMonster {
 		AbstractDungeon.scene.fadeOutAmbiance();
 		AbstractDungeon.getCurrRoom().playBgmInstantly("BOSS_BEYOND");
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new ClusterPower(this)));
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new TempThornsPower(this, 2, 3), 3));
+		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new TempThornsPower(this, 2, 3, false), 2));
 	}
 
 	public void update(){
@@ -174,7 +174,7 @@ public class MassOfShapes extends AbstractMonster {
 
 		switch (this.nextMove){
 			case MoveBytes.GAIN_THORNS:
-				a.addToBottom(new ApplyPowerAction(m, m, new TempThornsPower(this, 3, 5), 3));
+				a.addToBottom(new ApplyPowerAction(m, m, new TempThornsPower(this, 2, 5), 2));
 				a.addToBottom(new GainBlockAction(m, m, SMALL_BLOCK));
 				break;
 			case MoveBytes.EXPLODE:
@@ -213,7 +213,7 @@ public class MassOfShapes extends AbstractMonster {
 	protected void getMove(int roll) {
 		switch(this.turn % 3) {
 			case 0:
-				if(roll < 50) {
+				if(roll < 50 || this.turn == 0) {
 					this.setMove(MoveBytes.EXPLODE, Intent.ATTACK, this.damage.get(0).base);
 				} else {
 					this.setMove(MoveBytes.GROUP_SLAM, Intent.ATTACK, damage.get(1).base, 10, true);

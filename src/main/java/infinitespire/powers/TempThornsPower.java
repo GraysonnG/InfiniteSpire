@@ -1,6 +1,7 @@
 package infinitespire.powers;
 
 import com.evacipated.cardcrawl.mod.stslib.powers.abstracts.TwoAmountPower;
+import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.NonStackablePower;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
@@ -8,18 +9,24 @@ import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 
-public class TempThornsPower extends TwoAmountPower {
+public class TempThornsPower extends TwoAmountPower implements NonStackablePower {
 
 	public static final String powerID = "is_TempThorns";
+	public boolean justApplied;
 
-	public TempThornsPower(AbstractCreature owner, int turnsToHave, int amountOfThorns){
+	public TempThornsPower(AbstractCreature owner, int turnsToHave, int amountOfThorns, boolean justApplied){
 		this.owner = owner;
 		this.amount = amountOfThorns;
 		this.amount2 = turnsToHave;
 		this.name = "Temporary Thorns";
 		this.ID = powerID;
 		loadRegion("thorns");
+		this.justApplied = justApplied;
 		this.updateDescription();
+	}
+
+	public TempThornsPower(AbstractCreature owner, int turnsToHave, int amountOfThorns) {
+		this(owner, turnsToHave, amountOfThorns, true);
 	}
 
 	@Override
@@ -43,6 +50,10 @@ public class TempThornsPower extends TwoAmountPower {
 
 	@Override
 	public void atEndOfRound() {
+		if(this.justApplied) {
+			justApplied = false;
+			return;
+		}
 		this.amount2 --;
 
 		if(this.amount2 == 0) {
