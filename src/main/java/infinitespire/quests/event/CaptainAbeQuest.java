@@ -2,7 +2,6 @@ package infinitespire.quests.event;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.mod.replay.monsters.replay.CaptainAbe;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
@@ -11,6 +10,7 @@ import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.interfaces.IAutoQuest;
 import infinitespire.quests.SlayQuest;
+import infinitespire.relics.EvilPickle;
 
 public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
     public int gold;
@@ -35,8 +35,8 @@ public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
 
     @Override
     public void giveReward() {
-        CardCrawlGame.sound.play("GOLD_GAIN");
-        AbstractDungeon.player.gainGold(gold);
+        EvilPickle pickle = new EvilPickle();
+        pickle.instantObtain();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
 
     @Override
     public String getRewardString() {
-        return "Gain " + gold + "g";
+        return "Receive a Special Relic";
     }
 
     @Override

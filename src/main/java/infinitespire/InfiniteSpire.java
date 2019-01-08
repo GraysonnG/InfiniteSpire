@@ -50,6 +50,7 @@ import infinitespire.relics.crystals.FocusingShard;
 import infinitespire.relics.crystals.ShieldingShard;
 import infinitespire.relics.crystals.WardingShard;
 import infinitespire.rewards.BlackCardRewardItem;
+import infinitespire.rewards.InterestReward;
 import infinitespire.rewards.QuestReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
@@ -137,14 +138,21 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				return new RewardSave(customReward.type.toString(), null, ((QuestReward)customReward).amount, 0);
 			});
 
+		BaseMod.registerCustomReward(
+			RewardItemTypeEnumPatch.INTEREST,
+			(rewardSave) -> new InterestReward(rewardSave.amount),
+			(customReward) -> new RewardSave(customReward.type.toString(), null, ((InterestReward)customReward).amount, 0)
+		);
+
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID, PrismEvent.class, Exordium.ID);
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
-		BaseMod.addMonster(Nightmare.ID, ()->{
-			return new Nightmare(false);
-		});
+
+		BaseMod.addMonster(Nightmare.ID, () -> new Nightmare(false));
+		BaseMod.addMonster(Nightmare.ID + "_Alpha", () -> new Nightmare(true));
+
 		BaseMod.addMonster(MassOfShapes.ID, MassOfShapes::new);
 
 		BaseMod.addBoss(TheBeyond.ID, MassOfShapes.ID,
@@ -305,6 +313,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new Chaos()); // This relic may have bugs lmao sorry
 		RelicLibrary.add(new CursedDice());
 		RelicLibrary.add(new BottledMercury());
+		RelicLibrary.add(new EvilPickle());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());

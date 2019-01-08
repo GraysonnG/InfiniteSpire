@@ -8,4 +8,6 @@ public class RewardItemTypeEnumPatch {
 	public static RewardItem.RewardType QUEST;
 	@SpireEnum
 	public static RewardItem.RewardType BLACK_CARD;
+	@SpireEnum
+	public static RewardItem.RewardType INTEREST;
 }
