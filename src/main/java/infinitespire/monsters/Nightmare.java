@@ -50,7 +50,7 @@ public class Nightmare extends AbstractMonster {
 	private int slamDmg;
 	private int debuffDmg;
 	private int blockCount;
-	private int effectCount;
+	public int effectCount;
 	private boolean isStrong;
 	private float portalRotation = 0.0f;
 
