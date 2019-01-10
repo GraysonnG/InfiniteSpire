@@ -21,15 +21,13 @@ public class Virus extends BlackCard {
 	private Consumer<Virus> upgradeConsumer, constructorConsumer;
 
 	public static ArrayList<Virus> virusInstances = new ArrayList<>();
-	public boolean masterUpgraded;
 
-	public Virus(String id, String name, String imgPath, int cost, String rawDescription, CardType type, CardTarget target, boolean masterUpgraded, CardConsumer<Virus> use, Consumer<Virus> upgrade, Consumer<Virus> constructor) {
+	public Virus(String id, String name, String imgPath, int cost, String rawDescription, CardType type, CardTarget target, CardConsumer<Virus> use, Consumer<Virus> upgrade, Consumer<Virus> constructor) {
 		super(id, name, imgPath, cost, rawDescription, type, target);
 		if(CardCrawlGame.isInARun() && AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
-			this.rawDescription = rawDescription + getPostDescription(masterUpgraded);
+			this.rawDescription = rawDescription + getPostDescription();
 			this.initializeDescription();
 		}
-		this.masterUpgraded = masterUpgraded;
 		this.useConsumer = use;
 		this.upgradeConsumer = upgrade;
 		this.constructorConsumer = constructor;
@@ -38,26 +36,26 @@ public class Virus extends BlackCard {
 		this.purgeOnUse = true;
 	}
 
-	public static Virus getRandomVirus(boolean masterUpgraded) {
-		return virusInstances.get(AbstractDungeon.cardRng.random(0, virusInstances.size() -1)).makeActualCopy(masterUpgraded);
+	public static Virus getRandomVirus() {
+		return virusInstances.get(AbstractDungeon.cardRng.random(0, virusInstances.size() -1)).makeActualCopy();
 	}
 
-	public static Virus getRandomVirus(boolean masterUpgraded, AbstractCard prohibit){
-		Virus virus = getRandomVirus(masterUpgraded);
+	public static Virus getRandomVirus(AbstractCard prohibit){
+		Virus virus = getRandomVirus();
 
 		if(virus.cardID.equals(prohibit.cardID)){
-			return getRandomVirus(masterUpgraded, prohibit);
+			return getRandomVirus(prohibit);
 		}
 		return virus;
 	}
 
-	public static String getPostDescription(boolean masterUpgraded){
-		return " NL " + (masterUpgraded ? MasterVirus.UPGRADED_DESCRIPTION : MasterVirus.DESCRIPTION);
+	public static String getPostDescription(){
+		return " NL " + MasterVirus.DESCRIPTION;
 	}
 
 	@Override
 	public AbstractCard makeCopy() {
-		return Virus.getRandomVirus(masterUpgraded);
+		return Virus.getRandomVirus();
 	}
 
 	public AbstractCard makeStatEquivalentCopy() {
@@ -69,8 +67,8 @@ public class Virus extends BlackCard {
 		return card;
 	}
 
-	private Virus makeActualCopy(boolean masterUpgraded){
-		Virus v = new Virus(cardID, name, textureImg, cost, rawDescription, type, target, masterUpgraded, useConsumer, upgradeConsumer, constructorConsumer);
+	private Virus makeActualCopy(){
+		Virus v = new Virus(cardID, name, textureImg, cost, rawDescription, type, target, useConsumer, upgradeConsumer, constructorConsumer);
 		v.upgraded = this.upgraded;
 		return v;
 	}
@@ -78,20 +76,22 @@ public class Virus extends BlackCard {
 	@Override
 	public void useWithEffect(AbstractPlayer player, AbstractMonster monster) {
 		useConsumer.accept(this, player, monster);
-		Virus v = Virus.getRandomVirus(this.masterUpgraded, this);
+		Virus v = Virus.getRandomVirus(this);
 		if(this.upgraded){
 			v.upgrade();
 			v.upgraded = true;
 		}
 		AbstractDungeon.actionManager.addToBottom(new MakeTempCardInDiscardAction(v, 1));
-		if(AbstractDungeon.cardRng.randomBoolean(this.masterUpgraded ? 0.5f : 0.25f)) {
-			Virus v2 = Virus.getRandomVirus(this.masterUpgraded, this);
-			if(this.upgraded) {
-				v2.upgrade();
-				v2.upgraded = true;
-			}
-			AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(v2));
+	}
+
+	@Override
+	public void triggerWhenDrawn() {
+		Virus v = Virus.getRandomVirus(this);
+		if(this.upgraded){
+			v.upgrade();
+			v.upgraded = true;
 		}
+		AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(v, 1));
 	}
 
 	@Override
@@ -124,8 +124,8 @@ public class Virus extends BlackCard {
 		private static final String NAME = "Virus";
 		private static final String IMG = "img/infinitespire/cards/virus.png";
 		private static final int COST = -2;
-		public static final String DESCRIPTION = "Purge. NL Add a random [#9166ff]Virus[] to your discard pile. You have a 25% chance to generate another random [#9166ff]Virus[].";
-		public static final String UPGRADED_DESCRIPTION = "Purge. NL Add a random [#9166ff]Virus[] to your discard pile. You have a [#7efc00]50%[] chance to generate another random [#9166ff]Virus[].";
+		public static final String DESCRIPTION = "When Drawn, add a random [#9166ff]Virus[] to your hand. NL When played, add a random [#9166ff]Virus[] to your discard pile. NL Exhaust.";
+		public static final String UPGRADED_DESCRIPTION = "";
 		private static final CardType TYPE = CardType.STATUS;
 		private static final CardTarget TARGET = CardTarget.NONE;
 
@@ -135,9 +135,14 @@ public class Virus extends BlackCard {
 
 		public AbstractCard makeCopy(){
 			if(!AbstractDungeon.loading_post_combat && CardCrawlGame.isInARun() && AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT && !AbstractDungeon.isScreenUp) {
-				return Virus.getRandomVirus(upgraded);
+				return Virus.getRandomVirus();
 			}
 			return super.makeCopy();
+		}
+
+		@Override
+		public boolean canUpgrade() {
+			return false;
 		}
 
 		@Override
@@ -152,14 +157,13 @@ public class Virus extends BlackCard {
 		public void upgrade() {
 			if(!upgraded) {
 				this.upgradeName();
-				this.rawDescription = UPGRADED_DESCRIPTION;
 				this.initializeDescription();
 			}
 		}
 
 		@Override
 		public void useWithEffect(AbstractPlayer abstractPlayer, AbstractMonster abstractMonster) {
-			AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(Virus.getRandomVirus(this.upgraded)));
+			AbstractDungeon.actionManager.addToBottom(new MakeTempCardInHandAction(Virus.getRandomVirus()));
 		}
 	}
 
