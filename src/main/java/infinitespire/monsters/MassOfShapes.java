@@ -31,6 +31,7 @@ import infinitespire.InfiniteSpire;
 import infinitespire.actions.SpawnShapeAction;
 import infinitespire.powers.ClusterPower;
 import infinitespire.powers.TempThornsPower;
+import infinitespire.util.ActionUtils;
 import infinitespire.util.TextureLoader;
 
 import java.util.ArrayList;
@@ -139,7 +140,7 @@ public class MassOfShapes extends AbstractMonster {
 		if(this.currentBlock == 0) {
 			if (info.owner != null && info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded) {
 				if (this.minions.size() < 3 && AbstractDungeon.miscRng.random(0, 99) <= SPAWN_CHANCE) {
-					AbstractDungeon.actionManager.addToTop(new SpawnShapeAction(getNextOpenMinionSlot(), this));
+					ActionUtils.addActionSecondToTop(new SpawnShapeAction(getNextOpenMinionSlot(), this));
 				}
 			}
 		}
