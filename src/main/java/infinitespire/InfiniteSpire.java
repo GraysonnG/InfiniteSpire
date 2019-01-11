@@ -66,7 +66,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.11.0";
+	public static final String VERSION = "0.12.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -152,6 +152,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		BaseMod.addMonster(Nightmare.ID, () -> new Nightmare(false));
 		BaseMod.addMonster(Nightmare.ID + "_Alpha", () -> new Nightmare(true));
+		//BaseMod.addMonster(Voidling.ID, Voidling::new);
+
 
 		BaseMod.addMonster(MassOfShapes.ID, MassOfShapes::new);
 
