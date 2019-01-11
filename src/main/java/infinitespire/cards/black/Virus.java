@@ -43,7 +43,7 @@ public class Virus extends BlackCard {
 	public static Virus getRandomVirus(AbstractCard prohibit){
 		Virus virus = getRandomVirus();
 
-		if(virus.cardID.equals(prohibit.cardID)){
+		if(virus.name.equals(prohibit.name)){
 			return getRandomVirus(prohibit);
 		}
 		return virus;
