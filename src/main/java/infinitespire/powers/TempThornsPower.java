@@ -34,7 +34,7 @@ public class TempThornsPower extends TwoAmountPower implements NonStackablePower
 		if(info.type == DamageInfo.DamageType.NORMAL && info.owner != null && info.owner != this.owner) {
 			this.flash();
 			AbstractDungeon.actionManager.addToTop(new DamageAction(info.owner,
-				new DamageInfo(this.owner, this.amount), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
+				new DamageInfo(this.owner, this.amount, DamageInfo.DamageType.THORNS), AbstractGameAction.AttackEffect.SLASH_HORIZONTAL));
 		}
 		return damageAmount;
 	}
