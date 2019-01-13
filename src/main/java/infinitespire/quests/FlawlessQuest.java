@@ -1,5 +1,7 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -33,12 +35,22 @@ public class FlawlessQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Receive a Rare Relic";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Obtenez une Relique Rare";
+		} else {
+			return "Receive a Rare Relic";
+		}
+
 	}
 
 	@Override
 	public String getTitle() {
-		return "Flawless the Boss";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Tuez le boss sans perdre de PV";
+		} else {
+			return "Flawless the Boss";
+		}
+
 	}
 
 	@Override

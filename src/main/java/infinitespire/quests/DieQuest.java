@@ -1,5 +1,7 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.common.HealAction;
@@ -18,7 +20,7 @@ public class DieQuest extends Quest {
 	public DieQuest() {
 		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.RARE);
 	}
-	
+
 	@Override
 	public boolean autoClaim() {
 		return true;
@@ -37,12 +39,21 @@ public class DieQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Heal 25% max HP.";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Soin \u00e9quivalent \u00e0 25% des PV max.";
+		} else {
+				return "Heal 25% max HP.";
+		}
+
 	}
 
 	@Override
 	public String getTitle() {
-		return "Die!";
+		if (Settings.language == Settings.GameLanguage.FRA){
+					return "Mourrez!";
+		} else {
+				return "Die!";
+		}
 	}
 
 	@Override

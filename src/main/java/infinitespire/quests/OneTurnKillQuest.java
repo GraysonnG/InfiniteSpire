@@ -1,5 +1,7 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -12,7 +14,7 @@ public class OneTurnKillQuest extends Quest {
 
 	private static final Color COLOR = new Color(1f, 0, 0.5f, 1.0f);
 	public int cost;
-	
+
 	public OneTurnKillQuest() {
 		super(OneTurnKillQuest.class.getName(), COLOR, 1, QuestType.RED, QuestRarity.RARE);
 	}
@@ -36,16 +38,25 @@ public class OneTurnKillQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return this.cost + "g";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return this.cost + "or";
+		} else {
+			return this.cost + "g";
+		}
+
 	}
 
 	@Override
 	public String getTitle() {
-		return "One Turn Kill an Elite";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Tuez un \u00e9lite en un tour";
+		} else {
+			return  "One Turn Kill an Elite";
+		}
 	}
 
 	@Override
 	public Quest getCopy() {
 		return new OneTurnKillQuest();
-	} 
+	}
 }
