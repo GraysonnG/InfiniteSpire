@@ -1,0 +1,8 @@
+{
+	"infinitespire:BlackPotion":{
+		"NAME": "Potion Noire",
+		"DESCRIPTIONS": [
+			"Choisissez #b1 parmis #b3 cartes [#3D00D6]Noires[] aléatoires à ajouter à votre main, elle côute #b0 ce tour."
+		]
+	}
+}
