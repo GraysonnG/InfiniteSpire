@@ -1,5 +1,7 @@
 package infinitespire.quests.endless;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import infinitespire.InfiniteSpire;
@@ -29,12 +31,21 @@ public class EndlessQuestPart3 extends SlayQuest {
 
     @Override
     public String getTitle() {
-        return "Kill ??? [Unimplemented]";
+      if (Settings.language == Settings.GameLanguage.FRA){
+          return "Tuez ??? [Non implémenté]";
+      } else {
+          return "Kill ??? [Unimplemented]";
+      }
+
     }
 
     @Override
     public String getRewardString() {
-        return "???";
+      if (Settings.language == Settings.GameLanguage.FRA){
+          return "???";
+      } else {
+          return "???";
+      }
     }
 
     @Override
