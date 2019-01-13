@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
@@ -32,7 +34,12 @@ public class LordOfAnnihilationIntangiblePower extends IntangiblePower {
 
     @Override
     public void updateDescription() {
+      if (Settings.language == Settings.GameLanguage.FRA){
+        this.description = "R\u00e9duit TOUS les d\u00e9gats subits et les PV perdus à #b1 ce tour.";
+      } else {
         this.description = "Reduce ALL damage taken and HP loss to #b1 this turn.";
+      }
+
     }
 
     @Override

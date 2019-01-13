@@ -10,7 +10,7 @@
 		"NAME" : "Masque de Golem",
 		"FLAVOR" : "Tout comme le Golem, lent et immobile.",
 		"DESCRIPTIONS" : [
-			"Le premier tour du combat, gagnez #yPuissance #yDe #Golem."
+			"Le premier tour du combat, gagnez #yPuissance #yDe #yGolem."
 		]
 	},
 	"infinitespire:Lychee Nut" : {

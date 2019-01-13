@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -14,7 +16,6 @@ public class SuperSlowPower extends AbstractPower {
     public SuperSlowPower(AbstractMonster owner, int amount){
         this.owner = owner;
         this.amount = amount;
-        this.name = "Shredded";
         this.ID = "is_Shattered";
         this.img = TextureLoader.getTexture("img/infinitespire/powers/superslow.png");
         this.type = PowerType.DEBUFF;
@@ -36,6 +37,13 @@ public class SuperSlowPower extends AbstractPower {
 
     @Override
     public void updateDescription() {
-        this.description = "For each card played for the rest of combat, " + owner.name + " takes #b10% more damage from #yAttacks. NL (Takes #b" + amount * 10 + "% more damage)";
+      	if (Settings.language == Settings.GameLanguage.FRA){
+          this.name = "D\u00e9chiquet\u00e9";
+          this.description = "Pour chaque carte jou\u00e9e jusqu'à la fin du combat, " + owner.name + " prends #b10% de dégats en plus des #yAttaques. NL (Prends #b" + amount * 10 + "% dégats en plus)";
+        } else {
+          this.name = "Shredded";
+          this.description = "For each card played for the rest of combat, " + owner.name + " takes #b10% more damage from #yAttacks. NL (Takes #b" + amount * 10 + "% more damage)";
+        }
+
     }
 }

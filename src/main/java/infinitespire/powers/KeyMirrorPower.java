@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
@@ -21,7 +23,22 @@ public class KeyMirrorPower extends AbstractPower {
 		this.ID = "is_KeyMirrorPower_" + keyColor.toString().toLowerCase();
 		this.type = PowerType.BUFF;
 		this.priority = -99999;
-
+	if (Settings.language == Settings.GameLanguage.FRA){
+		switch(keyColor){
+			case RUBY:
+				this.name = "Mirroir rubis";
+				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/rubyKey.png");
+				break;
+			case SAPPHIRE:
+				this.name = "Mirroir sapphire";
+				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/sapphireKey.png");
+				break;
+			case EMERALD:
+				this.name = "Mirroir \u00e9meraude";
+				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/emeraldKey.png");
+				break;
+		}
+	} else {
 		switch(keyColor){
 			case RUBY:
 				this.name = "Ruby Mirror";
@@ -36,22 +53,39 @@ public class KeyMirrorPower extends AbstractPower {
 				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/emeraldKey.png");
 				break;
 		}
+	}
+
 
 		this.updateDescription();
 	}
 
 	@Override
 	public void updateDescription() {
-		switch (this.keyColor) {
-			case RUBY:
-				this.description = owner.name + " will be more intelligent.";
-				break;
-			case SAPPHIRE:
-				this.description = owner.name + " will be more aggressive.";
-				break;
-			case EMERALD:
-				this.description = owner.name + " will be more powerful.";
-				break;
+		if (Settings.language == Settings.GameLanguage.FRA){
+			switch (this.keyColor) {
+				case RUBY:
+					this.description = owner.name + " sera plus intelligent.";
+					break;
+				case SAPPHIRE:
+					this.description = owner.name + " sera plus aggressif.";
+					break;
+				case EMERALD:
+					this.description = owner.name + " sera plus puissant.";
+					break;
+			}
+		} else {
+			switch (this.keyColor) {
+				case RUBY:
+					this.description = owner.name + " will be more intelligent.";
+					break;
+				case SAPPHIRE:
+					this.description = owner.name + " will be more aggressive.";
+					break;
+				case EMERALD:
+					this.description = owner.name + " will be more powerful.";
+					break;
+			}
 		}
+
 	}
 }

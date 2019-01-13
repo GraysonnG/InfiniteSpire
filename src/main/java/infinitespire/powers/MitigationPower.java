@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -17,7 +19,6 @@ public class MitigationPower extends AbstractPower {
 		InfiniteSpire.logger.info("Applying Crit");
 		this.owner = owner;
 		this.amount = turnsOfMitigation;
-		this.name = "Mitigation";
 		this.ID = PowerID;
 		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/mitigation.png");
 		this.type = PowerType.BUFF;
@@ -49,6 +50,13 @@ public class MitigationPower extends AbstractPower {
 
 	@Override
 	public void updateDescription() {
-		this.description = owner.name + " will receive #b" + (int)(100 - (100 * amountToMitigate)) + "% less damage for " + amount + " turns.";
+		if (Settings.language == Settings.GameLanguage.FRA){
+			this.name = "Atténuation";
+			this.description = owner.name + " recevra #b" + (int)(100 - (100 * amountToMitigate)) + "% d\u00e9gats en moins pour " + amount + " tours.";
+		} else {
+			this.name = "Mitigation";
+			this.description = owner.name + " will receive #b" + (int)(100 - (100 * amountToMitigate)) + "% less damage for " + amount + " turns.";
+		}
+
 	}
 }

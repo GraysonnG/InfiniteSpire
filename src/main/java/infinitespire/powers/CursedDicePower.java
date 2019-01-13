@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
@@ -11,7 +13,7 @@ public class CursedDicePower extends AbstractPower {
 	public CursedDicePower(AbstractPlayer player) {
 		this.owner = player;
 		this.amount = -1;
-		this.name = "Cursed Dice";
+
 		this.ID = powerID;
 		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/crit.png");
 		this.type = PowerType.BUFF;
@@ -20,6 +22,13 @@ public class CursedDicePower extends AbstractPower {
 	}
 
 	public void updateDescription() {
-		this.description = "You no longer take damage.";
+		if (Settings.language == Settings.GameLanguage.FRA){
+						this.name = "D\u00e9s maudit";
+						this.description = "Vous ne prenez plus de d\u00e9gats.";
+		} else {
+						this.name = "Cursed Dice";
+						this.description = "You no longer take damage.";
+		}
+
 	}
 }

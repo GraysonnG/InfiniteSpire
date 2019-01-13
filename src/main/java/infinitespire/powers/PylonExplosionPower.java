@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.utility.LoseBlockAction;
@@ -15,7 +17,6 @@ public class PylonExplosionPower extends AbstractPower{
     private LordOfAnnihilation boss;
 
     public PylonExplosionPower(ShieldPylon owner, LordOfAnnihilation boss){
-        this.name = "Life Link";
         this.ID = "is_LifeLinkPower";
         this.owner = owner;
         this.boss = boss;
@@ -38,6 +39,13 @@ public class PylonExplosionPower extends AbstractPower{
 
     @Override
     public void updateDescription() {
-        this.description = "Upon death remove all block from and deal #b" + owner.maxHealth + " damage to " + boss.name;
+      	if (Settings.language == Settings.GameLanguage.FRA){
+          this.name = "Lien de Vie";
+          this.description = "A la mort, retirez toutes l'Armure et inflige #b" + owner.maxHealth + " dégats à " + boss.name;
+        } else {
+          this.name = "Life Link";
+          this.description = "Upon death remove all block from and deal #b" + owner.maxHealth + " damage to " + boss.name;
+        }
+
     }
 }

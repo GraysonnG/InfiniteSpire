@@ -96,14 +96,14 @@ public class SlayQuest extends Quest {
 			this.monstersStrings[1]  = "Slime Acide Moyen";
 			this.monstersStrings[2] = "Petit Slime Acide";
 			this.monstersStrings[3] = "Gros Slime Epineux ";
-			this.monstersStrings[4] = "Slime Épineux Moyen";
+			this.monstersStrings[4] = "Slime Epineux Moyen";
 			this.monstersStrings[5] = "Petit Slime Epineux ";
 			this.monstersStrings[6] = "Adepte";
 			this.monstersStrings[7] = "Champi-b\u00eates";
 			this.monstersStrings[8] = "M\u00e2chouilleur";
 			this.monstersStrings[9] = "Brigand";
 			this.monstersStrings[10] = "Pou Normal";
-			this.monstersStrings[11] = "Pou Défensif";
+			this.monstersStrings[11] = "Pou D\u00e9fensif";
 			this.monstersStrings[12] = "Esclavagiste Bleu";
 			this.monstersStrings[13] = "Esclavagiste Rouge";
 

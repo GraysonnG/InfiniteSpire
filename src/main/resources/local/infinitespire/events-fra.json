@@ -6,14 +6,14 @@
 			" NL NL Vous vous sentez fatigué et décider de dormir...",
 			" NL NL Usant de cette sensation horrifiante comme motivation, vous améliorez votre arsenal. NL #y@CLANG@ #y@CLAAANG@ #y@CLANG!@",
 			" NL NL Vous vous sentez mal pour le précédent héros et laissez une offrande pour son âme perdue...",
-			" NL NL Vous voyez un coin de terre remuée, et à coté une pelle brisée. Lorsquevous creuser, votre pelle se casse! Mais au fond du trou vous voyez quelque chose qui n'est ni de la terre ou des roches...",
+			" NL NL Vous voyez un coin de terre remuée, et à coté une pelle brisée. Lorsque vous creuser, votre pelle se casse! Mais au fond du trou vous voyez quelque chose qui n'est ni de la terre ou des roches...",
 			"Vous voyez une petite couverture. NL Cela vous rappelle votre maison. NL Lâchant votre Oreiller, vous prenez la couverture à la place."
 		],
 		"OPTIONS" : [
-			"#g[Se reposer] Faire une sieste et regagner des PV",
-			"#g[Forger] Améliorez une carte.",
-			"#g[Retirer] Retirez une carte.",
-			"#g[Creuser] Obtenez une relique aléatoire.",
+			"[Se reposer] Faire une sieste et regagner ",
+			"[Forger] Améliorez une carte.",
+			"[Retirer] Retirez une carte.",
+			"[Creuser] Obtenez une relique aléatoire.",
 			"Vous avez obtenu Couverture Blanche",
 			"Partir.",
 			"[Verrouillé]"

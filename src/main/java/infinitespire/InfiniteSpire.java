@@ -200,7 +200,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			String potionStrings = Gdx.files.internal("local/infinitespire/potions-fra.json")
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 			BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
-			
+
 			//EN
 		} else {
 		String relicStrings = Gdx.files.internal("local/infinitespire/relics.json")
@@ -226,9 +226,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		if (Settings.language == Settings.GameLanguage.FRA){
 			String[] golemsMight = { "Puissance De Golem", "Golems","golems", "Golem", "golem" };
 			String[] crit = { "critique", "crit" };
-			String[] shattered = { "Déchiqueté","Déchiquetée" };
+			String[] shattered = { "D\u00e9chiquet\u00e9","D\u00e9chiquet\u00e9e" };
 			String[] mitigation = { "Atténuation" };
-			String[] deenergized = {"Désexcité"};
+			String[] deenergized = {"D\u00e9sexcit\u00e9"};
 
 			BaseMod.addKeyword(golemsMight, "Chaque tour, vos attaques infliges 5% de dégats en plus que le tour précédent.");
 			BaseMod.addKeyword(crit, "La prochaine attaque que vous jouez inflige 2x dégats.");
