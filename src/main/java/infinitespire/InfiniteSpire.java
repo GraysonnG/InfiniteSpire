@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.monsters.MonsterInfo;
 import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
@@ -38,6 +39,7 @@ import infinitespire.interfaces.OnQuestRemovedSubscriber;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.monsters.MassOfShapes;
 import infinitespire.monsters.Nightmare;
+import infinitespire.monsters.Voidling;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.potions.BlackPotion;
@@ -94,6 +96,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 	public static String createID(String id) {
 		return "infinitespire:" + id;
+	}
+	public static String createPath(String restOfPath) {
+		return "img/infinitespire/" + restOfPath;
 	}
 
 	public InfiniteSpire() {
@@ -152,14 +157,15 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		BaseMod.addMonster(Nightmare.ID, () -> new Nightmare(false));
 		BaseMod.addMonster(Nightmare.ID + "_Alpha", () -> new Nightmare(true));
-		//BaseMod.addMonster(Voidling.ID, Voidling::new);
+		BaseMod.addMonster(Voidling.ID, Voidling::new);
 
+		BaseMod.addMonsterEncounter(Exordium.ID, new MonsterInfo(Voidling.ID, 0.5f));
 
 		BaseMod.addMonster(MassOfShapes.ID, MassOfShapes::new);
 
 		BaseMod.addBoss(TheBeyond.ID, MassOfShapes.ID,
-			"img/infinitespire/ui/map/massBoss.png",
-			"img/infinitespire/ui/map/massBoss-outline.png");
+			createPath("ui/map/massBoss.png"),
+			createPath("ui/map/massBoss-outline.png"));
 
 		// this should be removed after im done testing
 //		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
@@ -355,11 +361,11 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
 
 		BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR,
-				CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR, "img/infinitespire/cards/ui/512/boss-attack.png",
-				"img/infinitespire/cards/ui/512/boss-skill.png", "img/infinitespire/cards/ui/512/boss-power.png",
-				"img/infinitespire/cards/ui/512/boss-orb.png", "img/infinitespire/cards/ui/1024/boss-attack.png",
-				"img/infinitespire/cards/ui/1024/boss-skill.png", "img/infinitespire/cards/ui/1024/boss-power.png",
-				"img/infinitespire/cards/ui/1024/boss-orb.png");
+			CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR,
+			createPath("cards/ui/512/boss-attack.png"), createPath("cards/ui/512/boss-skill.png"),
+			createPath("cards/ui/512/boss-power.png"),	createPath("cards/ui/512/boss-orb.png"),
+			createPath("cards/ui/1024/boss-attack.png"), createPath("cards/ui/1024/boss-skill.png"),
+			createPath("cards/ui/1024/boss-power.png"), createPath("cards/ui/1024/boss-orb.png"));
 
 		logger.info("InfiniteSpire | Initializing dynamic variables...");
 		BaseMod.addDynamicVariable(new Neurotoxin.PoisonVariable());
@@ -458,6 +464,40 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public static class Textures {
+		public static Texture getCardTexture(String texture) {
+			return getTexture(createPath("/cards/") + texture);
+		}
+
+		public static Texture getEventTexture(String texture) {
+			return getTexture(createPath("/events/") + texture);
+		}
+
+		public static Texture getMonsterTexture(String texture) {
+			return getTexture(createPath("/monsters/") + texture);
+		}
+
+		public static Texture getPowerTexture(String texture) {
+			return getTexture(createPath("/powers/") + texture);
+		}
+
+		public static Texture getRelicTexture(String texture) {
+			return getTexture(createPath("/relics/") + texture);
+		}
+
+		public static Texture getScreenTexture(String texture) {
+			return getTexture(createPath("/screen/") + texture);
+		}
+
+		public static Texture getrUITexture(String texture) {
+			return getTexture(createPath("/ui/") + texture);
+		}
+
+		public static Texture getVFXTexture(String texture) {
+			return getTexture(createPath("/vfx/") + texture);
 		}
 	}
 }
