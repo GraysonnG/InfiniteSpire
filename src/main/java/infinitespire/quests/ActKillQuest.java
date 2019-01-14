@@ -1,5 +1,7 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -40,7 +42,12 @@ public class ActKillQuest extends SlayQuest{
 
 	@Override
 	public String getTitle() {
-		return "Kill " + maxSteps + " Monsters This Act.";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Tuez " + maxSteps + " Monstres cet acte.";
+		} else {
+				return "Kill " + maxSteps + " Monsters This Act.";
+		}
+
 	}
 
 	@Override

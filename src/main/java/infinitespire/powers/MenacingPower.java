@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.evacipated.cardcrawl.mod.stslib.actions.common.StunMonsterAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
@@ -18,7 +20,6 @@ public class MenacingPower extends AbstractPower {
 	public MenacingPower(AbstractPlayer owner, int amount){
 		this.owner = owner;
 		this.amount = amount;
-		this.name = "Menacing";
 		this.ID = "is_Menacing";
 		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/realityshift.png");
 		this.type = PowerType.BUFF;
@@ -26,9 +27,20 @@ public class MenacingPower extends AbstractPower {
 	}
 
 	public void updateDescription() {
-		this.description = amount > 1 ?
-			"The next " + amount + " attacks you play stun any enemy they hit for 1 turn." :
-			"The next attack you play stuns any enemy it hits for 1 turn.";
+		String textA;
+		String textB;
+		if (Settings.language == Settings.GameLanguage.FRA){
+			this.name = "Menaçant";
+			textA = 	"Les  " + amount + " prochaines attaques que vous jouez \u00e9tourdissent tous les ennemis touchez pour 1 tour.";
+			textB = "La prochaine attaque que vous jouez étourdit les ennemis touchés pour 1 tour";
+		} else {
+			this.name = "Menacing";
+			textA = 	"The next " + amount + " attacks you play stun any enemy they hit for 1 turn.";
+			textB = "The next attack you play stuns any enemy it hits for 1 turn.";
+		}
+
+
+		this.description = amount > 1 ?	textA :textB;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -16,32 +17,61 @@ import infinitespire.abstracts.Quest;
 import infinitespire.patches.ScreenStatePatch;
 import infinitespire.quests.QuestLog;
 
+
+
 import java.util.ArrayList;
 
 public class QuestLogScreen {
-	
+
 	private QuestLog gameQuestLog;
-	
+
 	private ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
 	private boolean justClicked = false;
 	private boolean justClickedRight = false;
 	private float completedAlpha = 0f;
 	private float completedSin = 0f;
 	private float yScale;
-
+	private String ret;
+	private String title;
+	private String tips;
+	private String claim;
+	private String reward;
+	private String abandon;
 	public boolean openedDuringReward;
-	
+
+
+
+
 	public QuestLogScreen(QuestLog log) {
 		gameQuestLog = log;
 	}
 
 	public void open() {
+		//SET language
+		//FRA
+		if (Settings.language == Settings.GameLanguage.FRA){
+			 ret = "Retour";
+			 title = "Journal de Qu\u00eates";
+			 tips = "Astuce: Clique-droit pour abandonner";
+			 reward = "R\u00e9cup\u00e9rer: ";
+			 claim = "R\u00e9compense: ";
+			 abandon = "Clique gauche pour confirmer l'abandon";
+
+		//ENG
+		} else {
+			 ret = "Return";
+			 title = "Quest Log";
+			 tips = "Tip: Right Click to Abandon";
+			 reward = "Claim: ";
+			 claim = "Reward: ";
+		 	abandon = "Left Click to Confirm Abandon";
+		}
 		AbstractDungeon.player.releaseCard();
 		gameQuestLog.hasUpdate = false;
 		AbstractDungeon.screen = ScreenStatePatch.QUEST_LOG_SCREEN;
 		AbstractDungeon.overlayMenu.showBlackScreen();
 		AbstractDungeon.overlayMenu.proceedButton.hide();
-		AbstractDungeon.overlayMenu.cancelButton.show("Return");
+		AbstractDungeon.overlayMenu.cancelButton.show(this.ret);
 		AbstractDungeon.isScreenUp = true;
 		this.gameQuestLog = InfiniteSpire.questLog;
 
@@ -73,7 +103,7 @@ public class QuestLogScreen {
 
 	public void render(SpriteBatch sb) {
 		sb.setColor(Color.WHITE);
-		
+
 		int rI = 0, gI = 0, bI = 0;
 		int i = 0;
 		for(Quest quest : gameQuestLog) {
@@ -127,7 +157,7 @@ public class QuestLogScreen {
 		sb.draw(ImageMaster.VICTORY_BANNER, Settings.WIDTH / 2.0f - 556.0f, y - 119.0f,
 				556.0f, 119.0f, 1112.0f, 238.0f, Settings.scale, Settings.scale,
 				0.0f, 0, 0, 1112, 238, false, false);
-		FontHelper.renderFontCentered(sb, FontHelper.bannerFont, "Quest Log", Settings.WIDTH / 2.0f,
+		FontHelper.renderFontCentered(sb, FontHelper.bannerFont, this.title, Settings.WIDTH / 2.0f,
 				y + 22.0f * Settings.scale, Color.WHITE, 1f);
 	}
 
@@ -139,13 +169,12 @@ public class QuestLogScreen {
 		sb.setColor(Color.WHITE.cpy());
 		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/tipScroll.png"),
 				x, y - bannerOffset, 512f * Settings.scale, 256 * Settings.scale);
-
-		FontHelper.renderFontLeft(sb, FontHelper.topPanelAmountFont,"Tip: Right Click to Abandon", x + 25f * Settings.scale, y, Color.WHITE.cpy());
+		FontHelper.renderFontLeft(sb, FontHelper.topPanelAmountFont, this.tips, x + 25f * Settings.scale, y, Color.WHITE.cpy());
 	}
 
 	public void renderQuest(int index, int hbI, SpriteBatch sb, Quest quest) {
 		float xOffset = 1;
-		
+
 		switch(quest.type) {
 		case RED:
 			xOffset = 1;
@@ -157,7 +186,7 @@ public class QuestLogScreen {
 			xOffset = 3;
 			break;
 		}
-		
+
 		float width = 500f * Settings.scale;
 		float xPos = ((Settings.WIDTH / 4f) * xOffset) - (width / 2f);
 		float yPos = Settings.HEIGHT - (450f * Settings.scale);
@@ -165,22 +194,27 @@ public class QuestLogScreen {
 		float textYOffset = 80f * Settings.scale;
 
 		String boxString = quest.getRewardString();
+		if (Settings.language == Settings.GameLanguage.FRA){
+
+		} else {
+
+		}
 
 		if(quest.isCompleted()) {
-			boxString = "Claim: " + boxString;
+			boxString = this.reward + boxString;
 		}else{
-			boxString = "Reward: " + boxString;
+			boxString = this.claim + boxString;
 		}
 
 		if(quest.abandon){
-			boxString = "Left Click to Confirm Abandon";
+			boxString = this.abandon;
 		}
 
 		yPos -= (100 * Settings.scale) * index * yScale;
-		
+
 		Hitbox tempHitbox = hbs.get(hbI);
 		tempHitbox.update(xPos + (10f * Settings.scale), yPos + (10f * Settings.scale));
-		
+
 		//Render the base Quest texutre in the color of the quest
 		sb.setColor(quest.color);
 		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
@@ -194,7 +228,7 @@ public class QuestLogScreen {
 
 		//Renders the name of the font
 		FontHelper.renderFontLeft(sb, FontHelper.panelNameFont, quest.getTitle(), xPos + textXOffset, yPos + textYOffset, Color.WHITE);
-	
+
 		if(!tempHitbox.hovered && !quest.isCompleted()) {
 			//Render the progress bar
 			renderQuestCompletionBar(sb, quest, xPos + textXOffset + (4f * Settings.scale), yPos + 25f * (Settings.scale));
@@ -207,7 +241,7 @@ public class QuestLogScreen {
             sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questBackground.png"), xPos, yPos, 0, 0, 500f, 116f, Settings.scale, Settings.scale, 0.0f, 0, 0, 500, 116, false, false);
             sb.setBlendFunction(770, 771);
             sb.setColor(Color.WHITE);
-            
+
             //Change the completedAlpha so completed quests "glow"
             this.completedSin += Gdx.graphics.getDeltaTime() * 4f;
 			this.completedAlpha = ((float) Math.sin(completedSin) + 1f) / 2f;
@@ -233,14 +267,14 @@ public class QuestLogScreen {
 			CardCrawlGame.sound.play("UI_HOVER");
 			quest.isNew = false;
 		}
-		
+
 		tempHitbox.render(sb);
 	}
-	
+
 	private void renderQuestCompletionBar(SpriteBatch sb, Quest quest, float xPos, float yPos) {
-		
+
 		xPos += 15f * Settings.scale;
-		
+
 		float hbSize = 20f * Settings.scale;
 		float fullWidth = 330 * Settings.scale;
 
@@ -254,7 +288,7 @@ public class QuestLogScreen {
 	        sb.draw(ImageMaster.HB_SHADOW_B, xPos, yPos, fullWidth * quest.getCompletionPercentage(), hbSize);
 	        sb.draw(ImageMaster.HB_SHADOW_R, xPos + fullWidth * quest.getCompletionPercentage(), yPos, hbSize, hbSize);
         }
-       
+
         FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, quest.currentSteps + "/" + quest.maxSteps, xPos + fullWidth / 2f, yPos + (10 * Settings.scale), Color.WHITE);
 	}
 

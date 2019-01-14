@@ -1,5 +1,8 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -10,10 +13,9 @@ import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
 public class RemoveCardQuest extends Quest {
-	
+
 	private static final Color COLOR = new Color(0f, 0.5f, 1f, 1f);
 	public int cost;
-	
 	public RemoveCardQuest() {
 		super(RemoveCardQuest.class.getName(), COLOR, 5, QuestType.BLUE, QuestRarity.COMMON);
 	}
@@ -37,12 +39,21 @@ public class RemoveCardQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return this.cost + "g";
+		if (Settings.language == Settings.GameLanguage.FRA){
+			return this.cost +  "Or";
+		} else {
+		return this.cost +  "g";
+		}
 	}
 
 	@Override
 	public String getTitle() {
-		return "Remove 5 Cards";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Retirez 5 cartes";
+		} else {
+				return "Remove 5 Cards";
+		}
+
 	}
 
 	@Override

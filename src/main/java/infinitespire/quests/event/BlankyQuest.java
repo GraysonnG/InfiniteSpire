@@ -1,5 +1,7 @@
 package infinitespire.quests.event;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.actions.common.HealAction;
@@ -65,12 +67,20 @@ public class BlankyQuest extends Quest implements IAutoQuest {
 
     @Override
     public String getRewardString() {
-        return "Heal " + heal + " HP";
+      if (Settings.language == Settings.GameLanguage.FRA){
+          return "Soignez-vous " + heal + " PV";
+      } else {
+          return "Heal " + heal + " HP";
+      }
     }
 
     @Override
     public String getTitle() {
+      if (Settings.language == Settings.GameLanguage.FRA){
+        return "Obtenez une couverture.";
+      } else {
         return "Get a Blanky.";
+      }
     }
 
     @Override

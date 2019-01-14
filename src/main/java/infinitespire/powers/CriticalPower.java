@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -11,12 +13,11 @@ import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 
 public class CriticalPower extends AbstractPower {
-	
+
 	public CriticalPower(AbstractPlayer player) {
 		InfiniteSpire.logger.info("Applying Crit");
 		this.owner = player;
 		this.amount = -1;
-		this.name = "Critical";
 		this.ID = "is_CritPower";
 		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/crit.png");
 		this.type = PowerType.BUFF;
@@ -28,11 +29,11 @@ public class CriticalPower extends AbstractPower {
 		if(info == DamageInfo.DamageType.NORMAL) {
 			return damageAmount *= 2;
 		}
-	
+
 		return damageAmount;
 	}
-	
-	
+
+
 
 	@Override
 	public void onAfterUseCard(AbstractCard card, UseCardAction action) {
@@ -43,6 +44,13 @@ public class CriticalPower extends AbstractPower {
 	}
 
 	public void updateDescription() {
-		this.description = "The next attack you play will deal 2x damage";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				this.name = "Critique";
+				this.description = "La prochaine attaques que vous jouez inflige 2x dégats.";
+		} else {
+				this.name = "Critical";
+				this.description = "The next attack you play will deal 2x damage.";
+		}
+
 	}
 }

@@ -1,5 +1,7 @@
 package infinitespire.relics;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.evacipated.cardcrawl.mod.stslib.relics.ClickableRelic;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
@@ -55,8 +57,13 @@ public class Eraser extends Relic implements ClickableRelic {
 	}
 
 	public String getUpdatedDescription() {
-		return "[#2aecd7]Right [#2aecd7]click [#2aecd7]during [#2aecd7]combat [#2aecd7]to [#2aecd7]activate.[]"
-			+ " NL [#2aecd7]Usable [#2aecd7]only [#2aecd7]once [#2aecd7]per [#2aecd7]combat.[] NL " + DESCRIPTIONS[0];
+				if (Settings.language == Settings.GameLanguage.FRA){
+		return "[#2aecd7]Clique [#2aecd7]droit [#2aecd7]lors [#2aecd7]du  [#2aecd7]combat [#2aecd7]pour [#2aecd7]activer.[]"
+			+ " NL [#2aecd7]Utilisable [#2aecd7]seulement [#2aecd7]une [#2aecd7]fois [#2aecd7]par [#2aecd7]combat.[] NL " + DESCRIPTIONS[0];
+		} else {
+			return "[#2aecd7]Right [#2aecd7]click [#2aecd7]during [#2aecd7]combat [#2aecd7]to [#2aecd7]activate.[]"
+				+ " NL [#2aecd7]Usable [#2aecd7]only [#2aecd7]once [#2aecd7]per [#2aecd7]combat.[] NL " + DESCRIPTIONS[0];
+		}
 	}
 
 	@Override

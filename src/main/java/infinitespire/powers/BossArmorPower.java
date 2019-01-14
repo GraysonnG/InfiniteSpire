@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
@@ -19,7 +21,6 @@ public class BossArmorPower extends AbstractPower{
 		InfiniteSpire.logger.info("Applying Crit");
 		this.owner = owner;
 		this.amount = thresholdDamage;
-		this.name = "Boss Armor";
 		this.ID = PowerID;
 		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/bossarmor.png");
 		this.type = PowerType.BUFF;
@@ -34,8 +35,16 @@ public class BossArmorPower extends AbstractPower{
 
 	@Override
 	public void updateDescription() {
-		this.description = "After taking #b" + thresholdDamage + " damage this turn, " + owner.name +
-			" will gain Mitigation for #b" + turnsOfMitigation + (turnsOfMitigation > 1 ? " turns." : " turn.");
+		if (Settings.language == Settings.GameLanguage.FRA){
+				this.name = "Armure de boss";
+			this.description = "Apr\u00e8s avoir prit #b" + thresholdDamage + " d\u00e9gats ce tour, " + owner.name +
+				" gagnera Mitigation pour #b" + turnsOfMitigation + (turnsOfMitigation > 1 ? " tours." : " tour.");
+		} else {
+				this.name = "Boss Armor";
+			this.description = "After taking #b" + thresholdDamage + " damage this turn, " + owner.name +
+				" will gain Mitigation for #b" + turnsOfMitigation + (turnsOfMitigation > 1 ? " turns." : " turn.");
+		}
+
 	}
 
 	public BossArmorPower(int thresholdDamage, float amountToMitigate, AbstractCreature owner){

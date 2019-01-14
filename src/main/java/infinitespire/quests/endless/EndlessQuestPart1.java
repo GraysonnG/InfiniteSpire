@@ -1,5 +1,7 @@
 package infinitespire.quests.endless;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -37,12 +39,22 @@ public class EndlessQuestPart1 extends SlayQuest implements IQuestLine{
 
 	@Override
 	public String getTitle() {
-		return "Kill a Nightmare";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Tuez un Cauchemare";
+		} else {
+				return "Kill a Nightmare";
+		}
+
 	}
 
 	@Override
 	public String getRewardString() {
-		return "Unlock Endless";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "D\u00e9bloque Sans-fin";
+		} else {
+				return "Unlock Endless";
+		}
+
 	}
 
 	@Override

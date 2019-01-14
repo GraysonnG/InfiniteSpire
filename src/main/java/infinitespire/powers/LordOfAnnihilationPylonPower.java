@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
@@ -10,7 +12,6 @@ import infinitespire.util.TextureLoader;
 
 public class LordOfAnnihilationPylonPower extends AbstractPower{
     public LordOfAnnihilationPylonPower(LordOfAnnihilation owner){
-        this.name = "Pylon Shield";
         this.ID = "is_PylonPower";
         this.owner = owner;
         this.amount = -1;
@@ -38,6 +39,13 @@ public class LordOfAnnihilationPylonPower extends AbstractPower{
 
     @Override
     public void updateDescription() {
+      if (Settings.language == Settings.GameLanguage.FRA){
+        this.name = "Pylone à Bouclier";
+        this.description = "Tant qu'il y a au moins #b1 #ypylon #y\u00e0 #yBouclier ,gagnez #b1 #yIntangible à la fin du tour.";
+      } else {
+        this.name = "Pylon Shield";
         this.description = "As long as there is at least #b1 #yShield #yPylon, gain #b1 #yIntangible at the end of the turn.";
+      }
+
     }
 }

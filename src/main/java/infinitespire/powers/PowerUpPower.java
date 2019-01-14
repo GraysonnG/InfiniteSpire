@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.powers.AbstractPower;
@@ -16,15 +18,22 @@ public class PowerUpPower extends AbstractPower{
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 	}
-	
+
 	public float atDamageFinalGive(float damageAmount, DamageInfo.DamageType info) {
 		if(info == DamageInfo.DamageType.NORMAL) {
 			return (float)Math.ceil(damageAmount *= 1.10);
 		}
 		return damageAmount;
 	}
-	
+
 	public void updateDescription() {
-		this.description = "All attacks deal 10% more damage.";
+			if (Settings.language == Settings.GameLanguage.FRA){
+				this.name = "Surpuissance";
+				this.description = "Toutes les attaques infligent 10% de d\u00e9gats en plus.";
+			} else {
+				this.name = "Power-Up";
+				this.description = "All attacks deal 10% more damage.";
+			}
+
 	}
 }

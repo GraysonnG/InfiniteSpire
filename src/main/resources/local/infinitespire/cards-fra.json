@@ -1,0 +1,65 @@
+{
+	"infinitespire:Neurotoxin": {
+		"NAME": "Neurotoxine",
+		"DESCRIPTION": "Appliquez !M! Poison. NL Chaque fois que cette carte est jouée, Augmentez de manière permanente son poison de !inf_P!. NL Épuisement."
+	},
+	"infinitespire:OneForAll": {
+		"NAME": "Un pour Tous",
+		"DESCRIPTION": "Infligez !D! dégats. NL Chaque fois que cette carte est jouée,  Augmentez de manière permanente ses dégats de !M!. NL Épuisement."
+	},
+	"infinitespire:Pacifist":{
+		"NAME": "Pacifiste",
+		"DESCRIPTION": "Lorsque cette carte est dans votre main, vous ne pouvez pas jouer d'attaque."
+	},
+	"infinitespire:Collect": {
+		"NAME": "Collecte",
+		"DESCRIPTION": "Piochez !M! cartes et améliorez les."
+	},
+	"infinitespire:DeathsTouch": {
+		"NAME": "Toucher de la Mort",
+		"DESCRIPTION": "Infligez !D! dégats. Appliquer !M! Poison X + 1 fois."
+	},
+	"infinitespire:Execution": {
+		"NAME": "Éxécution",
+		"DESCRIPTION": "Appliquer Déchiqueté à un ennemi. NL Épuisement."
+	},
+	"infinitespire:FinalStrike": {
+		"NAME": "Frappe Finale",
+		"DESCRIPTION": "Infligez !D! dégats. Infligez !M! dégats additionels pour chaque cartes comportant Frappe "
+	},
+	"infinitespire:Fortify": {
+		"NAME": "Fortifier",
+		"DESCRIPTION": "Gagnez !B! d'Armure !M! fois."
+	},
+	"infinitespire:FutureSight": {
+		"NAME": "Vision du Future",
+		"DESCRIPTION": "Gagnez NL [E]  [E]  [E]  [E] NL énergie. NL Épuisement."
+	},
+	"infinitespire:Gouge": {
+		"NAME": "Gouge",
+		"DESCRIPTION": "Infligez !D! dégats. NL Enlevez un artéfact. NL Appliquez !M! Faiblesse et Vulnérabilité."
+	},
+	"infinitespire:Menacing": {
+		"NAME": "Menaçant",
+		"DESCRIPTION": "La prochaine attaque que vous jouez étourdit tous les ennemis qu'elle touche pour 1 tour. NL Épuisement.",
+		"UPGRADE_DESCRIPTION": "Les !M! prochaines attaques que vous jouez étourdissent tous les ennemis qu'elles touchent pour 1 tour. NL Épuisement."
+	},
+	"infinitespire:NeuralNetwork": {
+		"NAME": "Réseau neural",
+		"DESCRIPTION": "Piochez !M! cartes en plus au début de chaque tour.",
+		"UPGRADE_DESCRIPTION": "Inné. Piochez !M! cartes en plus au début de chaque tour."
+	},
+	"infinitespire:Punishment": {
+		"NAME": "Punission",
+		"DESCRIPTION": "Infligez 1 dégats pour chaque cartes dans votre pioche, main , et défausse.",
+		"UPGRADE_DESCRIPTION": "Infligez 1 dégats pour chaque cartes dans votre pioche, main , et défausse. NL ( !D! )"
+	},
+	"infinitespire:TheBestDefense": {
+		"NAME": "La MEILLEURE défense",
+		"DESCRIPTION": "Convertissez toute votre Armure en force, Perdez cette force à la fin du tour."
+	},
+	"infinitespire:UltimateForm": {
+		"NAME": "Forme Ultime",
+		"DESCRIPTION": "Gagnez !M! Force et Déxtérité chaque tour. NL Si vous avez un emplacement d'orbe gagnez !M! concentration chaque tour."
+	}
+}

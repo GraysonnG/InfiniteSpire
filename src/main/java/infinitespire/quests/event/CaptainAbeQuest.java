@@ -1,5 +1,7 @@
 package infinitespire.quests.event;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
@@ -52,12 +54,22 @@ public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
 
     @Override
     public String getRewardString() {
-        return "Gain " + gold + "g";
+      if (Settings.language == Settings.GameLanguage.FRA){
+            return "Gagnez " + gold + "Or";
+      } else {
+          return "Gain " + gold + "g";
+      }
+
     }
 
     @Override
     public String getTitle() {
-        return "Defeat Captain Abe";
+      if (Settings.language == Settings.GameLanguage.FRA){
+          return "Battez Captain Abe";
+      } else {
+          return "Defeat Captain Abe";
+      }
+
     }
 
     @Override

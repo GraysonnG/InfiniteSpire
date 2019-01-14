@@ -1,0 +1,206 @@
+{
+	"infinitespire:Bottled Soul":{
+		"NAME" : "Âme en bouteille",
+		"FLAVOR" : "Une bouteille brisée... Une âme brisée...",
+		"DESCRIPTIONS" : [
+			"Lorsque ramassée, choisissez une carte qui a #yÉpuisement. Lorsque vous jouez cette carte, elle n'est plus #yÉpuisée."
+		]
+	},
+	"infinitespire:Golems Mask":{
+		"NAME" : "Masque de Golem",
+		"FLAVOR" : "Tout comme le Golem, lent et immobile.",
+		"DESCRIPTIONS" : [
+			"Le premier tour du combat, gagnez #yPuissance #yDe #yGolem."
+		]
+	},
+	"infinitespire:Lychee Nut" : {
+		"NAME" : "Noix de Litchi",
+		"FLAVOR" : "C'est plutôt bon.",
+		"DESCRIPTIONS" : [
+			"Lorsque ramassée, perdez #b25% de vos PV max. Au début du combat gagnez #b3 #yRegen."
+		]
+	},
+	"infinitespire:Cupcake" : {
+		"NAME" : "Cupcake",
+		"FLAVOR" : "C'est surtout du glaçage.",
+		"DESCRIPTIONS" : [
+			"Gagnez [E] au début de votre tour. Après 3 tours, devenez #yDésexcité."
+		]
+	},
+	"infinitespire:Magic Flask" : {
+		"NAME" : "Flasque Magique",
+		"FLAVOR" : "Les flammes sont plus chaudes...",
+		"DESCRIPTIONS" : [
+			"Au Feu de camp, vous pouvez vous reposez sans perde de temps. Cela prends #b1 utilisation. NL Possède #b3 utilisations.Tuez un boss pour gagnez #b2 utilisations supplémentaires.",
+			"NL NL #ysynergie: Coeur en bouteille"
+		]
+	},
+	"infinitespire:Cubic Diamond" : {
+		"NAME" : "Diamant cubique",
+		"FLAVOR" : "Je me sens bizarre.",
+		"DESCRIPTIONS" : [
+			"Lorsque ramassée, remplacez votre relique de départ par une autre relique de départ aléatoire."
+		]
+	},
+	"infinitespire:Midas Blood" : {
+		"NAME" : "Sang de midas",
+		"FLAVOR" : "Prendre des dégats ne fait jamais du bien.",
+		"DESCRIPTIONS" : [
+			"Lorsque vous perdez des PV, gagnez #b2 d'or"
+		]
+	},
+	"infinitespire:Freezer" : {
+		"NAME" : "Congélateur",
+		"FLAVOR" : "C'est froid.",
+		"DESCRIPTIONS" : [
+			"Au début du combat, #ycanalisez #b1 #yOrbe gelée."
+		]
+	},
+	"infinitespire:Beetle Shell" : {
+		"NAME" : "Carapace de scarabé",
+		"FLAVOR" : "Dur comme la roche.",
+		"DESCRIPTIONS" : [
+			"Chaque #b10 fois que vous gagnez de l' #yArmure par une carte, gagnez le double d' #yArmure."
+		]
+	},
+	"infinitespire:Burning Sword" : {
+		"NAME" : "Épée brûlante",
+		"FLAVOR" : "Éclatante d'une énergie puissante.",
+		"DESCRIPTIONS" : [
+			"Au début de chaque tour, Gagnez #yCritique. La première #yAttaque que vous jouez ajoute une #yBrûlure à votre main."
+		]
+	},
+	"infinitespire:Broken Mirror" : {
+		"NAME" : "Mirroir brisé",
+		"FLAVOR" : "C'est coupant.",
+		"DESCRIPTIONS" : [
+			"Au début du combat, gagnez #b3 #yRéfléctions."
+		]
+	},
+	"infinitespire:Spectral Dust" : {
+		"NAME" : "Poussière spéctrale",
+		"FLAVOR" : "Si léger qu'il pourrait être souffler d'un simple souffle.",
+		"DESCRIPTIONS" : [
+			"Lorsqu'une carte #yÉthérée est #yÉpuisée, infligez #b2 dégats à un ennemi au hasard."
+		]
+	},
+	"infinitespire:Holy Water" : {
+		"NAME" : "Eau sacrée",
+		"FLAVOR" : "Elle n'a le goût de rien.",
+		"DESCRIPTIONS" : [
+			"Lorsque ramassée, retirez #b2 #yRouilles. (Cela exclu Lance de Rouille and Bouclier de Rouille)"
+		]
+	},
+	"infinitespire:Blanks Blanky" : {
+		"NAME" : "Couverture Blanche",
+		"FLAVOR" : "C'est plus un consolateur.",
+		"DESCRIPTIONS" : [
+			"Lorsque vous vous reposez à un site de repos, regagnez toute votre santé."
+		]
+	},
+	"infinitespire:Lucky Rock" : {
+		"NAME" : "Cailloux chanceux",
+		"FLAVOR" : "Il est tout lisse.",
+		"DESCRIPTIONS" : [
+			"Chaque fois que vous jouez une carte attaque, vous avez #b5% de chance de gagnez #yCritique."
+		]
+	},
+	"infinitespire:Joker Card" : {
+		"NAME" : "Joker ",
+		"FLAVOR" : "Prends la forme de n'importe qu'elle autre carte.",
+		"DESCRIPTIONS" : [
+			"Chaque #b15ème cartes que vous jouez est jouée deux fois."
+		]
+	},
+	"infinitespire:Satchel" : {
+		"NAME" : "Cartable",
+		"FLAVOR" : "Ce n'est pas une bourse !",
+		"DESCRIPTIONS" : [
+			"Au début de chaque tour, conservez #b1 carte."
+		]
+	},
+	"infinitespire:MutagenicDexterity" : {
+		"NAME" : "Dextérité Mutagène",
+		"FLAVOR" : "Le sujet est capable d'enduré plus de dégats, pour un cours instant.",
+		"DESCRIPTIONS" : [
+			"Débutez chaque combat avec #b3 #yDextérité qui est perdu à la fin de votre tour. "
+		]
+	},
+	"infinitespire:SolderingIron" : {
+		"NAME" : "Fer à soudé",
+		"FLAVOR" : "OUCH! ça brûle!",
+		"DESCRIPTIONS" : [
+			"Lorsque vous canalisez 3 orbe en un tour, gagnez #b1 emplacement d'orbe."
+		]
+	},
+	"infinitespire:EmpoweringShard" : {
+		"NAME" : "Fragment de puissance",
+		"FLAVOR" : "On dirait qu'il contient un grand pouvoir...",
+		"DESCRIPTIONS" : [
+			"Pour chaque acte terminé gagnez #b1 #yForce au début du combat."
+		]
+	},
+    "infinitespire:WardingShard" : {
+        "NAME" : "Fragment de protection",
+        "FLAVOR" : "C'est incassable!",
+        "DESCRIPTIONS" : [
+            "Pour chaque acte terminé gagnez #b1 #yDextérité au début du combat."
+        ]
+    },
+    "infinitespire:FocusingShard" : {
+        "NAME" : "Fragment concentré",
+        "FLAVOR" : "Tranchant!",
+        "DESCRIPTIONS" : [
+            "Pour chaque acte terminé #yAméliorez une carte au début du combat."
+        ]
+    },
+	"infinitespire:ShieldingShard" : {
+		"NAME" : "Fragment de vie",
+		"FLAVOR" : "Sympa!",
+		"DESCRIPTIONS" : [
+			"Pour chaque acte terminé gagnez #bTemporairement #y3 #yPV au début du combat."
+		]
+	},
+	"infinitespire:DarkRift" : {
+		"NAME" : "Faille sombre",
+		"FLAVOR" : "On dirait une mini galaxie!",
+		"DESCRIPTIONS" : [
+			"Au début du combat, ajoutez une carte [#3D00D6]Noire[] aléatoire à votre pioche."
+		]
+	},
+	"infinitespire:Eraser": {
+		"NAME": "Gomme",
+		"FLAVOR": "Moelleux!",
+		"DESCRIPTIONS" : [
+			"Relancez un combat d'élite contre un autre élite. Les ennemis seront plus puissants. NL Peut-être utilisé #b3 fois."
+		]
+	},
+	"infinitespire:Chaos": {
+		"NAME": "Chaos",
+		"FLAVOR": "CHAOS!!!",
+		"DESCRIPTIONS": [
+			"Lorsque ramassée, remplacez chacunes de vos reliques par une autre au hasard."
+		]
+	},
+	"infinitespire:CursedDice": {
+		"NAME": "Dés maudits",
+		"FLAVOR": "Jusqu'à la mort! Meurt comme un clou enfoncé dans un cercueil!",
+		"DESCRIPTIONS": [
+			"[#2aecd7]Peut [#2aecd7]seulement [#2aecd7]être [#2aecd7]utilisé [#2aecd7]une [#2aecd7]fois.[] NL Lorsque vous mourrez, mélangez votre main et votre défausse en une pioche, vous ne prenez plus de dégats. Si vous gagnez avant que votre pioche et votre main soit vide, soignez vous #b35% de vos PV max. Sinon mourrez!"
+		]
+	},
+	"infinitespire:EmptyRelic": {
+		"NAME": "Relique vide",
+		"FLAVOR": "Comment voyez-vous cela?",
+		"DESCRIPTIONS": [
+			"Absolument rien"
+		]
+	},
+	"infinitespire:BottledMercury": {
+		"NAME": "Mercure en bouteille",
+		"FLAVOR": "Ce n'est vraiment pas bon...",
+		"DESCRIPTIONS":  [
+			"Lorsque ramassée choisissez une carte, lorsque qu'elle est jouée, si c'est une #yAttaque, gagnez #b1 #Force, si c'est une #yCompétence, gagnez #b2 #Dextérité, si c'est un #yPouvoir, gagnez #b1 #yConcentration."
+		]
+	}
+}

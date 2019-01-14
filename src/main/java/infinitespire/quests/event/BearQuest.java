@@ -1,5 +1,7 @@
 package infinitespire.quests.event;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import basemod.helpers.SuperclassFinder;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -51,10 +53,19 @@ public class BearQuest extends Quest implements IAutoQuest {
         if(AbstractDungeon.getCurrRoom() == null) return;
         if(!addedOption && AbstractDungeon.getCurrRoom().event instanceof MaskedBandits){
             ButtonEffect.hasChosen = false;
+            String choice1;
+            String choice2;
+            if (Settings.language == Settings.GameLanguage.FRA){
+               choice1 = "[Donnez à l'Ours son jeton] Gagnez une récompense";
+               choice2 = "[Verrouil\u00e9] Nécessite un jeton de jeu";
+            } else {
+              choice1 = "[Give Bear his Chip] Gain a reward.";
+              choice2 = "[Disabled] Requires Gambling Chip.";
+            }
             if(AbstractDungeon.player.hasRelic(GamblingChip.ID)){
-                AbstractDungeon.getCurrRoom().event.roomEventText.addDialogOption("[Give Bear his Chip] Gain a reward.");
+                AbstractDungeon.getCurrRoom().event.roomEventText.addDialogOption(choice1);
             }else{
-                AbstractDungeon.getCurrRoom().event.roomEventText.addDialogOption("[Disabled] Requires Gambling Chip.", true);
+                AbstractDungeon.getCurrRoom().event.roomEventText.addDialogOption(choice2, true);
             }
             addedOption = true;
         }
@@ -62,8 +73,15 @@ public class BearQuest extends Quest implements IAutoQuest {
 
     @Override
     public void giveReward() {
+      String choice;
+      if (Settings.language == Settings.GameLanguage.FRA){
+         choice = "Choisissez une carte.";
+
+      } else {
+        choice = "Select a Card.";
+      }
         ArrayList<AbstractCard> randomBlackCards = CardHelper.getBlackRewardCards();
-        AbstractDungeon.cardRewardScreen.open(randomBlackCards, null, "Select a Card.");
+        AbstractDungeon.cardRewardScreen.open(randomBlackCards, null, choice);
     }
 
     @Override
@@ -75,12 +93,24 @@ public class BearQuest extends Quest implements IAutoQuest {
 
     @Override
     public String getRewardString() {
-        return "Pick a Black Card";
+      if (Settings.language == Settings.GameLanguage.FRA){
+          return "Choisissez une Carte Noire";
+
+      } else {
+          return "Pick a Black Card";
+      }
+
     }
 
     @Override
     public String getTitle() {
-        return "Give Bear his Chip.";
+      if (Settings.language == Settings.GameLanguage.FRA){
+          return "Rendez à l'ours son Jeton.";
+
+      } else {
+          return "Give Bear his Chip.";
+      }
+
     }
 
     @Override
@@ -101,10 +131,19 @@ public class BearQuest extends Quest implements IAutoQuest {
 
         public static SpireReturn<?> Prefix(MaskedBandits __instance, int buttonPressed){
             if(buttonPressed == 2 || state != State.INTRO){
+              String roomEventBody;
+              String roomEventDialog;
+              if (Settings.language == Settings.GameLanguage.FRA){
+                roomEventBody = "Mon jeton! NL Comment puis-je vous remerci\u00e9! NL Prenez ce masque en symbole prouvant que vous êtes l'un des notres !";
+                roomEventDialog = "[Prendre la récompense] Gagnez Masque Rouge.";
+              } else {
+                roomEventBody = "My lucky chip! NL How can we ever repay you! NL Here take this mask as a symbol that you will always be one of us!";
+                roomEventDialog = "[Take reward] Gain Red Mask.";
+              }
                 switch(state) {
                     case INTRO:
-                    __instance.roomEventText.updateBodyText("My lucky chip! NL How can we ever repay you! NL Here take this mask as a symbol that you will always be one of us!");
-                    __instance.roomEventText.updateDialogOption(0, "[Take Reward] Gain Red Mask.");
+                    __instance.roomEventText.updateBodyText(roomEventBody);
+                    __instance.roomEventText.updateDialogOption(0, roomEventDialog);
                     __instance.roomEventText.clearRemainingOptions();
                     state = State.CLICK1;
                     return SpireReturn.Return(null);

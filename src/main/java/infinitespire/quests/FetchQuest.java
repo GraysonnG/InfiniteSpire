@@ -1,5 +1,7 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,7 +16,7 @@ import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
 public class FetchQuest extends Quest {
-	
+
 	public static final String ID = FetchQuest.class.getName();
 	private static final Color COLOR = new Color(0f, 1f, 0.75f, 1f);
 	private static final QuestType TYPE = QuestType.GREEN;
@@ -22,8 +24,8 @@ public class FetchQuest extends Quest {
 	public int cost;
 	public transient AbstractRelic relic;
 	public String relicID;
-	
-	
+
+
 	public FetchQuest() {
 		super(ID, COLOR, MAX_STEPS, TYPE, QuestRarity.COMMON);
 	}
@@ -62,20 +64,29 @@ public class FetchQuest extends Quest {
 		if(this.relic == null && this.relicID != null) {
 			this.relic = RelicLibrary.getRelic(relicID);
 		}
-		
-		return "Obtain " + relic.name;
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return "Obtenez " + relic.name;
+		} else {
+				return "Obtain " + relic.name;
+		}
+
 	}
 
 	@Override
 	public String getRewardString() {
-		return this.cost + "g";
+		if (Settings.language == Settings.GameLanguage.FRA){
+				return this.cost + "or";
+		} else {
+				return this.cost + "g";
+		}
+
 	}
 
 	public int getCost(RelicTier tier) {
 		int goldGain = 0;
-		
+
 		switch(tier) {
-			
+
 		case COMMON:
 			goldGain = 75;
 			break;
@@ -86,19 +97,19 @@ public class FetchQuest extends Quest {
 			goldGain = 225;
 			break;
 		case SPECIAL:
-			return 1; 
+			return 1;
 		case BOSS:
 		case SHOP:
 		case STARTER:
 		default:
 			goldGain = 75;
-			break;		
+			break;
 		}
 
 		if(relic.relicId.equals(Circlet.ID)) {
 			goldGain = 50;
 		}
-		
+
 		goldGain = QuestHelper.makeRandomCost(goldGain);
 		return goldGain;
 	}

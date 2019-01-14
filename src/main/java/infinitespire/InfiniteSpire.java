@@ -18,6 +18,8 @@ import com.megacrit.cardcrawl.localization.*;
 import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import fruitymod.seeker.patches.AbstractCardEnum;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
@@ -179,6 +181,28 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 	@Override
 	public void receiveEditStrings() {
+		//Language
+
+		//FRA
+		if (Settings.language == Settings.GameLanguage.FRA){
+			String relicStrings = Gdx.files.internal("local/infinitespire/relics-fra.json")
+					.readString(String.valueOf(StandardCharsets.UTF_8));
+			BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
+
+			String eventStrings = Gdx.files.internal("local/infinitespire/events-fra.json")
+					.readString(String.valueOf(StandardCharsets.UTF_8));
+			BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
+
+			String monsterStrings = Gdx.files.internal("local/infinitespire/monsters-fra.json")
+					.readString(String.valueOf(StandardCharsets.UTF_8));
+			BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
+
+			String potionStrings = Gdx.files.internal("local/infinitespire/potions-fra.json")
+				.readString(String.valueOf(StandardCharsets.UTF_8));
+			BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
+
+			//EN
+		} else {
 		String relicStrings = Gdx.files.internal("local/infinitespire/relics.json")
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
@@ -194,10 +218,25 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String potionStrings = Gdx.files.internal("local/infinitespire/potions.json")
 			.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
+		}
 	}
 
 	@Override
 	public void receiveEditKeywords() {
+		if (Settings.language == Settings.GameLanguage.FRA){
+			String[] golemsMight = { "Puissance De Golem", "Golems","golems", "Golem", "golem" };
+			String[] crit = { "critique", "crit" };
+			String[] shattered = { "D\u00e9chiquet\u00e9","D\u00e9chiquet\u00e9e" };
+			String[] mitigation = { "Atténuation" };
+			String[] deenergized = {"D\u00e9sexcit\u00e9"};
+
+			BaseMod.addKeyword(golemsMight, "Chaque tour, vos attaques infliges 5% de dégats en plus que le tour précédent.");
+			BaseMod.addKeyword(crit, "La prochaine attaque que vous jouez inflige 2x dégats.");
+			BaseMod.addKeyword(shattered,
+					"Pour chaque carte jouée pour le reste du combat, l'ennemi prends #b10% dee dégats en plus des #yAttaques.");
+			BaseMod.addKeyword(mitigation, "Réduit TOUS les dégats par un pourcentage.");
+			BaseMod.addKeyword(deenergized, "Au début de chaque tour, perdez #b1 énergie.");
+		} else {
 		String[] golemsMight = { "golem's might", "golem's", "golem", "golem" };
 		String[] crit = { "critical", "crit" };
 		String[] shattered = { "shredded" };
@@ -210,6 +249,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				"For each card played for the rest of combat, the enemy takes #b10% more damage from #yAttacks.");
 		BaseMod.addKeyword(mitigation, "Reduces all damage by a percentage.");
 		BaseMod.addKeyword(deenergized, "At the start of each turn, lose #b1 energy.");
+		}
 	}
 
 	@Override
@@ -339,9 +379,17 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	private static void initializeCards() {
-		String cardStrings = Gdx.files.internal("local/infinitespire/cards.json")
+
+			if (Settings.language == Settings.GameLanguage.FRA){
+		String cardStrings = Gdx.files.internal("local/infinitespire/cards-fra.json")
 			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
+			BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
+		} else {
+			String cardStrings = Gdx.files.internal("local/infinitespire/cards.json")
+				.readString(String.valueOf(StandardCharsets.UTF_8));
+				BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
+		}
+
 
 		BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR,
 				CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR, "img/infinitespire/cards/ui/512/boss-attack.png",

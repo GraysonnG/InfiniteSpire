@@ -1,5 +1,7 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 import infinitespire.monsters.LordOfAnnihilation;
@@ -13,7 +15,6 @@ public class LordOfAnnihilationRetaliatePower extends AbstractPower {
         this.owner = owner;
         this.gOwner = owner;
         this.amount = -1;
-        this.name = "Divine Shield";
         this.ID = "is_DivineShield";
         this.img = InfiniteSpire.getTexture("img/infinitespire/powers/retaliate.png");
         this.type = PowerType.BUFF;
@@ -40,6 +41,13 @@ public class LordOfAnnihilationRetaliatePower extends AbstractPower {
 
     @Override
     public void updateDescription(){
-        this.description = "When ??? is inflicted with a debuff, he will retaliate with Ultimate Memoricia.";
+      if (Settings.language == Settings.GameLanguage.FRA){
+                this.name = "Bouclier Divin";
+            this.description = "Quand ??? est atteint par un debuff, il ripostera avec Memoricia Ultime.";
+      } else {
+                this.name = "Divine Shield";
+            this.description = "When ??? is inflicted with a debuff, he will retaliate with Ultimate Memoricia.";
+      }
+
     }
 }

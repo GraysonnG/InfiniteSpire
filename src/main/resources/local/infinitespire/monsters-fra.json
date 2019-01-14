@@ -1,0 +1,35 @@
+{
+	"Nightmare": {
+		"MOVES":[
+			"Toucher de la Mort",
+			"Coupure Sombre",
+			"Recueillement",
+			"Bouclier Noir"
+		],
+		"NAME": "Cauchemare",
+		"DIALOG": []
+	},
+	"LordOfAnnihilation":{
+		"MOVES": [
+			"Faille Temporelle",
+			"Enterrement total",
+			"Vide absolu",
+			"Memoricia Ultime",
+			"Armure Sombre",
+			"Ordre de Défense",
+			"Bouclier Divin"
+		],
+		"NAME": "Le Seigneur de l'Annihilation",
+		"DIALOG": []
+	},
+    "ShieldPylon":{
+        "MOVES" : [],
+        "NAME" : "Pylon à bouclier",
+        "DIALOG": []
+    },
+	"infinitespire:MassOfShapes":{
+		"MOVES" : [],
+		"NAME" : "Masse de Formes",
+		"DIALOG": []
+	}
+}

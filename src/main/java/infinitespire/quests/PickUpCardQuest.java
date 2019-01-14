@@ -1,5 +1,7 @@
 package infinitespire.quests;
 
+import com.megacrit.cardcrawl.core.Settings;
+import com.megacrit.cardcrawl.core.Settings.GameLanguage;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,10 +17,11 @@ import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
 public class PickUpCardQuest extends Quest {
-	
+
 	private static final Color COLOR = new Color(0.5f, 1.0f, 0.25f, 1f);
 	public String cardID;
 	public int gold;
+
 
 
 	public PickUpCardQuest() {
@@ -105,12 +108,27 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Gain " + gold + " Gold.";
+		String currency;
+		String gain;
+		if (Settings.language == Settings.GameLanguage.FRA){
+				currency = " Or.";
+				gain = "Gagnez ";
+		} else {
+				currency = "g";
+				gain = "Gain ";
+		}
+		return gain + gold + currency;
 	}
 
 	@Override
 	public String getTitle() {
-		return "Pick up " + CardLibrary.getCardNameFromKey(cardID);
+		String pick;
+		if (Settings.language == Settings.GameLanguage.FRA){
+				pick = "R\u00e9cup\u00e9rez ";
+		} else {
+			pick = "Pick up ";
+		}
+		return pick + CardLibrary.getCardNameFromKey(cardID);
 	}
 
 	@Override

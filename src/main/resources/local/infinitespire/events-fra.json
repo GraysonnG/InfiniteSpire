@@ -1,0 +1,53 @@
+{
+	"infinitespire:Empty Rest Site" : {
+		"NAME" :  "Site de repos vide",
+		"DESCRIPTIONS" : [
+			"Vous trébuchez sur un site de repos abandonné. Enfin vous le pensiez, Le héros précédent semble être mort de ses blessures. Vous vous sentez effrayé par cette vue...",
+			" NL NL Vous vous sentez fatigué et décider de dormir...",
+			" NL NL Usant de cette sensation horrifiante comme motivation, vous améliorez votre arsenal. NL #y@CLANG@ #y@CLAAANG@ #y@CLANG!@",
+			" NL NL Vous vous sentez mal pour le précédent héros et laissez une offrande pour son âme perdue...",
+			" NL NL Vous voyez un coin de terre remuée, et à coté une pelle brisée. Lorsque vous creuser, votre pelle se casse! Mais au fond du trou vous voyez quelque chose qui n'est ni de la terre ou des roches...",
+			"Vous voyez une petite couverture. NL Cela vous rappelle votre maison. NL Lâchant votre Oreiller, vous prenez la couverture à la place."
+		],
+		"OPTIONS" : [
+			"[Se reposer] Faire une sieste et regagner ",
+			"[Forger] Améliorez une carte.",
+			"[Retirer] Retirez une carte.",
+			"[Creuser] Obtenez une relique aléatoire.",
+			"Vous avez obtenu Couverture Blanche",
+			"Partir.",
+			"[Verrouillé]"
+		]
+	},
+	"infinitespire:Hooded Arms Dealer" : {
+		"NAME" : "Marchand d'armes encapuchonné",
+		"DESCRIPTIONS" : [
+			"Vous êtes approché par un homme encapuchonné. NL Il vous montre une arme rare et puissante. Elle semblen venir d'un autre monde. NL Vous lui demandez son prix. NL Il répont, du #r@Sang,@ De l' #y@Or.@",
+			"Vous prenez l'arme et voyez quevous n'êtes pas le premier à l'utiliser...",
+			"Vous lui dite que vous ne pouvez pas payer ce prix et vous vous en allez.",
+			"Vous volez l'arme, et avez une sensation horrifiante."
+		],
+		"OPTIONS" : [
+			"#y[Or] Donnez ",
+			"#r[Sang] Perdez ",
+			"#p[Voler] Obtenez 2 Malédictions.",
+			" Or.",
+			" PV.",
+			"Partir.",
+			"[Vérrouillé] Nécessite: ",
+			" Récupérer une #pCarte #pNoire."
+		]
+	},
+	"infinitespire:Prism of Light" : {
+		"NAME" : "Prisme de lumière",
+		"DESCRIPTIONS" : [
+			"Vous tombez sur un étrange prisme multicolore.",
+			"Vous récupérez le prisme et la pièce tremble autour de vous. NL En réfléchissant vous n'êtes pas sûr d'être le même qu'auparavant...",
+			"Vous partez vous demandant ce qui vous serait arrivé si vous aviez récupérer ce prisme."
+		],
+		"OPTIONS": [
+			"[Prendre] Change votre Relique de départ de manière aléatoire.",
+			"Partir."
+		]
+	}
+}
