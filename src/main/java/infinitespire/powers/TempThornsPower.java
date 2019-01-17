@@ -7,18 +7,23 @@ import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
+import infinitespire.InfiniteSpire;
 
 public class TempThornsPower extends TwoAmountPower implements NonStackablePower {
 
-	public static final String powerID = "is_TempThorns";
+	public static final String powerID = InfiniteSpire.createID("TempThorns");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	public boolean justApplied;
 
 	public TempThornsPower(AbstractCreature owner, int turnsToHave, int amountOfThorns, boolean justApplied){
 		this.owner = owner;
 		this.amount = amountOfThorns;
 		this.amount2 = turnsToHave;
-		this.name = "Temporary Thorns";
+		this.name = strings.NAME;
 		this.ID = powerID;
 		loadRegion("thorns");
 		this.justApplied = justApplied;
@@ -42,9 +47,9 @@ public class TempThornsPower extends TwoAmountPower implements NonStackablePower
 	@Override
 	public void updateDescription() {
 		if(this.amount2 > 1) {
-			this.description = "For the next #b" + amount2 + " turns. When attacked, deals #b" + amount + " damage back.";
+			this.description = strings.DESCRIPTIONS[0] + amount2 + strings.DESCRIPTIONS[1] + amount + strings.DESCRIPTIONS[2];
 		}else {
-			this.description = "For the rest of this turn. When attacked, deals #b" + amount + " damage back.";
+			this.description = strings.DESCRIPTIONS[3] + amount + strings.DESCRIPTIONS[2];
 		}
 	}
 

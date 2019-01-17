@@ -2,23 +2,28 @@ package infinitespire.powers;
 
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-
 import infinitespire.InfiniteSpire;
 
 public class SpireBlightPower extends AbstractPower {
+
+	public static final String powerID = InfiniteSpire.createID("SpireBlightPower");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	public SpireBlightPower(AbstractCreature owner) {
 		this.owner = owner;
 		this.amount = -1;
-		this.name = "Spire Blight";
-		this.ID = "is_SpireBlight";
-		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/spireblight.png");
+		this.name = strings.NAME;
+		this.ID = powerID;
+		this.img = InfiniteSpire.Textures.getPowerTexture("spireblight.png");
 		this.type = PowerType.DEBUFF;
 		this.updateDescription();
 	}
 	
 	public void updateDescription() {
-		this.description = "Deal #b25% less damage, and gain #b25% less block.";
+		this.description = strings.DESCRIPTIONS[0];
 	}
 	
 	@Override

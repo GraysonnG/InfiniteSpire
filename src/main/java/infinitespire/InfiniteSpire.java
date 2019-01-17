@@ -210,11 +210,15 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String potionStrings = Gdx.files.internal("local/infinitespire/potions.json")
 			.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
+
+		String powerStrings = Gdx.files.internal("local/infinitespire/powers.json")
+			.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(PowerStrings.class, powerStrings);
 	}
 
 	@Override
 	public void receiveEditKeywords() {
-		String[] golemsMight = { "golem's might", "golem's", "golem", "golem" };
+		String[] golemsMight = { "golem's might", "golem's", "golem"};
 		String[] crit = { "critical", "crit" };
 		String[] shattered = { "shredded" };
 		String[] mitigation = { "mitigation" };
@@ -238,6 +242,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		initializeRelics();
 	}
 
+	@Deprecated
 	public static Texture getTexture(final String textureString) {
 		return TextureLoader.getTexture(textureString);
 	}

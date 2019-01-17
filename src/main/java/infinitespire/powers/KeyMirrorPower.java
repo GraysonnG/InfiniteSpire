@@ -1,10 +1,15 @@
 package infinitespire.powers;
 
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 
 public class KeyMirrorPower extends AbstractPower {
+
+	public String powerID;
+	private PowerStrings strings;
 
 	public enum KeyColor {
 		RUBY,
@@ -18,22 +23,22 @@ public class KeyMirrorPower extends AbstractPower {
 		this.keyColor = keyColor;
 		this.owner = owner;
 		this.amount = -1;
-		this.ID = "is_KeyMirrorPower_" + keyColor.toString().toLowerCase();
+		powerID = InfiniteSpire.createID("KeyMirrorPower") + "_" + keyColor.toString().toLowerCase();
+		strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+		this.ID = powerID;
 		this.type = PowerType.BUFF;
 		this.priority = -99999;
+		this.name = strings.NAME;
 
 		switch(keyColor){
 			case RUBY:
-				this.name = "Ruby Mirror";
-				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/rubyKey.png");
+				this.img = InfiniteSpire.Textures.getPowerTexture("rubyKey.png");
 				break;
 			case SAPPHIRE:
-				this.name = "Sapphire Mirror";
-				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/sapphireKey.png");
+				this.img = InfiniteSpire.Textures.getPowerTexture("sapphireKey.png");
 				break;
 			case EMERALD:
-				this.name = "Emerald Mirror";
-				this.img = InfiniteSpire.getTexture("img/infinitespire/powers/emeraldKey.png");
+				this.img = InfiniteSpire.Textures.getPowerTexture("emeraldKey.png");
 				break;
 		}
 
@@ -42,16 +47,6 @@ public class KeyMirrorPower extends AbstractPower {
 
 	@Override
 	public void updateDescription() {
-		switch (this.keyColor) {
-			case RUBY:
-				this.description = owner.name + " will be more intelligent.";
-				break;
-			case SAPPHIRE:
-				this.description = owner.name + " will be more aggressive.";
-				break;
-			case EMERALD:
-				this.description = owner.name + " will be more powerful.";
-				break;
-		}
+		this.description = this.owner.name + strings.DESCRIPTIONS[0];
 	}
 }

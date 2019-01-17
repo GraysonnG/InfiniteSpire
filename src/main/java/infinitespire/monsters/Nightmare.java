@@ -204,7 +204,7 @@ public class Nightmare extends AbstractMonster {
 		switch(this.nextMove) {
 			case 1:
 				AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, this, new SpireBlightPower(AbstractDungeon.player)));
-				if(!this.hasPower("is_Reality_Shift")) {
+				if(!this.hasPower(RealityShiftPower.powerID)) {
 					AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
 				}
 				break;

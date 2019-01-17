@@ -1,10 +1,15 @@
 package infinitespire.powers;
 
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 import infinitespire.monsters.LordOfAnnihilation;
 
 public class LordOfAnnihilationRetaliatePower extends AbstractPower {
+
+    public static final String powerID = InfiniteSpire.createID("DivineShieldPower");
+    private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
 
     LordOfAnnihilation gOwner;
     private boolean intentChanged = false;
@@ -13,9 +18,9 @@ public class LordOfAnnihilationRetaliatePower extends AbstractPower {
         this.owner = owner;
         this.gOwner = owner;
         this.amount = -1;
-        this.name = "Divine Shield";
-        this.ID = "is_DivineShield";
-        this.img = InfiniteSpire.getTexture("img/infinitespire/powers/retaliate.png");
+        this.name = strings.NAME;
+        this.ID = powerID;
+        this.img = InfiniteSpire.Textures.getPowerTexture("retaliate.png");
         this.type = PowerType.BUFF;
         this.isTurnBased = true;
         this.updateDescription();
@@ -40,6 +45,6 @@ public class LordOfAnnihilationRetaliatePower extends AbstractPower {
 
     @Override
     public void updateDescription(){
-        this.description = "When ??? is inflicted with a debuff, he will retaliate with Ultimate Memoricia.";
+        this.description = strings.DESCRIPTIONS[0];
     }
 }

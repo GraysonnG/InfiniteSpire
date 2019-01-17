@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 
+@Deprecated
 public class BossArmorPower extends AbstractPower{
 
 	public static final String PowerID = "BossArmorPower";

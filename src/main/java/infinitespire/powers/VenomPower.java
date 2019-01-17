@@ -9,7 +9,9 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch;
 import com.megacrit.cardcrawl.actions.common.LoseHPAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
@@ -18,6 +20,8 @@ import infinitespire.InfiniteSpire;
 public class VenomPower extends TwoAmountPower implements HealthBarRenderPower, NonStackablePower {
 
 	public static final String powerID = InfiniteSpire.createID("VenomPower");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	private AbstractCreature source;
 
 	public VenomPower(AbstractCreature owner, AbstractCreature source, int amount){
@@ -26,7 +30,7 @@ public class VenomPower extends TwoAmountPower implements HealthBarRenderPower, 
 		this.amount = amount;
 		this.amount2 = 0;
 		this.type = PowerType.BUFF;
-		this.name = "Venom";
+		this.name = strings.NAME;
 		this.ID = powerID;
 		this.img = InfiniteSpire.Textures.getPowerTexture("venom.png");
 		this.updateDescription();
@@ -68,14 +72,13 @@ public class VenomPower extends TwoAmountPower implements HealthBarRenderPower, 
 	}
 
 	public void updateDescription(){
-		StringBuilder desc = new StringBuilder("At the end of your turn, lose #b");
+		StringBuilder desc = new StringBuilder(strings.DESCRIPTIONS[0]);
 		desc.append(this.amount);
-		desc.append(" HP, then reduce #yVenom by #b1. NL NL ");
-		desc.append("When ");
+		desc.append(strings.DESCRIPTIONS[1]);
 		desc.append(source.name);
-		desc.append(" dies, heal all damage dealt by #yVenom (Heal #g");
+		desc.append(strings.DESCRIPTIONS[2]);
 		desc.append(amount2);
-		desc.append(" HP). NL #rVenom #rcannot #rkill #ryou.");
+		desc.append(strings.DESCRIPTIONS[3]);
 		this.description = desc.toString();
 	}
 

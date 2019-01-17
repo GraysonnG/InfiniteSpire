@@ -2,19 +2,24 @@ package infinitespire.powers;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.DexterityPower;
 import com.megacrit.cardcrawl.powers.FocusPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
-
+import infinitespire.InfiniteSpire;
 import infinitespire.util.TextureLoader;
 
 public class UltimateFormPower extends AbstractPower {
 
+	public static final String powerID = InfiniteSpire.createID("UltimateFormPower");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	public UltimateFormPower(AbstractPlayer p, int amount) {
-		this.name = "Ultimate Form";
-		this.ID = "is_UltimateForm";
+		this.name = strings.NAME;
+		this.ID = powerID;
 		this.owner = p;
 		this.amount = amount;
 		this.type = PowerType.BUFF;
@@ -23,7 +28,7 @@ public class UltimateFormPower extends AbstractPower {
 	}
 	
 	public void updateDescription() {
-		this.description = "Gain " + this.amount + " Strength and Dexterity each turn. NL If you have orb slots gain " + this.amount + " Focus each turn.";
+		this.description = strings.DESCRIPTIONS[0] + this.amount + strings.DESCRIPTIONS[1] + this.amount + strings.DESCRIPTIONS[2];
 	}
 
 	@Override

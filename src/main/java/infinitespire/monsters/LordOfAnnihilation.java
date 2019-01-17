@@ -274,10 +274,10 @@ public class LordOfAnnihilation extends AbstractMonster{
             case 13: //quarter heal, lower slow by 75%
                 manager.addToBottom(new HealAction(this, this, this.maxHealth / 4));
 
-                if(this.hasPower("is_Shattered")){
-                    float amt = (float) this.getPower("is_Shattered").amount;
+                if(this.hasPower(SuperSlowPower.powerID)){
+                    float amt = (float) this.getPower(SuperSlowPower.powerID).amount;
                     amt *= 3.0f / 4.0f;
-                    this.getPower("is_Shattered").amount = (int) amt;
+                    this.getPower(SuperSlowPower.powerID).amount = (int) amt;
                 }
                 break;
         }
