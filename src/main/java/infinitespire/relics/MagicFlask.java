@@ -28,7 +28,7 @@ public class MagicFlask extends Relic implements PostCampfireSubscriber {
 	public MagicFlask() {
 		super(ID, "magicflask", RelicTier.RARE, LandingSound.SOLID);
 		BaseMod.subscribe(this);
-		textureUsed = InfiniteSpire.getTexture("img/infinitespire/relics/magicflask-used.png");
+		textureUsed = InfiniteSpire.Textures.getRelicTexture("magicflask-used.png");
 		this.counter = 3;
 
 		if(InfiniteSpire.isHubrisLoaded){
