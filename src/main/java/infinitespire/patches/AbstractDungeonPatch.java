@@ -191,9 +191,7 @@ public class AbstractDungeonPatch {
 			addHolyWaterToRareRelicPool();
 			addInitialQuests();
 			//number of nightmares increases with number of bosses beaten (max 3), is increased by 1 if the "kill a nightmare" quest has not been completed or discarded.
-			for(int i = 0; i < 3; i++) {
-				insertNightmareNode();
-			}
+			insertNightmareNode();
 		}
 		
 		private static void addInitialQuests() {
@@ -222,7 +220,7 @@ public class AbstractDungeonPatch {
 			
 			for(ArrayList<MapRoomNode> rows : AbstractDungeon.map) {
 				for(MapRoomNode node : rows) {
-					if(node.room != null && node.room instanceof MonsterRoomElite) {
+					if(node != null && node.room instanceof MonsterRoomElite) {
 						eliteNodes.add(node);
 					}
 				}

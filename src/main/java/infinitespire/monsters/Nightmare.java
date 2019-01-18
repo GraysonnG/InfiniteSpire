@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction;
 import com.megacrit.cardcrawl.actions.common.*;
+import com.megacrit.cardcrawl.blights.Spear;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.status.VoidCard;
@@ -53,6 +54,7 @@ public class Nightmare extends AbstractMonster {
 	public int effectCount;
 	private boolean isStrong;
 	private float portalRotation = 0.0f;
+	private int realityShiftAmount = 50;
 
 	public Nightmare() {
 		this(false);
@@ -90,6 +92,10 @@ public class Nightmare extends AbstractMonster {
 			this.slamDmg = 15;
 			this.blockCount = 20;
 			this.effectCount = 2; //effectively 3
+		}
+
+		if(CardCrawlGame.isInARun() && AbstractDungeon.player.hasBlight(Spear.ID)){
+			realityShiftAmount *= 1 + AbstractDungeon.player.getBlight(Spear.ID).counter;
 		}
 
 		if(Settings.hasSapphireKey) {
@@ -174,7 +180,7 @@ public class Nightmare extends AbstractMonster {
 		}
 
 		if(this.isAlpha){
-			manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
+			manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this, realityShiftAmount), 50));
 
 			if(Settings.hasEmeraldKey) {
 				manager.addToBottom(new ApplyPowerAction(this, this, new InvinciblePower(this, this.maxHealth / 3)));
@@ -205,7 +211,7 @@ public class Nightmare extends AbstractMonster {
 			case 1:
 				AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, this, new SpireBlightPower(AbstractDungeon.player)));
 				if(!this.hasPower(RealityShiftPower.powerID)) {
-					AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
+					AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this, realityShiftAmount), 50));
 				}
 				break;
 			case 2:

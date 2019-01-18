@@ -14,10 +14,10 @@ public class RealityShiftPower extends AbstractPower {
 	public static final String powerID = InfiniteSpire.createID("RealityShiftPower");
 	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
 
-	public RealityShiftPower(Nightmare nightmare) {
+	public RealityShiftPower(Nightmare nightmare, int amount) {
 		this.owner = nightmare;
 		this.nightmare = nightmare;
-		this.amount = 50;
+		this.amount = amount;
 		this.name = strings.NAME;
 		this.ID = powerID;
 		this.img = InfiniteSpire.Textures.getPowerTexture("realityshift.png");
