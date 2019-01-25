@@ -74,7 +74,7 @@ public class Nightmare extends AbstractMonster {
 			hpAmount += 100;
 		}
 
-		if(CardCrawlGame.playerName.equals("fiiiiilth")){
+		if(CardCrawlGame.playerName.equals("fiiiiilth") || Math.random() < 0.01){
 			this.name = "Niiiiightmare";
 		}
 

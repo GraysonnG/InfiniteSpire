@@ -126,6 +126,7 @@ public class MassOfShapes extends AbstractMonster {
 		this.onBossVictoryLogic();
 		for (final AbstractMonster m : AbstractDungeon.getCurrRoom().monsters.monsters) {
 			if (!m.isDead && !m.isDying) {
+				AbstractDungeon.actionManager.actions.removeIf(SpawnShapeAction.class::isInstance);
 				AbstractDungeon.actionManager.addToTop(new HideHealthBarAction(m));
 				AbstractDungeon.actionManager.addToTop(new SuicideAction(m));
 				AbstractDungeon.actionManager.addToTop(new VFXAction(m, new InflameEffect(m), 0.2f));
@@ -138,7 +139,7 @@ public class MassOfShapes extends AbstractMonster {
 		super.damage(info);
 
 		if(this.currentBlock == 0) {
-			if (info.owner != null && info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded) {
+			if (info.owner != null && info.owner.equals(AbstractDungeon.player) && !AbstractDungeon.actionManager.turnHasEnded && !isDying) {
 				if (this.minions.size() < 3 && AbstractDungeon.miscRng.random(0, 99) <= SPAWN_CHANCE) {
 					ActionUtils.addActionSecondToTop(new SpawnShapeAction(getNextOpenMinionSlot(), this));
 				}
@@ -162,6 +163,7 @@ public class MassOfShapes extends AbstractMonster {
 	}
 
 	public void addMinion(AbstractMonster m) {
+		if(this.minions.size() >= 3) return;
 		Minion minion = new Minion(getNextOpenMinionSlot());
 		minion.setMinion(m);
 		minions.add(minion);
