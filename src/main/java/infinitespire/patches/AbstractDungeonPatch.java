@@ -8,7 +8,6 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
-import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -18,6 +17,7 @@ import infinitespire.InfiniteSpire;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.endless.EndlessQuestPart1;
+import infinitespire.relics.BlackEgg;
 import infinitespire.relics.BottledSoul;
 import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
@@ -150,34 +150,23 @@ public class AbstractDungeonPatch {
 
 		@SpirePrefixPatch
 		public static SpireReturn<?> LordOfAnnihilationSpawner(AbstractDungeon __instance, String key){
-			InfiniteSpire.logger.info("bossCount: " + AbstractDungeon.bossCount);
-			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
-				DungeonMap.boss = InfiniteSpire.getTexture("img/infinitespire/ui/map/bossIcon.png");
-				DungeonMap.bossOutline = InfiniteSpire.getTexture("img/infinitespire/ui/map/bossIcon-outline.png");
+			if(shouldSpawn()){
+				DungeonMap.boss = InfiniteSpire.Textures.getUITexture("map/bossIcon.png");
+				DungeonMap.bossOutline = InfiniteSpire.Textures.getUITexture("map/bossIcon-outline.png");
 				AbstractDungeon.bossKey = LordOfAnnihilation.ID;
 
 				return SpireReturn.Return(null);
 			}
 			return SpireReturn.Continue();
 		}
-	}
 
-	@SpirePatch(cls = "com.megacrit.cardcrawl.dungeons.TheBeyond", method = "initializeBoss")
-	public static class InitBoss {
-
-		@SpirePrefixPatch
-		public static SpireReturn<Void> LordOfAnnihilationInitBoss(TheBeyond __instance){
-			InfiniteSpire.logger.info("bossCount: " + AbstractDungeon.bossCount);
-			if(AbstractDungeon.bossCount >= 6 && AbstractDungeon.id.equals(TheBeyond.ID)){
-				if(AbstractDungeon.bossCount > 8 && AbstractDungeon.miscRng.randomBoolean(1 / (TheBeyond.bossList.size() + 1))){
-					return SpireReturn.Continue();
-				}
-
-				TheBeyond.bossList.clear();
-				TheBeyond.bossList.add(LordOfAnnihilation.ID);
-				return SpireReturn.Return(null);
+		public static boolean shouldSpawn(){
+			boolean shouldSpawn = AbstractDungeon.bossCount >= 8;
+			if(AbstractDungeon.player.hasRelic(BlackEgg.ID)) {
+				shouldSpawn = ((BlackEgg) AbstractDungeon.player.getRelic(BlackEgg.ID)).shouldSpawn;
 			}
-			return SpireReturn.Continue();
+
+			return shouldSpawn;
 		}
 	}
 

@@ -26,6 +26,7 @@ import infinitespire.powers.LordOfAnnihilationIntangiblePower;
 import infinitespire.powers.LordOfAnnihilationPylonPower;
 import infinitespire.powers.LordOfAnnihilationRetaliatePower;
 import infinitespire.powers.SuperSlowPower;
+import infinitespire.relics.BlackEgg;
 
 import java.util.ArrayList;
 
@@ -104,6 +105,10 @@ public class LordOfAnnihilation extends AbstractMonster{
         AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this,
             new InvinciblePower(this, this.maxHealth / 10)));
         CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.HIGH, ScreenShake.ShakeDur.MED, false);
+
+        if(AbstractDungeon.player.hasRelic(BlackEgg.ID)){
+            AbstractDungeon.player.getRelic(BlackEgg.ID).onTrigger();
+        }
     }
 
     @Override

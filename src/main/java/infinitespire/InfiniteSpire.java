@@ -68,7 +68,7 @@ import java.util.ArrayList;
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.12.0";
+	public static final String VERSION = "0.13.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -327,6 +327,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new CursedDice());
 		RelicLibrary.add(new BottledMercury());
 		RelicLibrary.add(new EvilPickle());
+		RelicLibrary.add(new BlackEgg());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
@@ -474,35 +475,35 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 	public static class Textures {
 		public static Texture getCardTexture(String texture) {
-			return getTexture(createPath("/cards/") + texture);
+			return TextureLoader.getTexture(createPath("/cards/") + texture);
 		}
 
 		public static Texture getEventTexture(String texture) {
-			return getTexture(createPath("/events/") + texture);
+			return TextureLoader.getTexture(createPath("/events/") + texture);
 		}
 
 		public static Texture getMonsterTexture(String texture) {
-			return getTexture(createPath("/monsters/") + texture);
+			return TextureLoader.getTexture(createPath("/monsters/") + texture);
 		}
 
 		public static Texture getPowerTexture(String texture) {
-			return getTexture(createPath("/powers/") + texture);
+			return TextureLoader.getTexture(createPath("/powers/") + texture);
 		}
 
 		public static Texture getRelicTexture(String texture) {
-			return getTexture(createPath("/relics/") + texture);
+			return TextureLoader.getTexture(createPath("/relics/") + texture);
 		}
 
 		public static Texture getScreenTexture(String texture) {
-			return getTexture(createPath("/screen/") + texture);
+			return TextureLoader.getTexture(createPath("/screen/") + texture);
 		}
 
-		public static Texture getrUITexture(String texture) {
-			return getTexture(createPath("/ui/") + texture);
+		public static Texture getUITexture(String texture) {
+			return TextureLoader.getTexture(createPath("/ui/") + texture);
 		}
 
 		public static Texture getVFXTexture(String texture) {
-			return getTexture(createPath("/vfx/") + texture);
+			return TextureLoader.getTexture(createPath("/vfx/") + texture);
 		}
 	}
 }
