@@ -33,4 +33,24 @@ public class CombatRewardScreenPatch {
 			}
 		}
 	}
+
+	@SpirePatch(clz = CombatRewardScreen.class, method = "rewardViewUpdate")
+	public static class RewardViewUpdate {
+
+		@SpireInsertPatch(locator = Locator.class, localvars = {"r"})
+		public static void blackCardRewardLogic(CombatRewardScreen __instance, RewardItem item) {
+			if(item.type == RewardItemTypeEnumPatch.BLACK_CARD) {
+				item.isDone = false;
+			}
+		}
+
+		private static class Locator extends SpireInsertLocator {
+			@Override
+			public int[] Locate(CtBehavior ctBehavior) throws Exception {
+				Matcher matcher = new Matcher.FieldAccessMatcher(RewardItem.class, "type");
+				int[] lines = LineFinder.findAllInOrder(ctBehavior, matcher);
+				return new int[] {lines[1]};
+			}
+		}
+	}
 }
