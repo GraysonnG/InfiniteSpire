@@ -15,6 +15,7 @@ import infinitespire.powers.VenomPower;
 public class Voidling extends AbstractMonster {
 	private static final String NAME = "Voidling";
 	public static final String ID = InfiniteSpire.createID("Voidling");
+	public static final String SPECIAL_ENCOUNTER_ID = InfiniteSpire.createID("Three Voidlings");
 
 	private int tackleDamage = 13;
 	private int fangAttack = 5;
@@ -24,8 +25,12 @@ public class Voidling extends AbstractMonster {
 	private int maxHP = 43;
 	private int minHP = 37;
 
-	public Voidling() {
-		super(NAME, ID, 32, 0.0f, 0.0f, 200f, 150f, null, 0.0f, 0.0f);
+	public Voidling(){
+		this(0.0f);
+	}
+
+	public Voidling(float xOffset) {
+		super(NAME, ID, 32, 0.0f, 0.0f, 200f, 150f, null, xOffset, 0.0f);
 
 		switch(AbstractDungeon.ascensionLevel){
 			case 7:

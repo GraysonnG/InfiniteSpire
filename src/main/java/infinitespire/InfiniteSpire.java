@@ -15,6 +15,8 @@ import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.localization.*;
+import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.monsters.MonsterInfo;
 import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
@@ -30,6 +32,7 @@ import infinitespire.cards.black.*;
 import infinitespire.events.EmptyRestSite;
 import infinitespire.events.HoodedArmsDealer;
 import infinitespire.events.PrismEvent;
+import infinitespire.events.VoidlingNest;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.interfaces.IAutoQuest;
@@ -152,12 +155,19 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID, PrismEvent.class, Exordium.ID);
+		BaseMod.addEvent(VoidlingNest.ID, VoidlingNest.class, TheBeyond.ID);
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
 
 		BaseMod.addMonster(Nightmare.ID, () -> new Nightmare(false));
 		BaseMod.addMonster(Nightmare.ID + "_Alpha", () -> new Nightmare(true));
-		BaseMod.addMonster(Voidling.ID, Voidling::new);
+		BaseMod.addMonster(Voidling.ID, () -> new Voidling());
+		BaseMod.addMonster(Voidling.SPECIAL_ENCOUNTER_ID, () -> new MonsterGroup(
+			new AbstractMonster[]{
+				new Voidling(-275f),
+				new Voidling(-50),
+				new Voidling(225f)
+			}));
 
 		BaseMod.addMonsterEncounter(Exordium.ID, new MonsterInfo(Voidling.ID, 0.5f));
 
