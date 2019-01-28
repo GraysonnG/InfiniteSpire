@@ -22,8 +22,8 @@ public class Voidling extends AbstractMonster {
 	private int fangPoison = 1;
 	private int venomShotAmt = 4;
 	private int blockAmt = 6;
-	private int maxHP = 43;
-	private int minHP = 37;
+	private int maxHP = 57;
+	private int minHP = 48;
 
 	public Voidling(){
 		this(0.0f);
@@ -32,15 +32,15 @@ public class Voidling extends AbstractMonster {
 	public Voidling(float xOffset) {
 		super(NAME, ID, 32, 0.0f, 0.0f, 200f, 150f, null, xOffset, 0.0f);
 
-		switch(AbstractDungeon.ascensionLevel){
-			case 7:
-				minHP += 2;
-				maxHP += 2;
-			case 2:
-				this.tackleDamage += 1;
-				this.venomShotAmt += 1;
-				this.fangAttack += 1;
-				break;
+		if(AbstractDungeon.ascensionLevel > 7){
+			minHP += 2;
+			maxHP += 2;
+		}
+
+		if(AbstractDungeon.ascensionLevel > 2){
+			this.tackleDamage += 1;
+			this.venomShotAmt += 1;
+			this.fangAttack += 1;
 		}
 
 		setHp(minHP, maxHP);
