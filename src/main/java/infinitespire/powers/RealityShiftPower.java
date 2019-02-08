@@ -13,11 +13,13 @@ public class RealityShiftPower extends AbstractPower {
 
 	public static final String powerID = InfiniteSpire.createID("RealityShiftPower");
 	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+	public final int maxAmount;
 
 	public RealityShiftPower(Nightmare nightmare, int amount) {
 		this.owner = nightmare;
 		this.nightmare = nightmare;
 		this.amount = amount;
+		this.maxAmount = amount;
 		this.name = strings.NAME;
 		this.ID = powerID;
 		this.img = InfiniteSpire.Textures.getPowerTexture("realityshift.png");
@@ -33,7 +35,7 @@ public class RealityShiftPower extends AbstractPower {
 	public void atEndOfTurn(boolean isPlayer) {
 		if(!isPlayer){
 			this.hasTriggered = false;
-			this.amount = 50;
+			this.amount = this.maxAmount;
 			this.updateDescription();
 		}
 	}
