@@ -161,7 +161,7 @@ public class AbstractDungeonPatch {
 		}
 
 		public static boolean shouldSpawn(){
-			boolean shouldSpawn = AbstractDungeon.bossCount >= 8;
+			boolean shouldSpawn = AbstractDungeon.bossCount == 8;
 			if(AbstractDungeon.player.hasRelic(BlackEgg.ID)) {
 				shouldSpawn = ((BlackEgg) AbstractDungeon.player.getRelic(BlackEgg.ID)).shouldSpawn;
 			}
