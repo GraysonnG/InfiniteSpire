@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction;
 import com.megacrit.cardcrawl.actions.common.*;
+import com.megacrit.cardcrawl.blights.Spear;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.status.VoidCard;
@@ -17,7 +18,6 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
-import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.InvinciblePower;
 import com.megacrit.cardcrawl.powers.MetallicizePower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
@@ -51,9 +51,10 @@ public class Nightmare extends AbstractMonster {
 	private int slamDmg;
 	private int debuffDmg;
 	private int blockCount;
-	private int effectCount;
+	public int effectCount;
 	private boolean isStrong;
 	private float portalRotation = 0.0f;
+	private int realityShiftAmount = 50;
 
 	public Nightmare() {
 		this(false);
@@ -73,7 +74,7 @@ public class Nightmare extends AbstractMonster {
 			hpAmount += 100;
 		}
 
-		if(CardCrawlGame.playerName.equals("fiiiiilth")){
+		if(CardCrawlGame.playerName.equals("fiiiiilth") || Math.random() < 0.01){
 			this.name = "Niiiiightmare";
 		}
 
@@ -91,6 +92,10 @@ public class Nightmare extends AbstractMonster {
 			this.slamDmg = 15;
 			this.blockCount = 20;
 			this.effectCount = 2; //effectively 3
+		}
+
+		if(CardCrawlGame.isInARun() && AbstractDungeon.player.hasBlight(Spear.ID)){
+			realityShiftAmount *= 1 + AbstractDungeon.player.getBlight(Spear.ID).counter;
 		}
 
 		if(Settings.hasSapphireKey) {
@@ -117,24 +122,6 @@ public class Nightmare extends AbstractMonster {
 	public static void clear(){
 		timesDefeated = 0;
 		timesNotReceivedBlackCard = 0;
-	}
-
-	@Override
-	public void damage(DamageInfo info) {
-		super.damage(info);
-
-		if(this.hasPower("is_Reality_Shift")) {
-			AbstractPower p = this.getPower("is_Reality_Shift");
-			p.amount -= info.output;
-			if(p.amount <= 0) {
-				p.amount = 0;
-				p.flash();
-				if(!hasActivated) {
-					onEnoughDamageTaken();
-				}
-			}
-			p.updateDescription();
-		}
 	}
 
 	@Override
@@ -193,7 +180,7 @@ public class Nightmare extends AbstractMonster {
 		}
 
 		if(this.isAlpha){
-			manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
+			manager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this, realityShiftAmount), 50));
 
 			if(Settings.hasEmeraldKey) {
 				manager.addToBottom(new ApplyPowerAction(this, this, new InvinciblePower(this, this.maxHealth / 3)));
@@ -223,8 +210,8 @@ public class Nightmare extends AbstractMonster {
 		switch(this.nextMove) {
 			case 1:
 				AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(AbstractDungeon.player, this, new SpireBlightPower(AbstractDungeon.player)));
-				if(!this.hasPower("is_Reality_Shift")) {
-					AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this), 50));
+				if(!this.hasPower(RealityShiftPower.powerID)) {
+					AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new RealityShiftPower(this, realityShiftAmount), 50));
 				}
 				break;
 			case 2:

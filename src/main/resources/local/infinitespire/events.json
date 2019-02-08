@@ -14,7 +14,7 @@
 			"#g[Smith] Upgrade a card.",
 			"#g[Toke] Remove a card.",
 			"#g[Dig] Obtain a random relic.",
-			"Obtain Blank's Blanky",
+			"Obtain #bBlank's #bBlanky",
 			"Leave.",
 			"[Locked]"
 		]
@@ -30,7 +30,7 @@
 		"OPTIONS" : [
 			"#y[Gold] Give ",
 			"#r[Blood] Lose ",
-			"#p[Steal] Gain 2 Curses.",
+			"#p[Steal] Gain #r2 Curses.",
 			" Gold.",
 			" HP.",
 			"Leave.",
@@ -47,6 +47,22 @@
 		],
 		"OPTIONS": [
 			"[Take] Randomize your starter relic.",
+			"Leave."
+		]
+	},
+	"infinitespire:VoidlingNest" : {
+		"NAME" : "Voidling Nest",
+		"DESCRIPTIONS" : [
+			"You approach a hallway, its covered in strange purple webs. The sounds of skittering Voidlings can be heard in the distance.",
+			" NL After taking a few steps towards the hallway, you see that it is a nest of Voidlings with a Nightmare close by. NL You notice that there is a stairway in the room with the Voidlings, you might be able to make it if you run.",
+			"You look around, the room feels darker than before, you turn to see the Nightmare. However this is no ordinary Nightmare, it feels like it is protecting something..."
+		],
+		"OPTIONS": [
+			"[Continue]",
+			"[Attack] #rFight #rthe #pVoidlings.",
+			"[Sprint] Escape to the staircase.",
+			"[Attack] #rFight #rthe #pNightmare #pAlpha.",
+			"[Escape] Turn around and take the stairs.",
 			"Leave."
 		]
 	}

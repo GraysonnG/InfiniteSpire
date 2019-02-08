@@ -1,0 +1,146 @@
+{
+	"infinitespire:BeetleShellPower": {
+		"NAME" : "Beetle Shell",
+		"DESCRIPTIONS": [
+			"The next time you gain block from a card, it is doubled."
+		]
+	},
+	"infinitespire:ClusterPower": {
+		"NAME" : "Cluster",
+		"DESCRIPTIONS": [
+			"When taking HP damage, #yMass #yof #yShapes may break apart into smaller monsters."
+		]
+	},
+	"infinitespire:CriticalPower": {
+		"NAME": "Critical",
+		"DESCRIPTIONS": [
+			"The next attack you play will deal #b2 times damage"
+		]
+	},
+	"infinitespire:DicePower": {
+		"NAME": "Cursed Dice",
+		"DESCRIPTIONS" : [
+			"You no longer take damage."
+		]
+	},
+	"infinitespire:DeenergizedPower": {
+		"NAME": "De-Energized",
+		"DESCRIPTIONS" : [
+			"At the start of each turn, lose #b",
+			" energy."
+		]
+	},
+	"infinitespire:GolemPower": {
+		"NAME" : "Golem's Might",
+		"DESCRIPTIONS": [
+			"All attacks deal ",
+			"% more damage. (Cap: 100%)"
+		]
+	},
+	"infinitespire:JokerCardPower": {
+		"NAME" : "Joker Card",
+		"DESCRIPTIONS": [
+			"The next card you play is played twice."
+		]
+	},
+	"infinitespire:KeyMirrorPower_ruby": {
+		"NAME" : "Ruby Mirror",
+		"DESCRIPTIONS": [
+			" will be more intelligent."
+		]
+	},
+	"infinitespire:KeyMirrorPower_sapphire": {
+		"NAME" : "Sapphire Mirror",
+		"DESCRIPTIONS": [
+			" will be more aggressive."
+		]
+	},
+	"infinitespire:KeyMirrorPower_emerald": {
+		"NAME" : "Emerald Mirror",
+		"DESCRIPTIONS": [
+			" will be more powerful."
+		]
+	},
+	"infinitespire:LOA_Intangible": {
+		"NAME" : "Intangible",
+		"DESCRIPTIONS": [
+			"Reduce ALL damage taken and HP loss to #b1 this turn."
+		]
+	},
+	"infinitespire:ShreddedPower": {
+		"NAME" : "Shredded",
+		"DESCRIPTIONS": [
+			"For each card played for the rest of combat, ",
+			" takes #b10% more damage from #yAttacks. NL (Takes #b",
+			"% more damage)"
+		]
+	},
+	"infinitespire:RealityShiftPower": {
+		"NAME" : "Reality Shift",
+		"DESCRIPTIONS": [
+			"After taking #b",
+			" damage in a single turn, Nightmare will change its intent to a #r",
+			" #rx #r",
+			" #rdamage #rattack and then shift reality, forcing you to end your turn."
+		]
+	},
+	"infinitespire:DivineShieldPower": {
+		"NAME" : "Divine Shield",
+		"DESCRIPTIONS": [
+			"When ??? is inflicted with a debuff, he will retaliate with Ultimate Memoricia."
+		]
+	},
+	"infinitespire:MenacingPower": {
+		"NAME" : "Menacing",
+		"DESCRIPTIONS": [
+			"The next ",
+			" attacks you play stun any enemy they hit for 1 turn.",
+			"The next attack you play stuns any enemy it hits for 1 turn."
+		]
+	},
+	"infinitespire:PylonPower": {
+		"NAME" : "Pylon Shield",
+		"DESCRIPTIONS": [
+			"As long as there is at least #b1 #yShield #yPylon, gain #b1 #yIntangible at the end of the turn."
+		]
+	},
+	"infinitespire:LifeLinkPower": {
+		"NAME" : "Life Link",
+		"DESCRIPTIONS": [
+			"Upon death remove all block from and deal #b",
+			" damage to "
+		]
+	},
+	"infinitespire:SpireBlightPower": {
+		"NAME": "Spire Blight",
+		"DESCRIPTIONS": [
+			"Deal #b25% less damage, and gain #b25% less block."
+		]
+	},
+	"infinitespire:TempThorns": {
+		"NAME" : "Temporary Thorns",
+		"DESCRIPTIONS": [
+			"For the next #b",
+			" turns. When attacked, deals #b",
+			" damage back.",
+			"For the rest of this turn. When attacked, deals #b"
+		]
+	},
+	"infinitespire:UltimateFormPower": {
+		"NAME" : "Ultimate Form",
+		"DESCRIPTIONS": [
+			"Gain ",
+			" Strength and Dexterity each turn. NL If you have orb slots gain ",
+			" Focus each turn."
+		]
+	},
+	"infinitespire:VenomPower": {
+		"NAME" : "Venom",
+		"DESCRIPTIONS": [
+			"At the end of your turn, lose #b",
+			" HP, then reduce #yVenom by #b1. NL NL When ",
+			" dies, heal all damage dealt by #yVenom (Heal #g",
+			" HP). NL #rVenom #rcannot #rkill #ryou."
+		]
+	}
+}

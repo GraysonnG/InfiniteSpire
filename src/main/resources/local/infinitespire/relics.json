@@ -200,7 +200,22 @@
 		"NAME": "Bottled Mercury",
 		"FLAVOR": "Tastes real bad...",
 		"DESCRIPTIONS":  [
-			"Upon pickup choose a card, when it is played, if it is an #yAttack, gain #b1 #yStrength, if it is a #ySkill, gain #b2 #yDexterity, if it is a #yPower, gain #b1 #yFocus."
+			"Upon pickup choose a card, when it is played, if it is an #yAttack, gain #b1 #yStrength, if it is a #ySkill, gain #b1 #yDexterity, if it is a #yPower, gain #b2 #yFocus."
+		]
+	},
+	"infinitespire:EvilPickle": {
+		"NAME": "Abe's Evil Pickle",
+		"FLAVOR": "Nothing is more evil than gold!",
+		"DESCRIPTIONS": [
+			"After combat, gain #b6.5% interest on your #ygold."
+		]
+	},
+	"infinitespire:BlackEgg": {
+		"NAME": "Black Egg",
+		"FLAVOR": "Something terrifying... contained...",
+		"DESCRIPTIONS": [
+			"[#2aecd7]Right [#2aecd7]click [#2aecd7]to [#2aecd7]toggle.[]",
+			" NL When activated the next floor's boss will be [#9166ff]The[] [#9166ff]Lord[] [#9166ff]of[] [#9166ff]Annihilation.[]"
 		]
 	}
 }

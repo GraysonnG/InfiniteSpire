@@ -1,0 +1,19 @@
+{
+	"Game Dictionary": {
+		"GOLEMSMIGHT": {
+			"NAMES": [
+				"golem's might",
+				"golem's",
+				"golem"
+			],
+			"DESCRIPTION": "Each turn your attacks deal 5% more damage than the last turn."
+		},
+		"CRITICAL": {
+			"NAMES": [
+				"critical",
+				"crit"
+			],
+			"DESCRIPTION": "The next attack you play will deal 2x damage."
+		}
+	}
+}

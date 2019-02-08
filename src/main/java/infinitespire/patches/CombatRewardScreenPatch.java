@@ -16,8 +16,8 @@ public class CombatRewardScreenPatch {
 		@SpireInsertPatch(locator = Locator.class,
 			localvars = {"cardReward"})
 		public static void convertToBlackReward(CombatRewardScreen __instance, @ByRef RewardItem[] cardReward) {
-			if(AbstractDungeon.bossKey.equals(LordOfAnnihilation.ID)) {
-				if(AbstractDungeon.getCurrRoom() instanceof MonsterRoomBoss) {
+			if (AbstractDungeon.bossKey.equals(LordOfAnnihilation.ID)) {
+				if (AbstractDungeon.getCurrRoom() instanceof MonsterRoomBoss) {
 					cardReward[0] = new BlackCardRewardItem();
 				}
 			}

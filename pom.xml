@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>InfiniteSpire</groupId>
   <artifactId>InfiniteSpire</artifactId>
-  <version>0.10.3</version>
+  <version>0.15.1</version>
   <dependencies>
     <dependency>
       <groupId>com.megacrit.cardcrawl</groupId>
@@ -44,7 +44,7 @@
       <artifactId>coloredmap</artifactId>
       <version>2.0.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/ColoredMap.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/workshop/content/646570/1611666859/ColoredMap.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>fruitymod</groupId>

@@ -39,7 +39,7 @@ public class JokerCard extends Relic {
 
 	@Override
 	public void onPlayCard(AbstractCard c, AbstractMonster m) {
-		if(AbstractDungeon.player.hasPower("is_JokerCardPower"))
+		if(AbstractDungeon.player.hasPower(JokerCardPower.powerID))
 			return;
 		
 		this.counter++;

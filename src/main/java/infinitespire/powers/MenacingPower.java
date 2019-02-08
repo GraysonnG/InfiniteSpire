@@ -8,27 +8,32 @@ import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 
 public class MenacingPower extends AbstractPower {
 
+	public static final String powerID = InfiniteSpire.createID("MenacingPower");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	public MenacingPower(AbstractPlayer owner, int amount){
 		this.owner = owner;
 		this.amount = amount;
-		this.name = "Menacing";
-		this.ID = "is_Menacing";
-		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/realityshift.png");
+		this.name = strings.NAME;
+		this.ID = powerID;
+		this.img = InfiniteSpire.Textures.getPowerTexture("realityshift.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 	}
 
 	public void updateDescription() {
 		this.description = amount > 1 ?
-			"The next " + amount + " attacks you play stun any enemy they hit for 1 turn." :
-			"The next attack you play stuns any enemy it hits for 1 turn.";
+			strings.DESCRIPTIONS[0] + amount + strings.DESCRIPTIONS[1] :
+			strings.DESCRIPTIONS[2];
 	}
 
 	@Override

@@ -1,21 +1,28 @@
 package infinitespire.powers;
 
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import infinitespire.InfiniteSpire;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.monsters.ShieldPylon;
-import infinitespire.util.TextureLoader;
 
 public class LordOfAnnihilationPylonPower extends AbstractPower{
+
+    public static final String powerID = InfiniteSpire.createID("PylonPower");
+    private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
+
     public LordOfAnnihilationPylonPower(LordOfAnnihilation owner){
-        this.name = "Pylon Shield";
-        this.ID = "is_PylonPower";
+        this.name = strings.NAME;
+        this.ID = powerID;
         this.owner = owner;
         this.amount = -1;
         this.type = PowerType.BUFF;
-        this.img = TextureLoader.getTexture("img/infinitespire/powers/pylonPower.png");
+        this.img = InfiniteSpire.Textures.getPowerTexture("pylonPower.png");
         this.updateDescription();
     }
 
@@ -38,6 +45,6 @@ public class LordOfAnnihilationPylonPower extends AbstractPower{
 
     @Override
     public void updateDescription() {
-        this.description = "As long as there is at least #b1 #yShield #yPylon, gain #b1 #yIntangible at the end of the turn.";
+        this.description = strings.DESCRIPTIONS[0];
     }
 }

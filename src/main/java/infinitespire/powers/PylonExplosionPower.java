@@ -4,7 +4,9 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.utility.LoseBlockAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 import infinitespire.monsters.LordOfAnnihilation;
@@ -12,16 +14,19 @@ import infinitespire.monsters.ShieldPylon;
 
 public class PylonExplosionPower extends AbstractPower{
 
-    private LordOfAnnihilation boss;
+    public static final String powerID = InfiniteSpire.createID("LifeLinkPower");
+    private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
+    LordOfAnnihilation boss;
 
     public PylonExplosionPower(ShieldPylon owner, LordOfAnnihilation boss){
-        this.name = "Life Link";
-        this.ID = "is_LifeLinkPower";
+        this.name = strings.NAME;
+        this.ID = powerID;
         this.owner = owner;
         this.boss = boss;
         this.amount = -1;
         this.type = PowerType.DEBUFF;
-        this.img = InfiniteSpire.getTexture("img/infinitespire/powers/lifelink.png");
+        this.img = InfiniteSpire.Textures.getPowerTexture("lifelink.png");
         this.updateDescription();
     }
 
@@ -38,6 +43,6 @@ public class PylonExplosionPower extends AbstractPower{
 
     @Override
     public void updateDescription() {
-        this.description = "Upon death remove all block from and deal #b" + owner.maxHealth + " damage to " + boss.name;
+        this.description = strings.DESCRIPTIONS[0] + owner.maxHealth + strings.DESCRIPTIONS[1] + boss.name;
     }
 }

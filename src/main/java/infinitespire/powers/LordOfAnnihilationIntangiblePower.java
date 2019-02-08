@@ -4,15 +4,21 @@ import com.megacrit.cardcrawl.actions.common.ReducePowerAction;
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.IntangiblePower;
+import infinitespire.InfiniteSpire;
 import infinitespire.monsters.ShieldPylon;
 
 public class LordOfAnnihilationIntangiblePower extends IntangiblePower {
 
+    public static final String powerID = InfiniteSpire.createID("LOA_Intangible");
+    private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
     public LordOfAnnihilationIntangiblePower(AbstractCreature owner, int turns) {
         super(owner, turns);
-        this.ID = "inf_loaIntangible";
+        this.ID = powerID;
         this.updateDescription();
     }
 
@@ -32,7 +38,7 @@ public class LordOfAnnihilationIntangiblePower extends IntangiblePower {
 
     @Override
     public void updateDescription() {
-        this.description = "Reduce ALL damage taken and HP loss to #b1 this turn.";
+        this.description = strings.DESCRIPTIONS[0];
     }
 
     @Override

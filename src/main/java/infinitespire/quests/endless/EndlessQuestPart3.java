@@ -6,6 +6,7 @@ import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.SlayQuest;
+import infinitespire.relics.BlackEgg;
 
 public class EndlessQuestPart3 extends SlayQuest {
     public EndlessQuestPart3() {
@@ -18,8 +19,14 @@ public class EndlessQuestPart3 extends SlayQuest {
     }
 
     @Override
+    public boolean autoClaim() {
+        return true;
+    }
+
+    @Override
     public void giveReward() {
-        //special unlock that changes things
+        BlackEgg egg = new BlackEgg();
+        egg.instantObtain();
     }
 
     @Override
@@ -29,12 +36,12 @@ public class EndlessQuestPart3 extends SlayQuest {
 
     @Override
     public String getTitle() {
-        return "Kill ??? [Unimplemented]";
+        return "Defeat ???";
     }
 
     @Override
     public String getRewardString() {
-        return "???";
+        return "Receive the Black Egg.";
     }
 
     @Override

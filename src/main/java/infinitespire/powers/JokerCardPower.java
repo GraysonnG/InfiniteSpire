@@ -5,24 +5,33 @@ import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardQueueItem;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 
 public class JokerCardPower extends AbstractPower {
 
-	
+	public static final String powerID = InfiniteSpire.createID("JokerCardPower");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	public JokerCardPower(AbstractPlayer owner) {
 		this.owner = owner;
 		this.amount = 1;
-		this.name = "Joker Card";
-		this.ID = "is_JokerCardPower";
-		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/jokercard.png");
+		this.name = strings.NAME;
+		this.ID = powerID;
+		this.img = InfiniteSpire.Textures.getPowerTexture("jokercard.png");
 		this.type = PowerType.BUFF;
 		this.updateDescription();
 		this.priority = 6;
+	}
+
+	@Override
+	public void updateDescription() {
+		this.description = strings.DESCRIPTIONS[0];
 	}
 
 	@Override

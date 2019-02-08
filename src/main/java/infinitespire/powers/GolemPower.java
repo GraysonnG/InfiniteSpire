@@ -3,21 +3,25 @@ package infinitespire.powers;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.cards.DamageInfo.DamageType;
 import com.megacrit.cardcrawl.core.AbstractCreature;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-
 import infinitespire.InfiniteSpire;
 
 public class GolemPower extends AbstractPower {
-	
+
+	public static final String powerID = InfiniteSpire.createID("GolemPower");
+	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
+
 	private static float PERCENTAGE_GAIN = 0.05f;
 	private int count;
 	
 	public GolemPower(AbstractCreature owner) {
 		this.owner = owner;
 		this.amount = 0;
-		this.name = "Golem's Might";
-		this.ID = "is_GolemPower";
-		this.img = InfiniteSpire.getTexture("img/infinitespire/powers/golem.png");
+		this.name = strings.NAME;
+		this.ID = powerID;
+		this.img = InfiniteSpire.Textures.getPowerTexture("golem.png");
 		this.type = PowerType.BUFF;
 		this.isTurnBased = true;
 		this.updateDescription();
@@ -40,6 +44,6 @@ public class GolemPower extends AbstractPower {
 	}
 	
 	public void updateDescription() {
-		this.description = "All attacks deal " + (int) Math.round((count * PERCENTAGE_GAIN) * 100) + "% more damage. (Cap: 100%)";
+		this.description = strings.DESCRIPTIONS[0] + Math.round((count * PERCENTAGE_GAIN) * 100) + strings.DESCRIPTIONS[1];
 	}
 }

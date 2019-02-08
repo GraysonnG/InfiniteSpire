@@ -4,19 +4,24 @@ import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
 import com.megacrit.cardcrawl.actions.utility.UseCardAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.DamageInfo;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
-import infinitespire.util.TextureLoader;
+import infinitespire.InfiniteSpire;
 
 public class SuperSlowPower extends AbstractPower {
+
+    public static final String powerID = InfiniteSpire.createID("ShreddedPower");
+    private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
 
     public SuperSlowPower(AbstractMonster owner, int amount){
         this.owner = owner;
         this.amount = amount;
-        this.name = "Shredded";
-        this.ID = "is_Shattered";
-        this.img = TextureLoader.getTexture("img/infinitespire/powers/superslow.png");
+        this.name = strings.NAME;
+        this.ID =  powerID;
+        this.img = InfiniteSpire.Textures.getPowerTexture("superslow.png");
         this.type = PowerType.DEBUFF;
         this.updateDescription();
     }
@@ -36,6 +41,11 @@ public class SuperSlowPower extends AbstractPower {
 
     @Override
     public void updateDescription() {
-        this.description = "For each card played for the rest of combat, " + owner.name + " takes #b10% more damage from #yAttacks. NL (Takes #b" + amount * 10 + "% more damage)";
+        this.description =
+            strings.DESCRIPTIONS[0]
+                + owner.name
+                + strings.DESCRIPTIONS[1]
+                + amount * 10
+                + strings.DESCRIPTIONS[2];
     }
 }
