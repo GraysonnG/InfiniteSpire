@@ -19,6 +19,11 @@ public class EndlessQuestPart3 extends SlayQuest {
     }
 
     @Override
+    public boolean autoClaim() {
+        return true;
+    }
+
+    @Override
     public void giveReward() {
         BlackEgg egg = new BlackEgg();
         egg.instantObtain();
@@ -36,7 +41,7 @@ public class EndlessQuestPart3 extends SlayQuest {
 
     @Override
     public String getRewardString() {
-        return "Receive the Black Egg";
+        return "Receive the Black Egg.";
     }
 
     @Override
