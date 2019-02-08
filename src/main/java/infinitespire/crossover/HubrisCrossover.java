@@ -2,22 +2,12 @@ package infinitespire.crossover;
 
 import basemod.ReflectionHacks;
 import com.evacipated.cardcrawl.mod.hubris.cards.DuctTapeCard;
-import com.evacipated.cardcrawl.mod.hubris.cards.black.InfiniteBlow;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import infinitespire.abstracts.BlackCard;
 
 import java.util.ArrayList;
 
 public class HubrisCrossover {
-
-	public static boolean isInfiniteBlowLoaded = false;
-
-	public static void loadInfiniteBlow() {
-		if(!isInfiniteBlowLoaded) {
-			InfiniteBlow.load();
-			isInfiniteBlowLoaded = true;
-		}
-	}
 
 	@SuppressWarnings("unchecked")
 	public static boolean isDuctTapeBlackCard(AbstractCard card){

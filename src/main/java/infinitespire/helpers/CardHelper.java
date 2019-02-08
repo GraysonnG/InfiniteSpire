@@ -11,7 +11,6 @@ import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.cards.black.Virus;
-import infinitespire.crossover.HubrisCrossover;
 
 import java.util.ArrayList;
 
@@ -45,9 +44,6 @@ public class CardHelper {
 		BlackCard card =  blackCards.get(AbstractDungeon.cardRng.random(blackCards.size() -1));
 		UnlockTracker.markCardAsSeen(card.cardID);
 		card.isSeen = true;
-		if(InfiniteSpire.isHubrisLoaded){
-			HubrisCrossover.loadInfiniteBlow();
-		}
 		return (BlackCard) card.makeStatEquivalentCopy();
 	}
 	
