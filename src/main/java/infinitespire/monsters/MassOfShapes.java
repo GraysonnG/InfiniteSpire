@@ -373,7 +373,6 @@ public class MassOfShapes extends AbstractMonster {
 		public void render(SpriteBatch sb) {
 			this.state.update(Gdx.graphics.getDeltaTime());
 			this.state.apply(this.skeleton);
-			this.skeleton.updateWorldTransform();
 			this.position.add(this.velocity);
 			this.skeleton.setPosition(this.position.x, this.position.y);
 			this.skeleton.setColor(mon.tint.color);
