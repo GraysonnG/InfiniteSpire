@@ -16,8 +16,8 @@ public abstract class Relic extends AbstractRelic {
 	
 	public Relic(String setId, String textureID, RelicTier tier, LandingSound sfx) {
 		super(setId, "", tier, sfx);
-		Texture texture = InfiniteSpire.getTexture("img/infinitespire/relics/" + textureID + ".png");
-		Texture outline = InfiniteSpire.getTexture("img/infinitespire/relics/" + textureID + "-outline.png");
+		Texture texture = InfiniteSpire.Textures.getRelicTexture(textureID + ".png");
+		Texture outline = InfiniteSpire.Textures.getRelicTexture(textureID + "-outline.png");
 		img = texture;
 		largeImg = texture;
 		outlineImg = outline;

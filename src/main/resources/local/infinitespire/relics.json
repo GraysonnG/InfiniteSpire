@@ -217,5 +217,12 @@
 			"[#2aecd7]Right [#2aecd7]click [#2aecd7]to [#2aecd7]toggle.[]",
 			" NL When activated the next floor's boss will be [#9166ff]The[] [#9166ff]Lord[] [#9166ff]of[] [#9166ff]Annihilation.[]"
 		]
+	},
+	"infinitespire:CheckeredPen": {
+		"NAME": "Checkered Pen",
+		"FLAVOR": "Secrets revealed...",
+		"DESCRIPTIONS": [
+			"Whenever you play a card, deal #b1 damage to a random enemy."
+		]
 	}
 }

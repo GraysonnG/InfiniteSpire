@@ -338,6 +338,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new BottledMercury());
 		RelicLibrary.add(new EvilPickle());
 		RelicLibrary.add(new BlackEgg());
+		RelicLibrary.add(new CheckeredPen());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
