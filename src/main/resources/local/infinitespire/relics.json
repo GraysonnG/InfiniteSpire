@@ -224,5 +224,12 @@
 		"DESCRIPTIONS": [
 			"Whenever you play a card, deal #b1 damage to a random enemy."
 		]
+	},
+	"infinitespire:PuzzleCube": {
+		"NAME": "Puzzle Cube",
+		"FLAVOR": "Timing...",
+		"DESCRIPTIONS": [
+			"At the start of each turn, #yPuzzle #yCube picks a random card in your draw pile, if you play that card, draw a card."
+		]
 	}
 }

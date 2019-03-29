@@ -70,7 +70,7 @@ import java.util.ArrayList;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
-	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
+	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber {
 	public static final String VERSION = "0.15.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
@@ -339,6 +339,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new EvilPickle());
 		RelicLibrary.add(new BlackEgg());
 		RelicLibrary.add(new CheckeredPen());
+		RelicLibrary.add(new PuzzleCube());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
@@ -409,7 +410,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	@SuppressWarnings("unused")
-
 	public static void triggerDieQuests() {
 		for (Quest q : questLog) {
 			if (q instanceof DieQuest) {
@@ -482,6 +482,11 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void receivePostUpdate() {
+
 	}
 
 	public static class Textures {
