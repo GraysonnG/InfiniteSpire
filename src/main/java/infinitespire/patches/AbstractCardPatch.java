@@ -1,5 +1,7 @@
 package infinitespire.patches;
 
+import basemod.ReflectionHacks;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -7,6 +9,8 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.cardManip.CardGlowBorder;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.quests.PickUpCardQuest;
@@ -105,6 +109,18 @@ public class AbstractCardPatch {
 
             if(Field.isBottledMercuryCard.get(__instance)) {
                 Field.isBottledMercuryCard.set(card[0], true);
+            }
+        }
+    }
+
+    //Border Glow Patch
+    @SpirePatch(clz = CardGlowBorder.class, method = SpirePatch.CONSTRUCTOR)
+    public static class CardGlowPatch {
+        @SpirePostfixPatch
+        public static void puzzleCubeCardGlowColor(CardGlowBorder __instance, AbstractCard inputCard) {
+            if(Field.isPuzzleCubeCard.get(inputCard)) {
+                Color color = Color.YELLOW.cpy();
+                ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", color);
             }
         }
     }
