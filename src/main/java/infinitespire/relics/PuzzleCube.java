@@ -40,7 +40,9 @@ public class PuzzleCube extends Relic {
 			this.flash();
 			AbstractCard card = getCard(drawPile);
 			this.card = card;
-			AbstractDungeon.effectsQueue.add(new ShowCardBrieflyEffect(card.makeStatEquivalentCopy()));
+			AbstractCard cardCopy = card.makeStatEquivalentCopy();
+			AbstractCardPatch.Field.isPuzzleCubeCard.set(cardCopy, true);
+			AbstractDungeon.effectsQueue.add(new ShowCardBrieflyEffect(cardCopy));
 			AbstractCardPatch.Field.isPuzzleCubeCard.set(card, true);
 		}
 	}
