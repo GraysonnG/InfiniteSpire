@@ -231,5 +231,12 @@
 		"DESCRIPTIONS": [
 			"At the start of each turn, #yPuzzle #yCube picks a random card in your draw pile, if you play that card, draw a card."
 		]
+	},
+	"infinitespire:SneckoEssence": {
+		"NAME": "Snecko Essence",
+		"FLAVOR": "Huh?",
+		"DESCRIPTIONS": [
+			"Gain [E] at the start of your turn. All attacks target random enemies."
+		]
 	}
 }
