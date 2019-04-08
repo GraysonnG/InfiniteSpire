@@ -213,15 +213,11 @@ public class QuestLogScreen {
 			this.completedAlpha = ((float) Math.sin(completedSin) + 1f) / 2f;
 
 			//Set isHovered
-			if(tempHitbox.hovered)
-				quest.isHovered = true;
-			else
-				quest.isHovered = false;
+			quest.isHovered = tempHitbox.hovered;
 
 			//Onclick action
 			FontHelper.renderFontCentered(sb, FontHelper.topPanelAmountFont, boxString, xPos + textXOffset + ((384f * Settings.scale) / 2), yPos + 35f * (Settings.scale), Color.WHITE);
 			if(justClicked && (quest.isCompleted() || quest.abandon) && tempHitbox.hovered) {
-				InfiniteSpire.logger.info("I am being removed:" + quest.getTitle());
 				quest.removeQuest();
 			}
 			if(justClickedRight && !quest.isCompleted() && tempHitbox.hovered){

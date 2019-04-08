@@ -102,7 +102,6 @@ public abstract class Quest {
 	}
 	
 	public void removeQuest() {
-	    InfiniteSpire.publishOnQuestRemoved(this);
 		remove = true;
 	}
 	

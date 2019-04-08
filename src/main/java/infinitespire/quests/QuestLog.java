@@ -60,19 +60,21 @@ public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, 
 			if (this.get(i).isCompleted()) {
 				if (this.get(i).autoClaim()) {
 					this.get(i).giveReward();
+					InfiniteSpire.publishOnQuestRemoved(this.get(i));
 					this.remove(i);
 					continue;
 				}
 				if (this.get(i).shouldRemove()) {
-					InfiniteSpire.logger.info("I am giving my reward! " + i + " : " + this.get(i).getTitle());
 					this.get(i).giveReward();
 					if(this.get(i) instanceof IQuestLine) {
                         ((IQuestLine) this.get(i)).addNextStep(this, i);
                     }
+					InfiniteSpire.publishOnQuestRemoved(this.get(i));
 					this.remove(i);
 				}
 			} else {
 				if (this.get(i).shouldRemove()) {
+					InfiniteSpire.publishOnQuestRemoved(this.get(i));
 					this.remove(i);
 				}
 			}
