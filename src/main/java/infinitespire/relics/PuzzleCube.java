@@ -39,11 +39,13 @@ public class PuzzleCube extends Relic {
 		if(drawPile.size() > 0){
 			this.flash();
 			AbstractCard card = getCard(drawPile);
-			this.card = card;
-			AbstractCard cardCopy = card.makeStatEquivalentCopy();
-			AbstractCardPatch.Field.isPuzzleCubeCard.set(cardCopy, true);
-			AbstractDungeon.effectsQueue.add(new ShowCardBrieflyEffect(cardCopy));
-			AbstractCardPatch.Field.isPuzzleCubeCard.set(card, true);
+			if(card != null) {
+				this.card = card;
+				AbstractCard cardCopy = card.makeStatEquivalentCopy();
+				AbstractCardPatch.Field.isPuzzleCubeCard.set(cardCopy, true);
+				AbstractDungeon.effectsQueue.add(new ShowCardBrieflyEffect(cardCopy));
+				AbstractCardPatch.Field.isPuzzleCubeCard.set(card, true);
+			}
 		}
 	}
 
@@ -53,8 +55,10 @@ public class PuzzleCube extends Relic {
 			abstractCard ->
 				abstractCard.type == AbstractCard.CardType.CURSE ||
 				abstractCard.type == AbstractCard.CardType.STATUS);
-
-		return cards.get(AbstractDungeon.cardRandomRng.random(cards.size() - 1));
+		if(cards.size() <= 0)
+			return null;
+		else
+			return cards.get(AbstractDungeon.cardRandomRng.random(cards.size() - 1));
 	}
 
 	@Override
