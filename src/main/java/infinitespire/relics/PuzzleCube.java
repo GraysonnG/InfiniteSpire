@@ -19,7 +19,7 @@ public class PuzzleCube extends Relic {
 	private AbstractCard card;
 
 	public PuzzleCube(){
-		super(ID, "bottledsoul", RelicTier.COMMON, LandingSound.SOLID);
+		super(ID, "puzzlecube", RelicTier.COMMON, LandingSound.SOLID);
 	}
 
 	@Override
