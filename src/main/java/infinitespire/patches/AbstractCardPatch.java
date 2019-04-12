@@ -1,5 +1,7 @@
 package infinitespire.patches;
 
+import basemod.ReflectionHacks;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -7,11 +9,14 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect;
+import com.megacrit.cardcrawl.vfx.cardManip.CardGlowBorder;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.quests.PickUpCardQuest;
 import infinitespire.relics.BottledMercury;
 import infinitespire.relics.BottledSoul;
+import infinitespire.relics.PuzzleCube;
 import infinitespire.util.TextureLoader;
 
 import java.io.IOException;
@@ -21,11 +26,13 @@ public class AbstractCardPatch {
     private static final String CLS = "com.megacrit.cardcrawl.cards.AbstractCard";
     private static AbstractRelic bottledSoul = new BottledSoul();
     private static AbstractRelic bottledMercury = new BottledMercury();
+    private static AbstractRelic puzzleCube = new PuzzleCube();
 
     @SpirePatch(cls = CLS, method=SpirePatch.CLASS)
     public static class Field {
         public static SpireField<Boolean> isBottledSoulCard = new SpireField<>(() -> false);
         public static SpireField<Boolean> isBottledMercuryCard = new SpireField<>(() -> false);
+        public static SpireField<Boolean> isPuzzleCubeCard = new SpireField<>(() -> false);
     }
 
     @SpirePatch(cls = CLS, method = "renderCard")
@@ -45,6 +52,14 @@ public class AbstractCardPatch {
                 bottledMercury.scale = card.drawScale;
                 bottledMercury.renderOutline(sb, false);
                 bottledMercury.render(sb);
+            }
+
+            if(Field.isPuzzleCubeCard.get(card)){
+                puzzleCube.currentX = card.current_x + 390.0f * card.drawScale / 3.0f * Settings.scale;
+                puzzleCube.currentY = card.current_y + 546.0f * card.drawScale / 3.0f * Settings.scale;
+                puzzleCube.scale = card.drawScale;
+                puzzleCube.renderOutline(sb, false);
+                puzzleCube.render(sb);
             }
 
             if(AbstractDungeon.getCurrMapNode() != null && AbstractDungeon.getCurrRoom() != null) {
@@ -94,6 +109,18 @@ public class AbstractCardPatch {
 
             if(Field.isBottledMercuryCard.get(__instance)) {
                 Field.isBottledMercuryCard.set(card[0], true);
+            }
+        }
+    }
+
+    //Border Glow Patch
+    @SpirePatch(clz = CardGlowBorder.class, method = SpirePatch.CONSTRUCTOR)
+    public static class CardGlowPatch {
+        @SpirePostfixPatch
+        public static void puzzleCubeCardGlowColor(CardGlowBorder __instance, AbstractCard inputCard) {
+            if(Field.isPuzzleCubeCard.get(inputCard)) {
+                Color color = Color.YELLOW.cpy();
+                ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", color);
             }
         }
     }

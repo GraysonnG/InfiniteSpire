@@ -10,6 +10,9 @@ import com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler;
 import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
@@ -45,6 +48,7 @@ import infinitespire.monsters.Nightmare;
 import infinitespire.monsters.Voidling;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.patches.RewardItemTypeEnumPatch;
+import infinitespire.patches.SneckoEssencePatch;
 import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
@@ -70,8 +74,8 @@ import java.util.ArrayList;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
-	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber {
-	public static final String VERSION = "0.15.1";
+	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber {
+	public static final String VERSION = "0.16.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -209,6 +213,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
 
+		String blightStrings = Gdx.files.internal("local/infinitespire/blights.json")
+				.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(BlightStrings.class, blightStrings);
+
 		String eventStrings = Gdx.files.internal("local/infinitespire/events.json")
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
@@ -338,6 +346,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		RelicLibrary.add(new BottledMercury());
 		RelicLibrary.add(new EvilPickle());
 		RelicLibrary.add(new BlackEgg());
+		RelicLibrary.add(new CheckeredPen());
+		RelicLibrary.add(new PuzzleCube());
 
 		RelicLibrary.add(new EmpoweringShard());
 		RelicLibrary.add(new WardingShard());
@@ -408,7 +418,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	@SuppressWarnings("unused")
-
 	public static void triggerDieQuests() {
 		for (Quest q : questLog) {
 			if (q instanceof DieQuest) {
@@ -431,6 +440,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	public static void publishOnQuestRemoved(Quest quest) {
+		logger.info("InfiniteSpire : publishOnQuestRemoved subscribers...");
 		for (OnQuestRemovedSubscriber subscriber : onQuestRemovedSubscribers) {
 			subscriber.receiveQuestRemoved(quest);
 		}
@@ -479,6 +489,32 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				}
 			} catch (InstantiationException | IllegalAccessException e) {
 				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void receivePostUpdate() {
+		AbstractPlayer player = AbstractDungeon.player;
+		if(CardCrawlGame.isInARun() && player.hasRelic(SneckoEssence.ID)){
+			if(AbstractDungeon.getCurrMapNode() != null && AbstractDungeon.getCurrRoom() != null && AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT) {
+				for(int i = AbstractDungeon.actionManager.actions.size() - 1; i >= 0; i--) {
+					AbstractGameAction action = AbstractDungeon.actionManager.actions.get(i);
+
+					if(action.source != null && action.source.isPlayer  && !action.target.isPlayer && action.actionType == AbstractGameAction.ActionType.DAMAGE && !SneckoEssencePatch.Field.isSnecked.get(action)) {
+						action.target = AbstractDungeon.getRandomMonster();
+						SneckoEssencePatch.Field.isSnecked.set(action, true);
+					}
+
+
+
+					/*if(action instanceof DamageAction && action.source.isPlayer) {
+						DamageAction damageAction = (DamageAction) action;
+						DamageInfo info = new DamageInfo(player, damageAction.amount, damageAction.damageType);
+						DamageRandomEnemyAction newAction = new DamageRandomEnemyAction(info, damageAction.attackEffect);
+						AbstractDungeon.actionManager.actions.set(i, newAction);
+					}*/
+				}
 			}
 		}
 	}
