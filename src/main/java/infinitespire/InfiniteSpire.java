@@ -213,6 +213,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
 
+		String blightStrings = Gdx.files.internal("local/infinitespire/blights.json")
+				.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(BlightStrings.class, blightStrings);
+
 		String eventStrings = Gdx.files.internal("local/infinitespire/events.json")
 				.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);

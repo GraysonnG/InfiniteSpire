@@ -1,0 +1,8 @@
+{
+	"infinitespire:InfectiousMalware": {
+		"NAME": "Infectious Malware",
+		"DESCRIPTION": [
+			"Whenever you play a card lose #b1 gold, if you have no gold, lose #rhp instead."
+		]
+	}
+}
