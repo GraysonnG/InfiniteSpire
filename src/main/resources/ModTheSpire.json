@@ -3,7 +3,7 @@
   "name": "Infinite Spire",
   "author_list": ["Blank The Evil"],
   "description": "Adds a new way to climb the spire forever, complete quests along the way, but be careful, the spire will not be kind to those who do not give up.",
-  "credits" : "Contributors: The_Evil_Pickle, RedDyeNo5, Len (for French translation)",
+  "credits" : "Contributors: The_Evil_Pickle, RedDyeNo5, Gremious, Len (for French translation)",
   "dependencies" : ["basemod","stslib"],
   "version": "0.16.0",
   "sts_version": "01-23-2019",
