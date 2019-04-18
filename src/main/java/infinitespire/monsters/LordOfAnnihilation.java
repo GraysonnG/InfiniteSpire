@@ -1,18 +1,19 @@
 package infinitespire.monsters;
 
+import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.ClearCardQueueAction;
 import com.megacrit.cardcrawl.actions.GameActionManager;
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
-import com.megacrit.cardcrawl.actions.common.RollMoveAction;
-import com.megacrit.cardcrawl.actions.common.SetMoveAction;
+import com.megacrit.cardcrawl.actions.common.*;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
+import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import infinitespire.powers.PrinceIdolPower;
 
 public class LordOfAnnihilation extends AbstractMonster{
     public static final String ID = "LordOfAnnihilation";
@@ -37,6 +38,12 @@ public class LordOfAnnihilation extends AbstractMonster{
         this.type = EnemyType.BOSS;
         phase = FightPhase.START;
         turn = 0;
+
+        if(CardCrawlGame.isInARun()) {
+            for(int d : MoveValues.getDamageValues()) {
+                damage.add(new DamageInfo(this, d));
+            }
+        }
     }
 
     @Override
@@ -49,7 +56,7 @@ public class LordOfAnnihilation extends AbstractMonster{
         manager.addToBottom(new ApplyPowerAction(this, this, new IntangiblePower(this, 1), 1));
         manager.addToBottom(new ApplyPowerAction(this, this, new InvinciblePower(this, this.maxHealth / 2), this.maxHealth / 2));
 
-        //- Gain revival
+        manager.addToBottom(new ApplyPowerAction(this, this, new PrinceIdolPower(this)));
 
         //- Gain poison mitigation (fuck ur poison decks)
 
@@ -72,7 +79,7 @@ public class LordOfAnnihilation extends AbstractMonster{
             powers.removeIf((p) ->
                 p.type == AbstractPower.PowerType.DEBUFF ||
                     p.ID.equals(CuriosityPower.POWER_ID) ||
-                    /*p.ID.equals( revival power ) ||*/
+                    p.ID.equals(PrinceIdolPower.powerID) ||
                     p.ID.equals(GainStrengthPower.POWER_ID));
 
             setMove(MoveBytes.REVIVAL, Intent.UNKNOWN);
@@ -87,9 +94,7 @@ public class LordOfAnnihilation extends AbstractMonster{
     }
 
     private boolean shouldRevive(){
-        //if this has power
-
-        return false;
+        return this.hasPower(PrinceIdolPower.powerID);
     }
 
     @Override
@@ -119,16 +124,23 @@ public class LordOfAnnihilation extends AbstractMonster{
 
         switch (this.nextMove) {
             case MoveBytes.ATTACK_1:
+                doAction(new DamageAction(player, damage.get(0), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
                 break;
             case MoveBytes.ATTACK_2:
+                doAction(new DamageAction(player, damage.get(1), AbstractGameAction.AttackEffect.SLASH_HEAVY));
                 break;
             case MoveBytes.ATTACK_DEFEND:
+                doAction(new GainBlockAction(this, this, MoveValues.getBlockValues(this)[1]));
+                doAction(new DamageAction(player, damage.get(2), AbstractGameAction.AttackEffect.SLASH_HEAVY));
                 break;
             case MoveBytes.ATTACK_BUFF:
+                gainStrength(this, MoveValues.STR_GAIN_2);
                 break;
             case MoveBytes.DEFEND:
+                doAction(new GainBlockAction(this, this, MoveValues.getBlockValues(this)[0]));
                 break;
             case MoveBytes.BUFF:
+                gainStrength(this, MoveValues.STR_GAIN_1);
                 break;
         }
 
@@ -169,6 +181,14 @@ public class LordOfAnnihilation extends AbstractMonster{
         }
     }
 
+    private static void doAction(AbstractGameAction action) {
+        AbstractDungeon.actionManager.addToBottom(action);
+    }
+
+    private static void gainStrength(AbstractCreature c, int amount) {
+        doAction(new ApplyPowerAction(c, c, new StrengthPower(c, amount), amount));
+    }
+
     public static class MoveBytes {
         public static final byte ATTACK_1 = 0;
         public static final byte ATTACK_2 = 1;
@@ -176,6 +196,31 @@ public class LordOfAnnihilation extends AbstractMonster{
         public static final byte ATTACK_BUFF = 3;
         public static final byte DEFEND = 4;
         public static final byte BUFF = 5;
-        public static final byte REVIVAL = 6;
+        public static final byte REVIVAL = 6; // Lament
+    }
+
+    public static class MoveValues {
+        public static int[] getDamageValues() {
+            int[] damageValues = new int[4];
+
+            damageValues[0] = 35; //- 70
+            damageValues[1] = 8; //- 64
+            damageValues[2] = 45; //- 90
+            damageValues[3] = 45; //- 90
+
+            return damageValues;
+        }
+
+        public static int[] getBlockValues(LordOfAnnihilation boss) {
+            int[] blockValues = new int[2];
+
+            blockValues[0] = boss.maxHealth / 4;
+            blockValues[1] = boss.maxHealth / 8;
+
+            return blockValues;
+        }
+
+        public static final int STR_GAIN_1 = 10;
+        public static final int STR_GAIN_2 = 2;
     }
 }
