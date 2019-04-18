@@ -265,64 +265,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		return TextureLoader.getTexture(textureString);
 	}
 
-	public static void saveData() {
-		logger.info("InfiniteSpire | Saving Data...");
-		try {
-			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
-
-			BottledSoul.save(config);
-			Nightmare.save(config);
-			config.setBool("isGuardianDead", hasDefeatedGuardian);
-			config.setBool("isEndless", isEndless);
-			config.setBool("startWithEndless", startWithEndlessQuest);
-			config.setBool("blackCardParticles", shouldDoParticles);
-			config.save();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		QuestHelper.saveQuestLog();
-	}
-
-	public static void clearData() {
-		logger.info("InfiniteSpire | Clearing Saved Data...");
-		isEndless = false;
-		QuestHelper.clearQuestLog();
-		BottledSoul.clear();
-		Nightmare.clear();
-		saveData();
-	}
-
-	public static void loadData() {
-		logger.info("InfiniteSpire | Loading Data...");
-		try {
-			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
-			config.load();
-			isEndless = config.getBool("isEndless");
-			if(config.has("startWithEndless")) {
-				startWithEndlessQuest = config.getBool("startWithEndless");
-			} else {
-				startWithEndlessQuest = true;
-			}
-			if(config.has("cardParticles")) {
-				shouldDoParticles = config.getBool("blackCardParticles");
-			} else {
-				shouldDoParticles = true;
-			}
-			if (AbstractDungeon.player != null)
-				BottledSoul.load(config);
-
-			Nightmare.load(config);
-
-		} catch (IOException | NumberFormatException e) {
-			logger.error("Failed to load InfiniteSpire data!");
-			e.printStackTrace();
-			clearData();
-		}
-
-		QuestHelper.loadQuestLog();
-	}
-
 	private static void initializeRelics() {
 		logger.info("InfiniteSpire | Initializing relics...");
 
@@ -517,6 +459,64 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				}
 			}
 		}
+	}
+
+	public static void saveData() {
+		logger.info("InfiniteSpire | Saving Data...");
+		try {
+			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+
+			BottledSoul.save(config);
+			Nightmare.save(config);
+			config.setBool("isGuardianDead", hasDefeatedGuardian);
+			config.setBool("isEndless", isEndless);
+			config.setBool("startWithEndless", startWithEndlessQuest);
+			config.setBool("blackCardParticles", shouldDoParticles);
+			config.save();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		QuestHelper.saveQuestLog();
+	}
+
+	public static void clearData() {
+		logger.info("InfiniteSpire | Clearing Saved Data...");
+		isEndless = false;
+		QuestHelper.clearQuestLog();
+		BottledSoul.clear();
+		Nightmare.clear();
+		saveData();
+	}
+
+	public static void loadData() {
+		logger.info("InfiniteSpire | Loading Data...");
+		try {
+			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+			config.load();
+			isEndless = config.getBool("isEndless");
+			if(config.has("startWithEndless")) {
+				startWithEndlessQuest = config.getBool("startWithEndless");
+			} else {
+				startWithEndlessQuest = true;
+			}
+			if(config.has("cardParticles")) {
+				shouldDoParticles = config.getBool("blackCardParticles");
+			} else {
+				shouldDoParticles = true;
+			}
+			if (AbstractDungeon.player != null)
+				BottledSoul.load(config);
+
+			Nightmare.load(config);
+
+		} catch (IOException | NumberFormatException e) {
+			logger.error("Failed to load InfiniteSpire data!");
+			e.printStackTrace();
+			clearData();
+		}
+
+		QuestHelper.loadQuestLog();
 	}
 
 	public static class Textures {
