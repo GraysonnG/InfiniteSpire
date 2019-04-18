@@ -19,6 +19,6 @@ public class CheckeredPen extends Relic {
 
 	@Override
 	public void onUseCard(AbstractCard targetCard, UseCardAction useCardAction) {
-		AbstractDungeon.actionManager.addToBottom(new DamageRandomEnemyAction(new DamageInfo(null, 1), AbstractGameAction.AttackEffect.BLUNT_LIGHT));
+		AbstractDungeon.actionManager.addToBottom(new DamageRandomEnemyAction(new DamageInfo(null, 1, DamageInfo.DamageType.THORNS), AbstractGameAction.AttackEffect.BLUNT_LIGHT));
 	}
 }
