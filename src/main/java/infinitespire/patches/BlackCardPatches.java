@@ -1,6 +1,7 @@
 package infinitespire.patches;
 
 import basemod.ReflectionHacks;
+import basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.TitleFontSize;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
@@ -68,9 +69,10 @@ public class BlackCardPatches {
 
 	@SpirePatch(clz = SingleCardViewPopup.class, method = "renderTitle")
 	public static class RenderSingleCardPopupTitle {
-		@SpirePrefixPatch
-		public static SpireReturn<?> blackCardTitleColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb) {
+		@SpireInsertPatch(rloc = 0)
+		public static SpireReturn<Void> blackCardTitleColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb) {
 			AbstractCard card = (AbstractCard) ReflectionHacks.getPrivate(__instance, __instance.getClass(), "card");
+			TitleFontSize.UseCustomFontSize.Insert(__instance, sb, card);
 			if(card instanceof BlackCard) {
 				if(card.isLocked) {
 					FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, SingleCardViewPopup.TEXT[4], Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
