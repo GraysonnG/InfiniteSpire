@@ -92,6 +92,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean startWithEndlessQuest = true;
 	public static boolean shouldDoParticles = true;
 
+	public static boolean hasDefeatedLordOfAnnihilation;
+	public static boolean hasDefeatedLordOfDawn;
+	public static boolean hasDefeatedLordOfFortification;
+
 	public static boolean isReplayLoaded = false;
 	public static boolean isFruityLoaded = false;
 	public static boolean isHubrisLoaded = false;
@@ -182,9 +186,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			createPath("ui/map/massBoss-outline.png"));
 
 		// this should be removed after im done testing
-//		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
-//		 "img/infinitespire/ui/map/bossIcon.png",
-//		 "img/infinitespire/ui/map/bossIcon-outline.png");
+		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
+		 "img/infinitespire/ui/map/bossIcon.png",
+		 "img/infinitespire/ui/map/bossIcon-outline.png");
 
 
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
@@ -469,6 +473,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			BottledSoul.save(config);
 			Nightmare.save(config);
 			config.setBool("isGuardianDead", hasDefeatedGuardian);
+			config.setBool("isLordOfAnnihilationDead", hasDefeatedLordOfAnnihilation);
+			config.setBool("isLordOfDawnDead", hasDefeatedLordOfDawn);
+			config.setBool("isLordOfFortificationDead", hasDefeatedLordOfFortification);
 			config.setBool("isEndless", isEndless);
 			config.setBool("startWithEndless", startWithEndlessQuest);
 			config.setBool("blackCardParticles", shouldDoParticles);
@@ -521,35 +528,35 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 	public static class Textures {
 		public static Texture getCardTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/cards/") + texture);
+			return TextureLoader.getTexture(createPath("cards/") + texture);
 		}
 
 		public static Texture getEventTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/events/") + texture);
+			return TextureLoader.getTexture(createPath("events/") + texture);
 		}
 
 		public static Texture getMonsterTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/monsters/") + texture);
+			return TextureLoader.getTexture(createPath("monsters/") + texture);
 		}
 
 		public static Texture getPowerTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/powers/") + texture);
+			return TextureLoader.getTexture(createPath("powers/") + texture);
 		}
 
 		public static Texture getRelicTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/relics/") + texture);
+			return TextureLoader.getTexture(createPath("relics/") + texture);
 		}
 
 		public static Texture getScreenTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/screen/") + texture);
+			return TextureLoader.getTexture(createPath("screen/") + texture);
 		}
 
 		public static Texture getUITexture(String texture) {
-			return TextureLoader.getTexture(createPath("/ui/") + texture);
+			return TextureLoader.getTexture(createPath("ui/") + texture);
 		}
 
 		public static Texture getVFXTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/vfx/") + texture);
+			return TextureLoader.getTexture(createPath("vfx/") + texture);
 		}
 	}
 }

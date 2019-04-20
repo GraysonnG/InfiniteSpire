@@ -17,7 +17,7 @@ public class PrinceIdolPower extends AbstractPower {
 		this.type = PowerType.BUFF;
 		this.name = strings.NAME;
 		this.ID = powerID;
-		this.img = InfiniteSpire.Textures.getPowerTexture("idol");
+		this.img = InfiniteSpire.Textures.getPowerTexture("idol.png");
 		this.updateDescription();
 	}
 
