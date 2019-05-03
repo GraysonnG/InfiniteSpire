@@ -40,7 +40,7 @@ public class ActKillQuest extends SlayQuest{
 
 	@Override
 	public String getTitle() {
-		return "Kill " + maxSteps + " Monsters This Act.";
+		return "Kill " + maxSteps + " Monsters This Act";
 	}
 
 	@Override

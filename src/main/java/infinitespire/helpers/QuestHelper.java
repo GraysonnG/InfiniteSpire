@@ -43,6 +43,8 @@ public class QuestHelper {
 		registerQuest(BearQuest.class);
 		registerQuest(BlankyQuest.class);
 		registerQuest(ActKillQuest.class);
+		registerQuest(EliteQuest.class);
+		registerQuest(PickupCardTypeQuest.class);
 	}
 	
 	public static void registerQuest(Class<? extends Quest> type) {
