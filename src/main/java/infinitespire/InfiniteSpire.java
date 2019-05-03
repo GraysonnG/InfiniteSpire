@@ -186,9 +186,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			createPath("ui/map/massBoss-outline.png"));
 
 		// this should be removed after im done testing
-		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
-		 "img/infinitespire/ui/map/bossIcon.png",
-		 "img/infinitespire/ui/map/bossIcon-outline.png");
+//		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
+//		 "img/infinitespire/ui/map/bossIcon.png",
+//		 "img/infinitespire/ui/map/bossIcon-outline.png");
 
 
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);

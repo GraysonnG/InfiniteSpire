@@ -77,15 +77,16 @@ public class LordOfAnnihilation extends AbstractMonster{
     public void usePreBattleAction() {
         //- start music?
 
+        InfiniteSpire.lordBackgroundEffect.beginEffect();
+
         AbstractPlayer player = AbstractDungeon.player;
         GameActionManager manager = AbstractDungeon.actionManager;
 
-        manager.addToBottom(new ApplyPowerAction(this, this, new IntangiblePower(this, 1), 1));
         manager.addToBottom(new ApplyPowerAction(this, this, new InvinciblePower(this, this.maxHealth / 2), this.maxHealth / 2));
 
         manager.addToBottom(new ApplyPowerAction(this, this, new PrinceIdolPower(this)));
 
-        //- Gain poison mitigation (fuck ur poison decks)
+        //- Gain debuff mitigation
 
         //- Give player debuff (actually a buff because fuck ur stupid buff removal tools) that minimizes block saving to 15 block
     }
@@ -126,6 +127,10 @@ public class LordOfAnnihilation extends AbstractMonster{
 
     @Override
     public void die() {
+        InfiniteSpire.hasDefeatedLordOfAnnihilation = true;
+        InfiniteSpire.lordBackgroundEffect.stopEffect();
+
+
 //        InfiniteSpire.hasDefeatedGuardian = true;
 //        MainMenuPatch.setMainMenuBG(null);
 //        InfiniteSpire.saveData();
@@ -163,6 +168,7 @@ public class LordOfAnnihilation extends AbstractMonster{
                 doAction(new DamageAction(player, damage.get(2), AbstractGameAction.AttackEffect.SLASH_HEAVY));
                 break;
             case MoveBytes.ATTACK_BUFF:
+                doAction(new DamageAction(player, damage.get(3), AbstractGameAction.AttackEffect.SLASH_HEAVY));
                 gainStrength(this, MoveValues.STR_GAIN_2);
                 gainPrinceIdol();
                 break;
@@ -177,8 +183,11 @@ public class LordOfAnnihilation extends AbstractMonster{
                 maxHealth = max_hp;
                 //set animation to idle
                 halfDead = false;
-                AbstractDungeon.actionManager.addToBottom(new HealAction(this, this, maxHealth));
-                AbstractDungeon.actionManager.addToBottom(new CanLoseAction());
+                if(this.hasPower(StrengthPower.POWER_ID)) {
+                    gainStrength(this, -this.getPower(StrengthPower.POWER_ID).amount / 2);
+                }
+                doAction(new HealAction(this, this, maxHealth));
+                doAction(new CanLoseAction());
                 break;
 
         }
@@ -198,12 +207,13 @@ public class LordOfAnnihilation extends AbstractMonster{
             default:
                 break;
         }
+        turn++;
     }
 
     private void phase1(int i){
         if(turn % 3 == 0) {
             //- Attack
-            this.setMove(monsterStrings.MOVES[1], MoveBytes.ATTACK_1, Intent.ATTACK, this.damage.get(0).base);
+            this.setMove(monsterStrings.MOVES[0], MoveBytes.ATTACK_1, Intent.ATTACK, this.damage.get(0).base);
         } else if (turn % 3 == 1) {
             //- Defend
             this.setMove(monsterStrings.MOVES[3], MoveBytes.DEFEND, Intent.DEFEND);
@@ -219,10 +229,10 @@ public class LordOfAnnihilation extends AbstractMonster{
             this.setMove(monsterStrings.MOVES[1], MoveBytes.ATTACK_2, Intent.ATTACK, this.damage.get(1).base, 8, true);
         } else if (turn % 3 == 1) {
             //- Attack + Defend
-            this.setMove(monsterStrings.MOVES[5], MoveBytes.ATTACK_DEFEND, Intent.ATTACK_DEFEND);
+            this.setMove(monsterStrings.MOVES[5], MoveBytes.ATTACK_DEFEND, Intent.ATTACK_DEFEND, damage.get(2).base);
         } else {
             //- Attack + Buff (gain 2 str) Gain revival
-            this.setMove(monsterStrings.MOVES[3], MoveBytes.ATTACK_BUFF, Intent.ATTACK_BUFF);
+            this.setMove(monsterStrings.MOVES[4], MoveBytes.ATTACK_BUFF, Intent.ATTACK_BUFF, damage.get(3).base);
         }
     }
 

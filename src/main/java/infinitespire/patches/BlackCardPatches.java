@@ -69,7 +69,7 @@ public class BlackCardPatches {
 
 	@SpirePatch(clz = SingleCardViewPopup.class, method = "renderTitle")
 	public static class RenderSingleCardPopupTitle {
-		@SpireInsertPatch(rloc = 0)
+		@SpirePrefixPatch
 		public static SpireReturn<Void> blackCardTitleColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb) {
 			AbstractCard card = (AbstractCard) ReflectionHacks.getPrivate(__instance, __instance.getClass(), "card");
 			TitleFontSize.UseCustomFontSize.Insert(__instance, sb, card);

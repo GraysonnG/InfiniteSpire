@@ -2,7 +2,7 @@
   "modid": "infinitespire",
   "name": "Infinite Spire",
   "author_list": ["Blank The Evil"],
-  "description": "Adds a new way to climb the spire forever, complete quests along the way, but be careful, the spire will not be kind to those who do not give up.",
+  "description": "Adds a new way to climb the spire forever, complete quests along the way, but be careful, the spire will not be kind to those who do not give up.\n\nAlso thanks to kiooeht, test477, The_Evil_Pickle, Moocowsgomoo, fiiiiilth, JohnnyDevo, Chronometrics, MichaelMayhem and Reina for helping me learn more about programming. \n\n Shoutouts to Fairy, gkjzhgffjh, Nafen, Jedi and JohnnyBazooka for being awesome members of the modding community.",
   "credits" : "Contributors: The_Evil_Pickle, RedDyeNo5, Gremious, Len (for French translation)",
   "dependencies" : ["basemod","stslib"],
   "version": "0.17.0",
