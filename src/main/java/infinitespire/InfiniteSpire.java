@@ -61,9 +61,11 @@ import infinitespire.relics.crystals.WardingShard;
 import infinitespire.rewards.BlackCardRewardItem;
 import infinitespire.rewards.InterestReward;
 import infinitespire.rewards.QuestReward;
+import infinitespire.rewards.VoidShardReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
+import infinitespire.ui.buttons.VoidShardDisplay;
 import infinitespire.util.TextureLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -91,6 +93,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean shouldLoad = false;
 	public static boolean startWithEndlessQuest = true;
 	public static boolean shouldDoParticles = true;
+	public static int voidShardCount = 0;
 
 	public static boolean hasDefeatedLordOfAnnihilation;
 	public static boolean hasDefeatedLordOfDawn;
@@ -160,6 +163,12 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			(customReward) -> new RewardSave(customReward.type.toString(), null, ((InterestReward)customReward).amount, 0)
 		);
 
+		BaseMod.registerCustomReward(
+			RewardItemTypeEnumPatch.VOID_SHARD,
+			(rewardSave) -> new VoidShardReward(rewardSave.amount),
+			(customReward) -> new RewardSave(customReward.type.toString(), null, ((VoidShardReward) customReward).amountOfShards, 0)
+		);
+
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID, PrismEvent.class, Exordium.ID);
@@ -192,6 +201,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
+		BaseMod.addTopPanelItem(new VoidShardDisplay());
 		BaseMod.addTopPanelItem(new QuestLogButton());
 
 		// RegisterBottlerBottle
@@ -479,6 +489,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			config.setBool("isEndless", isEndless);
 			config.setBool("startWithEndless", startWithEndlessQuest);
 			config.setBool("blackCardParticles", shouldDoParticles);
+			config.setInt("voidShardCount", voidShardCount);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -502,6 +513,11 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
 			config.load();
 			isEndless = config.getBool("isEndless");
+			if(config.has("voidShardCount")) {
+				voidShardCount = config.getInt("voidShardCount");
+			} else {
+				voidShardCount = 0;
+			}
 			if(config.has("startWithEndless")) {
 				startWithEndlessQuest = config.getBool("startWithEndless");
 			} else {
@@ -512,8 +528,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			} else {
 				shouldDoParticles = true;
 			}
-			if (AbstractDungeon.player != null)
+			if (CardCrawlGame.isInARun()) {
 				BottledSoul.load(config);
+			}
 
 			Nightmare.load(config);
 

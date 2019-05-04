@@ -1,15 +1,14 @@
 package infinitespire.rooms;
 
+import coloredmap.ColoredRoom;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.MonsterGroup;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
-
-import coloredmap.ColoredRoom;
 import infinitespire.InfiniteSpire;
 import infinitespire.monsters.Nightmare;
-import infinitespire.potions.BlackPotion;
 import infinitespire.rewards.BlackCardRewardItem;
+import infinitespire.rewards.VoidShardReward;
 
 @ColoredRoom
 public class NightmareEliteRoom extends MonsterRoomElite {
@@ -45,14 +44,11 @@ public class NightmareEliteRoom extends MonsterRoomElite {
 		float cardChance = 0.1f * (Nightmare.timesNotReceivedBlackCard + 1);
 		if(shouldBeAlpha) cardChance *= 2f;
 
+		this.rewards.add(new VoidShardReward(shouldBeAlpha ? 6 : 3));
+
 		if(AbstractDungeon.miscRng.randomBoolean(cardChance)) {
 			this.rewards.add(new BlackCardRewardItem());
 			Nightmare.timesNotReceivedBlackCard = 0;
-			return;
-		}
-
-		if(AbstractDungeon.miscRng.randomBoolean()) {
-			this.addPotionToRewards(new BlackPotion());
 		}
 	}
 }
