@@ -12,8 +12,10 @@ import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
+import com.megacrit.cardcrawl.rooms.ShopRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import infinitespire.InfiniteSpire;
+import infinitespire.avhari.AvhariRoom;
 import infinitespire.helpers.QuestHelper;
 import infinitespire.monsters.LordOfAnnihilation;
 import infinitespire.quests.endless.EndlessQuestPart1;
@@ -205,17 +207,25 @@ public class AbstractDungeonPatch {
 			if(AbstractDungeon.bossCount < 1) return;
 			
 			int rand;
+			int rand2;
 			ArrayList<MapRoomNode> eliteNodes = new ArrayList<MapRoomNode>();
-			
+			ArrayList<MapRoomNode> shopNodes = new ArrayList<>();
 			for(ArrayList<MapRoomNode> rows : AbstractDungeon.map) {
 				for(MapRoomNode node : rows) {
 					if(node != null && node.room instanceof MonsterRoomElite) {
 						eliteNodes.add(node);
 					}
+					if(node != null && node.room instanceof ShopRoom) {
+						shopNodes.add(node);
+					}
 				}
 			}
 			rand = AbstractDungeon.mapRng.random(eliteNodes.size() - 1);
+			rand2 = AbstractDungeon.mapRng.random(shopNodes.size() - 1);
+
 			eliteNodes.get(rand).setRoom(new NightmareEliteRoom());
+			shopNodes.get(rand2).setRoom(new AvhariRoom());
+			shopNodes.get(rand2).hasEmeraldKey = true;
 		}
 	}
 }

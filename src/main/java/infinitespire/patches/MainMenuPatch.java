@@ -13,6 +13,10 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.helpers.FontHelper;
+import com.megacrit.cardcrawl.helpers.Hitbox;
+import com.megacrit.cardcrawl.helpers.MathHelper;
+import com.megacrit.cardcrawl.helpers.TipHelper;
+import com.megacrit.cardcrawl.helpers.input.InputHelper;
 import com.megacrit.cardcrawl.scenes.TitleBackground;
 import com.megacrit.cardcrawl.scenes.TitleCloud;
 import infinitespire.InfiniteSpire;
@@ -21,6 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainMenuPatch {
+
+    private static final VoidShardCounter counter = new VoidShardCounter();
 
     @SpirePatch(cls = "com.megacrit.cardcrawl.scenes.TitleBackground", method = SpirePatch.CONSTRUCTOR)
     public static class ArtPatch{
@@ -50,12 +56,15 @@ public class MainMenuPatch {
     public static class RenderPatch {
         @SpirePostfixPatch
         public static void renderVoidShardCount(TitleBackground instance, SpriteBatch sb) {
+            counter.render(sb);
+        }
+    }
 
-            sb.setColor(Color.WHITE.cpy());
-            Texture tex = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
-            TextureAtlas.AtlasRegion shardTexture = new TextureAtlas.AtlasRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
-            sb.draw(shardTexture, Settings.WIDTH - (tex.getWidth() + 10f) - (tex.getWidth() / 2f), Settings.HEIGHT - (tex.getHeight() + 16f));
-            FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont_N, "" + InfiniteSpire.voidShardCount, Settings.WIDTH - (tex.getWidth() + 10f), Settings.HEIGHT - (tex.getHeight() + 10f));
+    @SpirePatch(clz = TitleBackground.class, method = "update")
+    public static class UpdatePatch {
+        @SpirePostfixPatch
+        public static void renderVoidShardCount(TitleBackground instance) {
+            counter.update();
         }
     }
 
@@ -92,5 +101,57 @@ public class MainMenuPatch {
                 "topClouds", newTopClouds);
         ReflectionHacks.setPrivate(__instance, TitleBackground.class,
                 "midClouds", newMidClouds);
+    }
+
+    private static class VoidShardCounter {
+        private static final Texture tex = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
+
+        public final Hitbox hb;
+
+        private Color tint = new Color(1, 1, 1, 0);
+        private float paddingTop = 16f * Settings.scale;
+        private float paddingRight = 32f * Settings.scale;
+        private float width = tex.getWidth();
+        private float height = tex.getHeight();
+        private float xPos = Settings.WIDTH - (width + paddingRight);
+        private float xCenteredPos = xPos - (width / 2f);
+        private float yPos = Settings.HEIGHT - (height + paddingTop) - (height / 2f);
+        private float yTextPos = yPos + paddingTop;
+        private float angle = 0.0f;
+
+        public VoidShardCounter() {
+            hb = new Hitbox(xCenteredPos, yPos, width, height);
+        }
+
+        public void render(SpriteBatch sb) {
+            sb.setColor(Color.WHITE.cpy()); // reset spritebatch color to white.
+
+            TextureAtlas.AtlasRegion shardTexture = new TextureAtlas.AtlasRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
+            sb.draw(shardTexture, xCenteredPos, yPos, width / 2f, height / 2f, width, height, 1, 1, angle);
+            if(tint.a > 0.0f) {
+                sb.setBlendFunction(770, 1);
+                sb.setColor(tint);
+                sb.draw(shardTexture, xCenteredPos, yPos, width / 2f, height / 2f, width, height, 1, 1, angle);
+                sb.setBlendFunction(770, 771);
+            }
+            FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont_N, "" + InfiniteSpire.voidShardCount, xPos, yTextPos);
+
+            hb.render(sb);
+        }
+
+        public void update() {
+            hb.update();
+            if(hb.hovered) {
+                this.angle = MathHelper.angleLerpSnap(this.angle, 15.0F);
+                this.tint.a = 0.25F;
+                if(InputHelper.justClickedLeft) {
+                   CardCrawlGame.sound.play("RELIC_DROP_MAGICAL");
+                }
+                TipHelper.renderGenericTip(hb.cX - (320f * Settings.scale), yPos - (32f * Settings.scale), "Void Shards", "Mystical crystal shards that can be used to purchase weapons and tools from Avhari.");
+            } else {
+               this.angle = MathHelper.angleLerpSnap(this.angle, 0.0f);
+               this.tint.a = 0.0f;
+            }
+        }
     }
 }

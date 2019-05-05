@@ -1,0 +1,13 @@
+
+Avhari.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+avhari
+  rotate: false
+  xy: 1, 1
+  size: 678, 479
+  orig: 678, 479
+  offset: 0, 0
+  index: -1

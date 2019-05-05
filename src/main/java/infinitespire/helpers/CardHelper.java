@@ -16,10 +16,14 @@ import java.util.ArrayList;
 
 public class CardHelper {
 	private static ArrayList<BlackCard> blackCards = new ArrayList<BlackCard>();
-	
+
 	public static ArrayList<AbstractCard> getBlackRewardCards() {
+		return getBlackRewardCards(3);
+	}
+
+	public static ArrayList<AbstractCard> getBlackRewardCards(int amount) {
 		ArrayList<AbstractCard> cards = new ArrayList<AbstractCard>();
-		int amountOfCardsToGive = 3;
+		int amountOfCardsToGive = amount;
 		int attempts = 1000;
 		
 		do {
