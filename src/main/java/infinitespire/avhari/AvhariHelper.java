@@ -41,7 +41,7 @@ public class AvhariHelper {
 
 			ArrayList<AbstractCard> cards = CardHelper.getBlackRewardCards(5);
 
-			float dist = Settings.HEIGHT / 3.33f;
+			float dist = Settings.HEIGHT / 3.5f;
 
 			cardItems.add(new CardItem(cards.get(0), rotationPoint, dist, 0f));
 			cardItems.add(new CardItem(cards.get(1), rotationPoint, dist, 72f));
