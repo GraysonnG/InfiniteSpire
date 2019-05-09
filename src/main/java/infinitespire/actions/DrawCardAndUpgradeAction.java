@@ -1,5 +1,6 @@
 package infinitespire.actions;
 
+import basemod.BaseMod;
 import com.badlogic.gdx.Gdx;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.EmptyDeckShuffleAction;
@@ -58,7 +59,7 @@ public class DrawCardAndUpgradeAction extends AbstractGameAction {
 			return;
 		}
 		
-		if(player.hand.size() == 10) {
+		if(player.hand.size() == BaseMod.MAX_HAND_SIZE) {
 			player.createHandIsFullDialog();
 			this.isDone = true;
 			return;
