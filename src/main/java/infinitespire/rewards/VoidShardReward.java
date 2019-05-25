@@ -1,13 +1,13 @@
 package infinitespire.rewards;
 
-import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.localization.UIStrings;
 import infinitespire.InfiniteSpire;
+import infinitespire.abstracts.Reward;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 
-public class VoidShardReward extends CustomReward {
+public class VoidShardReward extends Reward {
 
 	private static final Texture ICON = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
 	private static final UIStrings STRINGS = CardCrawlGame.languagePack.getUIString("VoidShard");

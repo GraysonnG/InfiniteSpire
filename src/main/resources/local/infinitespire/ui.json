@@ -38,5 +38,14 @@
 		"TEXT": [
 			"Drink"
 		]
+	},
+	"infinitespire:RewardItems": {
+		"TEXT": [
+			"Add a Black Card to your deck",
+			"Collect ",
+			" gold in interest",
+			"Add ",
+			" quests to your Quest Log"
+		]
 	}
 }
