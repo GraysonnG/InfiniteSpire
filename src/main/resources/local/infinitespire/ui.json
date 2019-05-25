@@ -27,7 +27,11 @@
 	},
 	"QuestLog": {
 		"TEXT": [
-			"Quest Log"
+			"Quest Log",
+			"Tip: Right Click to Abandon",
+			"Claim: ",
+			"Reward: ",
+			"Left Click to Confirm Abandon"
 		]
 	},
 	"FlaskOption": {

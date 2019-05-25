@@ -11,6 +11,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.patches.ScreenStatePatch;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class QuestLogScreen {
 	
 	private QuestLog gameQuestLog;
+	private static final UIStrings questLogStrings = CardCrawlGame.languagePack.getUIString("QuestLog");
 	
 	private ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
 	private boolean justClicked = false;
@@ -127,7 +129,7 @@ public class QuestLogScreen {
 		sb.draw(ImageMaster.VICTORY_BANNER, Settings.WIDTH / 2.0f - 556.0f, y - 119.0f,
 				556.0f, 119.0f, 1112.0f, 238.0f, Settings.scale, Settings.scale,
 				0.0f, 0, 0, 1112, 238, false, false);
-		FontHelper.renderFontCentered(sb, FontHelper.bannerFont, "Quest Log", Settings.WIDTH / 2.0f,
+		FontHelper.renderFontCentered(sb, FontHelper.bannerFont, questLogStrings.TEXT[0], Settings.WIDTH / 2.0f,
 				y + 22.0f * Settings.scale, Color.WHITE, 1f);
 	}
 
@@ -140,7 +142,7 @@ public class QuestLogScreen {
 		sb.draw(InfiniteSpire.getTexture("img/infinitespire/ui/questLog/tipScroll.png"),
 				x, y - bannerOffset, 512f * Settings.scale, 256 * Settings.scale);
 
-		FontHelper.renderFontLeft(sb, FontHelper.topPanelAmountFont,"Tip: Right Click to Abandon", x + 25f * Settings.scale, y, Color.WHITE.cpy());
+		FontHelper.renderFontLeft(sb, FontHelper.topPanelAmountFont,questLogStrings.TEXT[1], x + 25f * Settings.scale, y, Color.WHITE.cpy());
 	}
 
 	public void renderQuest(int index, int hbI, SpriteBatch sb, Quest quest) {
@@ -167,13 +169,13 @@ public class QuestLogScreen {
 		String boxString = quest.getRewardString();
 
 		if(quest.isCompleted()) {
-			boxString = "Claim: " + boxString;
+			boxString = questLogStrings.TEXT[2] + boxString;
 		}else{
-			boxString = "Reward: " + boxString;
+			boxString = questLogStrings.TEXT[3] + boxString;
 		}
 
 		if(quest.abandon){
-			boxString = "Left Click to Confirm Abandon";
+			boxString = questLogStrings.TEXT[4];
 		}
 
 		yPos -= (100 * Settings.scale) * index * yScale;
