@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class QuestLogScreen {
 	
 	private QuestLog gameQuestLog;
-	private static final UIStrings questLogStrings = CardCrawlGame.languagePack.getUIString("QuestLog");
+	private static UIStrings questLogStrings;
 	
 	private ArrayList<Hitbox> hbs = new ArrayList<Hitbox>();
 	private boolean justClicked = false;
@@ -38,6 +38,7 @@ public class QuestLogScreen {
 	}
 
 	public void open() {
+		if(questLogStrings == null) questLogStrings = CardCrawlGame.languagePack.getUIString("QuestLog");
 		AbstractDungeon.player.releaseCard();
 		gameQuestLog.hasUpdate = false;
 		AbstractDungeon.screen = ScreenStatePatch.QUEST_LOG_SCREEN;
