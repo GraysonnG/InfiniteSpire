@@ -3,10 +3,15 @@ package infinitespire.abstracts;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import infinitespire.InfiniteSpire;
 import infinitespire.util.TextureLoader;
 
 public abstract class Quest {
+
+	protected static final UIStrings questStrings = CardCrawlGame.languagePack.getUIString("Quest");
+	protected static final UIStrings voidShardStrings = CardCrawlGame.languagePack.getUIString("VoidShard");
 	
 	public String id;
 	public int maxSteps, currentSteps;

@@ -2,8 +2,6 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
@@ -11,6 +9,7 @@ import infinitespire.helpers.QuestHelper;
 public class OneTurnKillQuest extends Quest {
 
 	private static final Color COLOR = new Color(1f, 0, 0.5f, 1.0f);
+	private static final int REWARD_AMOUNT = 1;
 	public int cost;
 	
 	public OneTurnKillQuest() {
@@ -19,8 +18,7 @@ public class OneTurnKillQuest extends Quest {
 
 	@Override
 	public void giveReward() {
-		CardCrawlGame.sound.play("GOLD_GAIN");
-		AbstractDungeon.player.gainGold(cost);
+		InfiniteSpire.gainVoidShards(REWARD_AMOUNT);
 	}
 
 	@Override
@@ -36,12 +34,12 @@ public class OneTurnKillQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return this.cost + "g";
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[4];
 	}
 
 	@Override
 	public String getTitle() {
-		return "One Turn Kill an Elite";
+		return questStrings.TEXT[9];
 	}
 
 	@Override

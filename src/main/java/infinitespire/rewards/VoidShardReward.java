@@ -3,12 +3,14 @@ package infinitespire.rewards;
 import basemod.abstracts.CustomReward;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import infinitespire.InfiniteSpire;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 
 public class VoidShardReward extends CustomReward {
 
 	private static final Texture ICON = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
+	private static final UIStrings STRINGS = CardCrawlGame.languagePack.getUIString("VoidShard");
 
 	public int amountOfShards;
 
@@ -17,14 +19,20 @@ public class VoidShardReward extends CustomReward {
 	}
 
 	public VoidShardReward(int amount) {
-		super(ICON, amount + " Void Shard", RewardItemTypeEnumPatch.VOID_SHARD);
+		super(ICON, makeDescription(amount), RewardItemTypeEnumPatch.VOID_SHARD);
 		this.amountOfShards = amount;
+	}
+
+	public static String makeDescription(int amount) {
+		if(amount > 1) {
+			return amount + STRINGS.TEXT[4];
+		}
+		return amount + STRINGS.TEXT[3];
 	}
 
 	@Override
 	public boolean claimReward() {
-		CardCrawlGame.sound.play("RELIC_DROP_CLINK");
-		InfiniteSpire.voidShardCount += amountOfShards;
+		InfiniteSpire.gainVoidShards(amountOfShards);
 		return true;
 	}
 }

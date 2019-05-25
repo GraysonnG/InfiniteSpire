@@ -8,9 +8,10 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
+import basemod.interfaces.CloneablePowerInterface;
 import infinitespire.InfiniteSpire;
 
-public class BeetleShellPower extends AbstractPower {
+public class BeetleShellPower extends AbstractPower implements CloneablePowerInterface {
 
 	public static final String powerID = InfiniteSpire.createID("BeetleShellPower");
 	private static PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
@@ -45,5 +46,10 @@ public class BeetleShellPower extends AbstractPower {
 
 	public void updateDescription() {
 		this.description = strings.DESCRIPTIONS[0];
+	}
+
+	@Override
+	public AbstractPower makeCopy() {
+		return new BeetleShellPower((AbstractPlayer) this.owner);
 	}
 }

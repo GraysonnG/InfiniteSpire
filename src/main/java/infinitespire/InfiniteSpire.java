@@ -105,6 +105,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 	public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
 	public static LordBackgroundEffect lordBackgroundEffect = new LordBackgroundEffect();
+	public static VoidShardDisplay voidShardDisplay;
 
 	public static Color CARD_COLOR = new Color(0f, 0f, 0f, 1f);
 
@@ -201,7 +202,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
-		BaseMod.addTopPanelItem(new VoidShardDisplay());
+
+		voidShardDisplay = new VoidShardDisplay();
+
+		BaseMod.addTopPanelItem(voidShardDisplay);
 		BaseMod.addTopPanelItem(new QuestLogButton());
 
 		// RegisterBottlerBottle
@@ -246,6 +250,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		String powerStrings = Gdx.files.internal("local/infinitespire/powers.json")
 			.readString(String.valueOf(StandardCharsets.UTF_8));
 		BaseMod.loadCustomStrings(PowerStrings.class, powerStrings);
+
+		String uiStrings = Gdx.files.internal("local/infinitespire/ui.json")
+			.readString(String.valueOf(StandardCharsets.UTF_8));
+		BaseMod.loadCustomStrings(UIStrings.class, uiStrings);
 	}
 
 	@Override
@@ -473,6 +481,12 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				}
 			}
 		}
+	}
+
+	public static void gainVoidShards(int amount) {
+		voidShardCount += amount;
+		QuestHelper.playVoidShardCollectSound();
+		voidShardDisplay.flash();
 	}
 
 	public static void saveData() {

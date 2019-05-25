@@ -37,12 +37,12 @@ public class DieQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Heal 25% max HP.";
+		return questStrings.TEXT[2];
 	}
 
 	@Override
 	public String getTitle() {
-		return "Die!";
+		return questStrings.TEXT[3];
 	}
 
 	@Override

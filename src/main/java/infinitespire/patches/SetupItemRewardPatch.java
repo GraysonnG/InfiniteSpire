@@ -2,6 +2,7 @@ package infinitespire.patches;
 
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.MonsterRoom;
 import com.megacrit.cardcrawl.screens.CombatRewardScreen;
@@ -17,7 +18,7 @@ public class SetupItemRewardPatch {
 		if(AbstractDungeon.player.hasRelic(EvilPickle.ID) && AbstractDungeon.getCurrRoom() instanceof MonsterRoom) {
 			AbstractDungeon.player.getRelic(EvilPickle.ID).onTrigger();
 		}
-		if(CardCrawlGame.isInARun() && AbstractDungeon.miscRng.randomBoolean(0.1f)){
+		if(CardCrawlGame.isInARun() && (AbstractDungeon.miscRng.randomBoolean(0.1f) || Settings.isDebug)){
 			AbstractDungeon.combatRewardScreen.rewards.add(new VoidShardReward());
 		}
 	}

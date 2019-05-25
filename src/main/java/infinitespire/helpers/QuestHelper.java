@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.JsonWriter.OutputType;
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -31,7 +32,7 @@ public class QuestHelper {
 	public static HashMap<String, Class<? extends Quest>> questMap = new HashMap<>();
 	
 	public static void init() {
-		registerQuest(FetchQuest.class);
+		//registerQuest(FetchQuest.class);
 		registerQuest(DieQuest.class);
 		registerQuest(SlayQuest.class);
 		registerQuest(FlawlessQuest.class);
@@ -44,7 +45,7 @@ public class QuestHelper {
 		registerQuest(BlankyQuest.class);
 		registerQuest(ActKillQuest.class);
 		registerQuest(EliteQuest.class);
-		registerQuest(PickupCardTypeQuest.class);
+		registerQuest(PickUpCardTypeQuest.class);
 	}
 	
 	public static void registerQuest(Class<? extends Quest> type) {
@@ -186,7 +187,11 @@ public class QuestHelper {
 		
 		return questPool.get(roll).newInstance();
 	}
-	
+
+	public static void playVoidShardCollectSound() {
+		CardCrawlGame.sound.play("RELIC_DROP_CLINK");
+	}
+
 	public static AbstractRelic returnRandomRelic(RelicTier tier) {
 		String key = Circlet.ID;
 		AbstractRelic retVal = new Circlet();

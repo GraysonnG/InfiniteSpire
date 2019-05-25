@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.MathHelper;
 import com.megacrit.cardcrawl.helpers.TipHelper;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.scenes.TitleBackground;
 import com.megacrit.cardcrawl.scenes.TitleCloud;
 import infinitespire.InfiniteSpire;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class MainMenuPatch {
 
     private static final VoidShardCounter counter = new VoidShardCounter();
+    private static final UIStrings STRINGS = CardCrawlGame.languagePack.getUIString("VoidShard");
 
     @SpirePatch(cls = "com.megacrit.cardcrawl.scenes.TitleBackground", method = SpirePatch.CONSTRUCTOR)
     public static class ArtPatch{
@@ -147,7 +149,7 @@ public class MainMenuPatch {
                 if(InputHelper.justClickedLeft) {
                    CardCrawlGame.sound.play("RELIC_DROP_MAGICAL");
                 }
-                TipHelper.renderGenericTip(hb.cX - (320f * Settings.scale), yPos - (32f * Settings.scale), "Void Shards", "Mystical crystal shards that can be used to purchase weapons and tools from Avhari.");
+                TipHelper.renderGenericTip(hb.cX - (320f * Settings.scale), yPos - (32f * Settings.scale), STRINGS.TEXT[1], STRINGS.TEXT[5]);
             } else {
                this.angle = MathHelper.angleLerpSnap(this.angle, 0.0f);
                this.tint.a = 0.0f;

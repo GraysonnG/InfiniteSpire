@@ -13,7 +13,7 @@ import infinitespire.InfiniteSpire;
 import infinitespire.powers.VenomPower;
 
 public class Voidling extends AbstractMonster {
-	private static final String NAME = "Voidling";
+	public static final String NAME = "Voidling";
 	public static final String ID = InfiniteSpire.createID("Voidling");
 	public static final String SPECIAL_ENCOUNTER_ID = InfiniteSpire.createID("Three Voidlings");
 

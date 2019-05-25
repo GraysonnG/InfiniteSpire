@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.megacrit.cardcrawl.cards.AbstractCard;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
@@ -12,14 +11,12 @@ import com.megacrit.cardcrawl.relics.NlothsGift;
 import com.megacrit.cardcrawl.relics.PrismaticShard;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
-import infinitespire.helpers.QuestHelper;
 
 public class PickUpCardQuest extends Quest {
 	
 	private static final Color COLOR = new Color(0.5f, 1.0f, 0.25f, 1f);
 	public String cardID;
-	public int gold;
-
+	private static final int REWARD_AMOUNT = 1;
 
 	public PickUpCardQuest() {
 		super(PickUpCardQuest.class.getName(), COLOR, 1, QuestType.GREEN, QuestRarity.COMMON);
@@ -42,8 +39,7 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public void giveReward() {
-		CardCrawlGame.sound.play("GOLD_GAIN");
-		AbstractDungeon.player.gainGold(this.gold);
+		InfiniteSpire.gainVoidShards(REWARD_AMOUNT);
 	}
 
 	@Override
@@ -74,7 +70,6 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public Quest createNew() {
-		this.gold = QuestHelper.makeRandomCost(100);
 		AbstractCard.CardRarity rarity = getRandomRarity();
 		AbstractCard card = null;
 		if(AbstractDungeon.player.hasRelic(PrismaticShard.ID)) {
@@ -105,12 +100,12 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Gain " + gold + " Gold.";
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[4];
 	}
 
 	@Override
 	public String getTitle() {
-		return "Pick up " + CardLibrary.getCardNameFromKey(cardID);
+		return questStrings.TEXT[10] + CardLibrary.getCardNameFromKey(cardID);
 	}
 
 	@Override

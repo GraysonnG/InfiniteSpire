@@ -7,32 +7,34 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 
-public class PickupCardTypeQuest extends PickUpCardQuest {
+public class PickUpCardTypeQuest extends PickUpCardQuest {
 
 	public AbstractCard.CardType ctype;
+	public static final int REWARD_AMOUNT = 2;
 
-	public PickupCardTypeQuest() {
-		this.id = PickupCardTypeQuest.class.getName();
-		this.color = new Color(0.25f, 0.75f, 0.25f, 1.0f);
+	public PickUpCardTypeQuest() {
+		this.id = PickUpCardTypeQuest.class.getName();
+		this.color = new Color(0f, 1f, 0.75f, 1f);
 		this.type = QuestType.GREEN;
-		this.rarity = QuestRarity.RARE;
+		this.rarity = QuestRarity.COMMON;
 		this.maxSteps = 3;
 	}
 
 	@Override
 	public String getTitle() {
-		String typeString = "Attack";
+		byte stringOffset = 5;
 
 		if(this.ctype.equals(AbstractCard.CardType.SKILL))
-			typeString = "Skill";
+			stringOffset += 1;
+		if(this.ctype.equals(AbstractCard.CardType.POWER))
+			stringOffset += 2;
 
-
-		return "Pickup " + this.maxSteps + " " + typeString + " cards";
+		return questStrings.TEXT[stringOffset];
 	}
 
 	@Override
 	public void giveReward() {
-
+		InfiniteSpire.gainVoidShards(REWARD_AMOUNT);
 	}
 
 	@Override
@@ -73,12 +75,12 @@ public class PickupCardTypeQuest extends PickUpCardQuest {
 
 	@Override
 	public String getRewardString() {
-		return "Nothing...";
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[4];
 	}
 
 	@Override
 	public Quest getCopy() {
-		return new PickupCardTypeQuest();
+		return new PickUpCardTypeQuest();
 	}
 
 	@Override
@@ -88,6 +90,6 @@ public class PickupCardTypeQuest extends PickUpCardQuest {
 
 	@Override
 	public boolean isSameQuest(Quest q) {
-		return (q instanceof PickupCardTypeQuest) && ((PickupCardTypeQuest) q).ctype.equals(this.ctype);
+		return (q instanceof PickUpCardTypeQuest) && ((PickUpCardTypeQuest) q).ctype.equals(this.ctype);
 	}
 }

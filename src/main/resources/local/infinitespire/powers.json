@@ -146,7 +146,7 @@
 	"infinitespire:PrinceIdolPower": {
 		"NAME" : "Prince Idol",
 		"DESCRIPTIONS": [
-			"When this monster would die, allow it to come back to life."
+			"When this monster would die, it will instead heal for #b100% max HP and lose half of it's Strength."
 		]
 	}
 }

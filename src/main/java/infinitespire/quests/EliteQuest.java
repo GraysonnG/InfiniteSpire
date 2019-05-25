@@ -2,20 +2,17 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.MinionPower;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
-import infinitespire.helpers.CardHelper;
-
-import java.util.ArrayList;
 
 public class EliteQuest extends SlayQuest {
 
 	public String currentActID;
+	private static final int REWARD_AMOUNT = 2;
 
 	public EliteQuest() {
 		this.id = EliteQuest.class.getName();
@@ -49,18 +46,17 @@ public class EliteQuest extends SlayQuest {
 
 	@Override
 	public void giveReward() {
-		ArrayList<AbstractCard> randomBlackCards = CardHelper.getBlackRewardCards();
-		AbstractDungeon.cardRewardScreen.open(randomBlackCards, null, "Select a Card.");
+		InfiniteSpire.gainVoidShards(2);
 	}
 
 	@Override
 	public String getRewardString() {
-		return "Pick a Black Card";
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[4];
 	}
 
 	@Override
 	public String getTitle() {
-		return "Kill " + maxSteps + " Elites This Act";
+		return questStrings.TEXT[4];
 	}
 
 	@Override
