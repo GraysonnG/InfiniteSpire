@@ -400,14 +400,11 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		finder.add(new File(url.toURI()));
 
 		List<ClassInfo> foundClasses = new ArrayList<>();
-		System.out.println(finder.findClasses(foundClasses));
-
 		foundClasses.stream()
 			.filter((clazz) -> {
 				return clazz.getClassName().startsWith("infinitespire.cards");
 			})
 			.distinct()
-			.peek((clazz) -> System.out.println(clazz.getClassLocation().getName()))
 			.forEach((clazz) -> {
 				try {
 					CtClass ctClass = Loader.getClassPool().get(clazz.getClassName());
