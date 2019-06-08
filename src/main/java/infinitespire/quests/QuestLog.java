@@ -4,6 +4,7 @@ import basemod.BaseMod;
 import basemod.interfaces.PostDungeonUpdateSubscriber;
 import basemod.interfaces.PostUpdateSubscriber;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import infinitespire.AutoLoaderIgnore;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestType;
@@ -12,6 +13,7 @@ import infinitespire.interfaces.IQuestLine;
 
 import java.util.ArrayList;
 
+@AutoLoaderIgnore
 public class QuestLog extends ArrayList<Quest> implements PostUpdateSubscriber, PostDungeonUpdateSubscriber{
 	
 	private static final long serialVersionUID = -8923472099668326287L; 

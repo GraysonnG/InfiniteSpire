@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.mod.replay.monsters.replay.CaptainAbe;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
+import infinitespire.AutoLoaderIgnore;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
@@ -12,6 +13,7 @@ import infinitespire.interfaces.IAutoQuest;
 import infinitespire.quests.SlayQuest;
 import infinitespire.relics.EvilPickle;
 
+@AutoLoaderIgnore
 public class CaptainAbeQuest extends SlayQuest implements IAutoQuest {
     public int gold;
     public static final String ID = CaptainAbeQuest.class.getName();

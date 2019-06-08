@@ -8,11 +8,13 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
+import infinitespire.AutoLoaderIgnore;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
 @Deprecated
+@AutoLoaderIgnore
 public class FetchQuest extends Quest {
 	
 	public static final String ID = FetchQuest.class.getName();
