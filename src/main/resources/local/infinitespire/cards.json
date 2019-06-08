@@ -61,5 +61,9 @@
 	"infinitespire:UltimateForm": {
 		"NAME": "Ultimate Form",
 		"DESCRIPTION": "Gain !M! Strength and Dexterity each turn. NL If you have orb slots gain !M! Focus each turn."
+	},
+	"infinitespire:DarkHarmony": {
+		"NAME" : "Dark Harmony",
+		"DESCRIPTION": "bard:Queue !M! [WildNote] ."
 	}
 }

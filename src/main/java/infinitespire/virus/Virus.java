@@ -1,4 +1,4 @@
-package infinitespire.cards.black;
+package infinitespire.virus;
 
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInDiscardAction;
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction;

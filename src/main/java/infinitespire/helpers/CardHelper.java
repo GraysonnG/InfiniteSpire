@@ -10,7 +10,7 @@ import com.megacrit.cardcrawl.powers.PoisonPower;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
-import infinitespire.cards.black.Virus;
+import infinitespire.virus.Virus;
 
 import java.util.ArrayList;
 

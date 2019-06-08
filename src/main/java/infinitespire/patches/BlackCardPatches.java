@@ -20,7 +20,7 @@ import com.megacrit.cardcrawl.vfx.cardManip.CardGlowBorder;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
-import infinitespire.cards.black.Virus;
+import infinitespire.virus.Virus;
 import infinitespire.helpers.CardHelper;
 import infinitespire.util.TextureLoader;
 import javassist.CannotCompileException;

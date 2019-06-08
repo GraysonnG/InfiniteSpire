@@ -85,9 +85,8 @@ public abstract class BlackCard extends Card {
 	@Override
 	public void render(SpriteBatch sb){
 		sb.setColor(Color.WHITE.cpy());
-		for(BlackParticle p : particles){
-			p.render(sb);
-		}
+		particles.stream()
+			.forEach(blackParticle -> blackParticle.render(sb));
 		super.render(sb);
 	}
 

@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
-import infinitespire.cards.black.Virus;
+import infinitespire.virus.Virus;
 import infinitespire.quests.RemoveCardQuest;
 
 public class CardGroupPatch {
