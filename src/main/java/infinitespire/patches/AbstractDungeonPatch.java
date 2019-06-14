@@ -5,9 +5,11 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
+import com.megacrit.cardcrawl.dungeons.TheEnding;
 import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
@@ -17,7 +19,7 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import infinitespire.InfiniteSpire;
 import infinitespire.avhari.AvhariRoom;
 import infinitespire.helpers.QuestHelper;
-import infinitespire.monsters.LordOfAnnihilation;
+import infinitespire.monsters.LordOfFortification;
 import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.relics.BlackEgg;
 import infinitespire.relics.BottledSoul;
@@ -151,11 +153,19 @@ public class AbstractDungeonPatch {
 	public static class SetBoss {
 
 		@SpirePrefixPatch
-		public static SpireReturn<?> LordOfAnnihilationSpawner(AbstractDungeon __instance, String key){
+		public static SpireReturn<?> LordBossSpawner(AbstractDungeon __instance, String key){
 			if(shouldSpawn()){
 				DungeonMap.boss = InfiniteSpire.Textures.getUITexture("map/bossIcon.png");
 				DungeonMap.bossOutline = InfiniteSpire.Textures.getUITexture("map/bossIcon-outline.png");
-				AbstractDungeon.bossKey = LordOfAnnihilation.ID;
+				int bossToSpawn = AbstractDungeon.miscRng.random(2);
+				switch (bossToSpawn) {
+					case 0:
+						AbstractDungeon.bossKey = LordOfFortification.ID;
+					case 1:
+						AbstractDungeon.bossKey = LordOfFortification.ID;
+					case 2:
+						AbstractDungeon.bossKey = LordOfFortification.ID;
+				}
 
 				return SpireReturn.Return(null);
 			}
@@ -164,7 +174,7 @@ public class AbstractDungeonPatch {
 
 		public static boolean shouldSpawn(){
 			boolean shouldSpawn = AbstractDungeon.bossCount == 8;
-			if(AbstractDungeon.player.hasRelic(BlackEgg.ID)) {
+			if(AbstractDungeon.player.hasRelic(BlackEgg.ID) && !CardCrawlGame.nextDungeon.equals(TheEnding.ID)) {
 				shouldSpawn = ((BlackEgg) AbstractDungeon.player.getRelic(BlackEgg.ID)).shouldSpawn;
 			}
 

@@ -42,10 +42,7 @@ import infinitespire.interfaces.IAutoQuest;
 import infinitespire.interfaces.OnQuestAddedSubscriber;
 import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
-import infinitespire.monsters.LordOfAnnihilation;
-import infinitespire.monsters.MassOfShapes;
-import infinitespire.monsters.Nightmare;
-import infinitespire.monsters.Voidling;
+import infinitespire.monsters.*;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.patches.SneckoEssencePatch;
@@ -87,7 +84,7 @@ import java.util.List;
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber,
 	PreStartGameSubscriber {
-	public static final String VERSION = "0.17.0";
+	public static final String VERSION = "0.18.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -197,6 +194,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		BaseMod.addEvent(VoidlingNest.ID, VoidlingNest.class, TheBeyond.ID);
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
+		BaseMod.addMonster(LordOfFortification.ID, LordOfFortification::new);
 
 		BaseMod.addMonster(Nightmare.ID, () -> new Nightmare(false));
 		BaseMod.addMonster(Nightmare.ID + "_Alpha", () -> new Nightmare(true));
@@ -217,9 +215,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			createPath("ui/map/massBoss-outline.png"));
 
 		// this should be removed after im done testing
-		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
-		 "img/infinitespire/ui/map/bossIcon.png",
-		 "img/infinitespire/ui/map/bossIcon-outline.png");
+//		 BaseMod.addBoss(Exordium.ID, LordOfFortification.ID,
+//		 "img/infinitespire/ui/map/bossIcon.png",
+//		 "img/infinitespire/ui/map/bossIcon-outline.png");
 
 		logger.info("Adding Potions");
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
@@ -402,9 +400,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		List<ClassInfo> foundClasses = new ArrayList<>();
 		finder.findClasses(foundClasses);
 		foundClasses.stream()
-			.filter((clazz) -> {
-				return clazz.getClassName().startsWith("infinitespire.cards");
-			})
+			.filter(clazz -> clazz.getClassName().startsWith("infinitespire.cards"))
 			.distinct()
 			.forEach((clazz) -> {
 				try {

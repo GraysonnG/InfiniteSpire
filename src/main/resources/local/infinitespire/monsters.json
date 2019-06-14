@@ -30,5 +30,19 @@
 		"MOVES" : [],
 		"NAME" : "Mass Of Shapes",
 		"DIALOG": []
+	},
+	"infinitespire:LordOfFortification" : {
+		"NAME": "Lord of Fortification",
+		"MOVES": [
+			"Agony",
+			"Reflect",
+			"Cure Wounds"
+		],
+		"DIALOG": []
+	},
+	"infinitespire:LordOfDawn": {
+		"NAME": "Lord of Dawn",
+		"MOVES": [],
+		"DIALOG": []
 	}
 }
