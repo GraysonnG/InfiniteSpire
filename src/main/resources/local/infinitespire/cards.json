@@ -73,5 +73,9 @@
 		"EXTENDED_DESCRIPTION": [
 			"Gain !B! Temporary_HP (Effected by Block modifiers). NL Deal !D! damage."
 		]
+	},
+	"infinitespire:Oblivion": {
+		"NAME" : "Oblivion",
+		"DESCRIPTION": "Deal !D! damage. NL Channel !M! random Orbs."
 	}
 }
