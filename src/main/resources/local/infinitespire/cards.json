@@ -65,5 +65,13 @@
 	"infinitespire:DarkHarmony": {
 		"NAME" : "Dark Harmony",
 		"DESCRIPTION": "bard:Queue !M! [WildNote] ."
+	},
+	"infinitespire:SevenWalls": {
+		"NAME" : "Seven Walls",
+		"DESCRIPTION": "Gain !B! Block. NL Deal !D! damage.",
+		"UPGRADE_DESCRIPTION": "Unstable Space-Time",
+		"EXTENDED_DESCRIPTION": [
+			"Gain !B! Temporary_HP (Effected by Block modifiers). NL Deal !D! damage."
+		]
 	}
 }
