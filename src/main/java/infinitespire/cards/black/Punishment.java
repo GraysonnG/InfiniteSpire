@@ -32,9 +32,12 @@ public class Punishment extends BlackCard {
 		AbstractPlayer p = AbstractDungeon.player;
 		
 		this.baseDamage = 0;
-		this.baseDamage += p.drawPile.size();
-		this.baseDamage += p.hand.size();
-		this.baseDamage += p.discardPile.size();
+
+		int newDamage = p.drawPile.size();
+		newDamage += p.hand.size();
+		newDamage += p.discardPile.size();
+
+		this.baseDamage = newDamage * 2;
 		this.isDamageModified = true;
 		
 		this.rawDescription = DESCRIPTION_2;

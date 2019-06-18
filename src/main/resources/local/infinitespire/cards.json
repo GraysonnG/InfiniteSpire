@@ -51,8 +51,8 @@
 	},
 	"infinitespire:Punishment": {
 		"NAME": "Punishment",
-		"DESCRIPTION": "Deal 1 damage for each card in your draw, hand, and discard pile.",
-		"UPGRADE_DESCRIPTION": "Deal 1 damage for each card in your draw, hand, and discard pile. NL ( !D! )"
+		"DESCRIPTION": "Deal 2 damage for each card in your draw, hand, and discard pile.",
+		"UPGRADE_DESCRIPTION": "Deal 2 damage for each card in your draw, hand, and discard pile. NL ( !D! )"
 	},
 	"infinitespire:TheBestDefense": {
 		"NAME": "The Best Defense",
