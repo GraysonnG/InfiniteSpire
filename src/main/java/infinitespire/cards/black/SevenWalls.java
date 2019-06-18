@@ -1,5 +1,6 @@
 package infinitespire.cards.black;
 
+import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.common.DamageAction;
 import com.megacrit.cardcrawl.actions.common.GainBlockAction;
@@ -34,7 +35,11 @@ public class SevenWalls extends BlackCard {
 
 	@Override
 	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
-		AbstractDungeon.actionManager.addToBottom(new GainBlockAction(p, p, this.block));
+		if(!this.upgraded) {
+			AbstractDungeon.actionManager.addToBottom(new GainBlockAction(p, p, this.block));
+		} else {
+			AbstractDungeon.actionManager.addToBottom(new AddTemporaryHPAction(p, p, this.block));
+		}
 		AbstractDungeon.actionManager.addToBottom(new DamageAction(m, new DamageInfo(p, this.damage), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
 	}
 
