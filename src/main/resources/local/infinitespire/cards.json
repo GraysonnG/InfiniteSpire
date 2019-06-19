@@ -17,7 +17,7 @@
 	},
 	"infinitespire:DeathsTouch": {
 		"NAME": "Deaths Touch",
-		"DESCRIPTION": "Deal !D! damage. Apply !M! Poison X + 1 times."
+		"DESCRIPTION": "Deal !D! damage. NL Next turn, deal !D! damage to ALL enemies."
 	},
 	"infinitespire:Execution": {
 		"NAME": "Execution",
