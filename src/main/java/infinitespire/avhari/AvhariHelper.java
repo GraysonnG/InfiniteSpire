@@ -272,6 +272,7 @@ public class AvhariHelper {
 
 		public void update() {
 			boolean shouldRotate = true;
+			boolean hasPurchaced = false;
 			for(RelicItem relicItem : relicItems) {
 				relicItem.update();
 				if(relicItem.isHovered()) {
@@ -285,24 +286,17 @@ public class AvhariHelper {
 				deltaSpeed = MathHelper.scaleLerpSnap(deltaSpeed, 0.0f);
 			}
 
-			float deltaAngle = (-15 * deltaSpeed) * Gdx.graphics.getDeltaTime();
+			final float deltaAngle = (-15 * deltaSpeed) * Gdx.graphics.getDeltaTime();
 
 			for(RelicItem relicItem : relicItems) {
 				relicItem.rotateByAmount(deltaAngle);
-			}
-
-			relicItems.removeIf((relicItem -> {
 				if(relicItem.isHovered() && InputHelper.justClickedLeft) {
-					if(relicItem.canBuy()) {
-						CardCrawlGame.sound.play("SHOP_PURCHASE");
-						relicItem.relic.instantObtain(AbstractDungeon.player, AbstractDungeon.player.relics.size(), true);
-						InfiniteSpire.voidShardCount -= relicItem.price;
-						return true;
-					}
+					hasPurchaced = relicItem.purchace();
 					CardCrawlGame.sound.play("UI_CLICK_2");
 				}
-				return false;
-			}));
+			}
+
+			if(hasPurchaced) relicItems.clear();
 		}
 	}
 
@@ -393,6 +387,16 @@ public class AvhariHelper {
 
 		public boolean canBuy() {
 			return InfiniteSpire.voidShardCount >= this.price;
+		}
+
+		public boolean purchace() {
+			if(this.canBuy()) {
+				CardCrawlGame.sound.play("SHOP_PURCHASE");
+				this.relic.instantObtain(AbstractDungeon.player, AbstractDungeon.player.relics.size(), true);
+				InfiniteSpire.voidShardCount -= this.price;
+				return true;
+			}
+			return false;
 		}
 	}
 }
