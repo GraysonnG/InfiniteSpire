@@ -95,6 +95,11 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static final String GDX_INFINITE_PURPLE_NAME = createID("Purple");
 	public static final String GDX_INFINITE_RED_NAME = createID("Red");
 
+	// Void Shard and Avhari Constants
+	public static final float VOID_SHARD_CHANCE = 0.1f;
+	public static final int AVHARI_CARD_PRICE = 15;
+	public static final int AVHARI_RELIC_PRICE = 20;
+
 	public static boolean isEndless = false;
 	public static boolean hasDefeatedGuardian;
 	public static boolean shouldLoad = false;

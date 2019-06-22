@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.rooms.MonsterRoom;
 import com.megacrit.cardcrawl.screens.CombatRewardScreen;
+import infinitespire.InfiniteSpire;
 import infinitespire.relics.EvilPickle;
 import infinitespire.rewards.VoidShardReward;
 import javassist.CtBehavior;
@@ -18,7 +19,7 @@ public class SetupItemRewardPatch {
 		if(AbstractDungeon.player.hasRelic(EvilPickle.ID) && AbstractDungeon.getCurrRoom() instanceof MonsterRoom) {
 			AbstractDungeon.player.getRelic(EvilPickle.ID).onTrigger();
 		}
-		if(CardCrawlGame.isInARun() && (AbstractDungeon.miscRng.randomBoolean(0.1f) || Settings.isDebug)){
+		if(CardCrawlGame.isInARun() && (AbstractDungeon.miscRng.randomBoolean(InfiniteSpire.VOID_SHARD_CHANCE) || Settings.isDebug)){
 			AbstractDungeon.combatRewardScreen.rewards.add(new VoidShardReward());
 		}
 	}

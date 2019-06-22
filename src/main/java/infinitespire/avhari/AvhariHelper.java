@@ -28,8 +28,7 @@ import static infinitespire.patches.CardColorEnumPatch.CardColorPatch.INFINITE_B
 
 public class AvhariHelper {
 
-	private static final int CARD_PRICE = 15;
-	private static final int RELIC_PRICE = 20;
+
 
 	private static final Texture shardTexture = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
 
@@ -125,7 +124,7 @@ public class AvhariHelper {
 					price = 99;
 			}
 
-			if(card.color.equals(INFINITE_BLACK)) price = CARD_PRICE;
+			if(card.color.equals(INFINITE_BLACK)) price = InfiniteSpire.AVHARI_CARD_PRICE;
 
 			float xPos = MathUtils.cosDeg(angleFromCenter) * distanceFromCenter;
 			float yPos = MathUtils.sinDeg(angleFromCenter) * distanceFromCenter;
@@ -305,7 +304,7 @@ public class AvhariHelper {
 	}
 
 	public static class RelicItem {
-		public int price = RELIC_PRICE;
+		public int price = InfiniteSpire.AVHARI_RELIC_PRICE;
 		private Vector2 center, position;
 		private AbstractRelic relic;
 		private Hitbox hb;
