@@ -47,5 +47,19 @@
 			"Add ",
 			" quests to your Quest Log"
 		]
+	},
+	"infinitespire:TempHPIntent": {
+		"TEXT": [
+			"Reinforcing",
+			"This enemy intends to gain #yTemporary_hp on its turn.",
+			"intents/tempHp.png"
+		]
+	},
+	"infinitespire:AttackTempHPIntent": {
+		"TEXT": [
+			"Strategic",
+			"This enemy intends to gain #yTemporary_hp and #yAttack for #b",
+			"intents/tempHp.png"
+		]
 	}
 }

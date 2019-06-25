@@ -1,17 +1,26 @@
 package infinitespire.monsters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Colors;
+import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.actions.animations.VFXAction;
-import com.megacrit.cardcrawl.actions.common.*;
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction;
+import com.megacrit.cardcrawl.actions.common.DamageAction;
+import com.megacrit.cardcrawl.actions.common.HealAction;
+import com.megacrit.cardcrawl.actions.common.RollMoveAction;
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
-import com.megacrit.cardcrawl.powers.*;
+import com.megacrit.cardcrawl.powers.FrailPower;
+import com.megacrit.cardcrawl.powers.VulnerablePower;
+import com.megacrit.cardcrawl.powers.WeakPower;
 import com.megacrit.cardcrawl.vfx.CollectorCurseEffect;
+import com.megacrit.cardcrawl.vfx.combat.VerticalAuraEffect;
 import infinitespire.InfiniteSpire;
+import infinitespire.patches.IntentEnumPatch;
 import infinitespire.powers.TempThornsPower;
 
 import java.util.ArrayList;
@@ -27,10 +36,9 @@ public class LordOfFortification extends LordBoss {
 	private float animTicker;
 
 	public LordOfFortification() {
-		super(monsterStrings.NAME, ID, BASE_MAX_HP, 0, 0, 300f, 300f, 10f,
+		super(monsterStrings.NAME, ID, BASE_MAX_HP, 0, 0, 300f, 300f, 5f,
 			(me) -> {
-				// either gain 1 or 5 depends on balance
-				AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(me, me, new MetallicizePower(me, MoveValues.RAGEBUFF), MoveValues.RAGEBUFF));
+				AbstractDungeon.actionManager.addToBottom(new AddTemporaryHPAction(me, me, MoveValues.RAGEBUFF));
 			});
 
 		this.loadAnimation(
@@ -53,10 +61,6 @@ public class LordOfFortification extends LordBoss {
 	@Override
 	public void usePreBattleAction() {
 		super.usePreBattleAction();
-
-		//make tanky dab
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this, this, new BarricadePower(this)));
-
 	}
 
 	@Override
@@ -76,21 +80,22 @@ public class LordOfFortification extends LordBoss {
 
 		switch (this.nextMove) {
 			case 0:
-				doAction(new GainBlockAction(this, this, MoveValues.DEFEND));
+				doAction(new AddTemporaryHPAction(this, this, MoveValues.DEFEND));
 				break;
 			case 1:
-				doAction(new GainBlockAction(this, this, MoveValues.DEFEND_1));
+				doAction(new AddTemporaryHPAction(this, this, MoveValues.DEFEND_1));
 				doAction(new DamageAction(player, damage.get(0), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
 				break;
 			case 2:
-				doAction(new GainBlockAction(this, this, MoveValues.DEFEND_2));
+				doAction(new AddTemporaryHPAction(this, this, MoveValues.DEFEND_2));
 				doAction(new DamageAction(player, damage.get(1), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
 				break;
 			case 3:
-				doAction(new GainBlockAction(this, this, MoveValues.DEFEND_3));
+				doAction(new AddTemporaryHPAction(this, this, MoveValues.DEFEND_3));
 				doAction(new DamageAction(player, damage.get(2), AbstractGameAction.AttackEffect.BLUNT_HEAVY));
 				break;
 			case 4:
+				CardCrawlGame.sound.playA("GHOST_ORB_IGNITE_1", -0.6F);
 				doAction(
 					new VFXAction(
 						new CollectorCurseEffect(AbstractDungeon.player.hb.cX, AbstractDungeon.player.hb.cY),
@@ -116,6 +121,7 @@ public class LordOfFortification extends LordBoss {
 
 				break;
 			case 5:
+				doAction(new VFXAction(new VerticalAuraEffect(Colors.get(InfiniteSpire.GDX_INFINITE_RED_NAME), this.hb.cX, this.hb.cY)));
 				doAction(new ApplyPowerAction(this, this, new TempThornsPower(this, MoveValues.THORNS_TURNS, MoveValues.THORNS_DAMAGE, true)));
 				break;
 			case 6:
@@ -134,10 +140,10 @@ public class LordOfFortification extends LordBoss {
 			case 0:
 				switch (turn % 3) {
 					case 0:
-						this.setMove(MoveBytes.DEFEND, Intent.DEFEND);
+						this.setMove(MoveBytes.DEFEND, IntentEnumPatch.INFINITE_TEMPHP);
 						break;
 					case 1:
-						this.setMove(MoveBytes.ATTACK_DEFEND_1, Intent.ATTACK_DEFEND, damage.get(0).base);
+						this.setMove(MoveBytes.ATTACK_DEFEND_1, IntentEnumPatch.ATTACK_INFINITE_TEMPHP, damage.get(0).base);
 						break;
 					case 2:
 						this.setMove(monsterStrings.MOVES[0], MoveBytes.DEBUFF, Intent.STRONG_DEBUFF);
@@ -147,10 +153,10 @@ public class LordOfFortification extends LordBoss {
 			case 1:
 				switch (turn % 3) {
 					case 0:
-						this.setMove(MoveBytes.DEFEND, Intent.DEFEND);
+						this.setMove(MoveBytes.DEFEND, IntentEnumPatch.INFINITE_TEMPHP);
 						break;
 					case 1:
-						this.setMove(MoveBytes.ATTACK_DEFEND_2, Intent.ATTACK_DEFEND, damage.get(1).base);
+						this.setMove(MoveBytes.ATTACK_DEFEND_2, IntentEnumPatch.ATTACK_INFINITE_TEMPHP, damage.get(1).base);
 						break;
 					case 2:
 						this.setMove(monsterStrings.MOVES[1], MoveBytes.THORNS, Intent.BUFF);
@@ -160,10 +166,10 @@ public class LordOfFortification extends LordBoss {
 			case 2:
 				switch (turn % 3) {
 					case 0:
-						this.setMove(MoveBytes.DEFEND, Intent.DEFEND);
+						this.setMove(MoveBytes.DEFEND, IntentEnumPatch.INFINITE_TEMPHP);
 						break;
 					case 1:
-						this.setMove(MoveBytes.ATTACK_DEFEND_3, Intent.ATTACK_DEFEND, damage.get(2).base);
+						this.setMove(MoveBytes.ATTACK_DEFEND_3, IntentEnumPatch.ATTACK_INFINITE_TEMPHP, damage.get(2).base);
 						break;
 					case 2:
 						this.setMove(monsterStrings.MOVES[2], MoveBytes.HEAL, Intent.MAGIC);
@@ -186,7 +192,7 @@ public class LordOfFortification extends LordBoss {
 	}
 
 	private static class MoveValues {
-		private static final int DEFEND = 500;
+		private static final int DEFEND = 300;
 		private static final int DEFEND_1 = 50;
 		private static final int DEFEND_2 = 25;
 		private static final int DEFEND_3 = 75;
@@ -200,7 +206,7 @@ public class LordOfFortification extends LordBoss {
 		private static final int THORNS_DAMAGE = 10;
 		private static final float HEAL_PERCENT = 0.1f;
 
-		private static final int RAGEBUFF = 10;
+		private static final int RAGEBUFF = 50;
 
 		public static ArrayList<Integer> getDamageValues() {
 			ArrayList<Integer> values = new ArrayList<>();
