@@ -22,7 +22,7 @@ public class EndlessQuestPart2 extends Quest implements IQuestLine{
 	@Override
 	public void giveReward() {
 		ArrayList<AbstractCard> randomBlackCards = CardHelper.getBlackRewardCards();
-		AbstractDungeon.cardRewardScreen.open(randomBlackCards, null, "Select a Card.");
+		AbstractDungeon.cardRewardScreen.open(randomBlackCards, null, questStrings.TEXT[16]);
 	}
 
 
@@ -38,12 +38,12 @@ public class EndlessQuestPart2 extends Quest implements IQuestLine{
 
 	@Override
 	public String getRewardString() {
-		return "Pick a Black Card";
+		return questStrings.TEXT[14];
 	}
 
 	@Override
 	public String getTitle() {
-		return "Defeat 3 Bosses";
+		return questStrings.TEXT[15];
 	}
 
 	@Override

@@ -36,12 +36,12 @@ public class EndlessQuestPart3 extends SlayQuest {
 
     @Override
     public String getTitle() {
-        return "Defeat ???";
+        return questStrings.TEXT[17];
     }
 
     @Override
     public String getRewardString() {
-        return "Receive the Black Egg.";
+        return questStrings.TEXT[18];
     }
 
     @Override
