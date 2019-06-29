@@ -153,7 +153,7 @@ public class BlackCardPatches {
 			locator = Locator.class,
 			localvars = {"card", "tmpImg"}
 		)
-		public static SpireReturn<Void> blackCardFrameRender(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, @ByRef TextureAtlas.AtlasRegion[] region){
+		public static void blackCardFrameRender(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, @ByRef TextureAtlas.AtlasRegion[] region){
 			if(card instanceof BlackCard) {
 				TextureAtlas.AtlasRegion img = null;
 				switch(card.type){
@@ -171,11 +171,7 @@ public class BlackCardPatches {
 
 
 				if(img != null) region[0] = img;
-
-				return SpireReturn.Return(null);
 			}
-
-			return SpireReturn.Continue();
 		}
 
 		private static class Locator extends SpireInsertLocator{
