@@ -62,7 +62,8 @@ public class VoidShardDisplay extends TopPanelItem {
 	}
 
 	public void renderCount(SpriteBatch sb) {
-		FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont_N, Integer.toString(InfiniteSpire.voidShardCount), this.x + (this.hb_w / 2), this.y + 16f * Settings.scale, Color.WHITE.cpy());
+		FontHelper.cardTitleFont.getData().setScale(1.0f);
+		FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, Integer.toString(InfiniteSpire.voidShardCount), this.x + (this.hb_w / 2), this.y + 16f * Settings.scale, Color.WHITE.cpy());
 
 		if(this.getHitbox().hovered) {
 			float xPos = this.x + (this.hb_w / 2);

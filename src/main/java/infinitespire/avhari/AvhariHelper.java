@@ -179,7 +179,8 @@ public class AvhariHelper {
 
 			fontColor.a = lockAlpha.a;
 
-			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont_N, "" + this.price, position.x, position.y - (16f * Settings.scale), fontColor);
+			FontHelper.cardTitleFont.getData().setScale(1.0f);
+			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, "" + this.price, position.x, position.y - (16f * Settings.scale), fontColor);
 
 		}
 
@@ -359,7 +360,8 @@ public class AvhariHelper {
 				fontColor = Color.RED.cpy();
 			}
 
-			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont_N, "" + this.price,
+			FontHelper.cardTitleFont.getData().setScale(1.0f);
+			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, "" + this.price,
 				relic.currentX,
 				yPos + (16f * Settings.scale * Settings.scale), fontColor);
 		}

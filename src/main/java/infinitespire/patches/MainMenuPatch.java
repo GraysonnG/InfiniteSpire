@@ -136,7 +136,9 @@ public class MainMenuPatch {
                 sb.draw(shardTexture, xCenteredPos, yPos, width / 2f, height / 2f, width, height, 1, 1, angle);
                 sb.setBlendFunction(770, 771);
             }
-            FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont_N, "" + InfiniteSpire.voidShardCount, xPos, yTextPos);
+            FontHelper.cardTitleFont.getData().setScale(1.0f);
+
+            FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, "" + InfiniteSpire.voidShardCount, xPos, yTextPos);
 
             hb.render(sb);
         }
