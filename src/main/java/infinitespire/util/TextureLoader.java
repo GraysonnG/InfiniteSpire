@@ -1,13 +1,13 @@
 package infinitespire.util;
 
-import java.util.HashMap;
-
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.utils.GdxRuntimeException;
+import java.util.HashMap;
 
 public class TextureLoader {
 	private static HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -29,6 +29,18 @@ public class TextureLoader {
         }
         return textures.get(textureString);
     }
+
+	/**
+	 *
+	 * @param - String path to the texture you want to load relative to resources,
+	 * 	 * Example: "img/ui/missingtexture.png"
+	 * @return <b>com.badlogic.gdx.graphics.TextureAtlas.AtlasRegion</b> - The texture is returned as an AtlasRegion
+	 */
+	public static TextureAtlas.AtlasRegion getTextureAsAtlasRegion(String textureString) {
+		Texture texture = getTexture(textureString);
+
+		return new TextureAtlas.AtlasRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
+	}
     
 	/**
 	 * Creates and instance of the texture, applies a linear filter to it, and places it in the HashMap 
