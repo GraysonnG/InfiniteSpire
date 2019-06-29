@@ -2,7 +2,6 @@ package infinitespire;
 
 import basemod.BaseMod;
 import basemod.interfaces.*;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +13,7 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
@@ -76,7 +76,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +83,7 @@ import java.util.List;
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber,
 	PreStartGameSubscriber {
-	public static final String VERSION = "0.18.0";
+	public static final String VERSION = "0.19.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -251,39 +250,37 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		}
 	}
 
+	private String makeLocalizationPath(Settings.GameLanguage language, String fileName) {
+		String retVal = "local/infinitespire/";
+
+		switch (language) {
+			default:
+				retVal += "eng/";
+				break;
+		}
+
+		return retVal + fileName + ".json";
+	}
+
+	private void loadLocalizationFiles(Settings.GameLanguage language) {
+
+		BaseMod.loadCustomStringsFile(CardStrings.class, makeLocalizationPath(language, "cards"));
+		BaseMod.loadCustomStringsFile(RelicStrings.class, makeLocalizationPath(language, "relics"));
+		BaseMod.loadCustomStringsFile(BlightStrings.class, makeLocalizationPath(language, "blights"));
+		BaseMod.loadCustomStringsFile(EventStrings.class, makeLocalizationPath(language, "events"));
+		BaseMod.loadCustomStringsFile(MonsterStrings.class, makeLocalizationPath(language, "monsters"));
+		BaseMod.loadCustomStringsFile(PotionStrings.class, makeLocalizationPath(language, "potions"));
+		BaseMod.loadCustomStringsFile(PowerStrings.class, makeLocalizationPath(language, "powers"));
+		BaseMod.loadCustomStringsFile(UIStrings.class, makeLocalizationPath(language, "ui"));
+	}
+
+
 	@Override
 	public void receiveEditStrings() {
-		String cardStrings = Gdx.files.internal("local/infinitespire/cards.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
-
-		String relicStrings = Gdx.files.internal("local/infinitespire/relics.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
-
-		String blightStrings = Gdx.files.internal("local/infinitespire/blights.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(BlightStrings.class, blightStrings);
-
-		String eventStrings = Gdx.files.internal("local/infinitespire/events.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
-
-		String monsterStrings = Gdx.files.internal("local/infinitespire/monsters.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
-
-		String potionStrings = Gdx.files.internal("local/infinitespire/potions.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
-
-		String powerStrings = Gdx.files.internal("local/infinitespire/powers.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(PowerStrings.class, powerStrings);
-
-		String uiStrings = Gdx.files.internal("local/infinitespire/ui.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(UIStrings.class, uiStrings);
+		loadLocalizationFiles(Settings.GameLanguage.ENG);
+		if(Settings.language != Settings.GameLanguage.ENG) {
+			loadLocalizationFiles(Settings.language);
+		}
 	}
 
 	@Override
