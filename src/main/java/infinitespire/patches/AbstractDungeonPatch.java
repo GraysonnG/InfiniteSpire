@@ -5,6 +5,7 @@ import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.cards.CardGroup;
+import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
@@ -18,9 +19,7 @@ import com.megacrit.cardcrawl.rooms.ShopRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import infinitespire.InfiniteSpire;
 import infinitespire.avhari.AvhariRoom;
-import infinitespire.helpers.QuestHelper;
 import infinitespire.monsters.LordOfFortification;
-import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.relics.BlackEgg;
 import infinitespire.relics.BottledSoul;
 import infinitespire.relics.HolyWater;
@@ -182,6 +181,20 @@ public class AbstractDungeonPatch {
 		}
 	}
 
+	@SpirePatch(
+		clz = AbstractDungeon.class,
+		method = SpirePatch.CONSTRUCTOR,
+		paramtypez = {String.class, String.class, AbstractPlayer.class, ArrayList.class}
+	)
+	public static class InitFirstRoomPatch {
+		@SpirePostfixPatch
+		public static void initQuestLog(AbstractDungeon __instance, String name, String levelId, AbstractPlayer p, ArrayList<String> newSpecialOneTimeEventList) {
+			if(AbstractDungeon.floorNum == 0 && !CardCrawlGame.loadingSave) {
+				InfiniteSpire.addInitialQuests();
+			}
+		}
+	}
+
 	//TODO: Replace with Locator
 	@SpirePatch(cls = CLS, method = "generateMap")
 	public static class GenerateMap {
@@ -190,19 +203,8 @@ public class AbstractDungeonPatch {
 		public static void Insert() {
 			Settings.isEndless = InfiniteSpire.isEndless;
 			addHolyWaterToRareRelicPool();
-			addInitialQuests();
 			//number of nightmares increases with number of bosses beaten (max 3), is increased by 1 if the "kill a nightmare" quest has not been completed or discarded.
 			insertNightmareNode();
-		}
-		
-		private static void addInitialQuests() {
-			InfiniteSpire.logger.info("adding initial quests");
-			if(AbstractDungeon.floorNum <= 1 &&  InfiniteSpire.questLog.isEmpty()) {
-				if(InfiniteSpire.startWithEndlessQuest)	InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
-				InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(9));
-				InfiniteSpire.questLog.markAllQuestsAsSeen();
-				QuestHelper.saveQuestLog();
-			}
 		}
 		
 		private static void addHolyWaterToRareRelicPool() {

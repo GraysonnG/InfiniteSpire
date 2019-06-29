@@ -49,6 +49,7 @@ import infinitespire.patches.SneckoEssencePatch;
 import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
+import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
 import infinitespire.relics.crystals.EmpoweringShard;
@@ -517,6 +518,16 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				}
 			}
 		}
+	}
+
+	public static void addInitialQuests() {
+		InfiniteSpire.logger.info("Clearing and Adding New Quests");
+		InfiniteSpire.questLog.clear();
+		if(InfiniteSpire.startWithEndlessQuest)	InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
+		InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(9));
+		InfiniteSpire.questLog.markAllQuestsAsSeen();
+		QuestHelper.saveQuestLog();
+
 	}
 
 	@Override
