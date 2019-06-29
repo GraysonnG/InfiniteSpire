@@ -1,0 +1,62 @@
+
+LordOfFortification.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Cape Back
+  rotate: false
+  xy: 354, 1
+  size: 375, 364
+  orig: 375, 364
+  offset: 0, 0
+  index: -1
+Body
+  rotate: false
+  xy: 1, 1
+  size: 351, 493
+  orig: 351, 493
+  offset: 0, 0
+  index: -1
+Arm_Shield
+  rotate: false
+  xy: 910, 1
+  size: 91, 130
+  orig: 91, 130
+  offset: 0, 0
+  index: -1
+Arm_Sword
+  rotate: false
+  xy: 1, 496
+  size: 367, 374
+  orig: 367, 374
+  offset: 0, 0
+  index: -1
+Leg_Normal
+  rotate: false
+  xy: 862, 735
+  size: 120, 158
+  orig: 120, 158
+  offset: 0, 0
+  index: -1
+Leg_Smile
+  rotate: false
+  xy: 862, 557
+  size: 135, 176
+  orig: 135, 176
+  offset: 0, 0
+  index: -1
+Head
+  rotate: false
+  xy: 731, 557
+  size: 129, 232
+  orig: 129, 232
+  offset: 0, 0
+  index: -1
+Shield
+  rotate: false
+  xy: 731, 1
+  size: 177, 554
+  orig: 177, 554
+  offset: 0, 0
+  index: -1
