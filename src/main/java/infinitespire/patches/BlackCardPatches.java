@@ -22,7 +22,6 @@ import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.helpers.CardHelper;
 import infinitespire.util.TextureLoader;
-import infinitespire.virus.Virus;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
 
@@ -181,67 +180,6 @@ public class BlackCardPatches {
 					SingleCardViewPopup.class, "renderHelper");
 
 				return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
-			}
-		}
-	}
-
-	//Virus Patches
-	@SpirePatch(clz = AbstractCard.class, method = "renderType")
-	public static class RenderType {
-		@SpireInsertPatch(locator = Locator.class,
-			localvars = {"font", "text", "current_x", "current_y", "drawScale", "angle", "renderColor"})
-		public static SpireReturn<Void> blackCardTypeColorAdjust(AbstractCard __instance, SpriteBatch sb, BitmapFont font, String text, float curX, float curY, float dScale, float angle, Color renderColor) {
-			if(__instance instanceof BlackCard) {
-				Color textColor = Color.valueOf("d0beff").cpy();
-				textColor.a = renderColor.a;
-				if(__instance instanceof Virus || __instance instanceof Virus.MasterVirus){
-					text = "Virus";
-				}
-				FontHelper.renderRotatedText(sb, font, text, curX, curY - 22.0f * dScale * Settings.scale, 0.0f, -1.0f * dScale * Settings.scale, angle, false, textColor);
-				return SpireReturn.Return(null);
-			}
-
-			return SpireReturn.Continue();
-		}
-
-		private static class Locator extends SpireInsertLocator {
-			@Override
-			public int[] Locate(CtBehavior ctBehavior) throws CannotCompileException, PatchingException {
-				Matcher matcher = new Matcher.MethodCallMatcher(
-					"com.megacrit.cardcrawl.helpers.FontHelper", "renderRotatedText"
-				);
-
-				return LineFinder.findInOrder(ctBehavior, matcher);
-			}
-		}
-
-	}
-
-	@SpirePatch(clz = SingleCardViewPopup.class, method = "renderCardTypeText")
-	public static class RenderSingleCardType {
-
-		@SpireInsertPatch(locator = Locator.class,
-			localvars = {"card", "label"})
-		public static SpireReturn<Void> blackCardTypeColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, String label) {
-			if(card instanceof BlackCard) {
-				if(card instanceof Virus || card instanceof Virus.MasterVirus){
-					label = "Virus";
-				}
-				FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTypeFont, label, Settings.WIDTH / 2.0f + 3.0f * Settings.scale, Settings.HEIGHT / 2.0f - 40.0f * Settings.scale, Color.valueOf("d0beff"));
-				return SpireReturn.Return(null);
-			}
-
-			return SpireReturn.Continue();
-		}
-
-		private static class Locator extends SpireInsertLocator {
-			@Override
-			public int[] Locate(CtBehavior ctBehavior) throws Exception {
-				Matcher matcher = new Matcher.MethodCallMatcher(
-					"com.megacrit.cardcrawl.helpers.FontHelper","renderFontCentered"
-				);
-
-				return LineFinder.findInOrder(ctBehavior, matcher);
 			}
 		}
 	}
