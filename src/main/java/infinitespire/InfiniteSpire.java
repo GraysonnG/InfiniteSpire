@@ -1,6 +1,8 @@
 package infinitespire;
 
 import basemod.BaseMod;
+import basemod.ReflectionHacks;
+import basemod.devcommands.ConsoleCommand;
 import basemod.interfaces.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
@@ -31,6 +33,7 @@ import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
 import infinitespire.actions.AddQuestAction;
 import infinitespire.cards.Neurotoxin;
+import infinitespire.commands.QuestCommand;
 import infinitespire.crossover.BardCrossover;
 import infinitespire.events.EmptyRestSite;
 import infinitespire.events.HoodedArmsDealer;
@@ -65,7 +68,6 @@ import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
 import infinitespire.ui.buttons.VoidShardDisplay;
 import infinitespire.util.TextureLoader;
-import infinitespire.virus.Virus;
 import javassist.CtClass;
 import javassist.NotFoundException;
 import org.apache.logging.log4j.LogManager;
@@ -79,12 +81,13 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber,
 	PreStartGameSubscriber {
-	public static final String VERSION = "0.19.0";
+	public static final String VERSION = "0.20.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -96,9 +99,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static final String GDX_INFINITE_RED_NAME = createID("Red");
 
 	// Void Shard and Avhari Constants
-	public static final float VOID_SHARD_CHANCE = 0.1f;
-	public static final int AVHARI_CARD_PRICE = 15;
-	public static final int AVHARI_RELIC_PRICE = 20;
+	public static final float VOID_SHARD_CHANCE = 0.15f;
+	public static final int AVHARI_CARD_PRICE = 8;
+	public static final int AVHARI_RELIC_PRICE = 15;
+	public static final int AVHARI_RANDOM_RELIC_PRICE = 3;
 
 	public static boolean isEndless = false;
 	public static boolean hasDefeatedGuardian;
@@ -238,6 +242,9 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		if (InfiniteSpire.checkForMod("com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler")) {
 			TheBottler.addBottleRelic(BottledSoul.ID);
 		}
+
+		Map<String, Class> root = (Map<String, Class>) ReflectionHacks.getPrivateStatic(ConsoleCommand.class, "root");
+		root.put(QuestCommand.COMMAND_VALUE, QuestCommand.class);
 	}
 
 	public static boolean checkForMod(String classPath) {
@@ -383,12 +390,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-
-
-		CardHelper.addVirusTypes();
-		CardHelper.addCard(new Virus.MasterVirus());
-
-
 
 		if(isBardLoaded) {
 			BardCrossover.loadBardBlackCards();

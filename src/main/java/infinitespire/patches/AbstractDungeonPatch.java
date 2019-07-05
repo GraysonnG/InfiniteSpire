@@ -9,7 +9,6 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheEnding;
 import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
@@ -22,7 +21,6 @@ import infinitespire.avhari.AvhariRoom;
 import infinitespire.monsters.LordOfFortification;
 import infinitespire.relics.BlackEgg;
 import infinitespire.relics.BottledSoul;
-import infinitespire.relics.HolyWater;
 import infinitespire.rooms.NightmareEliteRoom;
 import javassist.CannotCompileException;
 import javassist.CtBehavior;
@@ -30,7 +28,6 @@ import javassist.CtBehavior;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AbstractDungeonPatch {
 
@@ -202,17 +199,8 @@ public class AbstractDungeonPatch {
 		@SpireInsertPatch(rloc = 37)// after AbstractDungeon.map = (ArrayList<ArrayList<MapRoomNode>>)RoomTypeAssigner.distributeRoomsAcrossMap(AbstractDungeon.mapRng, (ArrayList)AbstractDungeon.map, (ArrayList)roomList);
 		public static void Insert() {
 			Settings.isEndless = InfiniteSpire.isEndless;
-			addHolyWaterToRareRelicPool();
 			//number of nightmares increases with number of bosses beaten (max 3), is increased by 1 if the "kill a nightmare" quest has not been completed or discarded.
 			insertNightmareNode();
-		}
-		
-		private static void addHolyWaterToRareRelicPool() {
-			AbstractDungeon.rareRelicPool.remove(HolyWater.ID);
-			if(AbstractDungeon.bossCount >= 3 && AbstractDungeon.id.equals(Exordium.ID)) {
-				AbstractDungeon.rareRelicPool.add(HolyWater.ID);
-				Collections.shuffle(AbstractDungeon.rareRelicPool, new java.util.Random(AbstractDungeon.relicRng.randomLong()));
-			}
 		}
 		
 		private static void insertNightmareNode() {
