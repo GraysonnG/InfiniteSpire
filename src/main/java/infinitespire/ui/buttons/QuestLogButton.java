@@ -1,5 +1,6 @@
 package infinitespire.ui.buttons;
 
+import basemod.DevConsole;
 import basemod.TopPanelItem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -29,7 +30,7 @@ public class QuestLogButton extends TopPanelItem {
 	public void update() {
 		super.update();
 		//unhardcode hotkey to make it set-able
-		if(!CardCrawlGame.isPopupOpen && Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+		if(!CardCrawlGame.isPopupOpen && Gdx.input.isKeyJustPressed(Input.Keys.Q) && !DevConsole.visible){
 			toggleQuestLogScreen();
 		}
 

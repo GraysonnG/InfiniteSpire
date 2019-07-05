@@ -152,8 +152,14 @@ public class SlayQuest extends Quest {
 
 	@Override
 	public Quest createNew() {
+		return createNew(new Object[0]);
+	}
+	// TODO: Allow player to set monster with command
+	@Override
+	public Quest createNew(Object[] params) {
 		this.preInitialize();
 		this.monster = getRandomMonster();
+		InfiniteSpire.logger.info(monster);
 		this.maxSteps = isElite(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3;
 		return this;
 	}
