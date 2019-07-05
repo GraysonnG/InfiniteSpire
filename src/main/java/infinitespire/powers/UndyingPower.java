@@ -6,12 +6,12 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
 
-public class PrinceIdolPower extends AbstractPower {
+public class UndyingPower extends AbstractPower {
 
-	public static final String powerID = InfiniteSpire.createID("PrinceIdolPower");
+	public static final String powerID = InfiniteSpire.createID("UndyingPower");
 	private static final PowerStrings strings = CardCrawlGame.languagePack.getPowerStrings(powerID);
 
-	public PrinceIdolPower(AbstractMonster m) {
+	public UndyingPower(AbstractMonster m) {
 		this.owner = m;
 		this.amount = -1;
 		this.type = PowerType.BUFF;
