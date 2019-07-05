@@ -16,6 +16,7 @@ import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
 import infinitespire.AutoLoaderIgnore;
 import infinitespire.InfiniteSpire;
+import infinitespire.KeyNotFoundException;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestRarity;
 import infinitespire.abstracts.Quest.QuestType;
@@ -27,21 +28,21 @@ import org.clapper.util.classutil.ClassInfo;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class QuestHelper {
-	
+	// ID, Class
 	public static HashMap<String, Class<? extends Quest>> questMap = new HashMap<>();
-	
+	// NAME, ID
+	public static HashMap<String, String> questIDMap = new HashMap<>();
+
 	public static void init() {
 		try {
 			autoLoadQuests();
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
+		updateIDMap();
 	}
 
 	private static void autoLoadQuests() throws URISyntaxException {
@@ -81,6 +82,29 @@ public class QuestHelper {
 			.filter(Objects::nonNull)
 			.forEach(QuestHelper::registerQuest);
 
+	}
+
+	public static void updateIDMap() {
+		questIDMap.clear();
+		for(Map.Entry<String, Class<? extends Quest>> entry : questMap.entrySet()) {
+			questIDMap.put(entry.getValue().getSimpleName(), entry.getKey());
+		}
+	}
+
+	public static String getQuestIdByName(String[] questArray) throws KeyNotFoundException {
+		updateIDMap();
+		String quest = String.join(" ", questArray);
+		if(QuestHelper.questIDMap.containsKey(quest)) {
+			quest = QuestHelper.questIDMap.get(quest);
+		} else {
+			throw new KeyNotFoundException("Key was not found in list");
+		}
+
+		return quest;
+	}
+
+	public static Quest getQuestByID(String id, Object...params) throws InstantiationException, IllegalAccessException {
+		return questMap.get(id).newInstance();
 	}
 	
 	public static void registerQuest(Class<? extends Quest> type) {
