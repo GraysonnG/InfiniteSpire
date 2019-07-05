@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -14,11 +15,15 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.FontHelper;
 import com.megacrit.cardcrawl.helpers.Hitbox;
 import com.megacrit.cardcrawl.helpers.MathHelper;
+import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.relics.Circlet;
 import com.megacrit.cardcrawl.vfx.FastCardObtainEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.CardHelper;
+import infinitespire.helpers.QuestHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,7 +33,9 @@ import static infinitespire.patches.CardColorEnumPatch.CardColorPatch.INFINITE_B
 
 public class AvhariHelper {
 
+	private static final Color WHITE = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
+	private static Random relicRng = new Random();
 
 	private static final Texture shardTexture = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
 
@@ -309,7 +316,6 @@ public class AvhariHelper {
 		private Vector2 center, position;
 		private AbstractRelic relic;
 		private Hitbox hb;
-		private float angleFromCenter;
 
 		public RelicItem(AbstractRelic relic, Vector2 centerOfCircle, float distanceFromCenter, float angleFromCenter) {
 			this.relic = relic;
@@ -399,5 +405,215 @@ public class AvhariHelper {
 			}
 			return false;
 		}
+	}
+
+	public static class RandomRelicItem {
+		private static final float MAX_DURATION = 0.1f;
+		private Hitbox hb;
+		private float duration;
+		private float spin, fadeAlpha;
+		private AbstractRelic relic;
+		private boolean isDone;
+		private Color bgBlackAlpha = Color.WHITE.cpy();
+		private Color bgHoverAlpha = new Color(1f, 1f, 1f, 0.0f);
+		private Interpolation hoverInterp = Interpolation.circleIn;
+
+		public RandomRelicItem(Vector2 position) {
+			relic = QuestHelper.returnRandomRelic(AbstractDungeon.returnRandomRelicTier());
+			hb = new Hitbox(position.x, position.y, relic.hb.width, relic.hb.height);
+			duration = MAX_DURATION;
+
+		}
+
+		public void update() {
+			spin += Gdx.graphics.getRawDeltaTime() * 3f;
+
+			// after item is bought fade cool bg thing
+			if(isDone) {
+				fadeAlpha -= Gdx.graphics.getRawDeltaTime() * 3f;
+				if(fadeAlpha > 1.0f) fadeAlpha = 1.0f;
+				if(fadeAlpha < 0.0f) fadeAlpha = 0.0f;
+				bgBlackAlpha.a = Interpolation.circleOut.apply(0.0f, 1.0f, fadeAlpha);
+				bgHoverAlpha.a = Interpolation.circleIn.apply(0.0f, 1.0f, fadeAlpha);
+				return;
+			}
+
+			hb.update();
+			duration -= Gdx.graphics.getRawDeltaTime();
+			if(duration <= 0.0f) {
+				duration = MAX_DURATION;
+				relic = getUniqueRandomRelic(relic);
+			}
+
+			relic.currentX = hb.x + (hb.width / 2f);
+			relic.currentY = hb.y + (hb.height / 2f);
+
+			if(hb.hovered) {
+				hoverInterp = Interpolation.circleIn;
+				fadeAlpha += Gdx.graphics.getRawDeltaTime() * 2f;
+				if(fadeAlpha > 1f) fadeAlpha = 1.0f;
+				if (InputHelper.justClickedLeft) {
+					if (InfiniteSpire.voidShardCount >= InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE) {
+						CardCrawlGame.sound.play("SHOP_PURCHASE");
+						this.relic.makeCopy().instantObtain(AbstractDungeon.player, AbstractDungeon.player.relics.size(), true);
+						InfiniteSpire.voidShardCount -= InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE;
+						this.isDone = true;
+					} else {
+						CardCrawlGame.sound.play("UI_CLICK_2");
+					}
+				}
+
+			} else {
+				hoverInterp = Interpolation.circleOut;
+				fadeAlpha -= Gdx.graphics.getRawDeltaTime();
+				if(fadeAlpha < 0f) fadeAlpha = 0f;
+			}
+			bgHoverAlpha.a = hoverInterp.apply(0.0f, 1.0f, fadeAlpha);
+		}
+
+		public AbstractRelic getUniqueRandomRelic(AbstractRelic currentRelic) {
+			AbstractRelic newRelic = returnRandomRelic(returnRandomRelicTier());
+
+			if(newRelic.relicId.equals(currentRelic.relicId)) {
+				return getUniqueRandomRelic(currentRelic);
+			}
+
+			return newRelic;
+		}
+
+		public void render(SpriteBatch sb) {
+			sb.setColor(WHITE.cpy());
+
+			renderRelicSpinBg(sb);
+
+			if(isDone) return;
+			relic.renderOutline(sb, false);
+			relic.renderWithoutAmount(sb, new Color(0.0f, 0.0f, 0.0f, 0.25f));
+
+			renderPrice(sb);
+			this.hb.render(sb);
+		}
+
+		private static Texture texture = InfiniteSpire.Textures.getUITexture("avhari/relicSpinBG.png");
+		private static Texture hover = InfiniteSpire.Textures.getUITexture("avhari/relicSpinBG_hover.png");
+		private static TextureRegion region = new TextureRegion(texture);
+		private static TextureRegion hoverRegion = new TextureRegion(hover);
+
+		private void renderRelicSpinBg(SpriteBatch sb) {
+			float width = texture.getWidth();
+			float height = texture.getHeight();
+			float xPos = this.relic.currentX - (width / 2f);
+			float yPos = this.relic.currentY - (height / 2f);
+
+			sb.setColor(bgBlackAlpha.cpy());
+			sb.setBlendFunction(770,771);
+			sb.draw(region,
+				xPos,
+				yPos,
+				width /2f,
+				height / 2f,
+				width,
+				height,
+				Settings.scale * bgBlackAlpha.a,
+				Settings.scale * bgBlackAlpha.a,
+				spin);
+			sb.setColor(bgHoverAlpha.cpy());
+			sb.draw(hoverRegion,
+				xPos,
+				yPos,
+				width /2f,
+				height / 2f,
+				width,
+				height,
+				Settings.scale * bgHoverAlpha.a,
+				Settings.scale * bgHoverAlpha.a,
+				spin * -3);
+		}
+
+
+		private void renderPrice(SpriteBatch sb) {
+			float width = shardTexture.getWidth();
+			float height = shardTexture.getHeight();
+			float xPos = this.relic.currentX - (width / 2f);
+			float yPos = this.relic.currentY - height - (10f * Settings.scale);
+
+			TextureRegion region = new TextureRegion(shardTexture);
+
+			sb.draw(region,
+				xPos,
+				yPos,
+				width / 2f,
+				height / 2f,
+				width,
+				height,
+				Settings.scale, Settings.scale,
+				1.0f);
+
+			Color fontColor = Color.WHITE.cpy();
+			if(!(InfiniteSpire.voidShardCount >= InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE)) {
+				fontColor = Color.RED.cpy();
+			}
+
+			FontHelper.cardTitleFont.getData().setScale(1.0f);
+			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, "" + InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE,
+				relic.currentX,
+				yPos + (16f * Settings.scale * Settings.scale), fontColor);
+		}
+	}
+
+	public static AbstractRelic returnRandomRelic(AbstractRelic.RelicTier tier) {
+		String key = Circlet.ID;
+		AbstractRelic retVal = new Circlet();
+		switch(tier) {
+			case BOSS:
+				int bossPoolSize = AbstractDungeon.bossRelicPool.size() - 1;
+				if(bossPoolSize > 0)
+					key = AbstractDungeon.bossRelicPool.get(relicRng.random(bossPoolSize));
+				break;
+			case COMMON:
+				int commonPoolSize = AbstractDungeon.commonRelicPool.size() - 1;
+				if(commonPoolSize > 0)
+					key = AbstractDungeon.commonRelicPool.get(relicRng.random(commonPoolSize));
+				break;
+			case RARE:
+				int rarePoolSize = AbstractDungeon.rareRelicPool.size() - 1;
+				if(rarePoolSize > 0)
+					key = AbstractDungeon.rareRelicPool.get(relicRng.random(rarePoolSize));
+				break;
+			case UNCOMMON:
+				int uncommonPoolSize = AbstractDungeon.uncommonRelicPool.size() - 1;
+				if(uncommonPoolSize > 0)
+					key = AbstractDungeon.uncommonRelicPool.get(relicRng.random(uncommonPoolSize));
+				break;
+			case SHOP:
+				int shopPoolSize = AbstractDungeon.shopRelicPool.size() - 1;
+				if(shopPoolSize > 0) {
+					key = AbstractDungeon.shopRelicPool.get(relicRng.random(shopPoolSize));
+				}
+				break;
+			default:
+				key = Circlet.ID;
+				break;
+		}
+
+		retVal = RelicLibrary.getRelic(key);
+
+		return retVal.makeCopy();
+	}
+
+	public static AbstractRelic.RelicTier returnRandomRelicTier() {
+		int roll = relicRng.random(0,3);
+		switch (roll) {
+			case 0:
+				return AbstractRelic.RelicTier.COMMON;
+			case 1:
+				return AbstractRelic.RelicTier.UNCOMMON;
+			case 2:
+				return AbstractRelic.RelicTier.RARE;
+			case 3:
+				return AbstractRelic.RelicTier.SHOP;
+		}
+
+		return AbstractRelic.RelicTier.COMMON;
 	}
 }

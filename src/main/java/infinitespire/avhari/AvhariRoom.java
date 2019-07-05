@@ -16,9 +16,14 @@ import infinitespire.InfiniteSpire;
 
 public class AvhariRoom extends AbstractRoom {
 
-	public static Vector2 vector2 = new Vector2((Settings.WIDTH / 3f) * 2f , Settings.HEIGHT / 2f);
+	public static Vector2 portalPosition = new Vector2((Settings.WIDTH / 3f) * 2f  + 75f * Settings.scale, Settings.HEIGHT / 2f);
+	public static Vector2 randRelicPos = new Vector2(
+		830f * Settings.scale,
+		660f * Settings.scale
+	);
 	public static AvhariHelper.SpinningCardItems cards;
 	public static AvhariHelper.SpinningRelicItems relics;
+	public static AvhariHelper.RandomRelicItem randRelic;
 	public static final Texture portal = InfiniteSpire.Textures.getUITexture("avhari/portal.png");
 	private float portalRotation = 0.0f;
 	private static final Avhari avhari = new Avhari(0,0);
@@ -32,8 +37,9 @@ public class AvhariRoom extends AbstractRoom {
 
 	@Override
 	public void onPlayerEntry() {
-		cards = new AvhariHelper.SpinningCardItems(vector2.x, vector2.y);
-		relics = new AvhariHelper.SpinningRelicItems(vector2.x, vector2.y);
+		cards = new AvhariHelper.SpinningCardItems(portalPosition.x, portalPosition.y);
+		relics = new AvhariHelper.SpinningRelicItems(portalPosition.x, portalPosition.y);
+		randRelic = new AvhariHelper.RandomRelicItem(randRelicPos);
 		this.playBGM("SHOP");
 		AbstractDungeon.overlayMenu.proceedButton.setLabel(ShopRoom.TEXT[0]);
 	}
@@ -65,15 +71,15 @@ public class AvhariRoom extends AbstractRoom {
 		avhari.render(sb);
 		if(cards != null) cards.render(sb);
 		if(relics != null) relics.render(sb);
-
+		if(randRelic != null) randRelic.render(sb);
 	}
 
 	public void renderPortal(SpriteBatch sb) {
 		sb.setColor(Color.WHITE.cpy());
 		sb.setBlendFunction(770, 1);
 		sb.draw(portal,
-			(Settings.WIDTH / 3f * 2f) - 500f * Settings.scale,
-			(Settings.HEIGHT / 2f) - 500f * Settings.scale,
+			portalPosition.x - 500f * Settings.scale,
+			portalPosition.y - 500f * Settings.scale,
 			500f,
 			500f,
 			1000f,
@@ -96,6 +102,8 @@ public class AvhariRoom extends AbstractRoom {
 		super.update();
 		if(cards != null) cards.update();
 		if(relics != null) relics.update();
+		if(randRelic != null) randRelic.update();
+
 
 		portalRotation += 8 * Gdx.graphics.getDeltaTime();
 
