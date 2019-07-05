@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.relics.AbstractRelic;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Relic;
 
-//TODO: convert to use stslib OnChannelRelic
+
 public class SolderingIron extends Relic implements OnChannelRelic {
 
     public static final String ID = InfiniteSpire.createID("SolderingIron");
