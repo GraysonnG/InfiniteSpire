@@ -18,8 +18,6 @@ public class Starlight extends BlackCard {
 	private static final String DESCRIPTION = cardStrings.DESCRIPTION;
 
 	private static final int MAGIC = 10;
-	// DAMAGE
-	// BLOCK
 
 	public Starlight() {
 		super(ID, NAME, TEXTURE, COST, DESCRIPTION, CardType.SKILL, CardTarget.SELF);
