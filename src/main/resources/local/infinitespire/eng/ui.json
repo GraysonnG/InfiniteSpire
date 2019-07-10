@@ -9,6 +9,14 @@
 			"Mystical crystal shards that can be used to purchase weapons and tools from Avhari."
 		]
 	},
+	"infinitespire:Avhari": {
+		"TEXT": [
+			"Remove Card",
+			"Remove a card.",
+			"Random Relic",
+			"Can be from pools: NL NL Common NL Uncommon NL Rare NL Shop"
+		]
+	},
 	"Quest": {
 		"TEXT": [
 			"Kill ",
