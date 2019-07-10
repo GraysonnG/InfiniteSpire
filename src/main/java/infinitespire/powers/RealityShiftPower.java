@@ -2,6 +2,7 @@ package infinitespire.powers;
 
 import com.megacrit.cardcrawl.cards.DamageInfo;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.PowerStrings;
 import com.megacrit.cardcrawl.powers.AbstractPower;
 import infinitespire.InfiniteSpire;
@@ -51,12 +52,19 @@ public class RealityShiftPower extends AbstractPower {
 		return super.onAttacked(info, damageAmount);
 	}
 
+	public int getAttackStr() {
+		DamageInfo dmg = nightmare.damage.get(0);
+		dmg.applyPowers(nightmare, AbstractDungeon.player);
+
+		return dmg.output;
+	}
+
 	public void updateDescription() {
 		this.description =
 			strings.DESCRIPTIONS[0]
 				+ amount
 				+ strings.DESCRIPTIONS[1]
-				+ nightmare.damage.get(0).base
+				+ getAttackStr()
 				+ strings.DESCRIPTIONS[2]
 				+ (nightmare.effectCount + 1)
 				+ strings.DESCRIPTIONS[3];
