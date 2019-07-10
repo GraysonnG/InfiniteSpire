@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.core.Settings;
@@ -17,13 +18,12 @@ import infinitespire.InfiniteSpire;
 public class AvhariRoom extends AbstractRoom {
 
 	public static Vector2 portalPosition = new Vector2((Settings.WIDTH / 3f) * 2f  + 75f * Settings.scale, Settings.HEIGHT / 2f);
-	public static Vector2 randRelicPos = new Vector2(
-		830f * Settings.scale,
-		660f * Settings.scale
-	);
+	public static Vector2 randRelicPos = new Vector2(830f * Settings.scale,660f * Settings.scale);
+	public static Vector2 removeCardPos = new Vector2( 630f * Settings.scale, 660f * Settings.scale);
 	public static AvhariHelper.SpinningCardItems cards;
 	public static AvhariHelper.SpinningRelicItems relics;
 	public static AvhariHelper.RandomRelicItem randRelic;
+	public static AvhariHelper.RemoveCardItem removeCard;
 	public static final Texture portal = InfiniteSpire.Textures.getUITexture("avhari/portal.png");
 	private float portalRotation = 0.0f;
 	private static final Avhari avhari = new Avhari(0,0);
@@ -40,6 +40,7 @@ public class AvhariRoom extends AbstractRoom {
 		cards = new AvhariHelper.SpinningCardItems(portalPosition.x, portalPosition.y);
 		relics = new AvhariHelper.SpinningRelicItems(portalPosition.x, portalPosition.y);
 		randRelic = new AvhariHelper.RandomRelicItem(randRelicPos);
+		removeCard = new AvhariHelper.RemoveCardItem(removeCardPos);
 		this.playBGM("SHOP");
 		AbstractDungeon.overlayMenu.proceedButton.setLabel(ShopRoom.TEXT[0]);
 	}
@@ -72,28 +73,25 @@ public class AvhariRoom extends AbstractRoom {
 		if(cards != null) cards.render(sb);
 		if(relics != null) relics.render(sb);
 		if(randRelic != null) randRelic.render(sb);
+		if(removeCard != null) removeCard.render(sb);
 	}
 
 	public void renderPortal(SpriteBatch sb) {
 		sb.setColor(Color.WHITE.cpy());
 		sb.setBlendFunction(770, 1);
-		sb.draw(portal,
-			portalPosition.x - 500f * Settings.scale,
-			portalPosition.y - 500f * Settings.scale,
-			500f,
-			500f,
-			1000f,
-			1000f,
+		TextureRegion portalRegion = new TextureRegion(portal);
+
+		sb.draw(
+			portalRegion,
+			portalPosition.x - portal.getWidth() / 2f,
+			portalPosition.y - portal.getHeight() / 2f,
+			portal.getWidth() / 2f,
+			portal.getHeight() / 2f,
+			portal.getWidth(),
+			portal.getHeight(),
 			Settings.scale,
 			Settings.scale,
-			portalRotation,
-			0,
-			0,
-			1000,
-			1000,
-			false,
-			false
-		);
+			portalRotation);
 		sb.setBlendFunction(770, 771);
 	}
 
@@ -103,7 +101,7 @@ public class AvhariRoom extends AbstractRoom {
 		if(cards != null) cards.update();
 		if(relics != null) relics.update();
 		if(randRelic != null) randRelic.update();
-
+		if(removeCard != null) removeCard.update();
 
 		portalRotation += 8 * Gdx.graphics.getDeltaTime();
 

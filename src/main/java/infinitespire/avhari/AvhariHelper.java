@@ -9,18 +9,19 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.megacrit.cardcrawl.cards.AbstractCard;
+import com.megacrit.cardcrawl.cards.CardGroup;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.helpers.FontHelper;
-import com.megacrit.cardcrawl.helpers.Hitbox;
-import com.megacrit.cardcrawl.helpers.MathHelper;
-import com.megacrit.cardcrawl.helpers.RelicLibrary;
+import com.megacrit.cardcrawl.helpers.*;
 import com.megacrit.cardcrawl.helpers.input.InputHelper;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.random.Random;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.Circlet;
+import com.megacrit.cardcrawl.shop.ShopScreen;
 import com.megacrit.cardcrawl.vfx.FastCardObtainEffect;
+import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.helpers.CardHelper;
 import infinitespire.helpers.QuestHelper;
@@ -34,10 +35,13 @@ import static infinitespire.patches.CardColorEnumPatch.CardColorPatch.INFINITE_B
 public class AvhariHelper {
 
 	private static final Color WHITE = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-
+	private static final float SPIN_SPEED = 10f;
+	private static final float FADE_ALPHA_SPEED = 3f;
 	private static Random relicRng = new Random();
 
 	private static final Texture shardTexture = InfiniteSpire.Textures.getUITexture("topPanel/avhari/voidShard.png");
+
+	private static final UIStrings strings = CardCrawlGame.languagePack.getUIString(InfiniteSpire.createID("Avhari"));
 
 	public static class SpinningCardItems {
 		private ArrayList<CardItem> cardItems = new ArrayList<>();
@@ -411,10 +415,11 @@ public class AvhariHelper {
 		private static final float MAX_DURATION = 0.1f;
 		private Hitbox hb;
 		private float duration;
-		private float spin, fadeAlpha;
+		private float fadeAlpha;
+		private float spin = (new Random()).random(-1000f, 1000f);
 		private AbstractRelic relic;
 		private boolean isDone;
-		private Color bgBlackAlpha = Color.WHITE.cpy();
+		private Color bgBlackAlpha = WHITE.cpy();
 		private Color bgHoverAlpha = new Color(1f, 1f, 1f, 0.0f);
 		private Interpolation hoverInterp = Interpolation.circleIn;
 
@@ -426,11 +431,11 @@ public class AvhariHelper {
 		}
 
 		public void update() {
-			spin += Gdx.graphics.getRawDeltaTime() * 3f;
+			spin += Gdx.graphics.getRawDeltaTime() * SPIN_SPEED;
 
 			// after item is bought fade cool bg thing
 			if(isDone) {
-				fadeAlpha -= Gdx.graphics.getRawDeltaTime() * 3f;
+				fadeAlpha -= Gdx.graphics.getRawDeltaTime() * FADE_ALPHA_SPEED;
 				if(fadeAlpha > 1.0f) fadeAlpha = 1.0f;
 				if(fadeAlpha < 0.0f) fadeAlpha = 0.0f;
 				bgBlackAlpha.a = Interpolation.circleOut.apply(0.0f, 1.0f, fadeAlpha);
@@ -450,7 +455,7 @@ public class AvhariHelper {
 
 			if(hb.hovered) {
 				hoverInterp = Interpolation.circleIn;
-				fadeAlpha += Gdx.graphics.getRawDeltaTime() * 2f;
+				fadeAlpha += Gdx.graphics.getRawDeltaTime() * FADE_ALPHA_SPEED;
 				if(fadeAlpha > 1f) fadeAlpha = 1.0f;
 				if (InputHelper.justClickedLeft) {
 					if (InfiniteSpire.voidShardCount >= InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE) {
@@ -465,7 +470,7 @@ public class AvhariHelper {
 
 			} else {
 				hoverInterp = Interpolation.circleOut;
-				fadeAlpha -= Gdx.graphics.getRawDeltaTime();
+				fadeAlpha -= Gdx.graphics.getRawDeltaTime() * FADE_ALPHA_SPEED;
 				if(fadeAlpha < 0f) fadeAlpha = 0f;
 			}
 			bgHoverAlpha.a = hoverInterp.apply(0.0f, 1.0f, fadeAlpha);
@@ -487,11 +492,20 @@ public class AvhariHelper {
 			renderRelicSpinBg(sb);
 
 			if(isDone) return;
+			if(hb.hovered) renderTip();
 			relic.renderOutline(sb, false);
 			relic.renderWithoutAmount(sb, new Color(0.0f, 0.0f, 0.0f, 0.25f));
 
 			renderPrice(sb);
 			this.hb.render(sb);
+		}
+
+		private void renderTip() {
+			TipHelper.renderGenericTip(
+				InputHelper.mX + 50.0F * Settings.scale,
+				InputHelper.mY + 50.0F * Settings.scale,
+				strings.TEXT[2],
+				strings.TEXT[3]);
 		}
 
 		private static Texture texture = InfiniteSpire.Textures.getUITexture("avhari/relicSpinBG.png");
@@ -510,7 +524,7 @@ public class AvhariHelper {
 			sb.draw(region,
 				xPos,
 				yPos,
-				width /2f,
+				width / 2f,
 				height / 2f,
 				width,
 				height,
@@ -521,7 +535,7 @@ public class AvhariHelper {
 			sb.draw(hoverRegion,
 				xPos,
 				yPos,
-				width /2f,
+				width / 2f,
 				height / 2f,
 				width,
 				height,
@@ -558,6 +572,176 @@ public class AvhariHelper {
 			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, "" + InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE,
 				relic.currentX,
 				yPos + (16f * Settings.scale * Settings.scale), fontColor);
+		}
+	}
+
+	public static class RemoveCardItem {
+		private static final float WIDTH = 64f;
+		private static final float HEIGHT = 64f;
+		private Color bgBlackAlpha = WHITE.cpy();
+		private Color bgHoverAlpha = new Color(1f, 1f, 1f, 0.0f);
+		private Vector2 position;
+		private Hitbox hb;
+		private float fadeAlpha;
+		private float spin = (new Random()).random(-1000f, 1000f);
+		private boolean isDone;
+		private Interpolation hoverInterp = Interpolation.circleIn;
+		private static Texture texture = InfiniteSpire.Textures.getUITexture("avhari/relicSpinBG.png");
+		private static Texture hover = InfiniteSpire.Textures.getUITexture("avhari/relicSpinBG_hover.png");
+		private static TextureRegion region = new TextureRegion(texture);
+		private static TextureRegion hoverRegion = new TextureRegion(hover);
+
+		public RemoveCardItem(Vector2 position) {
+			this.position = position;
+			this.hb = new Hitbox(position.x, position.y, WIDTH * Settings.scale, HEIGHT * Settings.scale);
+
+		}
+
+		public void update() {
+			hb.update();
+			if(isDone) {
+				fadeAlpha -= Gdx.graphics.getRawDeltaTime() * FADE_ALPHA_SPEED;
+				if(fadeAlpha > 1.0f) fadeAlpha = 1.0f;
+				if(fadeAlpha < 0.0f) fadeAlpha = 0.0f;
+				bgBlackAlpha.a = Interpolation.circleOut.apply(0.0f, 1.0f, fadeAlpha);
+				bgHoverAlpha.a = Interpolation.circleIn.apply(0.0f, 1.0f, fadeAlpha);
+				return;
+			}
+			spin -= Gdx.graphics.getRawDeltaTime() * SPIN_SPEED;
+
+			updateCardRemoval();
+
+			if(hb.hovered) {
+				hoverInterp = Interpolation.circleIn;
+				fadeAlpha += Gdx.graphics.getRawDeltaTime() * FADE_ALPHA_SPEED;
+				if (fadeAlpha > 1f) fadeAlpha = 1.0f;
+				if (InputHelper.justClickedLeft) {
+					if(this.canPurchace()) {
+						AbstractDungeon.gridSelectScreen.open(CardGroup.getGroupWithoutBottledCards(AbstractDungeon.player.masterDeck.getPurgeableCards()), 1, ShopScreen.NAMES[13], false, false, true, true);
+					} else {
+						CardCrawlGame.sound.play("UI_CLICK_2");
+					}
+				}
+
+			} else {
+				hoverInterp = Interpolation.circleOut;
+				fadeAlpha -= Gdx.graphics.getRawDeltaTime() * FADE_ALPHA_SPEED;
+				if(fadeAlpha < 0f) fadeAlpha = 0.0f;
+			}
+
+			bgHoverAlpha.a = hoverInterp.apply(0.0f, 1.0f, fadeAlpha);
+		}
+
+		public void updateCardRemoval() {
+			if(!AbstractDungeon.gridSelectScreen.selectedCards.isEmpty()) {
+				InfiniteSpire.voidShardCount -= InfiniteSpire.AVHARI_REMOVE_CARD_PRICE;
+				CardCrawlGame.sound.play("SHOP_PURCHASE");
+				for(AbstractCard card : AbstractDungeon.gridSelectScreen.selectedCards) {
+					CardCrawlGame.metricData.addPurgedItem(card.getMetricID());
+					AbstractDungeon.topLevelEffects.add(new PurgeCardEffect(card, Settings.WIDTH / 2f, Settings.HEIGHT / 2f));
+					AbstractDungeon.player.masterDeck.removeCard(card);
+				}
+				AbstractDungeon.gridSelectScreen.selectedCards.clear();
+				this.isDone = true;
+			}
+		}
+
+		public void render(SpriteBatch sb) {
+			renderBg(sb);
+			if(this.isDone) return;
+			sb.setColor(WHITE.cpy());
+			Texture texture = InfiniteSpire.Textures.getUITexture("avhari/cardRemoval.png");
+			TextureRegion textRegion = new TextureRegion(texture);
+
+			if(this.hb.hovered) {
+				renderTip();
+			}
+
+			sb.draw(textRegion,
+				position.x,
+				position.y,
+				hb.width / 2,
+				hb.height / 2,
+				hb.width,
+				hb.height,
+				1.0f,
+				1.0f,
+				0f);
+
+			this.renderPrice(sb);
+			hb.render(sb);
+		}
+
+		private void renderTip() {
+			TipHelper.renderGenericTip(
+				InputHelper.mX + 50.0F * Settings.scale,
+				InputHelper.mY + 50.0F * Settings.scale,
+				strings.TEXT[0],
+				strings.TEXT[1]);
+		}
+
+		private void renderBg(SpriteBatch sb) {
+			float width = texture.getWidth();
+			float height = texture.getHeight();
+			float xPos = position.x - width / 2f + hb.width / 2f;
+			float yPos = position.y - height / 2f + hb.height / 2f;
+
+			sb.setColor(bgBlackAlpha.cpy());
+			sb.setBlendFunction(770,771);
+			sb.draw(region,
+				xPos,
+				yPos,
+				width / 2f,
+				height / 2f,
+				width,
+				height,
+				 -1 * Settings.scale * bgBlackAlpha.a,
+				Settings.scale * bgBlackAlpha.a,
+				spin);
+			sb.setColor(bgHoverAlpha.cpy());
+			sb.draw(hoverRegion,
+				xPos,
+				yPos,
+				width / 2f,
+				height / 2f,
+				width,
+				height,
+				-1 * Settings.scale * bgHoverAlpha.a,
+				Settings.scale * bgHoverAlpha.a,
+				spin * -3);
+		}
+
+		private void renderPrice(SpriteBatch sb) {
+			float width = shardTexture.getWidth();
+			float height = shardTexture.getHeight();
+			float xPos = this.position.x + (hb.width / 2f) - (width / 2f);
+			float yPos = this.position.y - (height / 2f + (10f * Settings.scale));
+
+			TextureRegion region = new TextureRegion(shardTexture);
+
+			sb.draw(region,
+				xPos,
+				yPos,
+				width / 2f,
+				height / 2f,
+				width,
+				height,
+				Settings.scale, Settings.scale,
+				1.0f);
+
+			Color fontColor = Color.WHITE.cpy();
+			if(!(InfiniteSpire.voidShardCount >= InfiniteSpire.AVHARI_RANDOM_RELIC_PRICE)) {
+				fontColor = Color.RED.cpy();
+			}
+
+			FontHelper.cardTitleFont.getData().setScale(1.0f);
+			FontHelper.renderFontCentered(sb, FontHelper.cardTitleFont, "" + InfiniteSpire.AVHARI_REMOVE_CARD_PRICE,
+				position.x + (hb.width / 2f),
+				yPos + (22f * Settings.scale * Settings.scale), fontColor);
+		}
+
+		public boolean canPurchace() {
+			return InfiniteSpire.voidShardCount >= InfiniteSpire.AVHARI_REMOVE_CARD_PRICE;
 		}
 	}
 
