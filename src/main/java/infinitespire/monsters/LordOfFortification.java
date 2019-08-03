@@ -118,7 +118,6 @@ public class LordOfFortification extends LordBoss {
 						this,
 						new FrailPower(AbstractDungeon.player, MoveValues.DEBUFF, true),
 						MoveValues.DEBUFF));
-
 				break;
 			case 5:
 				doAction(new VFXAction(new VerticalAuraEffect(Colors.get(InfiniteSpire.GDX_INFINITE_RED_NAME), this.hb.cX, this.hb.cY)));
@@ -206,7 +205,7 @@ public class LordOfFortification extends LordBoss {
 		private static final int THORNS_DAMAGE = 10;
 		private static final float HEAL_PERCENT = 0.1f;
 
-		private static final int RAGEBUFF = 50;
+		private static final int RAGEBUFF = 100;
 
 		public static ArrayList<Integer> getDamageValues() {
 			ArrayList<Integer> values = new ArrayList<>();

@@ -17,7 +17,7 @@ import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.powers.*;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import infinitespire.InfiniteSpire;
-import infinitespire.powers.PrinceIdolPower;
+import infinitespire.powers.UndyingPower;
 
 public class LordOfAnnihilation extends LordBoss {
     public static final String ID = "LordOfAnnihilation";
@@ -76,7 +76,7 @@ public class LordOfAnnihilation extends LordBoss {
 
         manager.addToBottom(new ApplyPowerAction(this, this, new InvinciblePower(this, this.maxHealth / 2), this.maxHealth / 2));
 
-        manager.addToBottom(new ApplyPowerAction(this, this, new PrinceIdolPower(this)));
+        manager.addToBottom(new ApplyPowerAction(this, this, new UndyingPower(this)));
 
         //- Gain debuff mitigation
 
@@ -99,7 +99,7 @@ public class LordOfAnnihilation extends LordBoss {
             powers.removeIf((p) ->
                 p.type == AbstractPower.PowerType.DEBUFF ||
                     p.ID.equals(CuriosityPower.POWER_ID) ||
-                    p.ID.equals(PrinceIdolPower.powerID) ||
+                    p.ID.equals(UndyingPower.powerID) ||
                     p.ID.equals(GainStrengthPower.POWER_ID));
 
             setMove(MoveBytes.REVIVAL, Intent.UNKNOWN);
@@ -127,7 +127,7 @@ public class LordOfAnnihilation extends LordBoss {
     }
 
     private boolean shouldRevive(){
-        return this.hasPower(PrinceIdolPower.powerID);
+        return this.hasPower(UndyingPower.powerID);
     }
 
     @Override
@@ -244,7 +244,7 @@ public class LordOfAnnihilation extends LordBoss {
     }
 
     private void gainPrinceIdol() {
-        doAction(new ApplyPowerAction(this, this, new PrinceIdolPower(this)));
+        doAction(new ApplyPowerAction(this, this, new UndyingPower(this)));
     }
 
     public static class MoveBytes {

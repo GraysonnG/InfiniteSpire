@@ -5,9 +5,9 @@
 
   <properties>
     <modsFolder>D:/Steam/steamapps/workshop/content/646570/</modsFolder>
-    <versionNumber>0.19.1</versionNumber>
+    <versionNumber>0.20.0</versionNumber>
     <stsVersion>07-01-2019</stsVersion>
-    <mtsVersion>3.10.1</mtsVersion>
+    <mtsVersion>3.11.0</mtsVersion>
   </properties>
 
   <version>${versionNumber}</version>

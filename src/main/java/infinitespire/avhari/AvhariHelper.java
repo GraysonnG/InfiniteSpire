@@ -222,6 +222,9 @@ public class AvhariHelper {
 			this.hb.update();
 			if(hb.hovered) {
 				lockAlpha.a = MathHelper.fadeLerpSnap(lockAlpha.a, 0.2f);
+				if(InputHelper.justClickedRight) {
+					CardCrawlGame.cardPopup.open(this.card);
+				}
 			}else {
 				lockAlpha.a = MathHelper.fadeLerpSnap(lockAlpha.a, 1.0f);
 			}

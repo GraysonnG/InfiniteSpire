@@ -169,7 +169,7 @@ public class AbstractDungeonPatch {
 		}
 
 		public static boolean shouldSpawn(){
-			boolean shouldSpawn = AbstractDungeon.bossCount == 8;
+			boolean shouldSpawn = AbstractDungeon.bossCount == 8 && !CardCrawlGame.nextDungeon.equals(TheEnding.ID);
 			if(AbstractDungeon.player.hasRelic(BlackEgg.ID) && !CardCrawlGame.nextDungeon.equals(TheEnding.ID)) {
 				shouldSpawn = ((BlackEgg) AbstractDungeon.player.getRelic(BlackEgg.ID)).shouldSpawn;
 			}

@@ -49,6 +49,6 @@ public class QuestLogUpdateEffect extends AbstractGameEffect{
 
 	@Override
 	public void dispose() {
-		
+		this.texture.dispose();
 	}
 }
