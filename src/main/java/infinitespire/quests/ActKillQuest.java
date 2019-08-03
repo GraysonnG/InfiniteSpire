@@ -15,7 +15,7 @@ public class ActKillQuest extends SlayQuest{
 		this.color = new Color(0.75f, 0.0f, 0.25f, 1.0f);
 		this.type = QuestType.BLUE;
 		this.rarity = QuestRarity.RARE;
-		this.maxSteps = 20;
+		this.maxSteps = 15;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class ActKillQuest extends SlayQuest{
 
 	@Override
 	public String getTitle() {
-		return "Kill " + maxSteps + " Monsters This Act.";
+		return questStrings.TEXT[0] + maxSteps + questStrings.TEXT[1];
 	}
 
 	@Override

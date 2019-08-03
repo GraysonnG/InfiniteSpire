@@ -2,13 +2,12 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
-import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 
 public class FlawlessQuest extends Quest {
+
+	public static final int REWARD_AMOUNT = 3;
 
 	public FlawlessQuest() {
 		super(FlawlessQuest.class.getName(), new Color(1.0f, 1.0f, 0.0f, 1.0f), 1, QuestType.BLUE, QuestRarity.RARE);
@@ -16,9 +15,7 @@ public class FlawlessQuest extends Quest {
 
 	@Override
 	public void giveReward() {
-		AbstractRelic relic = AbstractDungeon.returnRandomRelicEnd(RelicTier.RARE);
-		relic.instantObtain();
-		relic.playLandingSFX();
+		InfiniteSpire.gainVoidShards(REWARD_AMOUNT);
 	}
 
 	@Override
@@ -33,12 +30,12 @@ public class FlawlessQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return "Receive a Rare Relic";
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[4];
 	}
 
 	@Override
 	public String getTitle() {
-		return "Flawless the Boss";
+		return questStrings.TEXT[8];
 	}
 
 	@Override

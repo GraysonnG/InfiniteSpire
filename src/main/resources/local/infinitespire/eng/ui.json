@@ -1,0 +1,80 @@
+{
+	"VoidShard": {
+		"TEXT": [
+			"Void Shard",
+			"Void Shards",
+			"Gain ",
+			" Void Shard",
+			" Void Shards",
+			"Mystical crystal shards that can be used to purchase weapons and tools from Avhari."
+		]
+	},
+	"infinitespire:Avhari": {
+		"TEXT": [
+			"Remove Card",
+			"Remove a card.",
+			"Random Relic",
+			"Can be from pools: NL NL Common NL Uncommon NL Rare NL Shop"
+		]
+	},
+	"Quest": {
+		"TEXT": [
+			"Kill ",
+			" Monsters This Act",
+			"Heal 25% max HP.",
+			"Die!",
+			"Kill 3 Elites This Act",
+			"Pick up 3 Attack cards",
+			"Pick up 3 Skill cards",
+			"Pick up 3 Power cards",
+			"Flawless the Boss",
+			"One Turn Kill an Elite",
+			"Pick up ",
+			"Remove 5 Cards",
+			"Kill a Nightmare",
+			"Unlock Endless",
+			"Pick a Black Card",
+			"Defeat 3 Bosses",
+			"Select a Black Card.",
+			"Defeat ???",
+			"Receive the Black Egg."
+		]
+	},
+	"QuestLog": {
+		"TEXT": [
+			"Quest Log",
+			"Tip: Right Click to Abandon",
+			"Claim: ",
+			"Reward: ",
+			"Left Click to Confirm Abandon"
+		]
+	},
+	"FlaskOption": {
+		"TEXT": [
+			"Drink"
+		]
+	},
+	"infinitespire:RewardItems": {
+		"TEXT": [
+			"Add a Black Card to your deck",
+			"Collect ",
+			" gold in interest",
+			"Add ",
+			" quests to your Quest Log"
+		]
+	},
+	"infinitespire:TempHPIntent": {
+		"TEXT": [
+			"Reinforcing",
+			"This enemy intends to gain #yTemporary_hp on its turn.",
+			"intents/tempHp.png"
+		]
+	},
+	"infinitespire:AttackTempHPIntent": {
+		"TEXT": [
+			"Strategic",
+			"This enemy intends to gain #yTemporary_hp and #yAttack for #b",
+			"intents/tempHp.png"
+		]
+	}
+}

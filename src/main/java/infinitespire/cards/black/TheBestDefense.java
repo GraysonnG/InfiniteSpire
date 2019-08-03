@@ -7,6 +7,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.localization.CardStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.IntangiblePlayerPower;
 import com.megacrit.cardcrawl.powers.LoseStrengthPower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
 import infinitespire.InfiniteSpire;
@@ -40,8 +41,9 @@ public class TheBestDefense extends BlackCard{
 	public void useWithEffect(AbstractPlayer p, AbstractMonster m) {
 		int amountOfBlock = p.currentBlock;
 
+		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new IntangiblePlayerPower(p, 1)));
 		AbstractDungeon.actionManager.addToBottom(new RemoveAllBlockAction(p, p));
 		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new StrengthPower(p, amountOfBlock), amountOfBlock));
-		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p,p, new LoseStrengthPower(p, amountOfBlock), amountOfBlock));
+		AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(p, p, new LoseStrengthPower(p, amountOfBlock), amountOfBlock));
 	}
 }

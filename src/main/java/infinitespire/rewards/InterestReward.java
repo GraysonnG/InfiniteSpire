@@ -1,12 +1,12 @@
 package infinitespire.rewards;
 
-import basemod.abstracts.CustomReward;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.ImageMaster;
+import infinitespire.abstracts.Reward;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 
-public class InterestReward extends CustomReward {
+public class InterestReward extends Reward {
 
 	public int amount;
 
@@ -24,6 +24,6 @@ public class InterestReward extends CustomReward {
 	}
 
 	public static String getDescription(int amount){
-		return "Collect " + amount + " gold in interest";
+		return rewardStrings.TEXT[1] + amount + rewardStrings.TEXT[2];
 	}
 }

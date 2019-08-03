@@ -37,12 +37,12 @@ public class EndlessQuestPart1 extends SlayQuest implements IQuestLine{
 
 	@Override
 	public String getTitle() {
-		return "Kill a Nightmare";
+		return questStrings.TEXT[12];
 	}
 
 	@Override
 	public String getRewardString() {
-		return "Unlock Endless";
+		return questStrings.TEXT[13];
 	}
 
 	@Override

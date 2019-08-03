@@ -3,6 +3,7 @@ package infinitespire.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import com.megacrit.cardcrawl.metrics.MetricData;
 import com.megacrit.cardcrawl.ui.campfire.RestOption;
 import com.megacrit.cardcrawl.vfx.campfire.CampfireSleepScreenCoverEffect;
@@ -14,6 +15,7 @@ import infinitespire.effects.CampfireFlaskEffect;
 public class FlaskOption extends RestOption {
 	
 	public static boolean shouldReOpen = false;
+	private static UIStrings uiStrings = CardCrawlGame.languagePack.getUIString("FlaskOption");
 	private Texture disabledImg;
 	
 	public FlaskOption() {

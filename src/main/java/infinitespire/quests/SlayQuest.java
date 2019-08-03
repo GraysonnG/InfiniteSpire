@@ -2,15 +2,14 @@ package infinitespire.quests;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.MathUtils;
 import com.megacrit.cardcrawl.core.AbstractCreature;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.monsters.beyond.*;
 import com.megacrit.cardcrawl.monsters.city.*;
 import com.megacrit.cardcrawl.monsters.exordium.*;
-import com.megacrit.cardcrawl.relics.AbstractRelic;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
+import infinitespire.monsters.Voidling;
 import infinitespire.util.StringManip;
 
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class SlayQuest extends Quest {
 	private static final Color COLOR = new Color(1f, 0.1f, 0.1f, 1f);
 	private static final int MAX_STEPS = 999;
 	private static final QuestType TYPE = QuestType.RED;
+	private static final int REWARD_AMOUNT = 2;
 	
 	public String monster;
 	
@@ -50,9 +50,7 @@ public class SlayQuest extends Quest {
 	
 	@Override
 	public void giveReward() {
-		AbstractRelic relic = AbstractDungeon.returnRandomRelicEnd(AbstractDungeon.returnRandomRelicTier());
-		relic.instantObtain();
-		relic.playLandingSFX();
+		InfiniteSpire.gainVoidShards(REWARD_AMOUNT);
 	}
 	
 	private static String getRandomMonster() {
@@ -87,51 +85,52 @@ public class SlayQuest extends Quest {
 			eliteMap.clear();
 			
 			//MONSTERS IN EXORDIUM
-			monsterMap.put(AcidSlime_L.ID, "Large Acid Slime");
-			monsterMap.put(AcidSlime_M.ID, "Medium Acid Slime");
-			monsterMap.put(AcidSlime_S.ID, "Small Acid Slime");
-			monsterMap.put(SpikeSlime_L.ID, "Large Spike Slime");
-			monsterMap.put(SpikeSlime_M.ID, "Medium Spike Slime");
-			monsterMap.put(SpikeSlime_S.ID, "Small Spike Slime");
-			monsterMap.put(Cultist.ID, "Cultist");
-			monsterMap.put(FungiBeast.ID, "Fungi Beast");
-			monsterMap.put(JawWorm.ID, "Jaw Worm");
-			monsterMap.put(Looter.ID, "Looter");
-			monsterMap.put(LouseNormal.ID, "Louse Normal");
-			monsterMap.put(LouseDefensive.ID, "Louse Defensive");
-			monsterMap.put(SlaverBlue.ID, "Slaver Blue");
-			monsterMap.put(SlaverRed.ID, "Slaver Red");
+			monsterMap.put(AcidSlime_L.ID, AcidSlime_L.NAME);
+			monsterMap.put(AcidSlime_M.ID, AcidSlime_M.NAME);
+			monsterMap.put(AcidSlime_S.ID, AcidSlime_S.NAME);
+			monsterMap.put(SpikeSlime_L.ID, SpikeSlime_L.NAME);
+			monsterMap.put(SpikeSlime_M.ID, SpikeSlime_M.NAME);
+			monsterMap.put(SpikeSlime_S.ID, SpikeSlime_S.NAME);
+			monsterMap.put(Cultist.ID, Cultist.NAME);
+			monsterMap.put(FungiBeast.ID, FungiBeast.NAME);
+			monsterMap.put(JawWorm.ID, JawWorm.NAME);
+			monsterMap.put(Looter.ID, Looter.NAME);
+			monsterMap.put(LouseNormal.ID, LouseNormal.NAME);
+			monsterMap.put(LouseDefensive.ID, LouseDefensive.NAME);
+			monsterMap.put(SlaverBlue.ID, SlaverBlue.NAME);
+			monsterMap.put(SlaverRed.ID, SlaverRed.NAME);
+			monsterMap.put(Voidling.ID, Voidling.NAME);
 
 			//ELITES FROM EXORDIUM
-			eliteMap.put(GremlinNob.ID, "Gremlin Nob");
-			eliteMap.put(Lagavulin.ID, "Lagavulin");
-			eliteMap.put(Sentry.ID, "Sentry");
+			eliteMap.put(GremlinNob.ID, GremlinNob.NAME);
+			eliteMap.put(Lagavulin.ID, Lagavulin.NAME);
+			eliteMap.put(Sentry.ID, Sentry.NAME);
 
 			//MONSTERS IN CITY
-			monsterMap.put(Healer.ID, "Healer");
-			monsterMap.put(Mugger.ID, "Mugger");
-			monsterMap.put(Byrd.ID, "Byrd");
-			monsterMap.put(ShelledParasite.ID, "Shelled Parasite");
-			monsterMap.put(SnakePlant.ID, "Snake Plant");
+			monsterMap.put(Healer.ID, Healer.NAME);
+			monsterMap.put(Mugger.ID, Mugger.NAME);
+			monsterMap.put(Byrd.ID, Byrd.NAME);
+			monsterMap.put(ShelledParasite.ID, ShelledParasite.NAME);
+			monsterMap.put(SnakePlant.ID, SnakePlant.NAME);
 			
 			//ELITES FROM CITY
-			eliteMap.put(GremlinLeader.ID, "Gremlin Leader");
-			eliteMap.put(Snecko.ID, "Snecko");
-			eliteMap.put(BookOfStabbing.ID, "Book Of Stabbing");
-			eliteMap.put(Taskmaster.ID, "Taskmaster");
+			eliteMap.put(GremlinLeader.ID, GremlinLeader.NAME);
+			eliteMap.put(Snecko.ID, Snecko.NAME);
+			eliteMap.put(BookOfStabbing.ID, BookOfStabbing.NAME);
+			eliteMap.put(Taskmaster.ID, Taskmaster.NAME);
 			
 			//MONSTERS IN THEBEYOND
-			monsterMap.put(Exploder.ID, "Exploder");
-			monsterMap.put(Spiker.ID, "Spiker");
-			monsterMap.put(Repulsor.ID, "Repulsor");
-			monsterMap.put(OrbWalker.ID, "Orb Walker");
+			monsterMap.put(Exploder.ID, Exploder.NAME);
+			monsterMap.put(Spiker.ID, Spiker.NAME);
+			monsterMap.put(Repulsor.ID, Repulsor.NAME);
+			monsterMap.put(OrbWalker.ID, OrbWalker.NAME);
 			
 			//ELITES IN THEBEYOND
-			eliteMap.put(GiantHead.ID, "Giant Head");
-			eliteMap.put(Nemesis.ID, "Nemesis");
-			eliteMap.put(SpireGrowth.ID, "Spire Growth");
-			eliteMap.put(Transient.ID, "Transient");
-			eliteMap.put(Reptomancer.ID, "Reptomancer");
+			eliteMap.put(GiantHead.ID, GiantHead.NAME);
+			eliteMap.put(Nemesis.ID, Nemesis.NAME);
+			eliteMap.put(SpireGrowth.ID, SpireGrowth.NAME);
+			eliteMap.put(Transient.ID, Transient.NAME);
+			eliteMap.put(Reptomancer.ID, Reptomancer.NAME);
 		}
 	}
 
@@ -143,30 +142,24 @@ public class SlayQuest extends Quest {
 			map = eliteMap;
 		}
 		
-		return "Kill " + this.maxSteps + " " + (this.maxSteps > 1 ? StringManip.pluralOfString(map.get(monster)) : map.get(monster));
+		return questStrings.TEXT[0] + this.maxSteps + " " + (this.maxSteps > 1 ? StringManip.pluralOfString(map.get(monster)) : map.get(monster));
 	}
 	
 	@Override
 	public String getRewardString() {
-		return "Receive a Random Relic";
-	}
-
-	public int getCost(String string) {
-		int silverGain = 0;
-		if(isElite(string)) {
-			silverGain = 300;
-		}else
-		{
-			silverGain = 200;
-		}
-		
-		return MathUtils.round(silverGain * AbstractDungeon.merchantRng.random(0.95f, 1.05f));
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[4];
 	}
 
 	@Override
 	public Quest createNew() {
+		return createNew(new Object[0]);
+	}
+	// TODO: Allow player to set monster with command
+	@Override
+	public Quest createNew(Object[] params) {
 		this.preInitialize();
 		this.monster = getRandomMonster();
+		InfiniteSpire.logger.info(monster);
 		this.maxSteps = isElite(monster) ? (monster.equals(Sentry.ID) ? 3 : 1) : 3;
 		return this;
 	}

@@ -1,8 +1,9 @@
 package infinitespire;
 
 import basemod.BaseMod;
+import basemod.ReflectionHacks;
+import basemod.devcommands.ConsoleCommand;
 import basemod.interfaces.*;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,8 +12,10 @@ import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
+import com.megacrit.cardcrawl.cards.AbstractCard;
 import com.megacrit.cardcrawl.characters.AbstractPlayer;
 import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.core.Settings;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.dungeons.Exordium;
 import com.megacrit.cardcrawl.dungeons.TheBeyond;
@@ -25,13 +28,13 @@ import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import fruitymod.seeker.patches.AbstractCardEnum;
+import infinitespire.abstracts.Card;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
 import infinitespire.actions.AddQuestAction;
 import infinitespire.cards.Neurotoxin;
-import infinitespire.cards.OneForAll;
-import infinitespire.cards.Pacifist;
-import infinitespire.cards.black.*;
+import infinitespire.commands.QuestCommand;
+import infinitespire.crossover.BardCrossover;
 import infinitespire.events.EmptyRestSite;
 import infinitespire.events.HoodedArmsDealer;
 import infinitespire.events.PrismEvent;
@@ -42,16 +45,14 @@ import infinitespire.interfaces.IAutoQuest;
 import infinitespire.interfaces.OnQuestAddedSubscriber;
 import infinitespire.interfaces.OnQuestIncrementSubscriber;
 import infinitespire.interfaces.OnQuestRemovedSubscriber;
-import infinitespire.monsters.LordOfAnnihilation;
-import infinitespire.monsters.MassOfShapes;
-import infinitespire.monsters.Nightmare;
-import infinitespire.monsters.Voidling;
+import infinitespire.monsters.*;
 import infinitespire.patches.CardColorEnumPatch;
 import infinitespire.patches.RewardItemTypeEnumPatch;
 import infinitespire.patches.SneckoEssencePatch;
 import infinitespire.potions.BlackPotion;
 import infinitespire.quests.DieQuest;
 import infinitespire.quests.QuestLog;
+import infinitespire.quests.endless.EndlessQuestPart1;
 import infinitespire.quests.event.CaptainAbeQuest;
 import infinitespire.relics.*;
 import infinitespire.relics.crystals.EmpoweringShard;
@@ -61,21 +62,32 @@ import infinitespire.relics.crystals.WardingShard;
 import infinitespire.rewards.BlackCardRewardItem;
 import infinitespire.rewards.InterestReward;
 import infinitespire.rewards.QuestReward;
+import infinitespire.rewards.VoidShardReward;
 import infinitespire.screens.LordBackgroundEffect;
 import infinitespire.screens.QuestLogScreen;
 import infinitespire.ui.buttons.QuestLogButton;
+import infinitespire.ui.buttons.VoidShardDisplay;
 import infinitespire.util.TextureLoader;
+import javassist.CtClass;
+import javassist.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.clapper.util.classutil.ClassFinder;
+import org.clapper.util.classutil.ClassInfo;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @SpireInitializer
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
-	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber {
-	public static final String VERSION = "0.16.0";
+	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber,
+	PreStartGameSubscriber {
+	public static final String VERSION = "0.20.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -86,18 +98,32 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static final String GDX_INFINITE_PURPLE_NAME = createID("Purple");
 	public static final String GDX_INFINITE_RED_NAME = createID("Red");
 
+	// Void Shard and Avhari Constants
+	public static final float VOID_SHARD_CHANCE = 0.10f;
+	public static final int AVHARI_CARD_PRICE = 8;
+	public static final int AVHARI_RELIC_PRICE = 15;
+	public static final int AVHARI_RANDOM_RELIC_PRICE = 3;
+	public static final int AVHARI_REMOVE_CARD_PRICE = 2;
+
 	public static boolean isEndless = false;
 	public static boolean hasDefeatedGuardian;
 	public static boolean shouldLoad = false;
 	public static boolean startWithEndlessQuest = true;
 	public static boolean shouldDoParticles = true;
+	public static int voidShardCount = 0;
+
+	public static boolean hasDefeatedLordOfAnnihilation;
+	public static boolean hasDefeatedLordOfDawn;
+	public static boolean hasDefeatedLordOfFortification;
 
 	public static boolean isReplayLoaded = false;
 	public static boolean isFruityLoaded = false;
 	public static boolean isHubrisLoaded = false;
+	public static boolean isBardLoaded = false;
 
 	public static QuestLogScreen questLogScreen = new QuestLogScreen(questLog);
 	public static LordBackgroundEffect lordBackgroundEffect = new LordBackgroundEffect();
+	public static VoidShardDisplay voidShardDisplay;
 
 	public static Color CARD_COLOR = new Color(0f, 0f, 0f, 1f);
 
@@ -111,6 +137,14 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public InfiniteSpire() {
 		BaseMod.subscribe(this);
 		BaseMod.subscribe(new InfiniteSpireInit());
+
+		logger.info("Initializing Card Color: Infinite Black");
+		BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR,
+			CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR,
+			createPath("cards/ui/512/boss-attack.png"), createPath("cards/ui/512/boss-skill.png"),
+			createPath("cards/ui/512/boss-power.png"),	createPath("cards/ui/512/boss-orb.png"),
+			createPath("cards/ui/1024/boss-attack.png"), createPath("cards/ui/1024/boss-skill.png"),
+			createPath("cards/ui/1024/boss-power.png"), createPath("cards/ui/1024/boss-orb.png"));
 	}
 
 	public static void initialize() {
@@ -120,10 +154,12 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		InfiniteSpire.isReplayLoaded = Loader.isModLoaded("ReplayTheSpireMod");
 		InfiniteSpire.isFruityLoaded = Loader.isModLoaded("fruitymod-sts");
 		InfiniteSpire.isHubrisLoaded = Loader.isModLoaded("hubris");
+		InfiniteSpire.isBardLoaded = Loader.isModLoaded("bard");
 
 		logger.info("Found Mod ReplayTheSpire: " + isReplayLoaded);
 		logger.info("Found Mod FruityMod: " + isFruityLoaded);
 		logger.info("Found Mod Hubris: " + isHubrisLoaded);
+		logger.info("Found Mod Bard: " + isBardLoaded);
 
 		Colors.put(GDX_INFINITE_PURPLE_NAME, Color.valueOf("#3D00D6").cpy());
 		Colors.put(GDX_INFINITE_RED_NAME, Color.valueOf("#FF4A4A").cpy());
@@ -156,12 +192,19 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			(customReward) -> new RewardSave(customReward.type.toString(), null, ((InterestReward)customReward).amount, 0)
 		);
 
+		BaseMod.registerCustomReward(
+			RewardItemTypeEnumPatch.VOID_SHARD,
+			(rewardSave) -> new VoidShardReward(rewardSave.amount),
+			(customReward) -> new RewardSave(customReward.type.toString(), null, ((VoidShardReward) customReward).amountOfShards, 0)
+		);
+
 		BaseMod.addEvent(EmptyRestSite.ID, EmptyRestSite.class, Exordium.ID);
 		BaseMod.addEvent(HoodedArmsDealer.ID, HoodedArmsDealer.class);
 		BaseMod.addEvent(PrismEvent.ID, PrismEvent.class, Exordium.ID);
 		BaseMod.addEvent(VoidlingNest.ID, VoidlingNest.class, TheBeyond.ID);
 
 		BaseMod.addMonster(LordOfAnnihilation.ID, LordOfAnnihilation::new);
+		BaseMod.addMonster(LordOfFortification.ID, LordOfFortification::new);
 
 		BaseMod.addMonster(Nightmare.ID, () -> new Nightmare(false));
 		BaseMod.addMonster(Nightmare.ID + "_Alpha", () -> new Nightmare(true));
@@ -182,18 +225,27 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			createPath("ui/map/massBoss-outline.png"));
 
 		// this should be removed after im done testing
-//		 BaseMod.addBoss(Exordium.ID, LordOfAnnihilation.ID,
+//		 BaseMod.addBoss(Exordium.ID, LordOfFortification.ID,
 //		 "img/infinitespire/ui/map/bossIcon.png",
 //		 "img/infinitespire/ui/map/bossIcon-outline.png");
 
-
+		logger.info("Adding Potions");
 		BaseMod.addPotion(BlackPotion.class, Color.BLACK, new Color(61f / 255f, 0f, 1f, 1f), Color.RED, BlackPotion.ID);
+		// BaseMod.addPotion(RainbowPotion.class, Color.WHITE.cpy(), Color.WHITE.cpy(), Color.WHITE.cpy(), RainbowPotion.ID);
+
+		logger.info("Initializing Top Panel Buttons");
+		voidShardDisplay = new VoidShardDisplay();
+
+		BaseMod.addTopPanelItem(voidShardDisplay);
 		BaseMod.addTopPanelItem(new QuestLogButton());
 
 		// RegisterBottlerBottle
 		if (InfiniteSpire.checkForMod("com.evacipated.cardcrawl.mod.hubris.events.thebeyond.TheBottler")) {
 			TheBottler.addBottleRelic(BottledSoul.ID);
 		}
+
+		Map<String, Class> root = (Map<String, Class>) ReflectionHacks.getPrivateStatic(ConsoleCommand.class, "root");
+		root.put(QuestCommand.COMMAND_VALUE, QuestCommand.class);
 	}
 
 	public static boolean checkForMod(String classPath) {
@@ -207,31 +259,37 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		}
 	}
 
+	private String makeLocalizationPath(Settings.GameLanguage language, String fileName) {
+		String retVal = "local/infinitespire/";
+
+		switch (language) {
+			default:
+				retVal += "eng/";
+				break;
+		}
+
+		return retVal + fileName + ".json";
+	}
+
+	private void loadLocalizationFiles(Settings.GameLanguage language) {
+
+		BaseMod.loadCustomStringsFile(CardStrings.class, makeLocalizationPath(language, "cards"));
+		BaseMod.loadCustomStringsFile(RelicStrings.class, makeLocalizationPath(language, "relics"));
+		BaseMod.loadCustomStringsFile(BlightStrings.class, makeLocalizationPath(language, "blights"));
+		BaseMod.loadCustomStringsFile(EventStrings.class, makeLocalizationPath(language, "events"));
+		BaseMod.loadCustomStringsFile(MonsterStrings.class, makeLocalizationPath(language, "monsters"));
+		BaseMod.loadCustomStringsFile(PotionStrings.class, makeLocalizationPath(language, "potions"));
+		BaseMod.loadCustomStringsFile(PowerStrings.class, makeLocalizationPath(language, "powers"));
+		BaseMod.loadCustomStringsFile(UIStrings.class, makeLocalizationPath(language, "ui"));
+	}
+
+
 	@Override
 	public void receiveEditStrings() {
-		String relicStrings = Gdx.files.internal("local/infinitespire/relics.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(RelicStrings.class, relicStrings);
-
-		String blightStrings = Gdx.files.internal("local/infinitespire/blights.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(BlightStrings.class, blightStrings);
-
-		String eventStrings = Gdx.files.internal("local/infinitespire/events.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(EventStrings.class, eventStrings);
-
-		String monsterStrings = Gdx.files.internal("local/infinitespire/monsters.json")
-				.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(MonsterStrings.class, monsterStrings);
-
-		String potionStrings = Gdx.files.internal("local/infinitespire/potions.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(PotionStrings.class, potionStrings);
-
-		String powerStrings = Gdx.files.internal("local/infinitespire/powers.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(PowerStrings.class, powerStrings);
+		loadLocalizationFiles(Settings.GameLanguage.ENG);
+		if(Settings.language != Settings.GameLanguage.ENG) {
+			loadLocalizationFiles(Settings.language);
+		}
 	}
 
 	@Override
@@ -263,64 +321,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	@Deprecated
 	public static Texture getTexture(final String textureString) {
 		return TextureLoader.getTexture(textureString);
-	}
-
-	public static void saveData() {
-		logger.info("InfiniteSpire | Saving Data...");
-		try {
-			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
-
-			BottledSoul.save(config);
-			Nightmare.save(config);
-			config.setBool("isGuardianDead", hasDefeatedGuardian);
-			config.setBool("isEndless", isEndless);
-			config.setBool("startWithEndless", startWithEndlessQuest);
-			config.setBool("blackCardParticles", shouldDoParticles);
-			config.save();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		QuestHelper.saveQuestLog();
-	}
-
-	public static void clearData() {
-		logger.info("InfiniteSpire | Clearing Saved Data...");
-		isEndless = false;
-		QuestHelper.clearQuestLog();
-		BottledSoul.clear();
-		Nightmare.clear();
-		saveData();
-	}
-
-	public static void loadData() {
-		logger.info("InfiniteSpire | Loading Data...");
-		try {
-			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
-			config.load();
-			isEndless = config.getBool("isEndless");
-			if(config.has("startWithEndless")) {
-				startWithEndlessQuest = config.getBool("startWithEndless");
-			} else {
-				startWithEndlessQuest = true;
-			}
-			if(config.has("cardParticles")) {
-				shouldDoParticles = config.getBool("blackCardParticles");
-			} else {
-				shouldDoParticles = true;
-			}
-			if (AbstractDungeon.player != null)
-				BottledSoul.load(config);
-
-			Nightmare.load(config);
-
-		} catch (IOException | NumberFormatException e) {
-			logger.error("Failed to load InfiniteSpire data!");
-			e.printStackTrace();
-			clearData();
-		}
-
-		QuestHelper.loadQuestLog();
 	}
 
 	private static void initializeRelics() {
@@ -382,39 +382,42 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	}
 
 	private static void initializeCards() {
-		String cardStrings = Gdx.files.internal("local/infinitespire/cards.json")
-			.readString(String.valueOf(StandardCharsets.UTF_8));
-		BaseMod.loadCustomStrings(CardStrings.class, cardStrings);
-
-		BaseMod.addColor(CardColorEnumPatch.CardColorPatch.INFINITE_BLACK, CARD_COLOR, CARD_COLOR, CARD_COLOR,
-			CARD_COLOR, CARD_COLOR, Color.BLACK.cpy(), CARD_COLOR,
-			createPath("cards/ui/512/boss-attack.png"), createPath("cards/ui/512/boss-skill.png"),
-			createPath("cards/ui/512/boss-power.png"),	createPath("cards/ui/512/boss-orb.png"),
-			createPath("cards/ui/1024/boss-attack.png"), createPath("cards/ui/1024/boss-skill.png"),
-			createPath("cards/ui/1024/boss-power.png"), createPath("cards/ui/1024/boss-orb.png"));
-
 		logger.info("InfiniteSpire | Initializing dynamic variables...");
 		BaseMod.addDynamicVariable(new Neurotoxin.PoisonVariable());
 		logger.info("InfiniteSpire | Initializing cards...");
-		CardHelper.addCard(new OneForAll());
-		CardHelper.addCard(new Neurotoxin());
 
-		// Black Cards
-		CardHelper.addCard(new FinalStrike());
-		CardHelper.addCard(new Gouge());
-		CardHelper.addCard(new DeathsTouch());
-		CardHelper.addCard(new Collect());
-		CardHelper.addCard(new NeuralNetwork());
-		CardHelper.addCard(new FutureSight());
-		CardHelper.addCard(new Punishment());
-		CardHelper.addCard(new UltimateForm());
-		CardHelper.addCard(new Execution());
-		CardHelper.addCard(new TheBestDefense());
-		CardHelper.addCard(new Fortify());
-		CardHelper.addCard(new Pacifist());
-		CardHelper.addCard(new Menacing());
-		CardHelper.addVirusTypes();
-		CardHelper.addCard(new Virus.MasterVirus());
+		try {
+			autoAddCards();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+
+		if(isBardLoaded) {
+			BardCrossover.loadBardBlackCards();
+		}
+	}
+
+	private static void autoAddCards() throws URISyntaxException {
+		ClassFinder finder = new ClassFinder();
+		URL url = InfiniteSpire.class.getProtectionDomain().getCodeSource().getLocation();
+		finder.add(new File(url.toURI()));
+
+		List<ClassInfo> foundClasses = new ArrayList<>();
+		finder.findClasses(foundClasses);
+		foundClasses.stream()
+			.filter(clazz -> clazz.getClassName().startsWith("infinitespire.cards"))
+			.distinct()
+			.forEach((clazz) -> {
+				try {
+					CtClass ctClass = Loader.getClassPool().get(clazz.getClassName());
+					if(ctClass.subclassOf(Loader.getClassPool().get(Card.class.getName()))) {
+						AbstractCard card = (AbstractCard) Loader.getClassPool().getClassLoader().loadClass(ctClass.getName()).newInstance();
+						CardHelper.addCard(card);
+					}
+				} catch (NotFoundException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+					e.printStackTrace();
+				}
+			});
 	}
 
 	@SuppressWarnings("unused")
@@ -519,37 +522,126 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 		}
 	}
 
+	public static void addInitialQuests() {
+		InfiniteSpire.logger.info("Clearing and Adding New Quests");
+		InfiniteSpire.questLog.clear();
+		if(InfiniteSpire.startWithEndlessQuest)	InfiniteSpire.questLog.add(new EndlessQuestPart1().createNew());
+		InfiniteSpire.questLog.addAll(QuestHelper.getRandomQuests(9));
+		InfiniteSpire.questLog.markAllQuestsAsSeen();
+		QuestHelper.saveQuestLog();
+
+	}
+
+	@Override
+	public void receivePreStartGame() {
+		if(isBardLoaded) BardCrossover.removeBardBlackCards();
+	}
+
+	public static void gainVoidShards(int amount) {
+		voidShardCount += amount;
+		QuestHelper.playVoidShardCollectSound();
+		voidShardDisplay.flash();
+	}
+
+	public static void saveData() {
+		logger.info("InfiniteSpire | Saving Data...");
+		try {
+			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+
+			BottledSoul.save(config);
+			Nightmare.save(config);
+			config.setBool("isGuardianDead", hasDefeatedGuardian);
+			config.setBool("isLordOfAnnihilationDead", hasDefeatedLordOfAnnihilation);
+			config.setBool("isLordOfDawnDead", hasDefeatedLordOfDawn);
+			config.setBool("isLordOfFortificationDead", hasDefeatedLordOfFortification);
+			config.setBool("isEndless", isEndless);
+			config.setBool("startWithEndless", startWithEndlessQuest);
+			config.setBool("blackCardParticles", shouldDoParticles);
+			config.setInt("voidShardCount", voidShardCount);
+			config.save();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		QuestHelper.saveQuestLog();
+	}
+
+	public static void clearData() {
+		logger.info("InfiniteSpire | Clearing Saved Data...");
+		isEndless = false;
+		QuestHelper.clearQuestLog();
+		BottledSoul.clear();
+		Nightmare.clear();
+		saveData();
+	}
+
+	public static void loadData() {
+		logger.info("InfiniteSpire | Loading Data...");
+		try {
+			SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");
+			config.load();
+			isEndless = config.getBool("isEndless");
+			if(config.has("voidShardCount")) {
+				voidShardCount = config.getInt("voidShardCount");
+			} else {
+				voidShardCount = 0;
+			}
+			if(config.has("startWithEndless")) {
+				startWithEndlessQuest = config.getBool("startWithEndless");
+			} else {
+				startWithEndlessQuest = true;
+			}
+			if(config.has("cardParticles")) {
+				shouldDoParticles = config.getBool("blackCardParticles");
+			} else {
+				shouldDoParticles = true;
+			}
+			if (CardCrawlGame.isInARun()) {
+				BottledSoul.load(config);
+			}
+
+			Nightmare.load(config);
+
+		} catch (IOException | NumberFormatException e) {
+			logger.error("Failed to load InfiniteSpire data!");
+			e.printStackTrace();
+			clearData();
+		}
+
+		QuestHelper.loadQuestLog();
+	}
+
 	public static class Textures {
 		public static Texture getCardTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/cards/") + texture);
+			return TextureLoader.getTexture(createPath("cards/") + texture);
 		}
 
 		public static Texture getEventTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/events/") + texture);
+			return TextureLoader.getTexture(createPath("events/") + texture);
 		}
 
 		public static Texture getMonsterTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/monsters/") + texture);
+			return TextureLoader.getTexture(createPath("monsters/") + texture);
 		}
 
 		public static Texture getPowerTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/powers/") + texture);
+			return TextureLoader.getTexture(createPath("powers/") + texture);
 		}
 
 		public static Texture getRelicTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/relics/") + texture);
+			return TextureLoader.getTexture(createPath("relics/") + texture);
 		}
 
 		public static Texture getScreenTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/screen/") + texture);
+			return TextureLoader.getTexture(createPath("screen/") + texture);
 		}
 
 		public static Texture getUITexture(String texture) {
-			return TextureLoader.getTexture(createPath("/ui/") + texture);
+			return TextureLoader.getTexture(createPath("ui/") + texture);
 		}
 
 		public static Texture getVFXTexture(String texture) {
-			return TextureLoader.getTexture(createPath("/vfx/") + texture);
+			return TextureLoader.getTexture(createPath("vfx/") + texture);
 		}
 	}
 }

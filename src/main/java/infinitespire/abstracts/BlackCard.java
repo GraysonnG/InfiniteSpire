@@ -18,12 +18,15 @@ import infinitespire.effects.BlackCardEffect;
 import infinitespire.patches.CardColorEnumPatch;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public abstract class BlackCard extends Card {
 
 	public static final CardRarity RARITY = CardRarity.SPECIAL;
 	public static final CardColor COLOR = CardColorEnumPatch.CardColorPatch.INFINITE_BLACK;
 	private static final float FPS_SCALE = (240f / Settings.MAX_FPS);
+	private static final int MAX_PARTICLES = 150;
+
 	public ArrayList<BlackParticle> particles;
 	
 	public BlackCard(String id, String name, String img, int cost, String rawDescription, CardType type, CardTarget target) {
@@ -49,12 +52,11 @@ public abstract class BlackCard extends Card {
 	public void update(){
 		super.update();
 
-		for(BlackParticle p : particles){
-			p.update();
-		}
+		particles.parallelStream()
+			.forEach(BlackParticle::update);
 		particles.removeIf(BlackParticle::isDead);
 
-		if(this.particles.size() < 150 && InfiniteSpire.shouldDoParticles && !Settings.DISABLE_EFFECTS){
+		if(this.particles.size() < MAX_PARTICLES && InfiniteSpire.shouldDoParticles && !Settings.DISABLE_EFFECTS){
 			for(int i = 0; i < 2 * FPS_SCALE; i++){
 				Vector2 point = generateRandomPointAlongEdgeOfHitbox();
 				particles.add(new BlackParticle(point.x, point.y, this.drawScale, this.upgraded));
@@ -83,9 +85,8 @@ public abstract class BlackCard extends Card {
 	@Override
 	public void render(SpriteBatch sb){
 		sb.setColor(Color.WHITE.cpy());
-		for(BlackParticle p : particles){
-			p.render(sb);
-		}
+		particles.stream()
+			.forEach(blackParticle -> blackParticle.render(sb));
 		super.render(sb);
 	}
 
@@ -122,17 +123,48 @@ public abstract class BlackCard extends Card {
 
 			if(Math.random() < 0.25) {
 				color = Colors.get(InfiniteSpire.GDX_INFINITE_PURPLE_NAME).cpy();
+				makeColorEasterEgg();
 			}
 
 			if(Math.random() < 0.05 && upgraded){
 				color = Colors.get(InfiniteSpire.GDX_INFINITE_RED_NAME).cpy();
+				makeColorEasterEgg();
 			}
+
+
 		}
 
 		public void update() {
 			this.lifeSpan -= Gdx.graphics.getDeltaTime();
 			this.pos.x += this.vel.x;
 			this.pos.y += this.vel.y;
+		}
+
+		public void makeColorEasterEgg() {
+			Date date = new Date();
+			if(date.getMonth() == 5) {
+				int i = MathUtils.random(5);
+				switch (i) {
+					case 0:
+						color = Color.RED.cpy();
+						break;
+					case 1:
+						color = Color.ORANGE.cpy();
+						break;
+					case 2:
+						color = Color.YELLOW.cpy();
+						break;
+					case 3:
+						color = Color.GREEN.cpy();
+						break;
+					case 4:
+						color = Color.BLUE.cpy();
+						break;
+					case 5:
+						color = Color.PURPLE.cpy();
+						break;
+				}
+			}
 		}
 
 		public void render(SpriteBatch sb) {

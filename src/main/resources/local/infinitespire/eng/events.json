@@ -65,5 +65,15 @@
 			"[Escape] Turn around and take the stairs.",
 			"Leave."
 		]
+	},
+	"infinitespire:EndRunEvent" : {
+		"NAME" : "Spire's Peak",
+		"DESCRIPTIONS" : [
+			"You stand atop the towering Spire, proud and tired. NL NL Looking around, you spot a lift that would take you to the bottom of the spire, as well as a portal that seems to take you to a secret room..."
+		],
+		"OPTIONS" : [
+			"#g[Lift] Continue #pEndless",
+			"#g[Portal] Explore the #bSecret #bRoom"
+		]
 	}
 }

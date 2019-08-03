@@ -1,11 +1,12 @@
 package infinitespire.patches;
 
 import basemod.ReflectionHacks;
+import basemod.patches.com.megacrit.cardcrawl.screens.SingleCardViewPopup.TitleFontSize;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.evacipated.cardcrawl.modthespire.lib.*;
 import com.evacipated.cardcrawl.modthespire.patcher.PatchingException;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -19,7 +20,6 @@ import com.megacrit.cardcrawl.vfx.cardManip.CardGlowBorder;
 import com.megacrit.cardcrawl.vfx.cardManip.PurgeCardEffect;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
-import infinitespire.cards.black.Virus;
 import infinitespire.helpers.CardHelper;
 import infinitespire.util.TextureLoader;
 import javassist.CannotCompileException;
@@ -69,8 +69,9 @@ public class BlackCardPatches {
 	@SpirePatch(clz = SingleCardViewPopup.class, method = "renderTitle")
 	public static class RenderSingleCardPopupTitle {
 		@SpirePrefixPatch
-		public static SpireReturn<?> blackCardTitleColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb) {
+		public static SpireReturn<Void> blackCardTitleColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb) {
 			AbstractCard card = (AbstractCard) ReflectionHacks.getPrivate(__instance, __instance.getClass(), "card");
+			TitleFontSize.UseCustomFontSize.Insert(__instance, sb, card);
 			if(card instanceof BlackCard) {
 				if(card.isLocked) {
 					FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTitleFont_small, SingleCardViewPopup.TEXT[4], Settings.WIDTH / 2f, Settings.HEIGHT / 2.0f + 338.0f * Settings.scale, Settings.CREAM_COLOR);
@@ -98,20 +99,39 @@ public class BlackCardPatches {
 		public static SpireReturn<Void> blackCardFrameRender(AbstractCard __instance, SpriteBatch sb, float x, float y) {
 			if(__instance instanceof BlackCard){
 				try {
-					Method renderHelperMethod = AbstractCard.class.getDeclaredMethod("renderHelper", SpriteBatch.class, Color.class, Texture.class, float.class, float.class);
 					Color renderColor = (Color) ReflectionHacks.getPrivate(__instance, AbstractCard.class, "renderColor");
+
+					Method renderHelperMethod = AbstractCard.class.getDeclaredMethod("renderHelper", SpriteBatch.class, Color.class, TextureAtlas.AtlasRegion.class, float.class, float.class);
 					renderHelperMethod.setAccessible(true);
+
 					switch(__instance.type) {
 						case ATTACK:
-							renderHelperMethod.invoke(__instance, sb, renderColor, TextureLoader.getTexture("img/infinitespire/cards/ui/512/boss-frame-attack.png"), x, y);
+							renderHelperMethod.invoke(
+								__instance,
+								sb,
+								renderColor,
+								TextureLoader.getTextureAsAtlasRegion("img/infinitespire/cards/ui/512/boss-frame-attack.png"),
+								x,
+								y);
 							break;
 						case CURSE:
 						case STATUS:
 						case SKILL:
-							renderHelperMethod.invoke(__instance, sb, renderColor, TextureLoader.getTexture("img/infinitespire/cards/ui/512/boss-frame-skill.png"), x, y);
+							renderHelperMethod.invoke(
+								__instance,
+								sb,
+								renderColor,
+								TextureLoader.getTextureAsAtlasRegion("img/infinitespire/cards/ui/512/boss-frame-skill.png"),
+								x,
+								y);
 							break;
 						case POWER:
-							renderHelperMethod.invoke(__instance, sb, renderColor, TextureLoader.getTexture("img/infinitespire/cards/ui/512/boss-frame-power.png"), x, y);
+							renderHelperMethod.invoke(__instance,
+								sb,
+								renderColor,
+								TextureLoader.getTextureAsAtlasRegion("img/infinitespire/cards/ui/512/boss-frame-power.png"),
+								x,
+								y);
 							break;
 					}
 				} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
@@ -130,45 +150,41 @@ public class BlackCardPatches {
 
 		@SpireInsertPatch(
 			locator = Locator.class,
-			localvars = {"card"}
+			localvars = {"card", "tmpImg"}
 		)
-		public static SpireReturn<Void> blackCardFrameRender(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card){
+		public static void blackCardFrameRender(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, @ByRef TextureAtlas.AtlasRegion[] region){
 			if(card instanceof BlackCard) {
-				Texture img = null;
+				TextureAtlas.AtlasRegion img = null;
 				switch(card.type){
 					case ATTACK:
-						img = TextureLoader.getTexture("img/infinitespire/cards/ui/1024/boss-frame-attack.png");
+						img = TextureLoader.getTextureAsAtlasRegion("img/infinitespire/cards/ui/1024/boss-frame-attack.png");
 						break;
 					case POWER:
-						img = TextureLoader.getTexture("img/infinitespire/cards/ui/1024/boss-frame-power.png");
+						img = TextureLoader.getTextureAsAtlasRegion("img/infinitespire/cards/ui/1024/boss-frame-power.png");
 						break;
 					case SKILL:
 					default:
-						img = TextureLoader.getTexture("img/infinitespire/cards/ui/1024/boss-frame-skill.png");
+						img = TextureLoader.getTextureAsAtlasRegion("img/infinitespire/cards/ui/1024/boss-frame-skill.png");
 						break;
 				}
 
 
-				if(img != null)
-					sb.draw(img, Settings.WIDTH / 2.0F - 512.0F, Settings.HEIGHT / 2.0F - 512.0F, 512.0F, 512.0F, 1024.0F, 1024.0F, Settings.scale, Settings.scale, 0.0F, 0, 0, 1024, 1024, false, false);
-				return SpireReturn.Return(null);
+				if(img != null) region[0] = img;
 			}
-
-			return SpireReturn.Continue();
 		}
 
 		private static class Locator extends SpireInsertLocator{
 			@Override
 			public int[] Locate(CtBehavior ctMethodToPatch) throws CannotCompileException, PatchingException {
 				Matcher finalMatcher = new Matcher.MethodCallMatcher(
-					"com.badlogic.gdx.graphics.g2d.SpriteBatch","draw");
+					SingleCardViewPopup.class, "renderHelper");
 
 				return LineFinder.findInOrder(ctMethodToPatch, finalMatcher);
 			}
 		}
 	}
 
-	//Virus Patches
+	//Label Patches
 	@SpirePatch(clz = AbstractCard.class, method = "renderType")
 	public static class RenderType {
 		@SpireInsertPatch(locator = Locator.class,
@@ -177,9 +193,6 @@ public class BlackCardPatches {
 			if(__instance instanceof BlackCard) {
 				Color textColor = Color.valueOf("d0beff").cpy();
 				textColor.a = renderColor.a;
-				if(__instance instanceof Virus || __instance instanceof Virus.MasterVirus){
-					text = "Virus";
-				}
 				FontHelper.renderRotatedText(sb, font, text, curX, curY - 22.0f * dScale * Settings.scale, 0.0f, -1.0f * dScale * Settings.scale, angle, false, textColor);
 				return SpireReturn.Return(null);
 			}
@@ -207,9 +220,6 @@ public class BlackCardPatches {
 			localvars = {"card", "label"})
 		public static SpireReturn<Void> blackCardTypeColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, String label) {
 			if(card instanceof BlackCard) {
-				if(card instanceof Virus || card instanceof Virus.MasterVirus){
-					label = "Virus";
-				}
 				FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTypeFont, label, Settings.WIDTH / 2.0f + 3.0f * Settings.scale, Settings.HEIGHT / 2.0f - 40.0f * Settings.scale, Color.valueOf("d0beff"));
 				return SpireReturn.Return(null);
 			}

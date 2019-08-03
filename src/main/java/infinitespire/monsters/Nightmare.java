@@ -2,6 +2,7 @@ package infinitespire.monsters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.evacipated.cardcrawl.modthespire.lib.SpireConfig;
 import com.megacrit.cardcrawl.actions.AbstractGameAction;
@@ -18,9 +19,11 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.CardLibrary;
 import com.megacrit.cardcrawl.localization.MonsterStrings;
 import com.megacrit.cardcrawl.monsters.AbstractMonster;
+import com.megacrit.cardcrawl.powers.AbstractPower;
 import com.megacrit.cardcrawl.powers.InvinciblePower;
 import com.megacrit.cardcrawl.powers.MetallicizePower;
 import com.megacrit.cardcrawl.powers.StrengthPower;
+import com.megacrit.cardcrawl.vfx.TintEffect;
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect;
 import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect;
 import infinitespire.InfiniteSpire;
@@ -107,6 +110,8 @@ public class Nightmare extends AbstractMonster {
 		this.damage.add(new DamageInfo(this, this.attackDmg));
 		this.damage.add(new DamageInfo(this, this.slamDmg));
 		this.damage.add(new DamageInfo(this, this.debuffDmg));
+
+		this.tint = new TintEffect();
 	}
 
 	public static void save(SpireConfig config) {
@@ -131,10 +136,12 @@ public class Nightmare extends AbstractMonster {
 		timesNotReceivedBlackCard++;
 	}
 
+	private Color WHITE = new Color(1f,1f,1f,1f);
+
 	@Override
 	public void render(SpriteBatch sb) {
 		if(this.isAlpha) {
-			sb.setColor(Color.WHITE.cpy());
+			sb.setColor(WHITE.cpy());
 			sb.draw(InfiniteSpire.getTexture(
 				"img/infinitespire/screen/portal.png"),
 				this.hb.cX - 128f, this.hb.cY - 128f, 128f, 128f,
@@ -142,6 +149,7 @@ public class Nightmare extends AbstractMonster {
 				portalRotation * 90f, 0, 0, 256, 256,
 				false, false);
 		}
+		this.tint.changeColor(WHITE);
 		super.render(sb);
 	}
 
@@ -158,9 +166,21 @@ public class Nightmare extends AbstractMonster {
 				if(textureIndex > 2) {
 					textureIndex = 0;
 				}
-				this.img = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-" + (textureIndex + 1) +".png");
+				Texture texture = InfiniteSpire.getTexture("img/infinitespire/monsters/nightmare/nightmare-" + (textureIndex + 1) +".png");
+				this.img = texture;
 			}
 		}
+
+		for (AbstractPower p : powers) {
+			if(p.ID.equals(RealityShiftPower.powerID)) {
+				p.updateDescription();
+			}
+		}
+	}
+
+	@Override
+	public void dispose() {
+		//nop
 	}
 
 	@Override

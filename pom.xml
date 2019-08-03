@@ -2,7 +2,16 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>InfiniteSpire</groupId>
   <artifactId>InfiniteSpire</artifactId>
-  <version>0.16.0</version>
+
+  <properties>
+    <modsFolder>D:/Steam/steamapps/workshop/content/646570/</modsFolder>
+    <versionNumber>0.20.0</versionNumber>
+    <stsVersion>07-01-2019</stsVersion>
+    <mtsVersion>3.11.0</mtsVersion>
+  </properties>
+
+  <version>${versionNumber}</version>
+
   <dependencies>
     <dependency>
       <groupId>com.megacrit.cardcrawl</groupId>
@@ -16,35 +25,35 @@
       <artifactId>basemod</artifactId>
       <version>2.19.0</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/workshop/content/646570/1605833019/BaseMod.jar</systemPath>
+      <systemPath>${modsFolder}1605833019/BaseMod.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>StSLib</groupId>
       <artifactId>StSLib</artifactId>
       <version>1.0.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/workshop/content/646570/1609158507/StSLib.jar</systemPath>
+      <systemPath>${modsFolder}1609158507/StSLib.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.evacipated.cardcrawl</groupId>
       <artifactId>ModTheSpire</artifactId>
       <version>2.9.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar</systemPath>
+      <systemPath>${modsFolder}1605060445/ModTheSpire.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>replaythespire</groupId>
       <artifactId>replaythespire</artifactId>
       <version>1.0.10</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/workshop/content/646570/1610173938/ReplayTheSpireMod.jar</systemPath>
+      <systemPath>${modsFolder}1610173938/ReplayTheSpireMod.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>coloredmap</groupId>
       <artifactId>coloredmap</artifactId>
       <version>2.0.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/workshop/content/646570/1611666859/ColoredMap.jar</systemPath>
+      <systemPath>${modsFolder}1611666859/ColoredMap.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>fruitymod</groupId>
@@ -58,12 +67,38 @@
       <artifactId>hubris</artifactId>
       <version>0.3.0</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/workshop/content/646570/1609159603/Hubris.jar</systemPath>
+      <systemPath>${modsFolder}1609159603/Hubris.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>bard</groupId>
+      <artifactId>bard</artifactId>
+      <version>1.3.0</version>
+      <scope>system</scope>
+      <systemPath>${modsFolder}1744254855/Bard.jar</systemPath>
     </dependency>
   </dependencies>
+
   <build>
+
     <sourceDirectory>src/main/java</sourceDirectory>
     <finalName>${project.artifactId}</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>ModTheSpire.json</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>ModTheSpire.json</include>
+        </includes>
+      </resource>
+    </resources>
+
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

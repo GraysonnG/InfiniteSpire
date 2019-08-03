@@ -3,22 +3,25 @@ package infinitespire.quests;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
+import infinitespire.AutoLoaderIgnore;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.Quest;
 import infinitespire.helpers.QuestHelper;
 
+@Deprecated
+@AutoLoaderIgnore
 public class FetchQuest extends Quest {
 	
 	public static final String ID = FetchQuest.class.getName();
 	private static final Color COLOR = new Color(0f, 1f, 0.75f, 1f);
 	private static final QuestType TYPE = QuestType.GREEN;
 	private static final int MAX_STEPS = 1;
+	private static final int REWARD_AMOUNT = 1;
 	public int cost;
 	public transient AbstractRelic relic;
 	public String relicID;
@@ -53,8 +56,7 @@ public class FetchQuest extends Quest {
 
 	@Override
 	public void giveReward() {
-		CardCrawlGame.sound.play("GOLD_GAIN");
-		AbstractDungeon.player.gainGold(cost);
+		InfiniteSpire.gainVoidShards(1);
 	}
 
 	@Override
@@ -68,7 +70,7 @@ public class FetchQuest extends Quest {
 
 	@Override
 	public String getRewardString() {
-		return this.cost + "g";
+		return voidShardStrings.TEXT[2] + REWARD_AMOUNT + voidShardStrings.TEXT[3];
 	}
 
 	public int getCost(RelicTier tier) {

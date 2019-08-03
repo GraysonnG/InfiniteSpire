@@ -4,48 +4,111 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.evacipated.cardcrawl.modthespire.Loader;
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.helpers.RelicLibrary;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
 import com.megacrit.cardcrawl.relics.AbstractRelic.RelicTier;
 import com.megacrit.cardcrawl.relics.Circlet;
+import infinitespire.AutoLoaderIgnore;
 import infinitespire.InfiniteSpire;
+import infinitespire.KeyNotFoundException;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Quest.QuestRarity;
 import infinitespire.abstracts.Quest.QuestType;
-import infinitespire.quests.*;
-import infinitespire.quests.endless.EndlessQuestPart1;
-import infinitespire.quests.endless.EndlessQuestPart2;
-import infinitespire.quests.event.BearQuest;
-import infinitespire.quests.event.BlankyQuest;
+import infinitespire.quests.QuestLog;
+import javassist.NotFoundException;
+import org.clapper.util.classutil.ClassFinder;
+import org.clapper.util.classutil.ClassInfo;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.*;
 
 public class QuestHelper {
-	
+	// ID, Class
 	public static HashMap<String, Class<? extends Quest>> questMap = new HashMap<>();
-	
+	// NAME, ID
+	public static HashMap<String, String> questIDMap = new HashMap<>();
+
 	public static void init() {
-		registerQuest(FetchQuest.class);
-		registerQuest(DieQuest.class);
-		registerQuest(SlayQuest.class);
-		registerQuest(FlawlessQuest.class);
-		registerQuest(OneTurnKillQuest.class);
-		registerQuest(RemoveCardQuest.class);
-		registerQuest(PickUpCardQuest.class);
-		registerQuest(EndlessQuestPart1.class);
-		registerQuest(EndlessQuestPart2.class);
-		registerQuest(BearQuest.class);
-		registerQuest(BlankyQuest.class);
-		registerQuest(ActKillQuest.class);
+		try {
+			autoLoadQuests();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		updateIDMap();
+	}
+
+	private static void autoLoadQuests() throws URISyntaxException {
+		ClassFinder finder = new ClassFinder();
+		URL url = InfiniteSpire.class.getProtectionDomain().getCodeSource().getLocation();
+		finder.add(new File(url.toURI()));
+
+		List<ClassInfo> foundClasses = new ArrayList<>();
+		finder.findClasses(foundClasses);
+		foundClasses.stream()
+			.filter((clazz) -> clazz.getClassName().startsWith("infinitespire.quests"))
+			.map(clazz -> {
+				try{
+					return Loader.getClassPool().get(clazz.getClassName());
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+					return null;
+				}})
+			.filter(ctClass -> {
+				try {
+					return
+						ctClass != null &&
+						!ctClass.hasAnnotation(AutoLoaderIgnore.class) &&
+						ctClass.subclassOf(Loader.getClassPool().get(Quest.class.getName()));
+				} catch (NotFoundException e) {
+					e.printStackTrace();
+					return false;
+				}
+			})
+			.map(ctClass -> {
+				try {
+					return (Class<Quest>) Loader.getClassPool().getClassLoader().loadClass(ctClass.getName());
+				} catch ( ClassNotFoundException e) {
+					return null;
+				}
+			})
+			.filter(Objects::nonNull)
+			.forEach(QuestHelper::registerQuest);
+
+	}
+
+	public static void updateIDMap() {
+		questIDMap.clear();
+		for(Map.Entry<String, Class<? extends Quest>> entry : questMap.entrySet()) {
+			questIDMap.put(entry.getValue().getSimpleName(), entry.getKey());
+		}
+	}
+
+	public static String getQuestIdByName(String[] questArray) throws KeyNotFoundException {
+		updateIDMap();
+		String quest = String.join(" ", questArray);
+		if(QuestHelper.questIDMap.containsKey(quest)) {
+			quest = QuestHelper.questIDMap.get(quest);
+		} else {
+			throw new KeyNotFoundException("Key was not found in list");
+		}
+
+		return quest;
+	}
+
+	public static Quest getQuestByID(String id, Object...params) throws InstantiationException, IllegalAccessException {
+		return questMap.get(id).newInstance();
 	}
 	
 	public static void registerQuest(Class<? extends Quest> type) {
+		InfiniteSpire.logger.info("Registered Quest: " + type.getName());
 		questMap.put(type.getName(), type);
 	}
 	
@@ -133,12 +196,10 @@ public class QuestHelper {
 				JsonValue listOfQuests = reader.parse(questLogString);
 				for(JsonValue questString : listOfQuests) {
 					Gson gson = new Gson();
-					for(Class<? extends Quest> qC : questMap.values()) {
-						if(qC.getName().equals(questString.get("id").asString())) {
-							Quest quest = gson.fromJson(questString.toJson(OutputType.json), qC);
-							tempLog.add(quest);
-						}
-					}
+					questMap.values().stream()
+						.filter(questClass -> questClass.getName().equals(questString.get("id").asString()))
+						.map(questClass -> gson.fromJson(questString.toJson(OutputType.json), questClass))
+						.forEach(tempLog::add);
 				}
 			}
 			br.close();
@@ -146,7 +207,7 @@ public class QuestHelper {
 			e.printStackTrace();
 			saveQuestLog();
 		}
-		
+
 		InfiniteSpire.questLog = tempLog;
 	}
 	
@@ -184,7 +245,11 @@ public class QuestHelper {
 		
 		return questPool.get(roll).newInstance();
 	}
-	
+
+	public static void playVoidShardCollectSound() {
+		CardCrawlGame.sound.play("RELIC_DROP_CLINK");
+	}
+
 	public static AbstractRelic returnRandomRelic(RelicTier tier) {
 		String key = Circlet.ID;
 		AbstractRelic retVal = new Circlet();

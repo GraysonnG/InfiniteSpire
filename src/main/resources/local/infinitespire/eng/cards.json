@@ -17,7 +17,7 @@
 	},
 	"infinitespire:DeathsTouch": {
 		"NAME": "Deaths Touch",
-		"DESCRIPTION": "Deal !D! damage. Apply !M! Poison X + 1 times."
+		"DESCRIPTION": "Deal !D! damage. NL Next turn, deal !D! damage to ALL enemies."
 	},
 	"infinitespire:Execution": {
 		"NAME": "Execution",
@@ -51,15 +51,35 @@
 	},
 	"infinitespire:Punishment": {
 		"NAME": "Punishment",
-		"DESCRIPTION": "Deal 1 damage for each card in your draw, hand, and discard pile.",
-		"UPGRADE_DESCRIPTION": "Deal 1 damage for each card in your draw, hand, and discard pile. NL ( !D! )"
+		"DESCRIPTION": "Deal 2 damage for each card in your draw, hand, and discard pile.",
+		"UPGRADE_DESCRIPTION": "Deal 2 damage for each card in your draw, hand, and discard pile. NL ( !D! )"
 	},
 	"infinitespire:TheBestDefense": {
 		"NAME": "The Best Defense",
-		"DESCRIPTION": "Convert all of your Block into Strength, lose that Strength at the end of your turn."
+		"DESCRIPTION": "Gain 1 Intangible. NL Convert all of your Block into Strength, lose that Strength at the end of your turn."
 	},
 	"infinitespire:UltimateForm": {
 		"NAME": "Ultimate Form",
 		"DESCRIPTION": "Gain !M! Strength and Dexterity each turn. NL If you have orb slots gain !M! Focus each turn."
+	},
+	"infinitespire:DarkHarmony": {
+		"NAME" : "Dark Harmony",
+		"DESCRIPTION": "bard:Queue !M! [WildNote] ."
+	},
+	"infinitespire:SevenWalls": {
+		"NAME" : "Seven Walls",
+		"DESCRIPTION": "Gain !B! Block. NL Deal !D! damage.",
+		"UPGRADE_DESCRIPTION": "Unstable Space-Time",
+		"EXTENDED_DESCRIPTION": [
+			"Gain !B! Temporary_HP (Effected by Block modifiers). NL Deal !D! damage."
+		]
+	},
+	"infinitespire:Oblivion": {
+		"NAME" : "Oblivion",
+		"DESCRIPTION": "Deal !D! damage. NL Channel !M! random Orbs."
+	},
+	"infinitespire:Starlight": {
+		"NAME" : "Starlight",
+		"DESCRIPTION": "Heal !M! HP. NL Exhaust."
 	}
 }

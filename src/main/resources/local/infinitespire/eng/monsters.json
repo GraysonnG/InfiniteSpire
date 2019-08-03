@@ -14,7 +14,6 @@
 			"Temporal Rift",
 			"Absolute Burial",
 			"Final Void",
-			"Ultimate Memoricia",
 			"Dark Armor",
 			"Defend Order",
 			"Divine Shield"
@@ -30,6 +29,20 @@
 	"infinitespire:MassOfShapes":{
 		"MOVES" : [],
 		"NAME" : "Mass Of Shapes",
+		"DIALOG": []
+	},
+	"infinitespire:LordOfFortification" : {
+		"NAME": "Lord of Fortification",
+		"MOVES": [
+			"Agony",
+			"Reflect",
+			"Cure Wounds"
+		],
+		"DIALOG": []
+	},
+	"infinitespire:LordOfDawn": {
+		"NAME": "Lord of Dawn",
+		"MOVES": [],
 		"DIALOG": []
 	}
 }

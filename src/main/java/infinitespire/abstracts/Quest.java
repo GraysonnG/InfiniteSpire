@@ -3,10 +3,15 @@ package infinitespire.abstracts;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.megacrit.cardcrawl.core.CardCrawlGame;
+import com.megacrit.cardcrawl.localization.UIStrings;
 import infinitespire.InfiniteSpire;
 import infinitespire.util.TextureLoader;
 
 public abstract class Quest {
+
+	protected static final UIStrings questStrings = CardCrawlGame.languagePack.getUIString("Quest");
+	protected static final UIStrings voidShardStrings = CardCrawlGame.languagePack.getUIString("VoidShard");
 	
 	public String id;
 	public int maxSteps, currentSteps;
@@ -51,7 +56,15 @@ public abstract class Quest {
 	 * This is called immediatly after the quests constructor is called and is used to generate unique data for the quest.
 	 * @return this
 	 */
-	public abstract Quest createNew();
+	public Quest createNew(Object...params) {
+		return null;
+	}
+
+	@Deprecated
+	public Quest createNew() {
+		return createNew(new Object[0]);
+	}
+
 	/**
 	 * @return A string that is written after "Reward:" or "Claim:" on the quests in the quest log
 	 */

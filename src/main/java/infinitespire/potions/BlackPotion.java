@@ -11,13 +11,13 @@ import infinitespire.actions.DiscoverBlackCardAction;
 
 public class BlackPotion extends CustomPotion {
 
-	public static final String NAME = "Black Potion";
 	public static final String ID = "infinitespire:BlackPotion";
 	public static final PotionRarity RARITY = PotionRarity.RARE;
 	public static final PotionSize SIZE = PotionSize.CARD;
 	public static final PotionColor COLOR = PotionColor.WEAK;
 
 	private static final PotionStrings potionStrings = CardCrawlGame.languagePack.getPotionString(ID);
+	public static final String NAME = potionStrings.NAME;
 	private static final String[] DESCRIPTIONS = potionStrings.DESCRIPTIONS;
 
 	public BlackPotion() {
