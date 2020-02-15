@@ -28,6 +28,7 @@ public class LordOfAnnihilation extends LordBoss {
     public static final String[] DIALOG = monsterStrings.DIALOG;
     private static final int BASE_MAX_HP = 2000;
     private static final float ANIM_TIME = 10f;
+    private static final int RAGE_STRENGTH = 5;
     private float animTicker;
 
     private enum FightPhase {
@@ -39,7 +40,7 @@ public class LordOfAnnihilation extends LordBoss {
 
     public LordOfAnnihilation() {
         super(NAME, ID, BASE_MAX_HP, 0.0f, 0.0f, 300f, 300f, 10f, (me) -> {
-            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(me, me, new StrengthPower(me, 5), 5));
+            AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(me, me, new StrengthPower(me, RAGE_STRENGTH), RAGE_STRENGTH));
         });
         phase = FightPhase.START;
         turn = 0;
@@ -80,7 +81,7 @@ public class LordOfAnnihilation extends LordBoss {
 
         //- Gain debuff mitigation
 
-        //- Give player debuff (actually a buff because fuck ur stupid buff removal tools) that minimizes block saving to 15 block
+        //- Give player debuff (actually a buff because fuck ur stupid buff removal tools) that minimizes block saving to 100 block
     }
 
     @Override

@@ -11,9 +11,9 @@ import infinitespire.quests.PickUpCardQuest;
 public class PickUpCardQuestPatches {
 	@SpirePatch(cls="com.megacrit.cardcrawl.vfx.FastCardObtainEffect", method = "update")
 	public static class FastCardObtainPatch {
-		//rloc 5
+		//rloc 8
 		//Inserted before: for (final AbstractRelic r : AbstractDungeon.player.relics) {
-		@SpireInsertPatch(rloc = 5, localvars = {"card"})
+		@SpireInsertPatch(rloc = 8, localvars = {"card"})
 		public static void Insert(Object __instance, AbstractCard card) {
 			for(int i = InfiniteSpire.questLog.size() - 1; i >= 0; i--) {
 				Quest q = InfiniteSpire.questLog.get(i);

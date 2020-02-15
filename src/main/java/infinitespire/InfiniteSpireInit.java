@@ -34,11 +34,21 @@ public class InfiniteSpireInit implements PostInitializeSubscriber {
 				InfiniteSpire.saveData();
 			});
 
+		ModLabeledToggleButton shouldSpawnLords = new ModLabeledToggleButton("Enable Lord Bosses",
+			350f, 400, Settings.CREAM_COLOR, FontHelper.buttonLabelFont, InfiniteSpire.shouldSpawnLords, settingsPanel,
+			(me) -> {},
+			(me) -> {
+				InfiniteSpire.shouldSpawnLords = me.enabled;
+				InfiniteSpire.saveData();
+			});
+
 		nightmareQuestDefault.toggle.enabled = InfiniteSpire.startWithEndlessQuest;
 		shouldDoParticles.toggle.enabled = InfiniteSpire.shouldDoParticles;
+		shouldSpawnLords.toggle.enabled = InfiniteSpire.shouldSpawnLords;
 
 		settingsPanel.addUIElement(nightmareQuestDefault);
 		settingsPanel.addUIElement(shouldDoParticles);
+		settingsPanel.addUIElement(shouldSpawnLords);
 
 		BaseMod.registerModBadge(modBadge, "Infinite Spire", "Blank The Evil",
 			"Adds a new way to play Slay the Spire, no longer stop after the 3rd boss. Keep fighting and gain perks as you climb.", settingsPanel);

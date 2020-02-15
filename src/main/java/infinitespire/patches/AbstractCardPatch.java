@@ -113,18 +113,6 @@ public class AbstractCardPatch {
         }
     }
 
-    //Border Glow Patch
-    @SpirePatch(clz = CardGlowBorder.class, method = SpirePatch.CONSTRUCTOR)
-    public static class CardGlowPatch {
-        @SpirePostfixPatch
-        public static void puzzleCubeCardGlowColor(CardGlowBorder __instance, AbstractCard inputCard) {
-            if(Field.isPuzzleCubeCard.get(inputCard)) {
-                Color color = Color.YELLOW.cpy();
-                ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", color);
-            }
-        }
-    }
-
     private static void loadBottledSoul(){
         try {
             SpireConfig config = new SpireConfig("InfiniteSpire", "infiniteSpireConfig");

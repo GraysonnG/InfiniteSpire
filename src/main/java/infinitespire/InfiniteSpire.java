@@ -33,6 +33,7 @@ import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
 import infinitespire.actions.AddQuestAction;
 import infinitespire.cards.Neurotoxin;
+import infinitespire.cards.black.SealOfDarkness;
 import infinitespire.commands.QuestCommand;
 import infinitespire.crossover.BardCrossover;
 import infinitespire.events.EmptyRestSite;
@@ -87,7 +88,7 @@ import java.util.Map;
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber,
 	PreStartGameSubscriber {
-	public static final String VERSION = "0.20.0";
+	public static final String VERSION = "0.21.1";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
@@ -111,6 +112,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 	public static boolean startWithEndlessQuest = true;
 	public static boolean shouldDoParticles = true;
 	public static int voidShardCount = 0;
+	public static boolean shouldSpawnLords = true;
 
 	public static boolean hasDefeatedLordOfAnnihilation;
 	public static boolean hasDefeatedLordOfDawn;
@@ -392,6 +394,8 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			e.printStackTrace();
 		}
 
+		BaseMod.addCard(new SealOfDarkness());
+
 		if(isBardLoaded) {
 			BardCrossover.loadBardBlackCards();
 		}
@@ -558,6 +562,7 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 			config.setBool("startWithEndless", startWithEndlessQuest);
 			config.setBool("blackCardParticles", shouldDoParticles);
 			config.setInt("voidShardCount", voidShardCount);
+			config.setBool("shouldSpawnLords", shouldSpawnLords);
 			config.save();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -595,6 +600,11 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 				shouldDoParticles = config.getBool("blackCardParticles");
 			} else {
 				shouldDoParticles = true;
+			}
+			if(config.has("shouldSpawnLords")) {
+				shouldSpawnLords = config.getBool("shouldSpawnLords");
+			} else {
+				shouldSpawnLords = true;
 			}
 			if (CardCrawlGame.isInARun()) {
 				BottledSoul.load(config);

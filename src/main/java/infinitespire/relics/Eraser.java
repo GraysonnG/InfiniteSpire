@@ -30,7 +30,7 @@ public class Eraser extends Relic implements ClickableRelic {
 	private boolean restartedThisCombat = false;
 
 	public Eraser(){
-		super(ID, "eraser", RelicTier.RARE, LandingSound.FLAT);
+		super(ID, "eraser", RelicTier.UNCOMMON, LandingSound.FLAT);
 		this.counter = 3;
 	}
 

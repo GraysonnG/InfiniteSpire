@@ -43,6 +43,15 @@ public class AvhariHelper {
 
 	private static final UIStrings strings = CardCrawlGame.languagePack.getUIString(InfiniteSpire.createID("Avhari"));
 
+	public static void doEasterEgg(SpinningCardItems cards, SpinningRelicItems relics) {
+		for(CardItem cardItem : cards.getCardItems()) {
+			AbstractDungeon.effectList.add(new PurgeCardEffect(cardItem.card, cardItem.card.current_x, cardItem.card.current_y));
+		}
+
+		cards.getCardItems().clear();
+		relics.getRelicItems().clear();
+	}
+
 	public static class SpinningCardItems {
 		private ArrayList<CardItem> cardItems = new ArrayList<>();
 
@@ -105,6 +114,10 @@ public class AvhariHelper {
 				}
 				return false;
 			});
+		}
+
+		public ArrayList<CardItem> getCardItems() {
+			return cardItems;
 		}
 	}
 
@@ -311,6 +324,10 @@ public class AvhariHelper {
 			}
 
 			if(hasPurchaced) relicItems.clear();
+		}
+
+		public ArrayList<RelicItem> getRelicItems() {
+			return relicItems;
 		}
 	}
 
