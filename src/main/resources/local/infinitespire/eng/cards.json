@@ -81,5 +81,14 @@
 	"infinitespire:Starlight": {
 		"NAME" : "Starlight",
 		"DESCRIPTION": "Heal !M! HP. NL Exhaust."
+	},
+	"infinitespire:GlowingPrism": {
+		"NAME" : "Glowing Prism",
+		"DESCRIPTION": "Channel #b1 Prismatic #yOrb."
+	},
+	"infinitespire:SealOfDarkness": {
+		"NAME" : "Seal of Darkness",
+		"DESCRIPTION" : "Innate. NL Retain. NL Banish all enemies to another dimension. NL Fleeting."
+
 	}
 }

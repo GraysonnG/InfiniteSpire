@@ -37,7 +37,7 @@ public class BlackCardPatches {
 	@SpirePatch(clz = AbstractCard.class, method = "renderTitle")
 	public static class RenderTitle {
 		//Inserted after: font.getData().setScale(this.drawScale);
-		@SpireInsertPatch(rloc = 64, localvars = {"font", "renderColor"})
+		@SpireInsertPatch(locator=Locator.class, localvars = {"font", "renderColor"})
 		public static SpireReturn<?> blackCardTitleColorAdjust(AbstractCard __instance, SpriteBatch sb, BitmapFont font, Color renderColor) {
 			if(__instance instanceof BlackCard) {
 				Color color = Settings.CREAM_COLOR.cpy();
@@ -56,12 +56,12 @@ public class BlackCardPatches {
 			@Override
 			public int[] Locate(CtBehavior ctMethodToPatch) throws CannotCompileException, PatchingException {
 				Matcher matcher = new Matcher.MethodCallMatcher(
-					"com.badlogic.gdx.graphics.g2d.BitmapFont.BitmapFontData","setScale"
+						BitmapFont.BitmapFontData.class,"setScale"
 				);
 
-				int[] lines = LineFinder.findInOrder(ctMethodToPatch, matcher);
+				int[] lines = LineFinder.findAllInOrder(ctMethodToPatch, matcher);
 
-				return new int[] {lines[lines.length - 1]};
+				return new int[] {lines[lines.length - 1] + 1};
 			}
 		}
 	}
@@ -257,18 +257,6 @@ public class BlackCardPatches {
 				ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", color);
 			}
 
-		}
-	}
-
-	//Border Glow Patch
-	@SpirePatch(clz = CardGlowBorder.class, method = SpirePatch.CONSTRUCTOR)
-	public static class CardGlowPatch {
-		@SpirePostfixPatch
-		public static void blackCardGlowColor(CardGlowBorder __instance, AbstractCard inputCard) {
-			if(inputCard instanceof BlackCard) {
-				Color color = Colors.get(InfiniteSpire.GDX_INFINITE_PURPLE_NAME).cpy();
-				ReflectionHacks.setPrivate(__instance, AbstractGameEffect.class, "color", color);
-			}
 		}
 	}
 

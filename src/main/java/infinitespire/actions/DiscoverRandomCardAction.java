@@ -43,7 +43,8 @@ public class DiscoverRandomCardAction extends AbstractGameAction {
 				}else{
 					AbstractDungeon.effectList.add(new ShowCardAndAddToDiscardEffect(card, Settings.WIDTH / 2f, Settings.HEIGHT / 2f));
 				}
-				card.modifyCostForTurn(-1);
+				card.setCostForTurn(-1);
+				card.isCostModifiedForTurn = true;
 				AbstractDungeon.cardRewardScreen.discoveryCard = null;
 			}
 			retrieveCard = true;

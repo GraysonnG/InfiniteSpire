@@ -13,7 +13,9 @@ import com.megacrit.cardcrawl.dungeons.TheEnding;
 import com.megacrit.cardcrawl.map.DungeonMap;
 import com.megacrit.cardcrawl.map.MapRoomNode;
 import com.megacrit.cardcrawl.relics.AbstractRelic;
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
 import com.megacrit.cardcrawl.rooms.MonsterRoomElite;
+import com.megacrit.cardcrawl.rooms.RestRoom;
 import com.megacrit.cardcrawl.rooms.ShopRoom;
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile;
 import infinitespire.InfiniteSpire;
@@ -169,7 +171,7 @@ public class AbstractDungeonPatch {
 		}
 
 		public static boolean shouldSpawn(){
-			boolean shouldSpawn = AbstractDungeon.bossCount == 8 && !CardCrawlGame.nextDungeon.equals(TheEnding.ID);
+			boolean shouldSpawn = InfiniteSpire.shouldSpawnLords && AbstractDungeon.bossCount == 8 && !CardCrawlGame.nextDungeon.equals(TheEnding.ID);
 			if(AbstractDungeon.player.hasRelic(BlackEgg.ID) && !CardCrawlGame.nextDungeon.equals(TheEnding.ID)) {
 				shouldSpawn = ((BlackEgg) AbstractDungeon.player.getRelic(BlackEgg.ID)).shouldSpawn;
 			}
@@ -210,6 +212,7 @@ public class AbstractDungeonPatch {
 			int rand2;
 			ArrayList<MapRoomNode> eliteNodes = new ArrayList<MapRoomNode>();
 			ArrayList<MapRoomNode> shopNodes = new ArrayList<>();
+			ArrayList<MapRoomNode> allNodes = new ArrayList<>();
 			for(ArrayList<MapRoomNode> rows : AbstractDungeon.map) {
 				for(MapRoomNode node : rows) {
 					if(node != null && node.room instanceof MonsterRoomElite) {
@@ -218,14 +221,27 @@ public class AbstractDungeonPatch {
 					if(node != null && node.room instanceof ShopRoom) {
 						shopNodes.add(node);
 					}
+					if( node != null &&
+						!(node.room instanceof MonsterRoomBoss || node.room instanceof RestRoom || node.room instanceof NightmareEliteRoom) &&
+						node.y > 2
+						) {
+						allNodes.add(node);
+					}
 				}
 			}
 			rand = AbstractDungeon.mapRng.random(eliteNodes.size() - 1);
 			rand2 = AbstractDungeon.mapRng.random(shopNodes.size() - 1);
 
-			eliteNodes.get(rand).setRoom(new NightmareEliteRoom());
-			shopNodes.get(rand2).setRoom(new AvhariRoom());
-			shopNodes.get(rand2).hasEmeraldKey = true;
+			if(eliteNodes.size() > 0) {
+				eliteNodes.get(rand).setRoom(new NightmareEliteRoom());
+			}
+			if(shopNodes.size() > 0) {
+				shopNodes.get(rand2).setRoom(new AvhariRoom());
+				shopNodes.get(rand2).hasEmeraldKey = true;
+			} else {
+				allNodes.get(rand2).setRoom(new AvhariRoom());
+				allNodes.get(rand2).hasEmeraldKey = true;
+			}
 		}
 	}
 }

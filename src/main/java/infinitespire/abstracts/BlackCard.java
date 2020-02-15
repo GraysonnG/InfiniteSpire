@@ -52,6 +52,8 @@ public abstract class BlackCard extends Card {
 	public void update(){
 		super.update();
 
+		this.glowColor = Colors.get(InfiniteSpire.GDX_INFINITE_PURPLE_NAME).cpy();
+
 		particles.parallelStream()
 			.forEach(BlackParticle::update);
 		particles.removeIf(BlackParticle::isDead);

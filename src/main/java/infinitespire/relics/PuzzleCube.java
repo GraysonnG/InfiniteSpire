@@ -1,5 +1,7 @@
 package infinitespire.relics;
 
+import basemod.interfaces.PostDungeonUpdateSubscriber;
+import com.badlogic.gdx.graphics.Color;
 import com.megacrit.cardcrawl.actions.common.DrawCardAction;
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction;
 import com.megacrit.cardcrawl.cards.AbstractCard;
@@ -13,7 +15,7 @@ import infinitespire.patches.AbstractCardPatch;
 
 import java.util.ArrayList;
 
-public class PuzzleCube extends Relic {
+public class PuzzleCube extends Relic implements PostDungeonUpdateSubscriber {
 
 	public static final String ID = InfiniteSpire.createID("PuzzleCube");
 	private AbstractCard card;
@@ -67,6 +69,15 @@ public class PuzzleCube extends Relic {
 			AbstractDungeon.actionManager.addToBottom(new RelicAboveCreatureAction(AbstractDungeon.player, this));
 			AbstractDungeon.actionManager.addToBottom(new DrawCardAction(AbstractDungeon.player, 1));
 			AbstractCardPatch.Field.isPuzzleCubeCard.set(card, false);
+		}
+	}
+
+	@Override
+	public void receivePostDungeonUpdate() {
+		for (AbstractCard c : AbstractDungeon.player.masterDeck.group) {
+			if(c.equals(this.card)) {
+				c.glowColor = Color.GOLD.cpy();
+			}
 		}
 	}
 }

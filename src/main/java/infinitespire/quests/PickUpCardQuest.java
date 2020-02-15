@@ -105,7 +105,8 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public String getTitle() {
-		return questStrings.TEXT[10] + CardLibrary.getCardNameFromKey(cardID);
+
+		return questStrings.TEXT[10] + CardLibrary.cards.get(cardID).name;
 	}
 
 	@Override
