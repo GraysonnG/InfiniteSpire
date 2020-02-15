@@ -6,6 +6,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon;
 import com.megacrit.cardcrawl.unlock.UnlockTracker;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
+import infinitespire.cards.black.SealOfDarkness;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,9 @@ public class CardHelper {
 			AbstractCard card = getRandomBlackCard().makeStatEquivalentCopy();
 			for(AbstractCard c : cards) {
 				if(c.cardID.equals(card.cardID)) {
+					isUnique = false;
+				}
+				if(c.cardID.equals(SealOfDarkness.ID)) {
 					isUnique = false;
 				}
 			}

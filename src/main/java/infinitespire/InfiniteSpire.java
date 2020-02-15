@@ -88,7 +88,7 @@ import java.util.Map;
 public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscriber, EditRelicsSubscriber,
 	EditCardsSubscriber, EditKeywordsSubscriber, EditStringsSubscriber, PreDungeonUpdateSubscriber, PostUpdateSubscriber,
 	PreStartGameSubscriber {
-	public static final String VERSION = "0.21.1";
+	public static final String VERSION = "0.22.0";
 	public static final Logger logger = LogManager.getLogger(InfiniteSpire.class.getName());
 
 	private static ArrayList<OnQuestRemovedSubscriber> onQuestRemovedSubscribers = new ArrayList<>();
