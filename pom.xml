@@ -56,11 +56,11 @@
       <systemPath>${modsFolder}1611666859/ColoredMap.jar</systemPath>
     </dependency>
     <dependency>
-      <groupId>fruitymod</groupId>
-      <artifactId>fruitymod</artifactId>
-      <version>0.6.9</version>
+      <groupId>com.blanktheevil</groupId>
+      <artifactId>rare-cards-sparkle</artifactId>
+      <version>0.0.1</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/FruityMod.jar</systemPath>
+      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/rare-cards-sparkle.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>hubris</groupId>

@@ -27,7 +27,6 @@ import com.megacrit.cardcrawl.monsters.MonsterInfo;
 import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
-import fruitymod.seeker.patches.AbstractCardEnum;
 import infinitespire.abstracts.Card;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
@@ -36,6 +35,7 @@ import infinitespire.cards.Neurotoxin;
 import infinitespire.cards.black.SealOfDarkness;
 import infinitespire.commands.QuestCommand;
 import infinitespire.crossover.BardCrossover;
+import infinitespire.crossover.RareCardsSparkleHandler;
 import infinitespire.events.EmptyRestSite;
 import infinitespire.events.HoodedArmsDealer;
 import infinitespire.events.PrismEvent;
@@ -248,6 +248,10 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		Map<String, Class> root = (Map<String, Class>) ReflectionHacks.getPrivateStatic(ConsoleCommand.class, "root");
 		root.put(QuestCommand.COMMAND_VALUE, QuestCommand.class);
+
+		if (Loader.isModLoaded("rare-cards-sparkle")) {
+			RareCardsSparkleHandler.init();
+		}
 	}
 
 	public static boolean checkForMod(String classPath) {
@@ -365,9 +369,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		if (isReplayLoaded) {
 			RelicLibrary.add(new BrokenMirror());
-		}
-		if (isFruityLoaded) {
-			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
 		}
 	}
 
