@@ -34,7 +34,7 @@ abstract class BlackCard(id: String, img: String)
 
     private const val MAX_PARTICLES: Int = 150
 
-    fun strings(id: String): CardStringsKt = InfiniteSpire.cardStringsKt[id] ?: CardStringsKt.getDefault()
+    fun strings(id: String): CardStringsKt = InfiniteSpire.cardStringsKt[id] ?: CardStringsKt()
   }
 
   private val particles = mutableListOf<BlackCardParticle>()
