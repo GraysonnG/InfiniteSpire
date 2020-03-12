@@ -7,7 +7,7 @@ import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 
 class Config(
-  var voidShards: Int = 0,
+  var voidShards: VoidShardCurrency = VoidShardCurrency(),
   var bottledSoul: BottledSoulData = BottledSoulData(),
   var questLog: QuestLog = QuestLog(),
   var shouldDoParticles: Boolean = true,
