@@ -25,7 +25,10 @@
 	},
 	"infinitespire:FinalStrike": {
 		"NAME": "Final Strike",
-		"DESCRIPTION": "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike."
+		"DESCRIPTION": "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike.",
+		"COST": 2,
+		"TYPE": "ATTACK",
+		"TARGET": "ENEMY"
 	},
 	"infinitespire:Fortify": {
 		"NAME": "Fortify",
@@ -80,7 +83,10 @@
 	},
 	"infinitespire:Starlight": {
 		"NAME" : "Starlight",
-		"DESCRIPTION": "Heal !M! HP. NL Exhaust."
+		"DESCRIPTION": "Heal !M! HP. NL Exhaust.",
+		"COST": 1,
+		"TYPE": "SKILL",
+		"TARGET": "SELF"
 	},
 	"infinitespire:GlowingPrism": {
 		"NAME" : "Glowing Prism",

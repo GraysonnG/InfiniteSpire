@@ -1,0 +1,3 @@
+package com.blanktheevil.infinitespire.interfaces
+
+interface InfiniteSpireI

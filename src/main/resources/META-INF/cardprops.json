@@ -1,0 +1,12 @@
+{
+  "${project.artifactId}:Starlight": {
+    "COST": 1,
+    "TYPE": "SKILL",
+    "TARGET": "SELF"
+  },
+  "${project.artifactId}:FinalStrike": {
+    "COST": 2,
+    "TYPE": "ATTACK",
+    "TARGET": "ENEMY"
+  }
+}
