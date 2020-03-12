@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.cards.BlackCard
 import com.blanktheevil.infinitespire.crossover.CrossoverManager
 import com.blanktheevil.infinitespire.crossover.Crossovers
-import com.blanktheevil.infinitespire.interfaces.InfiniteSpireI
+import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.Config
@@ -81,7 +81,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     }
 
     @JvmStatic
-    fun <T : InfiniteSpireI> subscribe(subscriber: T) {
+    fun <T : IInfiniteSpire> subscribe(subscriber: T) {
       if (subscriber is Savable) {
         Savable.savables.add(subscriber)
       }
@@ -91,7 +91,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       return "img/infinitespire/$restOfPath"
     }
 
-    fun loadProperties() {
+    private fun loadProperties() {
       try {
         Properties().apply {
           this.load(InfiniteSpire::class.java.getResourceAsStream("/META-INF/infinite-spire.prop"))
