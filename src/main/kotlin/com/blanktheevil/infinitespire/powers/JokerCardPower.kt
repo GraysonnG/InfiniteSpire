@@ -1,5 +1,6 @@
 package com.blanktheevil.infinitespire.powers
 
+import basemod.interfaces.CloneablePowerInterface
 import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.extensions.actionManager
 import com.blanktheevil.infinitespire.extensions.makeID
@@ -15,7 +16,7 @@ import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class JokerCardPower(owner: AbstractPlayer) : AbstractPower() {
+class JokerCardPower(owner: AbstractPlayer) : AbstractPower(), CloneablePowerInterface {
   companion object {
     val powerID = "JokerCardPower".makeID()
     private val strings = CardCrawlGame.languagePack.getPowerStrings(powerID)
@@ -58,4 +59,6 @@ class JokerCardPower(owner: AbstractPlayer) : AbstractPower() {
       }
     }
   }
+
+  override fun makeCopy(): AbstractPower = JokerCardPower(this.owner as AbstractPlayer)
 }

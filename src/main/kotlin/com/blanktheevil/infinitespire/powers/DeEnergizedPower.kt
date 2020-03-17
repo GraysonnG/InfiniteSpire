@@ -1,5 +1,6 @@
 package com.blanktheevil.infinitespire.powers
 
+import basemod.interfaces.CloneablePowerInterface
 import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
@@ -7,7 +8,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class DeEnergizedPower(owner: AbstractPlayer, amount: Int) : AbstractPower() {
+class DeEnergizedPower(owner: AbstractPlayer, amount: Int) : AbstractPower(), CloneablePowerInterface {
   companion object {
     val powerID = "DeenergizedPower".makeID()
     private val strings = CardCrawlGame.languagePack.getPowerStrings(powerID)
@@ -31,4 +32,6 @@ class DeEnergizedPower(owner: AbstractPlayer, amount: Int) : AbstractPower() {
     this.flash()
     player.loseEnergy(amount)
   }
+
+  override fun makeCopy(): AbstractPower = DeEnergizedPower(this.owner as AbstractPlayer, this.amount)
 }
