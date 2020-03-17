@@ -58,7 +58,7 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
         FontHelper.buttonLabelFont,
         "Quest Log Open",
         Settings.WIDTH / 2f,
-      Settings.HEIGHT / 2f,
+        Settings.HEIGHT / 2f,
         Color.WHITE.cpy()
       )
     }

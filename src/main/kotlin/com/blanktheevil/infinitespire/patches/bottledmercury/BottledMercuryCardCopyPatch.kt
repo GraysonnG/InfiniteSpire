@@ -15,8 +15,7 @@ class BottledMercuryCardCopyPatch {
     fun applyBottledMercury(instance: AbstractCard, @ByRef cardRef: Array<AbstractCard>) {
       val card = cardRef[0]
 
-
-      if(instance.inBottleMercury) {
+      if (instance.inBottleMercury) {
         card.inBottleMercury = true
       }
     }

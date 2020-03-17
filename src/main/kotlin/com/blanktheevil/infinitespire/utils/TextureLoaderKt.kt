@@ -5,7 +5,6 @@ import com.blanktheevil.infinitespire.Textures
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch
 import org.apache.logging.log4j.LogManager
-import java.lang.Exception
 
 class TextureLoaderKt {
   companion object {

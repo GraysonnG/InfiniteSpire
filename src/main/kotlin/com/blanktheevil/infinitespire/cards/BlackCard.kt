@@ -20,7 +20,7 @@ abstract class BlackCard(id: String, img: String)
   id,
   strings(id).NAME,
   img,
-  strings(id).COST ?: -1,
+  strings(id).COST,
   strings(id).DESCRIPTION,
   strings(id).TYPE,
   EnumPatches.CardColor.INFINITE_BLACK,
@@ -56,7 +56,7 @@ abstract class BlackCard(id: String, img: String)
   }
 
   override fun upgrade() {
-    if(!upgraded) {
+    if (!upgraded) {
       upgradeName()
       onUpgrade()
     }

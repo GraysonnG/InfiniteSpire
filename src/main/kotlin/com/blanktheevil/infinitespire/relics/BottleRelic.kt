@@ -13,16 +13,15 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper
 import com.megacrit.cardcrawl.rooms.AbstractRoom
 import kotlin.streams.toList
 
-abstract class BottleRelic (
+abstract class BottleRelic(
   id: String,
   img: String,
   tier: RelicTier,
   sound: LandingSound
-)
-  : Relic(id, img, tier, sound), Savable {
+) : Relic(id, img, tier, sound), Savable {
 
   init {
-    InfiniteSpire.subscribe(this)
+    subscribe()
   }
 
   var selectedCard: AbstractCard? = null
@@ -43,7 +42,7 @@ abstract class BottleRelic (
         }.toList())
     }
 
-    if(group.size() > 0) {
+    if (group.size() > 0) {
       if (AbstractDungeon.isScreenUp) {
         if (InfiniteSpire.questLogScreen.isOpen()) {
           InfiniteSpire.questLogScreen.toggle()
@@ -112,7 +111,7 @@ abstract class BottleRelic (
   override fun renderTip(sb: SpriteBatch) {
     super.renderTip(sb)
 
-    if(InputHelper.mX < 1400f.scale()) {
+    if (InputHelper.mX < 1400f.scale()) {
       renderCardPreview(sb)
     }
   }

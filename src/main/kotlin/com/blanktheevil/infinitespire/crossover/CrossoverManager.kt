@@ -1,9 +1,7 @@
 package com.blanktheevil.infinitespire.crossover
 
-import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.log
 import com.evacipated.cardcrawl.modthespire.Loader
-import java.lang.Exception
 import java.util.function.Consumer
 
 class CrossoverManager {

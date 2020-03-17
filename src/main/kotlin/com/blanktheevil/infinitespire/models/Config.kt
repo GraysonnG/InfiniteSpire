@@ -5,7 +5,6 @@ import com.blanktheevil.infinitespire.relics.BottledMercury
 import com.blanktheevil.infinitespire.relics.BottledSoul
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils
 import com.google.gson.Gson
-import com.megacrit.cardcrawl.cards.red.FiendFire
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 
@@ -27,7 +26,7 @@ class Config(
   }
 
   companion object {
-    val dirPath =  ConfigUtils.CONFIG_DIR + File.separator + InfiniteSpire.modid + File.separator + "config.json"
+    val dirPath = ConfigUtils.CONFIG_DIR + File.separator + InfiniteSpire.modid + File.separator + "config.json"
 
     fun init(): Config {
       val file = File(dirPath)

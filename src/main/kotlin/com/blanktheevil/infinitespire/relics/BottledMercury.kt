@@ -1,6 +1,9 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.extensions.actionManager
+import com.blanktheevil.infinitespire.extensions.inBottleMercury
+import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.models.Config
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction
@@ -10,7 +13,7 @@ import com.megacrit.cardcrawl.powers.DexterityPower
 import com.megacrit.cardcrawl.powers.FocusPower
 import com.megacrit.cardcrawl.powers.StrengthPower
 
-class BottledMercury: BottleRelic(ID, IMG, TIER, SOUND) {
+class BottledMercury : BottleRelic(ID, IMG, TIER, SOUND) {
   companion object {
     val ID = "BottledMercury".makeID()
     private val IMG = "bottledMercury"
@@ -29,12 +32,11 @@ class BottledMercury: BottleRelic(ID, IMG, TIER, SOUND) {
           actionManager.addToBottom(ApplyPowerAction(player, player, DexterityPower(player, 1), 1))
         AbstractCard.CardType.POWER ->
           actionManager.addToBottom(ApplyPowerAction(player, player, FocusPower(player, 2), 2))
-        else -> { /* do nothing */ }
+        else -> { /* do nothing */
+        }
       }
     }
   }
-
-
 
   override fun filterGridSelectBy(card: AbstractCard): Boolean = true
   override fun isCardBottled(card: AbstractCard): Boolean = card.inBottleMercury

@@ -11,6 +11,7 @@ import com.blanktheevil.infinitespire.cards.BlackCard
 import com.blanktheevil.infinitespire.crossover.CrossoverManager
 import com.blanktheevil.infinitespire.crossover.Crossovers
 import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
+import com.blanktheevil.infinitespire.interfaces.OnActComplete
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.Config
@@ -69,6 +70,10 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     fun <T : IInfiniteSpire> subscribe(subscriber: T) {
       if (subscriber is Savable) {
         Savable.savables.add(subscriber)
+      }
+
+      if (subscriber is OnActComplete) {
+        OnActComplete.items.add(subscriber)
       }
     }
 

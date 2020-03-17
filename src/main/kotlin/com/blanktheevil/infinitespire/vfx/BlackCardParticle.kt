@@ -1,10 +1,10 @@
 package com.blanktheevil.infinitespire.vfx
 
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
@@ -44,19 +44,19 @@ class BlackCardParticle(private var pos: Vector2, private var cardScale: Float, 
   }
 
   override fun render(sb: SpriteBatch) {
-      sb.color = this.color
-      sb.draw(
-        texture,
-        pos.x,
-        pos.y,
-        texture.regionWidth.div(2f),
-        texture.regionHeight.div(2f),
-        texture.regionWidth.toFloat(),
-        texture.regionHeight.toFloat(),
-        lifeSpan.div(0.5f).times(cardScale).times(2f),
-        lifeSpan.div(0.5f).times(cardScale).times(2f),
-        0f
-      )
+    sb.color = this.color
+    sb.draw(
+      texture,
+      pos.x,
+      pos.y,
+      texture.regionWidth.div(2f),
+      texture.regionHeight.div(2f),
+      texture.regionWidth.toFloat(),
+      texture.regionHeight.toFloat(),
+      lifeSpan.div(0.5f).times(cardScale).times(2f),
+      lifeSpan.div(0.5f).times(cardScale).times(2f),
+      0f
+    )
 
   }
 

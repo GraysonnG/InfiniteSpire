@@ -1,3 +1,7 @@
 package com.blanktheevil.infinitespire.interfaces
 
-interface IInfiniteSpire
+import com.blanktheevil.infinitespire.InfiniteSpire
+
+interface IInfiniteSpire {
+  fun subscribe() = InfiniteSpire.subscribe(this)
+}

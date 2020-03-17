@@ -33,10 +33,13 @@ class EnumPatches {
     companion object {
       @SpireEnum
       lateinit var BLACK_CARD: RewardItem.RewardType
+
       @SpireEnum
       lateinit var QUEST: RewardItem.RewardType
+
       @SpireEnum
       lateinit var INTEREST: RewardItem.RewardType
+
       @SpireEnum
       lateinit var VOID_SHARD: RewardItem.RewardType
     }

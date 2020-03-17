@@ -1,6 +1,5 @@
 package com.blanktheevil.infinitespire.cards
 
-import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
@@ -12,7 +11,6 @@ import com.megacrit.cardcrawl.cards.CardGroup
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.cards.red.PerfectedStrike
 import com.megacrit.cardcrawl.characters.AbstractPlayer
-import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import kotlin.math.floor
 import kotlin.streams.toList
@@ -47,7 +45,7 @@ class FinalStrike : BlackCard(ID, IMG) {
       groups.add(discardPile)
     }
 
-    groups.forEach {cGroup ->
+    groups.forEach { cGroup ->
       count += cGroup.group.stream()
         .filter { isStrike(it) }
         .toList().size
@@ -59,7 +57,7 @@ class FinalStrike : BlackCard(ID, IMG) {
   override fun applyPowers() {
     var tmp: Float = this.baseDamage.toFloat()
     tmp += getStrikeDamage()
-    with (player) {
+    with(player) {
       powers.forEach { it.atDamageGive(tmp, damageTypeForTurn) }
       powers.forEach { it.atDamageFinalGive(tmp, damageTypeForTurn) }
     }
@@ -72,7 +70,7 @@ class FinalStrike : BlackCard(ID, IMG) {
   override fun calculateCardDamage(mo: AbstractMonster?) {
     var tmp: Float = this.baseDamage.toFloat()
     tmp += getStrikeDamage()
-    with (player) {
+    with(player) {
       powers.forEach { it.atDamageGive(tmp, damageTypeForTurn) }
       powers.forEach { it.atDamageFinalGive(tmp, damageTypeForTurn) }
     }

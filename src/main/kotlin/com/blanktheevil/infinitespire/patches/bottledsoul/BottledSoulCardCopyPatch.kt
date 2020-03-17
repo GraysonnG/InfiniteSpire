@@ -15,7 +15,7 @@ class BottledSoulCardCopyPatch {
     fun applyBottledSoul(instance: AbstractCard, @ByRef cardRef: Array<AbstractCard>) {
       val card = cardRef[0]
 
-      if(instance.inBottleSoul) {
+      if (instance.inBottleSoul) {
         card.inBottleSoul = true
         card.exhaust = false
       }

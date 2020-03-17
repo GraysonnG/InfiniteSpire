@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 
 @Suppress("unused")
-class Starlight : BlackCard (ID, IMG) {
+class Starlight : BlackCard(ID, IMG) {
   companion object {
     val ID = "Starlight".makeID()
     private val IMG = Textures.cards.getString("starlight.png")

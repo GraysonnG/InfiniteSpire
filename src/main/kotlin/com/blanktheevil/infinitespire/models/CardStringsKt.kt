@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.models
 
-import com.megacrit.cardcrawl.cards.AbstractCard.*
+import com.megacrit.cardcrawl.cards.AbstractCard.CardTarget
+import com.megacrit.cardcrawl.cards.AbstractCard.CardType
 
 class CardStringsKt(
   val NAME: String = "[MISSING_TITLE]",

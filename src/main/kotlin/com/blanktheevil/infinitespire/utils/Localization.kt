@@ -12,7 +12,7 @@ class Localization {
     fun loadFiles(language: Settings.GameLanguage) {
       InfiniteSpire.cardStringsKt = JSONHelper.readFileAsMapOf(
         makePath(language, "cards"),
-        object: TypeToken<Map<String, CardStringsKt>>(){}
+        object : TypeToken<Map<String, CardStringsKt>>() {}
       )
 
       BaseMod.loadCustomStringsFile(RelicStrings::class.java, makePath(language, "relics"))

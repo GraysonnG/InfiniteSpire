@@ -1,6 +1,8 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.extensions.inBottleSoul
+import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.models.Config
 import com.megacrit.cardcrawl.cards.AbstractCard
 

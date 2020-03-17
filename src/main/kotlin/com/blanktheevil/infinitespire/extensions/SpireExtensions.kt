@@ -9,12 +9,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.megacrit.cardcrawl.actions.GameActionManager
+import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
 import com.megacrit.cardcrawl.characters.AbstractPlayer
+import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.input.InputHelper
+import com.megacrit.cardcrawl.powers.AbstractPower
+import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.rooms.AbstractRoom
 
 fun Float.scale(): Float = this * Settings.scale
@@ -42,6 +46,35 @@ fun Hitbox.rightClicked(): Boolean = InputHelper.justClickedRight && this.hovere
 fun SpriteBatch.additiveMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE)
 fun SpriteBatch.normalMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
 
+fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = 0, source: AbstractCreature = this, top: Boolean = false) {
+  if (!top) {
+    actionManager.addToBottom(
+      ApplyPowerAction(
+        this,
+        source,
+        power,
+        amount
+      )
+    )
+  } else {
+    actionManager.addToTop(
+      ApplyPowerAction(
+        this,
+        source,
+        power,
+        amount
+      )
+    )
+  }
+}
+
+fun <T> List<T>.getRandomItem(random: Random = Random()): T? {
+  return if (this.isNotEmpty()) {
+    this[random.random(this.size - 1)]
+  } else null
+}
+
+fun doNothing() {}
 
 val dungeon: AbstractDungeon get() = CardCrawlGame.dungeon
 val currentRoom: AbstractRoom? get() = AbstractDungeon.getCurrRoom()

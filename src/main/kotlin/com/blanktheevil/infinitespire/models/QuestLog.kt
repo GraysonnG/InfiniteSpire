@@ -3,7 +3,7 @@ package com.blanktheevil.infinitespire.models
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.enums.QuestType
 import com.blanktheevil.infinitespire.interfaces.Savable
-import java.util.ArrayList
+import java.util.*
 
 class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable {
 
@@ -12,11 +12,11 @@ class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable {
   val greenQuests = mutableListOf<Quest>()
 
   init {
-    if(savable) InfiniteSpire.subscribe(this)
+    if (savable) subscribe()
   }
 
   private fun addQuestToTypedList(element: Quest) {
-    when(element.type) {
+    when (element.type) {
       QuestType.RED -> redQuests.add(element)
       QuestType.BLUE -> blueQuests.add(element)
       QuestType.GREEN -> greenQuests.add(element)
