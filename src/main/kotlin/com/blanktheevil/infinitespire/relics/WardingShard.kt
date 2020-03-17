@@ -3,17 +3,17 @@ package com.blanktheevil.infinitespire.relics
 import com.blanktheevil.infinitespire.extensions.applyPower
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
-import com.megacrit.cardcrawl.powers.StrengthPower
+import com.megacrit.cardcrawl.powers.DexterityPower
 
-class EmpoweringShard : CrystalRelic(ID, IMG) {
+class WardingShard : CrystalRelic(ID, IMG) {
   companion object {
-    val ID = "EmpoweringShard".makeID()
-    private const val IMG = "empoweringshard"
+    val ID = "WardingShard".makeID()
+    private const val IMG = "wardingshard"
   }
 
   override fun atBattleStart() {
     player.applyPower(
-      StrengthPower(player, counter),
+      DexterityPower(player, counter),
       amount = counter
     )
   }
