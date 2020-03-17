@@ -7,7 +7,7 @@ import com.megacrit.cardcrawl.helpers.TipHelper
 import com.megacrit.cardcrawl.relics.AbstractRelic
 import java.util.*
 
-abstract class InfiniteSpireRelic(
+abstract class Relic(
   setId: String,
   textureId: String,
   tier: RelicTier,

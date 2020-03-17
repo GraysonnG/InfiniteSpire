@@ -1,14 +1,18 @@
 package com.blanktheevil.infinitespire.models
 
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.relics.BottledMercury
+import com.blanktheevil.infinitespire.relics.BottledSoul
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils
 import com.google.gson.Gson
+import com.megacrit.cardcrawl.cards.red.FiendFire
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 
 class Config(
   var voidShards: VoidShardCurrency = VoidShardCurrency(),
-  var bottledSoul: BottledSoulData = BottledSoulData(),
+  var bottledSoul: BottledRelicData<BottledSoul> = BottledRelicData(),
+  var bottledMercury: BottledRelicData<BottledMercury> = BottledRelicData(),
   var questLog: QuestLog = QuestLog(),
   var shouldDoParticles: Boolean = true,
   var shouldSpawnLords: Boolean = true,
@@ -16,7 +20,10 @@ class Config(
 ) {
   fun save() {
     val file = File(dirPath)
-    file.writeText(Gson().toJson(this))
+    file.writer(UTF_8).also {
+      it.write(Gson().toJson(this))
+      it.close()
+    }
   }
 
   companion object {
@@ -27,7 +34,9 @@ class Config(
       if (!file.exists()) {
         file.parentFile.mkdirs()
         file.createNewFile()
-        return Config()
+        return Config().also {
+          it.save()
+        }
       }
 
       return load()

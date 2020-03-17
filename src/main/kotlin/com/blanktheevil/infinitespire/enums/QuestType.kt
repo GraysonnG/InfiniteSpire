@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.enums
 
-enum class QuestType {
-  RED,
-  GREEN,
-  BLUE
+enum class QuestType(val typeName: String) {
+  RED("Red Quests"),
+  GREEN("Green Quests"),
+  BLUE("Blue Quests")
 }

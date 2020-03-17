@@ -29,7 +29,7 @@ abstract class BlackCard(id: String, img: String)
 ) {
 
   companion object {
-    private val RARITY = CardRarity.SPECIAL
+    private val RARITY = EnumPatches.CardRarity.BLACK
     private val FPS_SCALE: Int = ceil(240.0.div(Settings.MAX_FPS)).toInt()
 
     private const val MAX_PARTICLES: Int = 150

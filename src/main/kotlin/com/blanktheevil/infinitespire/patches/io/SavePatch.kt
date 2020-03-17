@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.patches.io
 
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
@@ -14,16 +15,16 @@ class SavePatch {
     @SpirePostfixPatch
     fun saveAndExit(popup: ConfirmPopup) {
       if (popup.type == ConfirmPopup.ConfirmType.EXIT) {
-        InfiniteSpire.logger.info("Infinite Spire saving data...")
+        log.info("Infinite Spire saving data...")
         Savable.savables.forEach {
-          it.beforeConfigSave()
+          it.beforeConfigSave(InfiniteSpire.config)
         }
         InfiniteSpire.config.save()
       } else if (popup.type == ConfirmPopup.ConfirmType.ABANDON) {
-        InfiniteSpire.logger.info("Infinite Spire clearing run data...")
+        log.info("Infinite Spire clearing run data...")
         Savable.savables.forEach {
-          it.clearData()
-          it.beforeConfigSave()
+          it.clearData(InfiniteSpire.config)
+          it.beforeConfigSave(InfiniteSpire.config)
         }
         InfiniteSpire.config.save()
       }

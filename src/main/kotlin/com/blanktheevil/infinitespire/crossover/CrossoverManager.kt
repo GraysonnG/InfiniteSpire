@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.crossover
 
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.extensions.log
 import com.evacipated.cardcrawl.modthespire.Loader
 import java.lang.Exception
 import java.util.function.Consumer
@@ -17,12 +18,12 @@ class CrossoverManager {
       crossovers.entries.stream()
         .filter { Loader.isModLoaded(it.value.modid) }
         .forEach {
-          InfiniteSpire.logger.info("Found Mod: ${it.value.modid}")
-          InfiniteSpire.logger.info("|\tLoading Crossover Content...")
+          log.info("Found Mod: ${it.value.modid}")
+          log.info("|\tLoading Crossover Content...")
           try {
             it.value.addContent.accept(null)
             it.value.isLoaded = true
-            InfiniteSpire.logger.info("|\tDone Adding Content!\n")
+            log.info("|\tDone Adding Content!\n")
           } catch (e: Exception) {
             e.printStackTrace()
           }

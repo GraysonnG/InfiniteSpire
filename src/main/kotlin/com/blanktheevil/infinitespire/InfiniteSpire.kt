@@ -3,6 +3,7 @@ package com.blanktheevil.infinitespire
 import basemod.AutoAdd
 import basemod.BaseMod
 import basemod.interfaces.EditCardsSubscriber
+import basemod.interfaces.EditRelicsSubscriber
 import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
@@ -15,6 +16,7 @@ import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.Config
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.patches.EnumPatches
+import com.blanktheevil.infinitespire.relics.Relic
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
@@ -22,13 +24,15 @@ import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.Localization
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.helpers.RelicLibrary
+import com.megacrit.cardcrawl.unlock.UnlockTracker
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.IOException
 import java.util.*
 
 @SpireInitializer
-class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStringsSubscriber {
+class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStringsSubscriber, EditRelicsSubscriber {
   companion object {
     val logger: Logger = LogManager.getLogger(InfiniteSpire::class.java.name)
     val PURPLE: Color = Color.valueOf("#3D00D6")
@@ -57,6 +61,19 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       Config.init()
       BaseMod.subscribe(InfiniteSpire())
       // init infinite spire settings menu
+      addBlackCardColor()
+      Crossovers.init()
+    }
+
+    @JvmStatic
+    fun <T : IInfiniteSpire> subscribe(subscriber: T) {
+      if (subscriber is Savable) {
+        Savable.savables.add(subscriber)
+      }
+    }
+
+    @JvmStatic
+    fun addBlackCardColor() {
       BaseMod.addColor(
         EnumPatches.CardColor.INFINITE_BLACK,
         Color.BLACK.cpy(),
@@ -75,20 +92,10 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
         Textures.cards.getString("ui/1024/boss-power.png"),
         Textures.cards.getString("ui/1024/boss-orb.png")
       )
-
-
-      Crossovers.init()
-    }
-
-    @JvmStatic
-    fun <T : IInfiniteSpire> subscribe(subscriber: T) {
-      if (subscriber is Savable) {
-        Savable.savables.add(subscriber)
-      }
     }
 
     fun createPath(restOfPath: String): String {
-      return "img/infinitespire/$restOfPath"
+      return "img/${modid}/$restOfPath"
     }
 
     private fun loadProperties() {
@@ -115,9 +122,21 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receiveEditCards() {
-    AutoAdd("infinitespire")
+    AutoAdd(modid)
       .packageFilter(BlackCard::class.java)
       .cards()
+  }
+
+  override fun receiveEditRelics() {
+    AutoAdd(modid)
+      .packageFilter(Relic::class.java)
+      .any(Relic::class.java) { info, relic ->
+        logger.info("Added Relic: ${relic.relicId}")
+        RelicLibrary.add(relic)
+        if (info.seen) {
+          UnlockTracker.markRelicAsSeen(relic.relicId)
+        }
+      }
   }
 
   override fun receivePostInitialize() {

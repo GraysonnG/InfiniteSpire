@@ -43,7 +43,7 @@ class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable {
     return super.addAll(index, elements)
   }
 
-  override fun beforeConfigSave() {
+  override fun beforeConfigSave(config: Config) {
     InfiniteSpire.config.questLog.addAll(this)
   }
 
@@ -51,7 +51,7 @@ class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable {
     this.addAll(config.questLog)
   }
 
-  override fun clearData() {
+  override fun clearData(config: Config) {
     clear()
   }
 }

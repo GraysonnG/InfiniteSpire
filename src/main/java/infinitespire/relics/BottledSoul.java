@@ -64,7 +64,7 @@ public class BottledSoul extends Relic implements CustomBottleRelic, StartGameSu
 			if(cardIndex >= 0 && cardIndex < AbstractDungeon.player.masterDeck.group.size()){
 				if(relic.card == null) {
 					relic.card = AbstractDungeon.player.masterDeck.group.get(cardIndex);
-					InfiniteSpire.logger.info("Get Bottled Soul Card Index: " + cardIndex);
+					log.info("Get Bottled Soul Card Index: " + cardIndex);
 					if (relic.card != null) {
 						AbstractCardPatch.Field.isBottledSoulCard.set(relic.card, true);
 						relic.cardSelected = true;

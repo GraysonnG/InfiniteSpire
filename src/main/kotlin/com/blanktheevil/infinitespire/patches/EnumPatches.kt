@@ -15,6 +15,13 @@ class EnumPatches {
     }
   }
 
+  class CardRarity {
+    companion object {
+      @SpireEnum
+      lateinit var BLACK: AbstractCard.CardRarity
+    }
+  }
+
   class LibColor {
     companion object {
       @SpireEnum

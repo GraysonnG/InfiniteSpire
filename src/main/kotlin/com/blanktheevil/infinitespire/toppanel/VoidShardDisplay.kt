@@ -59,7 +59,7 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
       FontHelper.renderFontCentered(
         sb,
         this,
-        InfiniteSpire.config.voidShards.toString(),
+        InfiniteSpire.config.voidShards.count.toString(),
         x.plus(hb_w.div(2f)),
         y.plus(16f.scale()),
         Color.WHITE.cpy()
@@ -80,14 +80,14 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
     sb.additiveMode()
     sb.color = Color.WHITE.cpy().also { it.a = flashTimer * FLASH_ANIM_TIME }
 
-    renderImageWithScale(sb, Settings.scale.plus(tmp))
-    renderImageWithScale(sb, Settings.scale.plus(tmp.times(0.66f)))
-    renderImageWithScale(sb, Settings.scale.plus(tmp.div(3f)))
+    renderImageWithScale(sb, scale.plus(tmp))
+    renderImageWithScale(sb, scale.plus(tmp.times(0.66f)))
+    renderImageWithScale(sb, scale.plus(tmp.div(3f)))
 
     sb.normalMode()
   }
 
-  private fun renderImageWithScale(sb: SpriteBatch, scale: Float) {
+  private fun renderImageWithScale(sb: SpriteBatch, imgScale: Float) {
     val halfWidth = this.image.width.div(2f)
     val halfHeight = this.image.height.div(2f)
 
@@ -99,8 +99,8 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
       halfHeight,
       this.image.width.toFloat(),
       this.image.height.toFloat(),
-      scale,
-      scale,
+      imgScale,
+      imgScale,
       this.angle,
       0,
       0,

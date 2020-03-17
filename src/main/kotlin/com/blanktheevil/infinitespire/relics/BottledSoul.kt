@@ -1,14 +1,11 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.extensions.inBottleSoul
-import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.interfaces.Savable
+import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.models.Config
 import com.megacrit.cardcrawl.cards.AbstractCard
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 
-class BottledSoul : InfiniteSpireRelic(ID, IMG, TIER, SOUND), Savable {
+
+class BottledSoul : BottleRelic(ID, IMG, TIER, SOUND) {
   companion object {
     val ID = "Bottled Soul".makeID()
     private val IMG = "bottledsoul-cracked"
@@ -16,26 +13,27 @@ class BottledSoul : InfiniteSpireRelic(ID, IMG, TIER, SOUND), Savable {
     private val SOUND = LandingSound.CLINK
   }
 
-  var selectedCard: AbstractCard? = null
-  var cardSelected: Boolean = false
+  override fun filterGridSelectBy(card: AbstractCard): Boolean = card.exhaust
+  override fun isCardBottled(card: AbstractCard): Boolean = card.inBottleSoul
 
-  init {
-    InfiniteSpire.subscribe(this)
+  override fun actionWhenUnEquipped(card: AbstractCard) {
+    card.inBottleSoul = false
   }
 
+  override fun actionWhenSelected(card: AbstractCard) {
+    card.inBottleSoul = true
+  }
 
-  // GAHHH FUCK THIS IM NOT SURE WHAT TO DO
-
-  override fun beforeConfigSave() {
+  override fun beforeConfigSave(config: Config) {
     if (cardSelected && selectedCard != null) {
-      InfiniteSpire.config.bottledSoul.selectedCardID = selectedCard!!.cardID
+      config.bottledSoul.selectedCardID = selectedCard!!.cardID
     }
   }
 
   override fun afterConfigLoad(config: Config) {
     val soulSave = config.bottledSoul
     if (soulSave.selectedCardID != "") {
-      AbstractDungeon.player.masterDeck.group.forEach {
+      player.masterDeck.group.forEach {
         if (it.cardID == soulSave.selectedCardID) {
           cardSelected = true
           selectedCard = it
@@ -45,7 +43,7 @@ class BottledSoul : InfiniteSpireRelic(ID, IMG, TIER, SOUND), Savable {
     }
   }
 
-  override fun clearData() {
-    InfiniteSpire.config.bottledSoul.selectedCardID = ""
+  override fun clearData(config: Config) {
+    config.bottledSoul.selectedCardID = ""
   }
 }
