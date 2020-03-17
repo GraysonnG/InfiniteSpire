@@ -1,11 +1,11 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.interfaces.OnActComplete
+import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
 
 abstract class CrystalRelic(
   id: String,
   img: String
-) : Relic(id, img, RelicTier.UNCOMMON, LandingSound.CLINK), OnActComplete {
+) : Relic(id, img, RelicTier.UNCOMMON, LandingSound.CLINK), ActCompleteInterface {
   init {
     subscribe()
   }

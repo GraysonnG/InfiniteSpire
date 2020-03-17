@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.patches.abstractroom
 
 import com.blanktheevil.infinitespire.extensions.log
-import com.blanktheevil.infinitespire.interfaces.OnActComplete
+import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
@@ -17,7 +17,7 @@ class EndOfActHookPatch {
     fun handleEndOfAct(room: AbstractRoom) {
       if (room is MonsterRoomBoss && room.phase == AbstractRoom.RoomPhase.COMPLETE) {
         log.info("Executing end of act hook...")
-        OnActComplete.items.forEach {
+        ActCompleteInterface.items.forEach {
           it.onActCompleted(AbstractDungeon.id)
         }
       }
