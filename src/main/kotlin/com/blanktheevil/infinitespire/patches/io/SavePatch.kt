@@ -17,16 +17,16 @@ class SavePatch {
       if (popup.type == ConfirmPopup.ConfirmType.EXIT) {
         log.info("Infinite Spire saving data...")
         Savable.savables.forEach {
-          it.beforeConfigSave(InfiniteSpire.config)
+          it.beforeConfigSave(InfiniteSpire.saveData)
         }
-        InfiniteSpire.config.save()
+        InfiniteSpire.saveData.save()
       } else if (popup.type == ConfirmPopup.ConfirmType.ABANDON) {
         log.info("Infinite Spire clearing run data...")
         Savable.savables.forEach {
-          it.clearData(InfiniteSpire.config)
-          it.beforeConfigSave(InfiniteSpire.config)
+          it.clearData(InfiniteSpire.saveData)
+          it.beforeConfigSave(InfiniteSpire.saveData)
         }
-        InfiniteSpire.config.save()
+        InfiniteSpire.saveData.save()
       }
     }
   }

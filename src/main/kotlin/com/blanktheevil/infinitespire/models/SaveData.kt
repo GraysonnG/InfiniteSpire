@@ -8,10 +8,11 @@ import com.google.gson.Gson
 import java.io.File
 import java.nio.charset.StandardCharsets.UTF_8
 
-class Config(
+class SaveData(
   var voidShards: VoidShardCurrency = VoidShardCurrency(),
   var bottledSoul: BottledRelicData<BottledSoul> = BottledRelicData(),
   var bottledMercury: BottledRelicData<BottledMercury> = BottledRelicData(),
+  var nightmareData: NightmareData = NightmareData(),
   var questLog: QuestLog = QuestLog(),
   var shouldDoParticles: Boolean = true,
   var shouldSpawnLords: Boolean = true,
@@ -26,14 +27,14 @@ class Config(
   }
 
   companion object {
-    val dirPath = ConfigUtils.CONFIG_DIR + File.separator + InfiniteSpire.modid + File.separator + "config.json"
+    val dirPath = ConfigUtils.CONFIG_DIR + File.separator + InfiniteSpire.modid + File.separator + "saveData.json"
 
-    fun init(): Config {
+    fun init(): SaveData {
       val file = File(dirPath)
       if (!file.exists()) {
         file.parentFile.mkdirs()
         file.createNewFile()
-        return Config().also {
+        return SaveData().also {
           it.save()
         }
       }
@@ -41,13 +42,13 @@ class Config(
       return load()
     }
 
-    fun load(): Config {
+    fun load(): SaveData {
       val file = File(dirPath)
 
       return try {
-        Gson().fromJson(file.readText(UTF_8), Config::class.java)
+        Gson().fromJson(file.readText(UTF_8), SaveData::class.java)
       } catch (e: Exception) {
-        Config()
+        SaveData()
       }
     }
   }

@@ -1,14 +1,14 @@
 package com.blanktheevil.infinitespire.interfaces
 
-import com.blanktheevil.infinitespire.models.Config
+import com.blanktheevil.infinitespire.models.SaveData
 
 /**
- * This interface is used to manage the config
+ * This interface is used to manage the saveData
  */
 interface Savable : IInfiniteSpire {
-  fun beforeConfigSave(config: Config)
-  fun afterConfigLoad(config: Config)
-  fun clearData(config: Config)
+  fun beforeConfigSave(saveData: SaveData)
+  fun afterConfigLoad(saveData: SaveData)
+  fun clearData(saveData: SaveData)
 
   companion object {
     val savables = mutableListOf<Savable>()

@@ -1,10 +1,7 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.extensions.actionManager
-import com.blanktheevil.infinitespire.extensions.inBottleMercury
-import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.extensions.player
-import com.blanktheevil.infinitespire.models.Config
+import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.models.SaveData
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -27,13 +24,12 @@ class BottledMercury : BottleRelic(ID, IMG, TIER, SOUND) {
       actionManager.addToBottom(RelicAboveCreatureAction(player, this))
       when (card.type) {
         AbstractCard.CardType.ATTACK ->
-          actionManager.addToBottom(ApplyPowerAction(player, player, StrengthPower(player, 1), 1))
+          player.applyPower(StrengthPower(player, 1))
         AbstractCard.CardType.SKILL ->
-          actionManager.addToBottom(ApplyPowerAction(player, player, DexterityPower(player, 1), 1))
+          player.applyPower(DexterityPower(player, 1))
         AbstractCard.CardType.POWER ->
-          actionManager.addToBottom(ApplyPowerAction(player, player, FocusPower(player, 2), 2))
-        else -> { /* do nothing */
-        }
+          player.applyPower(FocusPower(player, 2), amount = 2)
+        else -> doNothing()
       }
     }
   }
@@ -49,16 +45,16 @@ class BottledMercury : BottleRelic(ID, IMG, TIER, SOUND) {
     card.inBottleMercury = false
   }
 
-  override fun beforeConfigSave(config: Config) {
+  override fun beforeConfigSave(saveData: SaveData) {
     if (cardSelected && selectedCard != null) {
-      config.bottledMercury.selectedCardID = selectedCard!!.cardID
+      saveData.bottledMercury.selectedCardID = selectedCard!!.cardID
     }
   }
 
-  override fun afterConfigLoad(config: Config) {
-    if (config.bottledMercury.selectedCardID != "") {
+  override fun afterConfigLoad(saveData: SaveData) {
+    if (saveData.bottledMercury.selectedCardID != "") {
       player.masterDeck.group.forEach {
-        if (it.cardID == config.bottledMercury.selectedCardID) {
+        if (it.cardID == saveData.bottledMercury.selectedCardID) {
           cardSelected = true
           selectedCard = it
           it.inBottleMercury = true
@@ -67,7 +63,7 @@ class BottledMercury : BottleRelic(ID, IMG, TIER, SOUND) {
     }
   }
 
-  override fun clearData(config: Config) {
-    config.bottledMercury.selectedCardID = ""
+  override fun clearData(saveData: SaveData) {
+    saveData.bottledMercury.selectedCardID = ""
   }
 }

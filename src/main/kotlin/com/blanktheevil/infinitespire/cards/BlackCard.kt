@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.Textures
+import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
@@ -50,10 +51,7 @@ abstract class BlackCard(id: String, img: String)
     )
   }
 
-
-  open fun onUpgrade() {
-    /* do nothing */
-  }
+  open fun onUpgrade() = doNothing()
 
   override fun upgrade() {
     if (!upgraded) {

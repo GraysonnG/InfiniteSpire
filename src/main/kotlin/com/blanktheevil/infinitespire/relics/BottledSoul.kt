@@ -3,7 +3,7 @@ package com.blanktheevil.infinitespire.relics
 import com.blanktheevil.infinitespire.extensions.inBottleSoul
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
-import com.blanktheevil.infinitespire.models.Config
+import com.blanktheevil.infinitespire.models.SaveData
 import com.megacrit.cardcrawl.cards.AbstractCard
 
 
@@ -26,14 +26,14 @@ class BottledSoul : BottleRelic(ID, IMG, TIER, SOUND) {
     card.inBottleSoul = true
   }
 
-  override fun beforeConfigSave(config: Config) {
+  override fun beforeConfigSave(saveData: SaveData) {
     if (cardSelected && selectedCard != null) {
-      config.bottledSoul.selectedCardID = selectedCard!!.cardID
+      saveData.bottledSoul.selectedCardID = selectedCard!!.cardID
     }
   }
 
-  override fun afterConfigLoad(config: Config) {
-    val soulSave = config.bottledSoul
+  override fun afterConfigLoad(saveData: SaveData) {
+    val soulSave = saveData.bottledSoul
     if (soulSave.selectedCardID != "") {
       player.masterDeck.group.forEach {
         if (it.cardID == soulSave.selectedCardID) {
@@ -45,7 +45,7 @@ class BottledSoul : BottleRelic(ID, IMG, TIER, SOUND) {
     }
   }
 
-  override fun clearData(config: Config) {
-    config.bottledSoul.selectedCardID = ""
+  override fun clearData(saveData: SaveData) {
+    saveData.bottledSoul.selectedCardID = ""
   }
 }

@@ -10,13 +10,17 @@ import java.util.*
 abstract class Quest(
   val type: QuestType,
   val hb: Hitbox = Hitbox(100f, 200f),
-  val uuid: String = UUID.randomUUID().toString()
+  val uuid: String = UUID.randomUUID().toString(),
+  val complete: Boolean = false
 ) : SpireElement, SpireClickable {
 
   abstract fun isDone(): Boolean
 
-  override fun update() {
+  fun abandon() {
+    TODO("implement abandon")
+  }
 
+  override fun update() {
   }
 
   override fun render(sb: SpriteBatch) {

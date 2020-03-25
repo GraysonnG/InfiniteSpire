@@ -59,7 +59,7 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
       FontHelper.renderFontCentered(
         sb,
         this,
-        InfiniteSpire.config.voidShards.count.toString(),
+        InfiniteSpire.saveData.voidShards.count.toString(),
         x.plus(hb_w.div(2f)),
         y.plus(16f.scale()),
         Color.WHITE.cpy()

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture
 import com.blanktheevil.infinitespire.utils.TextureGetter
 
 @Suppress("unused")
-class Textures {
+abstract class Textures {
   companion object {
     private fun getString(folder: String, texture: String) = InfiniteSpire.createPath("$folder/") + texture
     val cards = TextureGetter("cards")

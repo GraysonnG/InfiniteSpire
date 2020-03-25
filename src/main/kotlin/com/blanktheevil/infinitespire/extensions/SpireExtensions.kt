@@ -17,6 +17,7 @@ import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.input.InputHelper
+import com.megacrit.cardcrawl.localization.LocalizedStrings
 import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.rooms.AbstractRoom
@@ -47,24 +48,17 @@ fun SpriteBatch.additiveMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.G
 fun SpriteBatch.normalMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
 
 fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = 0, source: AbstractCreature = this, top: Boolean = false) {
-  if (!top) {
-    actionManager.addToBottom(
-      ApplyPowerAction(
-        this,
-        source,
-        power,
-        amount
-      )
-    )
-  } else {
-    actionManager.addToTop(
-      ApplyPowerAction(
-        this,
-        source,
-        power,
-        amount
-      )
-    )
+  with (ApplyPowerAction(
+    this,
+    source,
+    power,
+    amount
+  )) {
+    if (!top) {
+      actionManager.addToBottom(this)
+    } else {
+      actionManager.addToTop(this)
+    }
   }
 }
 
@@ -81,3 +75,4 @@ val currentRoom: AbstractRoom? get() = AbstractDungeon.getCurrRoom()
 val player: AbstractPlayer get() = AbstractDungeon.player
 val actionManager: GameActionManager get() = AbstractDungeon.actionManager
 val scale: Float get() = Settings.scale
+val languagePack: LocalizedStrings get() = CardCrawlGame.languagePack

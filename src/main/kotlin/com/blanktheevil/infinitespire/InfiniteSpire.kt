@@ -6,6 +6,7 @@ import basemod.interfaces.EditCardsSubscriber
 import basemod.interfaces.EditRelicsSubscriber
 import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.cards.BlackCard
 import com.blanktheevil.infinitespire.crossover.CrossoverManager
@@ -14,7 +15,7 @@ import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
 import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.CardStringsKt
-import com.blanktheevil.infinitespire.models.Config
+import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.relics.Relic
@@ -29,6 +30,8 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.unlock.UnlockTracker
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.io.BufferedReader
+import java.io.File
 import java.io.IOException
 import java.util.*
 
@@ -38,28 +41,25 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     val logger: Logger = LogManager.getLogger(InfiniteSpire::class.java.name)
     val PURPLE: Color = Color.valueOf("#3D00D6")
     val RED: Color = Color.valueOf("#FF4A4A")
+    val questLog = QuestLog(true)
 
     lateinit var name: String
     lateinit var version: String
     lateinit var modid: String
     lateinit var author: String
     lateinit var description: String
-
-
-    val questLog = QuestLog(true)
     lateinit var questLogButton: QuestLogButton
     lateinit var questLogScreen: QuestLogScreen
     lateinit var avhariScreen: AvhariScreen
     lateinit var voidShardDisplay: VoidShardDisplay
-    lateinit var config: Config
-
+    lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
 
     @Suppress("unused")
     @JvmStatic
     fun initialize() {
       loadProperties()
-      Config.init()
+      SaveData.init()
       BaseMod.subscribe(InfiniteSpire())
       // init infinite spire settings menu
       addBlackCardColor()
@@ -116,6 +116,8 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       } catch (e: IOException) {
         e.printStackTrace()
       }
+
+      Gdx.files.internal("somefile").reader()
     }
   }
 

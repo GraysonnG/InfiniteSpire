@@ -1,5 +1,5 @@
 {
-	"Nightmare": {
+	"infinitespire:Nightmare": {
 		"MOVES":[
 			"Death's Touch",
 			"Dark Slash",
@@ -7,6 +7,16 @@
 			"Black Shield"
 		],
 		"NAME": "Nightmare",
+		"DIALOG": []
+	},
+	"infinitespire:NightmareAlpha": {
+		"MOVES":[
+			"Death's Touch",
+			"Dark Slash",
+			"Reap",
+			"Black Shield"
+		],
+		"NAME": "Nightmare Alpha",
 		"DIALOG": []
 	},
 	"LordOfAnnihilation":{
