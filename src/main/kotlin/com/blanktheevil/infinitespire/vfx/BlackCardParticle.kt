@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
+import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 
@@ -38,8 +39,8 @@ class BlackCardParticle(private var pos: Vector2, private var cardScale: Float, 
   }
 
   override fun update() {
-    this.lifeSpan -= Gdx.graphics.rawDeltaTime
-    val weightedVelocity = this.vel.cpy().scl(Gdx.graphics.rawDeltaTime)
+    this.lifeSpan -= deltaTime
+    val weightedVelocity = this.vel.cpy().scl(deltaTime)
     this.pos.add(weightedVelocity)
   }
 

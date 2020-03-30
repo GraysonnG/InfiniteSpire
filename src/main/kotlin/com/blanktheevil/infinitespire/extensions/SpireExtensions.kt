@@ -16,11 +16,14 @@ import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
+import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.helpers.input.InputHelper
 import com.megacrit.cardcrawl.localization.LocalizedStrings
 import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.random.Random
+import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.rooms.AbstractRoom
+import java.util.function.Predicate
 
 fun Float.scale(): Float = this * Settings.scale
 fun Int.scale(): Float = this * Settings.scale
@@ -62,10 +65,28 @@ fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = 0, source: A
   }
 }
 
+fun AbstractRelic.removeFromPools() {
+  AbstractDungeon.commonRelicPool.remove(this.relicId)
+  AbstractDungeon.uncommonRelicPool.remove(this.relicId)
+  AbstractDungeon.rareRelicPool.remove(this.relicId)
+  AbstractDungeon.shopRelicPool.remove(this.relicId)
+  AbstractDungeon.bossRelicPool.remove(this.relicId)
+}
+
 fun <T> List<T>.getRandomItem(random: Random = Random()): T? {
   return if (this.isNotEmpty()) {
     this[random.random(this.size - 1)]
   } else null
+}
+
+val allRelics: List<AbstractRelic> get() = mutableListOf<AbstractRelic>().also {
+  it.addAll(RelicLibrary.commonList)
+  it.addAll(RelicLibrary.uncommonList)
+  it.addAll(RelicLibrary.rareList)
+  it.addAll(RelicLibrary.shopList)
+  it.addAll(RelicLibrary.bossList)
+  it.addAll(RelicLibrary.starterList)
+  it.addAll(RelicLibrary.specialList)
 }
 
 fun doNothing() {}
@@ -76,3 +97,4 @@ val player: AbstractPlayer get() = AbstractDungeon.player
 val actionManager: GameActionManager get() = AbstractDungeon.actionManager
 val scale: Float get() = Settings.scale
 val languagePack: LocalizedStrings get() = CardCrawlGame.languagePack
+val deltaTime: Float get() = Gdx.graphics.rawDeltaTime

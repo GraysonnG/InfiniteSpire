@@ -116,8 +116,6 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       } catch (e: IOException) {
         e.printStackTrace()
       }
-
-      Gdx.files.internal("somefile").reader()
     }
   }
 

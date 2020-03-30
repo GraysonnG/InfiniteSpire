@@ -1,10 +1,8 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.extensions.getRandomItem
-import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.extensions.player
+import com.blanktheevil.infinitespire.extensions.*
+import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
-import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.relics.Circlet
 
@@ -16,43 +14,42 @@ class Chaos : Relic(ID, IMG, TIER, SOUND) {
     private val SOUND = LandingSound.MAGICAL
   }
 
-  private val relicsToReplace = mutableListOf<AbstractRelic>()
   private var screenStateAtEquip: AbstractDungeon.CurrentScreen? = null
+  private var relicsAdded = 0
 
   override fun onEquip() {
     screenStateAtEquip = AbstractDungeon.screen
-    player.relics.apply {
-      forEach {
-        relicsToReplace.add(it)
-        it.onUnequip()
-      }
-      val s = size
-      clear()
-      for (i in 0 until s) {
-        add(EmptyRelic())
+    relicsAdded = 0
+
+    for (i in 0 until player.relics.size.minus(1)) {
+      player.relics[i].onUnequip()
+      player.relics[i] = EmptyRelic()
+    }
+  }
+
+  override fun update() {
+    super.update()
+    log.info("Chaos: ${CardCrawlGame.isInARun()} && ${!allRelicsReplaced()} && ${!hasScreenChanged()}")
+    while (CardCrawlGame.isInARun() && !allRelicsReplaced() && !hasScreenChanged()) {
+      getRandomChaosRelic().also {
+        it.removeFromPools()
+        it.instantObtain(player, relicsAdded, true)
+        relicsAdded++
       }
     }
   }
 
-  private fun allRelicsReplaced(): Boolean {
-    player.relics.forEach {
-      if (it is EmptyRelic) {
-        return false
-      }
-    }
-    return true
-  }
+  private fun allRelicsReplaced(): Boolean = player.relics.none { it is EmptyRelic }
 
-  private fun getRandomRelic(): AbstractRelic =
+  private fun hasScreenChanged(): Boolean = screenStateAtEquip != AbstractDungeon.screen
+
+  private fun getRandomChaosRelic(): AbstractRelic =
     mutableListOf<AbstractRelic>().let {
-      it.addAll(RelicLibrary.commonList)
-      it.addAll(RelicLibrary.uncommonList)
-      it.addAll(RelicLibrary.rareList)
-      it.addAll(RelicLibrary.shopList)
-      it.addAll(RelicLibrary.bossList)
-      it.addAll(RelicLibrary.starterList)
-      it.addAll(RelicLibrary.specialList)
+      it.addAll(allRelics)
+      it.removeIf { relic -> relic is Chaos }
+      player.relics.forEach { listRelic ->
+        it.removeIf { relic -> relic.relicId == listRelic.relicId }
+      }
       (it.getRandomItem(AbstractDungeon.relicRng) ?: Circlet()).makeCopy()
     }
-
 }
