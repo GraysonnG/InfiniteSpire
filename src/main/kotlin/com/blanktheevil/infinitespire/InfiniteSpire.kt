@@ -23,9 +23,11 @@ import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
+import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.helpers.CardLibrary
 import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.unlock.UnlockTracker
 import org.apache.logging.log4j.LogManager
@@ -129,7 +131,13 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   override fun receiveEditCards() {
     AutoAdd(modid)
       .packageFilter(BlackCard::class.java)
-      .cards()
+      .any(BlackCard::class.java) { info, card ->
+        logger.info("Added Black Card: ${card.cardID}")
+        CardHelper.addBlackCard(card)
+        if (info.seen) {
+          UnlockTracker.markCardAsSeen(card.cardID)
+        }
+      }
   }
 
   override fun receiveEditRelics() {
