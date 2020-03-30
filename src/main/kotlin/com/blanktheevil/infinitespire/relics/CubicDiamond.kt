@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.getRandomItem
+import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.RelicLibrary
@@ -9,7 +10,7 @@ import com.megacrit.cardcrawl.relics.Circlet
 
 class CubicDiamond : Relic(ID, IMG, TIER, SOUND){
   companion object {
-    val ID = "Cubic Diamond"
+    val ID = "Cubic Diamond".makeID()
     private const val IMG = "cubicdiamond"
     private val TIER = RelicTier.SPECIAL
     private val SOUND = LandingSound.CLINK

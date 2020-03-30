@@ -1,5 +1,6 @@
 package com.blanktheevil.infinitespire.relics
 
+import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
@@ -9,7 +10,7 @@ import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction
 
 class DarkRift : Relic(ID, IMG, TIER, SOUND) {
   companion object {
-    val ID = "DarkRift"
+    val ID = "DarkRift".makeID()
     private const val IMG = "darkRift"
     private val TIER = RelicTier.STARTER
     private val SOUND = LandingSound.MAGICAL
