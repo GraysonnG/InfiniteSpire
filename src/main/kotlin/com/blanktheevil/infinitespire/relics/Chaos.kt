@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.relics.AbstractRelic

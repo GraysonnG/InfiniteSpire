@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.models.SaveData
-import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
+import com.blanktheevil.infinitespire.relics.abstracts.BottleRelic
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.monsters.AbstractMonster

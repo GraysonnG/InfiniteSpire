@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.relics
+package com.blanktheevil.infinitespire.relics.abstracts
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.InfiniteSpire

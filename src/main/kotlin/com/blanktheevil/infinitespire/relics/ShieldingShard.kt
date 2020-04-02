@@ -3,6 +3,7 @@ package com.blanktheevil.infinitespire.relics
 import com.blanktheevil.infinitespire.extensions.actionManager
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
+import com.blanktheevil.infinitespire.relics.abstracts.CrystalRelic
 import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction
 
 class ShieldingShard : CrystalRelic(ID, IMG) {

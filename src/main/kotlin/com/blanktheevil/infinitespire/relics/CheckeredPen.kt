@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.common.DamageRandomEnemyAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction

@@ -3,6 +3,7 @@ package com.blanktheevil.infinitespire.relics
 import com.blanktheevil.infinitespire.extensions.getRandomItem
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
+import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.relics.AbstractRelic

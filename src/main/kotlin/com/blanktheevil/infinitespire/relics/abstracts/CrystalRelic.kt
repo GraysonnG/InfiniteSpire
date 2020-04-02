@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.relics
+package com.blanktheevil.infinitespire.relics.abstracts
 
 import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
 

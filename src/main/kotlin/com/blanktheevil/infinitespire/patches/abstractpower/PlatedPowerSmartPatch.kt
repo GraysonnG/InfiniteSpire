@@ -7,6 +7,7 @@ import com.blanktheevil.infinitespire.patches.utils.locators.ReducePowerLocator
 import com.blanktheevil.infinitespire.patches.utils.locators.RemovePowerLocator
 import com.evacipated.cardcrawl.modthespire.Loader
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
+import com.evacipated.cardcrawl.modthespire.lib.SpireRawPatch
 import com.megacrit.cardcrawl.powers.AbstractPower
 import javassist.CtBehavior
 import javassist.Modifier
@@ -15,11 +16,14 @@ import java.io.File
 import java.net.URISyntaxException
 import java.util.ArrayList
 
+@Suppress("unused")
 @SpirePatch(clz = AbstractPower::class, method = SpirePatch.CONSTRUCTOR)
 class PlatedPowerSmartPatch {
   companion object {
+    @Suppress("unused")
     @JvmStatic
-    fun Raw(ctBehavior: CtBehavior) {
+    @SpireRawPatch
+    fun platedPowerSmartPatch(ctBehavior: CtBehavior) {
       println("\nInfinite Spire: Smart Plated Power Patch")
 
       val foundClasses = findClasses()

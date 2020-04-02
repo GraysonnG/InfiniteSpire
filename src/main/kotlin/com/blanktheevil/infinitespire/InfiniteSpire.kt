@@ -6,7 +6,6 @@ import basemod.interfaces.EditCardsSubscriber
 import basemod.interfaces.EditRelicsSubscriber
 import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.cards.BlackCard
 import com.blanktheevil.infinitespire.crossover.CrossoverManager
@@ -18,7 +17,7 @@ import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.patches.EnumPatches
-import com.blanktheevil.infinitespire.relics.Relic
+import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
@@ -27,13 +26,10 @@ import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
-import com.megacrit.cardcrawl.helpers.CardLibrary
 import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.unlock.UnlockTracker
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.io.BufferedReader
-import java.io.File
 import java.io.IOException
 import java.util.*
 
@@ -61,7 +57,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     @JvmStatic
     fun initialize() {
       loadProperties()
-      SaveData.init()
+      saveData = SaveData.init()
       BaseMod.subscribe(InfiniteSpire())
       // init infinite spire settings menu
       addBlackCardColor()
