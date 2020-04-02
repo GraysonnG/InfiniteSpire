@@ -4,7 +4,6 @@ import com.blanktheevil.infinitespire.extensions.applyPower
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.powers.CriticalPower
-import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInHandAction
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.status.Burn

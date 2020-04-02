@@ -2,7 +2,6 @@ package com.blanktheevil.infinitespire.relics
 
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.extensions.*
-import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.megacrit.cardcrawl.actions.common.DrawCardAction
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction
 import com.megacrit.cardcrawl.cards.AbstractCard

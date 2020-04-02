@@ -1,7 +1,6 @@
 package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.relics.abstracts.Relic
 import com.megacrit.cardcrawl.actions.defect.ChannelAction
 import com.megacrit.cardcrawl.orbs.Frost
 

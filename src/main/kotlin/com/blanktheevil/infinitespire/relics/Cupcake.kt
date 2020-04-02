@@ -4,7 +4,6 @@ import com.blanktheevil.infinitespire.extensions.applyPower
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.powers.DeEnergizedPower
-import com.blanktheevil.infinitespire.relics.abstracts.Relic
 
 class Cupcake : Relic(ID, IMG, TIER, SOUND) {
   companion object {

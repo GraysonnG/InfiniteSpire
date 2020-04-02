@@ -2,7 +2,6 @@ package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
-import com.blanktheevil.infinitespire.relics.abstracts.Relic
 
 class BlanksBlanky : Relic(ID, IMG, TIER, SOUND) {
   companion object {

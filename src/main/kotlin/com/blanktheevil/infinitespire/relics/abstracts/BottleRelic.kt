@@ -6,6 +6,7 @@ import com.blanktheevil.infinitespire.extensions.currentRoom
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.Savable
+import com.blanktheevil.infinitespire.relics.Relic
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.CardGroup
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon

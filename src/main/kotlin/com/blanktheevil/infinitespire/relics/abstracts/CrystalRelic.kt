@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.relics.abstracts
 
 import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
+import com.blanktheevil.infinitespire.relics.Relic
 
 abstract class CrystalRelic(
   id: String,

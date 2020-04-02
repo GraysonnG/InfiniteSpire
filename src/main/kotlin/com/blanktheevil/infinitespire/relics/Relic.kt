@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.relics.abstracts
+package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.Textures
 import com.megacrit.cardcrawl.helpers.GameDictionary

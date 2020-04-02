@@ -17,7 +17,7 @@ import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.patches.EnumPatches
-import com.blanktheevil.infinitespire.relics.abstracts.Relic
+import com.blanktheevil.infinitespire.relics.Relic
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
