@@ -19,11 +19,13 @@ import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.relics.Relic
 import com.blanktheevil.infinitespire.screens.AvhariScreen
+import com.blanktheevil.infinitespire.screens.PowerSelectScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
+import com.blanktheevil.infinitespire.utils.TargetMonsterScreen
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.RelicLibrary
@@ -49,6 +51,8 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var questLogButton: QuestLogButton
     lateinit var questLogScreen: QuestLogScreen
     lateinit var avhariScreen: AvhariScreen
+    lateinit var powerSelectScreen: PowerSelectScreen
+    lateinit var targetMonsterScreen: TargetMonsterScreen
     lateinit var voidShardDisplay: VoidShardDisplay
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
@@ -125,6 +129,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receiveEditCards() {
+    logger.info("Edit Cards")
     AutoAdd(modid)
       .packageFilter(BlackCard::class.java)
       .any(BlackCard::class.java) { info, card ->
@@ -137,6 +142,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receiveEditRelics() {
+    logger.info("Edit Relics")
     AutoAdd(modid)
       .packageFilter(Relic::class.java)
       .any(Relic::class.java) { info, relic ->
@@ -153,6 +159,8 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     questLogScreen = QuestLogScreen(questLog, questLogButton)
     avhariScreen = AvhariScreen()
     voidShardDisplay = VoidShardDisplay()
+    powerSelectScreen = PowerSelectScreen()
+    targetMonsterScreen = TargetMonsterScreen()
 
     BaseMod.addTopPanelItem(questLogButton)
     BaseMod.addTopPanelItem(voidShardDisplay)

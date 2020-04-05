@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL30
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.megacrit.cardcrawl.actions.GameActionManager
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
@@ -23,7 +24,6 @@ import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.rooms.AbstractRoom
-import java.util.function.Predicate
 
 fun Float.scale(): Float = this * Settings.scale
 fun Int.scale(): Float = this * Settings.scale
@@ -50,8 +50,8 @@ fun Hitbox.rightClicked(): Boolean = InputHelper.justClickedRight && this.hovere
 fun SpriteBatch.additiveMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE)
 fun SpriteBatch.normalMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
 
-fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = 0, source: AbstractCreature = this, top: Boolean = false) {
-  with (ApplyPowerAction(
+fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = power.amount, source: AbstractCreature = this, top: Boolean = false) {
+  with(ApplyPowerAction(
     this,
     source,
     power,
@@ -73,21 +73,29 @@ fun AbstractRelic.removeFromPools() {
   AbstractDungeon.bossRelicPool.remove(this.relicId)
 }
 
+fun Hitbox.move(vector2: Vector2) {
+  this.x = vector2.x
+  this.y = vector2.y
+  this.cX = this.x.plus(this.width.div(2f))
+  this.cY = this.y.plus(this.height.div(2f))
+}
+
 fun <T> List<T>.getRandomItem(random: Random = Random()): T? {
   return if (this.isNotEmpty()) {
     this[random.random(this.size - 1)]
   } else null
 }
 
-val allRelics: List<AbstractRelic> get() = mutableListOf<AbstractRelic>().also {
-  it.addAll(RelicLibrary.commonList)
-  it.addAll(RelicLibrary.uncommonList)
-  it.addAll(RelicLibrary.rareList)
-  it.addAll(RelicLibrary.shopList)
-  it.addAll(RelicLibrary.bossList)
-  it.addAll(RelicLibrary.starterList)
-  it.addAll(RelicLibrary.specialList)
-}
+val allRelics: List<AbstractRelic>
+  get() = mutableListOf<AbstractRelic>().also {
+    it.addAll(RelicLibrary.commonList)
+    it.addAll(RelicLibrary.uncommonList)
+    it.addAll(RelicLibrary.rareList)
+    it.addAll(RelicLibrary.shopList)
+    it.addAll(RelicLibrary.bossList)
+    it.addAll(RelicLibrary.starterList)
+    it.addAll(RelicLibrary.specialList)
+  }
 
 fun doNothing() {}
 

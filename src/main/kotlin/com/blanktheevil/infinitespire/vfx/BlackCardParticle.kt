@@ -18,12 +18,10 @@ class BlackCardParticle(private var pos: Vector2, private var cardScale: Float, 
 
   private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f)
 
-  private var color: Color = if (Math.random() < 0.25) {
-    InfiniteSpire.PURPLE.cpy()
-  } else if (Math.random() < 0.07 && this.upgraded) {
-    InfiniteSpire.RED.cpy()
-  } else {
-    Color.BLACK
+  private var color: Color = when {
+    Math.random() < 0.25 -> InfiniteSpire.PURPLE.cpy()
+    Math.random() < 0.07 && this.upgraded -> InfiniteSpire.RED.cpy()
+    else -> Color.BLACK.cpy()
   }
 
   private var vel: Vector2 = Vector2(

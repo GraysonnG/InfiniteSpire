@@ -79,7 +79,10 @@
 	},
 	"infinitespire:Oblivion": {
 		"NAME" : "Oblivion",
-		"DESCRIPTION": "Deal !D! damage. NL Channel !M! random Orbs."
+		"DESCRIPTION": "Deal !D! damage. NL Channel !M! random Orbs.",
+		"COST": 2,
+		"TYPE": "SKILL",
+		"TARGET": "ALL"
 	},
 	"infinitespire:Starlight": {
 		"NAME" : "Starlight",
