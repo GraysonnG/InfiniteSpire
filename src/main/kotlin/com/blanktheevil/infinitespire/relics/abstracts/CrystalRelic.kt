@@ -9,6 +9,7 @@ abstract class CrystalRelic(
 ) : Relic(id, img, RelicTier.UNCOMMON, LandingSound.CLINK), ActCompleteInterface {
   init {
     subscribe()
+    counter = 1
   }
 
   override fun onActCompleted(actId: String) {

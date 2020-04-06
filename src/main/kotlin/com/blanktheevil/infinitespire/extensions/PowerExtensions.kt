@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.extensions
 
-import com.blanktheevil.infinitespire.patches.abstractpower.PlatedPowerFieldPatch
+import com.blanktheevil.infinitespire.patches.platedpower.PlatedPowerFieldPatch
 import com.megacrit.cardcrawl.powers.AbstractPower
 
 var AbstractPower.isPlatedPower: Boolean

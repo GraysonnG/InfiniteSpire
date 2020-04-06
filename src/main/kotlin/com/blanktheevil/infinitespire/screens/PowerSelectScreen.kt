@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.*
-import com.blanktheevil.infinitespire.interfaces.SpireElement
-import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.FontHelper
@@ -16,10 +14,9 @@ import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.helpers.TipHelper
 import com.megacrit.cardcrawl.helpers.input.InputHelper
-import com.megacrit.cardcrawl.powers.*
-import com.megacrit.cardcrawl.powers.watcher.MantraPower
+import com.megacrit.cardcrawl.powers.AbstractPower
 
-class PowerSelectScreen : SpireElement {
+class PowerSelectScreen : Screen<PowerSelectScreen>() {
   companion object {
     const val SCREEN_BG_OPEN_TARGET = 0.65f
     private const val HB_SIZE = 128f
@@ -30,18 +27,16 @@ class PowerSelectScreen : SpireElement {
   }
 
   var selectedPower: AbstractPower? = null
-  var show = false
 
-  private var onPowerSelected: (screen: PowerSelectScreen) -> Unit = {}
   private val bgColor = Color.BLACK.cpy().also { it.a = 0f }
   private var bgColorInterpProgress = 0f
 
   override fun update() {
+    super.update()
     updateHiboxes()
 
     if (show) {
-      AbstractDungeon.isScreenUp = true
-      if (this.selectedPower != null) {
+      if (this.selectedPower != null || powers.isNullOrEmpty()) {
         close()
       }
     }
@@ -61,7 +56,7 @@ class PowerSelectScreen : SpireElement {
       hb.update()
       if (hb.hovered && InputHelper.justClickedLeft) {
         selectedPower = powers!![index]
-        onPowerSelected.invoke(this)
+        callback.invoke(this)
       }
     }
 
@@ -167,30 +162,20 @@ class PowerSelectScreen : SpireElement {
     bgColor.a = Interpolation.fade.apply(0f, SCREEN_BG_OPEN_TARGET, bgColorInterpProgress)
   }
 
-  fun close() {
+  override fun close() {
     show = false
     AbstractDungeon.isScreenUp = show
   }
 
+  override fun open(callback: (screen: PowerSelectScreen) -> Unit) {
+    open(emptyList(), callback)
+  }
+
   fun open(powerList: List<AbstractPower>, callback: (powerSelectScreen: PowerSelectScreen) -> Unit = {}) {
     powers = powerList
-    onPowerSelected = callback
+    this.callback = callback
     selectedPower = null
     show = true
     AbstractDungeon.isScreenUp = show
-  }
-
-  fun setPower(owner: AbstractCreature, powerID: String) {
-    selectedPower = when (powerID) {
-      StrengthPower.POWER_ID -> StrengthPower(owner, 1)
-      EnvenomPower.POWER_ID -> EnvenomPower(owner, 1)
-      RepairPower.POWER_ID -> RepairPower(owner, 1)
-      MantraPower.POWER_ID -> MantraPower(owner, 1)
-      VulnerablePower.POWER_ID -> VulnerablePower(owner, 1, false)
-      WeakPower.POWER_ID -> WeakPower(owner, 1, false)
-      PoisonPower.POWER_ID -> PoisonPower(owner, player, 1)
-      LockOnPower.POWER_ID -> LockOnPower(owner, 1)
-      else -> null
-    }
   }
 }

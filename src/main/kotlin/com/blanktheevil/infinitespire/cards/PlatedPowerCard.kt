@@ -18,7 +18,7 @@ class PlatedPowerCard : BlackCard(ID, IMG) {
   }
 
   override fun update() {
-    if (!InfiniteSpire.powerSelectScreen.show && InfiniteSpire.targetMonsterScreen.hidden) {
+    if (!InfiniteSpire.powerSelectScreen.show && !InfiniteSpire.targetMonsterScreen.show) {
       super.update()
     }
   }
@@ -28,7 +28,7 @@ class PlatedPowerCard : BlackCard(ID, IMG) {
       listOf(
         StrengthPower(null, 1),
         EnvenomPower(null, 1),
-        RepairPower(null, 1),
+        ThornsPower(null, 1),
         MantraPower(null, 1),
         VulnerablePower(null, 1, false),
         WeakPower(null, 1, false),

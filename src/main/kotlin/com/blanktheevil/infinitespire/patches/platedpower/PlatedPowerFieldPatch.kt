@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.patches.abstractpower
+package com.blanktheevil.infinitespire.patches.platedpower
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireField
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch

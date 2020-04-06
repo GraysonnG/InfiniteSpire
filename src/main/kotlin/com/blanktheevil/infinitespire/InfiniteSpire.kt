@@ -25,7 +25,7 @@ import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
-import com.blanktheevil.infinitespire.utils.TargetMonsterScreen
+import com.blanktheevil.infinitespire.screens.TargetMonsterScreen
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.RelicLibrary

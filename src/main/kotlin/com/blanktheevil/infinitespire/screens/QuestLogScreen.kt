@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
 import com.blanktheevil.infinitespire.extensions.clamp
-import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.megacrit.cardcrawl.core.Settings
@@ -14,12 +13,11 @@ import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.helpers.input.InputActionSet
 
-class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLogButton) : SpireElement {
+class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLogButton) : Screen<QuestLogScreen>() {
   companion object {
     const val SCREEN_BG_OPEN_TARGET = 0.65f
   }
 
-  private var show = false
   private val bgColor = Color.BLACK.cpy().also { it.a = 0f }
   private var bgColorInterpProgress = 0f
 
@@ -28,6 +26,7 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
   }
 
   override fun update() {
+    super.update()
     if (show) {
 
       questLog.parallelStream()
@@ -86,6 +85,15 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
   fun toggle() {
     show = !show
     AbstractDungeon.isScreenUp = show
+  }
+
+  override fun open(callback: (screen: QuestLogScreen) -> Unit) {
+    this.callback =  callback
+    toggle()
+  }
+
+  override fun close() {
+    toggle()
   }
 
   fun isOpen(): Boolean {

@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.utils
+package com.blanktheevil.infinitespire.screens
 
 import basemod.BaseMod
 import basemod.interfaces.PostUpdateSubscriber
@@ -17,8 +17,8 @@ import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.helpers.input.InputHelper
 import java.util.*
 
-class TargetMonsterScreen : RenderSubscriber, PostUpdateSubscriber {
-  var hidden = true
+class TargetMonsterScreen : Screen<TargetMonsterScreen>(), RenderSubscriber, PostUpdateSubscriber {
+
   var hoveredCreature: AbstractCreature? = null
   var startPoint = Vector2(0f, 0f)
   var controlPoint = Vector2(0f, 0f)
@@ -26,7 +26,6 @@ class TargetMonsterScreen : RenderSubscriber, PostUpdateSubscriber {
   var arrowScale = 0f
   var arrowScaleTimer = 0f
   var points = ArrayList<Vector2>()
-  var actionOnComplete: (targetMonsterScreen: TargetMonsterScreen) -> Unit = {}
 
   init {
     BaseMod.subscribe(this)
@@ -36,15 +35,23 @@ class TargetMonsterScreen : RenderSubscriber, PostUpdateSubscriber {
   }
 
   override fun receivePostUpdate() {
-    if (hidden) return
+    super.update()
+    if (!show) return
+    update()
+  }
+
+  override fun update() {
     updateTargetMode()
   }
 
   private fun updateTargetMode() {
-    AbstractDungeon.isScreenUp = true
     this.hoveredCreature = null
 
-    if (AbstractDungeon.getMonsters().monsters.isEmpty() || AbstractDungeon.getMonsters().areMonstersBasicallyDead() || player.isDying || player.isDead) close()
+    if (AbstractDungeon.getMonsters().monsters.isEmpty() ||
+      AbstractDungeon.getMonsters().areMonstersBasicallyDead() ||
+      player.isDying ||
+      player.isDead
+    ) close()
 
     this.startPoint = Vector2(Settings.WIDTH.div(2f), Settings.HEIGHT.div(2f))
     this.endPoint = Vector2(InputHelper.mX.toFloat(), InputHelper.mY.toFloat())
@@ -63,23 +70,23 @@ class TargetMonsterScreen : RenderSubscriber, PostUpdateSubscriber {
     if (InputHelper.justClickedLeft) {
       InputHelper.justClickedLeft = false
       if (hoveredCreature != null) {
-        actionOnComplete.invoke(this)
+        callback.invoke(this)
         close()
       }
     }
   }
 
-  fun close() {
+  override fun close() {
     AbstractDungeon.isScreenUp = false
     GameCursor.hidden = false
-    hidden = true
+    show = false
   }
 
-  fun open(actionOnComplete: (targetMonsterScreen: TargetMonsterScreen) -> Unit) {
-    this.actionOnComplete = actionOnComplete
+  public override fun open(callback: (screen: TargetMonsterScreen) -> Unit) {
+    this.callback = callback
     AbstractDungeon.isScreenUp = true
     hoveredCreature = null
-    hidden = false
+    show = true
     GameCursor.hidden = true
     points.clear()
     for (i in 0 until 20) {
@@ -88,11 +95,11 @@ class TargetMonsterScreen : RenderSubscriber, PostUpdateSubscriber {
   }
 
   override fun receiveRender(sb: SpriteBatch) {
-    if (hidden) return
+    if (!show) return
     render(sb)
   }
 
-  fun render(sb: SpriteBatch) {
+  override fun render(sb: SpriteBatch) {
     renderTargetingUi(sb)
     if (this.hoveredCreature != null) {
       this.hoveredCreature!!.renderReticle(sb)

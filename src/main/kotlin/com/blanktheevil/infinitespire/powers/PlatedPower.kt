@@ -36,8 +36,8 @@ class PlatedPower<T : AbstractPower>(private val simulatedPower: T, amount: Int)
 
   override fun updateDescription() {
     simulatedPower.updateDescription()
-    this.description = simulatedPower.description +
-        " NL NL Receiving unblocked attack damage reduces #yPlated #y${simulatedPower.name} by #b${amountToLose}."
+    this.description = "Gain the effect of $amount #y${simulatedPower.name}" +
+        " NL NL Receiving unblocked attack damage reduces #yPlated #y${simulatedPower.name} by #b$amountToLose."
   }
 
   override fun atEndOfTurnPreEndTurnCards(isPlayer: Boolean) {

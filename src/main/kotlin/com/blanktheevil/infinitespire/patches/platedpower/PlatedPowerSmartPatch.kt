@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.patches.abstractpower
+package com.blanktheevil.infinitespire.patches.platedpower
 
 import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.patches.utils.filters.StsClassFilter
