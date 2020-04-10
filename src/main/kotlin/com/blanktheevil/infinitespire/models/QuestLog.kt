@@ -4,6 +4,7 @@ import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.enums.QuestType
 import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
 import com.blanktheevil.infinitespire.interfaces.Savable
+import com.blanktheevil.infinitespire.quests.Quest
 import java.util.*
 
 class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable, ActCompleteInterface {

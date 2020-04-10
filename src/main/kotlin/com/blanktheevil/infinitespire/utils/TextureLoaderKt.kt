@@ -25,6 +25,17 @@ class TextureLoaderKt {
 
     }
 
+    fun exists(texturePath: String): Boolean {
+      return try {
+        loadTexture(texturePath)
+        true
+      } catch (e: Exception) {
+        logger.error("Could not find texture: $texturePath")
+        e.printStackTrace()
+        false
+      }
+    }
+
     private fun loadTexture(texturePath: String): Texture {
       return Texture(texturePath).also {
         it.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)

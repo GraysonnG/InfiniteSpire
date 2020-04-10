@@ -1,73 +1,73 @@
 {
-	"infinitespire:BeetleShellPower": {
+	"${project.artifactId}:BeetleShellPower": {
 		"NAME" : "Beetle Shell",
 		"DESCRIPTIONS": [
 			"The next time you gain block from a card, it is doubled."
 		]
 	},
-	"infinitespire:ClusterPower": {
+	"${project.artifactId}:ClusterPower": {
 		"NAME" : "Cluster",
 		"DESCRIPTIONS": [
 			"When taking HP damage, #yMass #yof #yShapes may break apart into smaller monsters."
 		]
 	},
-	"infinitespire:CriticalPower": {
+	"${project.artifactId}:CriticalPower": {
 		"NAME": "Critical",
 		"DESCRIPTIONS": [
 			"The next attack you play will deal #b2 times damage"
 		]
 	},
-	"infinitespire:DicePower": {
+	"${project.artifactId}:DicePower": {
 		"NAME": "Cursed Dice",
 		"DESCRIPTIONS" : [
 			"You no longer take damage."
 		]
 	},
-	"infinitespire:DeenergizedPower": {
+	"${project.artifactId}:DeenergizedPower": {
 		"NAME": "De-Energized",
 		"DESCRIPTIONS" : [
 			"At the start of each turn, lose #b",
 			" energy."
 		]
 	},
-	"infinitespire:GolemPower": {
+	"${project.artifactId}:GolemPower": {
 		"NAME" : "Golem's Might",
 		"DESCRIPTIONS": [
 			"All attacks deal ",
 			"% more damage. (Cap: 100%)"
 		]
 	},
-	"infinitespire:JokerCardPower": {
+	"${project.artifactId}:JokerCardPower": {
 		"NAME" : "Joker Card",
 		"DESCRIPTIONS": [
 			"The next card you play is played twice."
 		]
 	},
-	"infinitespire:KeyMirrorPower_ruby": {
+	"${project.artifactId}:KeyMirrorPower_ruby": {
 		"NAME" : "Ruby Mirror",
 		"DESCRIPTIONS": [
 			" will be more intelligent."
 		]
 	},
-	"infinitespire:KeyMirrorPower_sapphire": {
+	"${project.artifactId}:KeyMirrorPower_sapphire": {
 		"NAME" : "Sapphire Mirror",
 		"DESCRIPTIONS": [
 			" will be more aggressive."
 		]
 	},
-	"infinitespire:KeyMirrorPower_emerald": {
+	"${project.artifactId}:KeyMirrorPower_emerald": {
 		"NAME" : "Emerald Mirror",
 		"DESCRIPTIONS": [
 			" will be more powerful."
 		]
 	},
-	"infinitespire:LOA_Intangible": {
+	"${project.artifactId}:LOA_Intangible": {
 		"NAME" : "Intangible",
 		"DESCRIPTIONS": [
 			"Reduce ALL damage taken and HP loss to #b1 this turn."
 		]
 	},
-	"infinitespire:ShreddedPower": {
+	"${project.artifactId}:ShreddedPower": {
 		"NAME" : "Shredded",
 		"DESCRIPTIONS": [
 			"For each card played for the rest of combat, ",
@@ -75,7 +75,7 @@
 			"% more damage)"
 		]
 	},
-	"infinitespire:RealityShiftPower": {
+	"${project.artifactId}:RealityShiftPower": {
 		"NAME" : "Reality Shift",
 		"DESCRIPTIONS": [
 			"After taking #b",
@@ -84,13 +84,13 @@
 			" #rdamage #rattack and then shift reality, forcing you to end your turn."
 		]
 	},
-	"infinitespire:DivineShieldPower": {
+	"${project.artifactId}:DivineShieldPower": {
 		"NAME" : "Divine Shield",
 		"DESCRIPTIONS": [
 			"When ??? is inflicted with a debuff, he will retaliate with Ultimate Memoricia."
 		]
 	},
-	"infinitespire:MenacingPower": {
+	"${project.artifactId}:MenacingPower": {
 		"NAME" : "Menacing",
 		"DESCRIPTIONS": [
 			"The next ",
@@ -98,26 +98,26 @@
 			"The next attack you play stuns any enemy it hits for 1 turn."
 		]
 	},
-	"infinitespire:PylonPower": {
+	"${project.artifactId}:PylonPower": {
 		"NAME" : "Pylon Shield",
 		"DESCRIPTIONS": [
 			"As long as there is at least #b1 #yShield #yPylon, gain #b1 #yIntangible at the end of the turn."
 		]
 	},
-	"infinitespire:LifeLinkPower": {
+	"${project.artifactId}:LifeLinkPower": {
 		"NAME" : "Life Link",
 		"DESCRIPTIONS": [
 			"Upon death remove all block from and deal #b",
 			" damage to "
 		]
 	},
-	"infinitespire:SpireBlightPower": {
+	"${project.artifactId}:SpireBlightPower": {
 		"NAME": "Spire Blight",
 		"DESCRIPTIONS": [
 			"Deal #b25% less damage, and gain #b25% less block."
 		]
 	},
-	"infinitespire:TempThorns": {
+	"${project.artifactId}:TempThorns": {
 		"NAME" : "Temporary Thorns",
 		"DESCRIPTIONS": [
 			"For the next #b",
@@ -126,7 +126,7 @@
 			"For the rest of this turn. When attacked, deals #b"
 		]
 	},
-	"infinitespire:UltimateFormPower": {
+	"${project.artifactId}:UltimateFormPower": {
 		"NAME" : "Ultimate Form",
 		"DESCRIPTIONS": [
 			"Gain ",
@@ -134,7 +134,7 @@
 			" Focus each turn."
 		]
 	},
-	"infinitespire:VenomPower": {
+	"${project.artifactId}:VenomPower": {
 		"NAME" : "Venom",
 		"DESCRIPTIONS": [
 			"At the end of your turn, lose #b",
@@ -143,7 +143,7 @@
 			" HP). NL #rVenom #rcannot #rkill #ryou."
 		]
 	},
-	"infinitespire:UndyingPower": {
+	"${project.artifactId}:UndyingPower": {
 		"NAME" : "Prince Idol",
 		"DESCRIPTIONS": [
 			"When this monster would die, it will instead heal for #b100% max HP and lose half of it's Strength."

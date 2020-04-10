@@ -17,7 +17,7 @@ class EndOfActHookPatch {
     fun handleEndOfAct(room: AbstractRoom) {
       if (room is MonsterRoomBoss && room.phase == AbstractRoom.RoomPhase.COMPLETE) {
         log.info("Executing end of act hook...")
-        ActCompleteInterface.items.forEach {
+        ActCompleteInterface.subscribers.forEach {
           it.onActCompleted(AbstractDungeon.id)
         }
       }

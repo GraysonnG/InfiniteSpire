@@ -7,16 +7,19 @@ import basemod.interfaces.EditRelicsSubscriber
 import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
-import com.blanktheevil.infinitespire.cards.BlackCard
+import com.blanktheevil.infinitespire.cards.Card
+import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.crossover.CrossoverManager
 import com.blanktheevil.infinitespire.crossover.Crossovers
-import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
-import com.blanktheevil.infinitespire.interfaces.ActCompleteInterface
-import com.blanktheevil.infinitespire.interfaces.Savable
+import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.interfaces.*
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.patches.EnumPatches
+import com.blanktheevil.infinitespire.quests.IgnoreRelicQuest
+import com.blanktheevil.infinitespire.quests.Quest
+import com.blanktheevil.infinitespire.quests.questrewards.QuestReward
 import com.blanktheevil.infinitespire.relics.Relic
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.PowerSelectScreen
@@ -26,7 +29,9 @@ import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
 import com.blanktheevil.infinitespire.screens.TargetMonsterScreen
+import com.blanktheevil.infinitespire.utils.CardBuilder
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
+import com.megacrit.cardcrawl.actions.common.GainBlockAction
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.unlock.UnlockTracker
@@ -75,7 +80,19 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       }
 
       if (subscriber is ActCompleteInterface) {
-        ActCompleteInterface.items.add(subscriber)
+        ActCompleteInterface.subscribers.add(subscriber)
+      }
+
+      if (subscriber is QuestLogCloseInterface) {
+        QuestLogCloseInterface.subscribers.add(subscriber)
+      }
+
+      if (subscriber is QuestCompleteInterface) {
+        QuestCompleteInterface.subscribers.add(subscriber)
+      }
+
+      if (subscriber is RoomTransitionInterface) {
+        RoomTransitionInterface.subscribers.add(subscriber)
       }
     }
 
@@ -90,19 +107,19 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
         Color.BLACK.cpy(),
         Color.BLACK.cpy(),
         Color.BLACK.cpy(),
-        Textures.cards.getString("ui/512/boss-attack.png"),
-        Textures.cards.getString("ui/512/boss-skill.png"),
-        Textures.cards.getString("ui/512/boss-power.png"),
-        Textures.cards.getString("ui/512/boss-orb.png"),
-        Textures.cards.getString("ui/1024/boss-attack.png"),
-        Textures.cards.getString("ui/1024/boss-skill.png"),
-        Textures.cards.getString("ui/1024/boss-power.png"),
-        Textures.cards.getString("ui/1024/boss-orb.png")
+        Textures.cards.getString("ui/512/boss-attack.png", true),
+        Textures.cards.getString("ui/512/boss-skill.png", true),
+        Textures.cards.getString("ui/512/boss-power.png", true),
+        Textures.cards.getString("ui/512/boss-orb.png", true),
+        Textures.cards.getString("ui/1024/boss-attack.png", true),
+        Textures.cards.getString("ui/1024/boss-skill.png", true),
+        Textures.cards.getString("ui/1024/boss-power.png", true),
+        Textures.cards.getString("ui/1024/boss-orb.png", true)
       )
     }
 
     fun createPath(restOfPath: String): String {
-      return "img/${modid}/$restOfPath"
+      return "img/infinitespire/$restOfPath"
     }
 
     private fun loadProperties() {
@@ -129,12 +146,11 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receiveEditCards() {
-    logger.info("Edit Cards")
     AutoAdd(modid)
-      .packageFilter(BlackCard::class.java)
-      .any(BlackCard::class.java) { info, card ->
-        logger.info("Added Black Card: ${card.cardID}")
-        CardHelper.addBlackCard(card)
+      .packageFilter(Card::class.java)
+      .any(Card::class.java) { info, card ->
+        logger.info("Added Card: ${card.cardID}")
+        CardHelper.addCard(card)
         if (info.seen) {
           UnlockTracker.markCardAsSeen(card.cardID)
         }
@@ -142,7 +158,6 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receiveEditRelics() {
-    logger.info("Edit Relics")
     AutoAdd(modid)
       .packageFilter(Relic::class.java)
       .any(Relic::class.java) { info, relic ->
@@ -155,6 +170,8 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receivePostInitialize() {
+    addQuests()
+
     questLogButton = QuestLogButton()
     questLogScreen = QuestLogScreen(questLog, questLogButton)
     avhariScreen = AvhariScreen()
@@ -166,5 +183,19 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     BaseMod.addTopPanelItem(voidShardDisplay)
     // some stuff
     CrossoverManager.addCrossoverContent()
+  }
+
+  lateinit var livingQuest: Quest
+
+  private fun addQuests() {
+    AutoAdd(modid)
+      .packageFilter(QuestReward::class.java)
+      .any(QuestReward::class.java) { _, rewardType ->
+        with (rewardType) {
+          logger.info("Added Quest Reward Type: $id")
+          QuestReward.questRewardTypes[id] = this
+        }
+      }
+    livingQuest = IgnoreRelicQuest()
   }
 }

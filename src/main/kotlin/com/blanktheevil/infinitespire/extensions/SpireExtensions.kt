@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.GameActionManager
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
+import com.megacrit.cardcrawl.actions.common.HealAction
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.core.CardCrawlGame
@@ -50,7 +52,12 @@ fun Hitbox.rightClicked(): Boolean = InputHelper.justClickedRight && this.hovere
 fun SpriteBatch.additiveMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE)
 fun SpriteBatch.normalMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
 
-fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = power.amount, source: AbstractCreature = this, top: Boolean = false) {
+fun AbstractCreature.applyPower(
+  power: AbstractPower,
+  amount: Int = power.amount,
+  source: AbstractCreature = this,
+  top: Boolean = false
+) {
   with(ApplyPowerAction(
     this,
     source,
@@ -62,6 +69,22 @@ fun AbstractCreature.applyPower(power: AbstractPower, amount: Int = power.amount
     } else {
       actionManager.addToTop(this)
     }
+  }
+}
+
+fun AbstractCreature.applyHeal(
+  amount: Int,
+  source: AbstractCreature = this,
+  top: Boolean = false
+) {
+  if(!top) {
+    actionManager.addToBottom(
+      HealAction(this, source, amount)
+    )
+  } else {
+    actionManager.addToTop(
+      HealAction(this, source, amount)
+    )
   }
 }
 
@@ -85,6 +108,9 @@ fun <T> List<T>.getRandomItem(random: Random = Random()): T? {
     this[random.random(this.size - 1)]
   } else null
 }
+
+fun addToTop(action: AbstractGameAction) = AbstractDungeon.actionManager.addToTop(action)
+fun addToBot(action: AbstractGameAction) = AbstractDungeon.actionManager.addToBottom(action)
 
 val allRelics: List<AbstractRelic>
   get() = mutableListOf<AbstractRelic>().also {

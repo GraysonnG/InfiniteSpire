@@ -1,5 +1,5 @@
 {
-	"infinitespire:Nightmare": {
+	"${project.artifactId}:Nightmare": {
 		"MOVES":[
 			"Death's Touch",
 			"Dark Slash",
@@ -9,7 +9,7 @@
 		"NAME": "Nightmare",
 		"DIALOG": []
 	},
-	"infinitespire:NightmareAlpha": {
+	"${project.artifactId}:NightmareAlpha": {
 		"MOVES":[
 			"Death's Touch",
 			"Dark Slash",
@@ -36,12 +36,12 @@
         "NAME" : "Shield Pylon",
         "DIALOG": []
     },
-	"infinitespire:MassOfShapes":{
+	"${project.artifactId}:MassOfShapes":{
 		"MOVES" : [],
 		"NAME" : "Mass Of Shapes",
 		"DIALOG": []
 	},
-	"infinitespire:LordOfFortification" : {
+	"${project.artifactId}:LordOfFortification" : {
 		"NAME": "Lord of Fortification",
 		"MOVES": [
 			"Agony",
@@ -50,7 +50,7 @@
 		],
 		"DIALOG": []
 	},
-	"infinitespire:LordOfDawn": {
+	"${project.artifactId}:LordOfDawn": {
 		"NAME": "Lord of Dawn",
 		"MOVES": [],
 		"DIALOG": []

@@ -1,5 +1,5 @@
 {
-	"infinitespire:Empty Rest Site" : {
+	"${project.artifactId}:Empty Rest Site" : {
 		"NAME" :  "Empty Rest Site",
 		"DESCRIPTIONS" : [
 			"You've stumbled upon an abandoned rest site. Or so you thought, the previous climber appears to have died from their wounds. You feel a sense of dread looking upon sight...",
@@ -19,7 +19,7 @@
 			"[Locked]"
 		]
 	},
-	"infinitespire:Hooded Arms Dealer" : {
+	"${project.artifactId}:Hooded Arms Dealer" : {
 		"NAME" : "Hooded Arms Dealer",
 		"DESCRIPTIONS" : [
 			"You are approached by a man in a hood. NL He shows you rare and powerful weapons. They look otherworldly. NL You ask him the price. NL He replies, #r@BLOOD,@ #y@GOLD.@",
@@ -38,7 +38,7 @@
 			" Pick a #pBlack #pCard."
 		]
 	},
-	"infinitespire:Prism of Light" : {
+	"${project.artifactId}:Prism of Light" : {
 		"NAME" : "Prism of Light",
 		"DESCRIPTIONS" : [
 			"You stumble upon a strange multicolored prism.",
@@ -50,7 +50,7 @@
 			"Leave."
 		]
 	},
-	"infinitespire:VoidlingNest" : {
+	"${project.artifactId}:VoidlingNest" : {
 		"NAME" : "Voidling Nest",
 		"DESCRIPTIONS" : [
 			"You approach a hallway, its covered in strange purple webs. The sounds of skittering Voidlings can be heard in the distance.",
@@ -66,7 +66,7 @@
 			"Leave."
 		]
 	},
-	"infinitespire:EndRunEvent" : {
+	"${project.artifactId}:EndRunEvent" : {
 		"NAME" : "Spire's Peak",
 		"DESCRIPTIONS" : [
 			"You stand atop the towering Spire, proud and tired. NL NL Looking around, you spot a lift that would take you to the bottom of the spire, as well as a portal that seems to take you to a secret room..."

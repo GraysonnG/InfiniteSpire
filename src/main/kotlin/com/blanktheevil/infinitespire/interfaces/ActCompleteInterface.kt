@@ -4,6 +4,6 @@ interface ActCompleteInterface : IInfiniteSpire {
   fun onActCompleted(actId: String)
 
   companion object {
-    val items = mutableListOf<ActCompleteInterface>()
+    val subscribers = mutableListOf<ActCompleteInterface>()
   }
 }

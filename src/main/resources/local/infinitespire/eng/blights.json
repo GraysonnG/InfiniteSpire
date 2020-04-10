@@ -1,5 +1,5 @@
 {
-	"infinitespire:InfectiousMalware": {
+	"${project.artifactId}:InfectiousMalware": {
 		"NAME": "Infectious Malware",
 		"DESCRIPTION": [
 			"Whenever you play a card lose #b1 gold. If you have no gold, lose #rHP instead."

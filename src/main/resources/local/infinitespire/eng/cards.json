@@ -1,75 +1,72 @@
 {
-	"infinitespire:Neurotoxin": {
+	"${project.artifactId}:Neurotoxin": {
 		"NAME": "Neurotoxin",
 		"DESCRIPTION": "Apply !M! Poison. NL Each time this card is played, permanently increase its poison by !inf_P!. NL Exhaust."
 	},
-	"infinitespire:OneForAll": {
+	"${project.artifactId}:OneForAll": {
 		"NAME": "One For All",
 		"DESCRIPTION": "Deal !D! damage. NL Each time this card is played, permanently increase its damage by !M!. NL Exhaust."
 	},
-	"infinitespire:Pacifist":{
+	"${project.artifactId}:Pacifist":{
 		"NAME": "Pacifist",
 		"DESCRIPTION": "While this card is in your hand you cannot play Attacks."
 	},
-	"infinitespire:Collect": {
+	"${project.artifactId}:Collect": {
 		"NAME": "Collect",
 		"DESCRIPTION": "Draw !M! cards and Upgrade them."
 	},
-	"infinitespire:DeathsTouch": {
+	"${project.artifactId}:DeathsTouch": {
 		"NAME": "Deaths Touch",
 		"DESCRIPTION": "Deal !D! damage. NL Next turn, deal !D! damage to ALL enemies."
 	},
-	"infinitespire:Execution": {
+	"${project.artifactId}:Execution": {
 		"NAME": "Execution",
 		"DESCRIPTION": "Apply Shredded to an enemy. NL Exhaust."
 	},
-	"infinitespire:FinalStrike": {
+	"${project.artifactId}:FinalStrike": {
 		"NAME": "Final Strike",
-		"DESCRIPTION": "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike.",
-		"COST": 2,
-		"TYPE": "ATTACK",
-		"TARGET": "ENEMY"
+		"DESCRIPTION": "Deal !D! damage. Deals an additional !M! damage for ALL of your cards containing Strike."
 	},
-	"infinitespire:Fortify": {
+	"${project.artifactId}:Fortify": {
 		"NAME": "Fortify",
 		"DESCRIPTION": "Gain !B! Block !M! times."
 	},
-	"infinitespire:FutureSight": {
+	"${project.artifactId}:FutureSight": {
 		"NAME": "Future Sight",
 		"DESCRIPTION": "Gain NL [E]  [E]  [E]  [E] NL energy. NL Exhaust."
 	},
-	"infinitespire:Gouge": {
+	"${project.artifactId}:Gouge": {
 		"NAME": "Gouge",
 		"DESCRIPTION": "Deal !D! damage. NL Remove Artifact. NL Apply !M! Weak and Vulnerable"
 	},
-	"infinitespire:Menacing": {
+	"${project.artifactId}:Menacing": {
 		"NAME": "Menacing",
 		"DESCRIPTION": "The next attack you play stuns any enemy it hits for 1 turn. NL Exhaust.",
 		"UPGRADE_DESCRIPTION": "The next !M! attacks you play stun any enemy they hit for 1 turn. NL Exhaust."
 	},
-	"infinitespire:NeuralNetwork": {
+	"${project.artifactId}:NeuralNetwork": {
 		"NAME": "Neural Network",
 		"DESCRIPTION": "Draw !M! additional cards at the start of each turn.",
 		"UPGRADE_DESCRIPTION": "Innate. NL Draw !M! additional cards at the start of each turn."
 	},
-	"infinitespire:Punishment": {
+	"${project.artifactId}:Punishment": {
 		"NAME": "Punishment",
 		"DESCRIPTION": "Deal 2 damage for each card in your draw, hand, and discard pile.",
 		"UPGRADE_DESCRIPTION": "Deal 2 damage for each card in your draw, hand, and discard pile. NL ( !D! )"
 	},
-	"infinitespire:TheBestDefense": {
+	"${project.artifactId}:TheBestDefense": {
 		"NAME": "The Best Defense",
 		"DESCRIPTION": "Gain 1 Intangible. NL Convert all of your Block into Strength, lose that Strength at the end of your turn."
 	},
-	"infinitespire:UltimateForm": {
+	"${project.artifactId}:UltimateForm": {
 		"NAME": "Ultimate Form",
 		"DESCRIPTION": "Gain !M! Strength and Dexterity each turn. NL If you have orb slots gain !M! Focus each turn."
 	},
-	"infinitespire:DarkHarmony": {
+	"${project.artifactId}:DarkHarmony": {
 		"NAME" : "Dark Harmony",
 		"DESCRIPTION": "bard:Queue !M! [WildNote] ."
 	},
-	"infinitespire:SevenWalls": {
+	"${project.artifactId}:SevenWalls": {
 		"NAME" : "Seven Walls",
 		"DESCRIPTION": "Gain !B! Block. NL Deal !D! damage.",
 		"UPGRADE_DESCRIPTION": "Unstable Space-Time",
@@ -77,25 +74,19 @@
 			"Gain !B! Temporary_HP (Effected by Block modifiers). NL Deal !D! damage."
 		]
 	},
-	"infinitespire:Oblivion": {
+	"${project.artifactId}:Oblivion": {
 		"NAME" : "Oblivion",
-		"DESCRIPTION": "Deal !D! damage. NL Channel !M! random Orbs.",
-		"COST": 2,
-		"TYPE": "SKILL",
-		"TARGET": "ALL"
+		"DESCRIPTION": "Deal !D! damage. NL Channel !M! random Orbs."
 	},
-	"infinitespire:Starlight": {
+	"${project.artifactId}:Starlight": {
 		"NAME" : "Starlight",
-		"DESCRIPTION": "Heal !M! HP. NL Exhaust.",
-		"COST": 1,
-		"TYPE": "SKILL",
-		"TARGET": "SELF"
+		"DESCRIPTION": "Heal !M! HP. NL Exhaust."
 	},
-	"infinitespire:GlowingPrism": {
+	"${project.artifactId}:GlowingPrism": {
 		"NAME" : "Glowing Prism",
 		"DESCRIPTION": "Channel #b1 Prismatic #yOrb."
 	},
-	"infinitespire:SealOfDarkness": {
+	"${project.artifactId}:SealOfDarkness": {
 		"NAME" : "Seal of Darkness",
 		"DESCRIPTION" : "Innate. NL Retain. NL Banish all enemies to another dimension. NL Fleeting."
 

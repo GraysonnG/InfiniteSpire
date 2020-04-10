@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
 import com.blanktheevil.infinitespire.extensions.clamp
+import com.blanktheevil.infinitespire.interfaces.QuestLogCloseInterface
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.megacrit.cardcrawl.core.Settings
@@ -31,7 +32,7 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
 
       questLog.parallelStream()
         .forEach { it.update() }
-      questLog.removeIf { it.isDone() }
+      questLog.removeIf { it.complete }
 
       if (InputActionSet.cancel.isJustPressed) {
         toggle()
@@ -85,6 +86,11 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
   fun toggle() {
     show = !show
     AbstractDungeon.isScreenUp = show
+    if (!show) {
+      QuestLogCloseInterface.subscribers.forEach {
+        it.onQuestLogClose(this.questLog)
+      }
+    }
   }
 
   override fun open(callback: (screen: QuestLogScreen) -> Unit) {

@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.cards
+package com.blanktheevil.infinitespire.cards.black
 
 import basemod.AutoAdd.Ignore
 import basemod.abstracts.CustomCard
@@ -7,40 +7,57 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.Textures
+import com.blanktheevil.infinitespire.cards.Card
 import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.patches.EnumPatches
+import com.blanktheevil.infinitespire.utils.CardBuilder
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.megacrit.cardcrawl.actions.AbstractGameAction
+import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.random.Random
 import kotlin.math.ceil
 
 @Ignore
-abstract class BlackCard(id: String, img: String)
-  : CustomCard(
+abstract class BlackCard(
+  id: String,
+  img: String,
+  type: CardType,
+  target: CardTarget,
+  cost: Int,
+  use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = {_,_ -> },
+  init: Card.() -> Unit = {},
+  upgr: Card.() -> Unit = {}
+) : Card(
   id,
-  strings(id).NAME,
   img,
-  strings(id).COST,
-  strings(id).DESCRIPTION,
-  strings(id).TYPE,
-  EnumPatches.CardColor.INFINITE_BLACK,
+  type,
+  target,
   RARITY,
-  strings(id).TARGET
+  EnumPatches.CardColor.INFINITE_BLACK,
+  cost,
+  use,
+  init,
+  upgr
 ) {
-
   companion object {
     private val RARITY = EnumPatches.CardRarity.BLACK
     private val FPS_SCALE: Int = ceil(240.0.div(Settings.MAX_FPS)).toInt()
-
     private const val MAX_PARTICLES: Int = 150
-
-    fun strings(id: String): CardStringsKt = InfiniteSpire.cardStringsKt[id] ?: CardStringsKt()
   }
 
   private val particles = mutableListOf<BlackCardParticle>()
 
+  constructor(builder: CardBuilder):
+      this(builder.id, builder.img, builder.type, builder.target, builder.cost, builder.use, builder.init, builder.upgr)
+
   init {
+    setOrbAndBanner()
+  }
+
+  private fun setOrbAndBanner() {
     setOrbTexture(
       Textures.cards.getString("ui/512/boss-orb.png"),
       Textures.cards.getString("ui/1024/boss-orb.png")
@@ -49,15 +66,6 @@ abstract class BlackCard(id: String, img: String)
       Textures.cards.getString("ui/512/boss-banner.png"),
       Textures.cards.getString("ui/1024/boss-banner.png")
     )
-  }
-
-  open fun onUpgrade() = doNothing()
-
-  override fun upgrade() {
-    if (!upgraded) {
-      upgradeName()
-      onUpgrade()
-    }
   }
 
   override fun update() {

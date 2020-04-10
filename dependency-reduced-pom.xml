@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.blanktheevil</groupId>
-  <artifactId>infinitespire</artifactId>
+  <artifactId>infinite-spire</artifactId>
   <name>Infinite Spire</name>
   <version>2.0.0</version>
   <description>A mod that lets you climb infinitely but primarily is a content mod focused on adding new and interesting relics.</description>
@@ -12,6 +12,7 @@
       <resource>
         <directory>src/main/resources</directory>
         <excludes>
+          <exclude>local/infinitespire/**/*</exclude>
           <exclude>ModTheSpire.json</exclude>
           <exclude>META-INF/**/*</exclude>
         </excludes>
@@ -20,6 +21,7 @@
         <filtering>true</filtering>
         <directory>src/main/resources</directory>
         <includes>
+          <include>local/infinitespire/**/*</include>
           <include>ModTheSpire.json</include>
           <include>META-INF/**/*</include>
         </includes>

@@ -9,7 +9,7 @@
 			"Mystical crystal shards that can be used to purchase weapons and tools from Avhari."
 		]
 	},
-	"infinitespire:Avhari": {
+	"${project.artifactId}:Avhari": {
 		"TEXT": [
 			"Remove Card",
 			"Remove a card.",
@@ -54,7 +54,7 @@
 			"Drink"
 		]
 	},
-	"infinitespire:RewardItems": {
+	"${project.artifactId}:RewardItems": {
 		"TEXT": [
 			"Add a Black Card to your deck",
 			"Collect ",
@@ -63,14 +63,14 @@
 			" quests to your Quest Log"
 		]
 	},
-	"infinitespire:TempHPIntent": {
+	"${project.artifactId}:TempHPIntent": {
 		"TEXT": [
 			"Reinforcing",
 			"This enemy intends to gain #yTemporary_hp on its turn.",
 			"intents/tempHp.png"
 		]
 	},
-	"infinitespire:AttackTempHPIntent": {
+	"${project.artifactId}:AttackTempHPIntent": {
 		"TEXT": [
 			"Strategic",
 			"This enemy intends to gain #yTemporary_hp and #yAttack for #b",

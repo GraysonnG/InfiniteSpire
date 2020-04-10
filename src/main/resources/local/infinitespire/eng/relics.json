@@ -1,33 +1,33 @@
 {
-	"infinitespire:Bottled Soul":{
+	"${project.artifactId}:Bottled Soul":{
 		"NAME" : "Bottled Soul",
 		"FLAVOR" : "A broken bottle... A broken soul...",
 		"DESCRIPTIONS" : [
 			"Upon pickup, choose an #yExhaust card. Whenever you play that card, it no longer #yExhausts."
 		]
 	},
-	"infinitespire:Golems Mask":{
+	"${project.artifactId}:Golems Mask":{
 		"NAME" : "Golem's Mask",
 		"FLAVOR" : "Just like the golem, slow and steady.",
 		"DESCRIPTIONS" : [
 			"On the first turn of combat, gain #yGolem's #yMight."
 		]
 	},
-	"infinitespire:Lychee Nut" : {
+	"${project.artifactId}:Lychee Nut" : {
 		"NAME" : "Lychee Nut",
 		"FLAVOR" : "It's kinda sweet.",
 		"DESCRIPTIONS" : [
 			"Upon pick up, lose #b25% of your max HP. At the start of combat gain #b3 #yRegen."
 		]
 	},
-	"infinitespire:Cupcake" : {
+	"${project.artifactId}:Cupcake" : {
 		"NAME" : "Cupcake",
 		"FLAVOR" : "It's mostly icing.",
 		"DESCRIPTIONS" : [
 			"Gain [E] at the start of your turn. After 3 turns, become #yDe-Energized."
 		]
 	},
-	"infinitespire:Magic Flask" : {
+	"${project.artifactId}:Magic Flask" : {
 		"NAME" : "Magic Flask",
 		"FLAVOR" : "The flames feel warmer...",
 		"DESCRIPTIONS" : [
@@ -35,182 +35,182 @@
 			"NL NL #ySynergy: Bottled Heart"
 		]
 	},
-	"infinitespire:Cubic Diamond" : {
+	"${project.artifactId}:Cubic Diamond" : {
 		"NAME" : "Cubic Diamond",
 		"FLAVOR" : "Feels weird.",
 		"DESCRIPTIONS" : [
 			"Upon pick up, replace your starter relic with a random starter relic."
 		]
 	},
-	"infinitespire:Midas Blood" : {
+	"${project.artifactId}:Midas Blood" : {
 		"NAME" : "Midas Blood",
 		"FLAVOR" : "Taking damage never felt so good.",
 		"DESCRIPTIONS" : [
 			"Whenever you take HP damage, gain #b2 gold."
 		]
 	},
-	"infinitespire:Freezer" : {
+	"${project.artifactId}:Freezer" : {
 		"NAME" : "Freezer",
 		"FLAVOR" : "It's cold to the touch.",
 		"DESCRIPTIONS" : [
 			"At the start of combat, #ychannel #b1 #yFrost orb."
 		]
 	},
-	"infinitespire:Beetle Shell" : {
+	"${project.artifactId}:Beetle Shell" : {
 		"NAME" : "Beetle Shell",
 		"FLAVOR" : "Hard as a rock.",
 		"DESCRIPTIONS" : [
 			"Every #b10th time you gain #yBlock from a card, gain double the #yBlock."
 		]
 	},
-	"infinitespire:Burning Sword" : {
+	"${project.artifactId}:Burning Sword" : {
 		"NAME" : "Burning Sword",
 		"FLAVOR" : "Bursting with powerful energy.",
 		"DESCRIPTIONS" : [
 			"At the start of each turn, gain #yCritical. The first #yAttack you play adds a #yBurn to your hand."
 		]
 	},
-	"infinitespire:Broken Mirror" : {
+	"${project.artifactId}:Broken Mirror" : {
 		"NAME" : "Broken Mirror",
 		"FLAVOR" : "It's sharp.",
 		"DESCRIPTIONS" : [
 			"At the start of combat, gain #b3 #yReflection."
 		]
 	},
-	"infinitespire:Spectral Dust" : {
+	"${project.artifactId}:Spectral Dust" : {
 		"NAME" : "Spectral Dust",
 		"FLAVOR" : "So light it could blow away with a single breath.",
 		"DESCRIPTIONS" : [
 			"Whenever an #yEthereal card is #yExhausted, deal #b2 damage to a random enemy."
 		]
 	},
-	"infinitespire:Holy Water" : {
+	"${project.artifactId}:Holy Water" : {
 		"NAME" : "Holy Water",
 		"FLAVOR" : "Tastes like nothing.",
 		"DESCRIPTIONS" : [
 			"Upon pick up, remove #b2 #yBlights. (This excludes Spear of Blight and Shield of Blight)"
 		]
 	},
-	"infinitespire:Blanks Blanky" : {
+	"${project.artifactId}:Blanks Blanky" : {
 		"NAME" : "Blank's Blanky",
 		"FLAVOR" : "It's more like a comforter.",
 		"DESCRIPTIONS" : [
 			"When resting at Rest Sites, heal to full."
 		]
 	},
-	"infinitespire:Lucky Rock" : {
+	"${project.artifactId}:Lucky Rock" : {
 		"NAME" : "Lucky Rock",
 		"FLAVOR" : "It's feels smooth.",
 		"DESCRIPTIONS" : [
 			"Each time you play an attack card, you have a #b5% chance to gain #yCritical."
 		]
 	},
-	"infinitespire:Joker Card" : {
+	"${project.artifactId}:Joker Card" : {
 		"NAME" : "Joker Card",
 		"FLAVOR" : "Takes the form of any other card.",
 		"DESCRIPTIONS" : [
 			"Every #b15th card you play is played twice."
 		]
 	},
-	"infinitespire:Satchel" : {
+	"${project.artifactId}:Satchel" : {
 		"NAME" : "Satchel",
 		"FLAVOR" : "It's not a purse!",
 		"DESCRIPTIONS" : [
 			"At the end of each turn Retain #b1 card."
 		]
 	},
-	"infinitespire:MutagenicDexterity" : {
+	"${project.artifactId}:MutagenicDexterity" : {
 		"NAME" : "Mutagenic Dexterity",
 		"FLAVOR" : "The subject is able to endure more damage, only for a short while.",
 		"DESCRIPTIONS" : [
 			"Start each combat with #b3 #yDexterity that is lost at the end of your turn."
 		]
 	},
-	"infinitespire:SolderingIron" : {
+	"${project.artifactId}:SolderingIron" : {
 		"NAME" : "Soldering Iron",
 		"FLAVOR" : "OUCH! Hot!",
 		"DESCRIPTIONS" : [
 			"Every 3 orbs you channel in one turn, gain #b1 Orb slot"
 		]
 	},
-	"infinitespire:EmpoweringShard" : {
+	"${project.artifactId}:EmpoweringShard" : {
 		"NAME" : "Empowering Shard",
 		"FLAVOR" : "It feels like it holds great power...",
 		"DESCRIPTIONS" : [
 			"For each act you climb gain #b1 #yStrength at the start of combat."
 		]
 	},
-    "infinitespire:WardingShard" : {
+    "${project.artifactId}:WardingShard" : {
         "NAME" : "Warding Shard",
         "FLAVOR" : "It's unbreakable!",
         "DESCRIPTIONS" : [
             "For each act you climb gain #b1 #yDexterity at the start of combat."
         ]
     },
-    "infinitespire:FocusingShard" : {
+    "${project.artifactId}:FocusingShard" : {
         "NAME" : "Focusing Shard",
         "FLAVOR" : "Sharp!",
         "DESCRIPTIONS" : [
             "For each act you climb #yUpgrade a random card at the start of combat."
         ]
     },
-	"infinitespire:ShieldingShard" : {
+	"${project.artifactId}:ShieldingShard" : {
 		"NAME" : "Shielding Shard",
 		"FLAVOR" : "Nice and cool.",
 		"DESCRIPTIONS" : [
 			"For each act you climb gain #b3 #yTemp #yHP at the start of combat."
 		]
 	},
-	"infinitespire:DarkRift" : {
+	"${project.artifactId}:DarkRift" : {
 		"NAME" : "Dark Rift",
 		"FLAVOR" : "It looks like a small galaxy!",
 		"DESCRIPTIONS" : [
 			"At the start of combat, add a random [#3D00D6]Black[] card to your draw pile."
 		]
 	},
-	"infinitespire:Eraser": {
+	"${project.artifactId}:Eraser": {
 		"NAME": "Eraser",
 		"FLAVOR": "Chewy!",
 		"DESCRIPTIONS" : [
 			"Restart an elite combat against a different elite. The enemies will be stronger. NL Can be used #b3 times."
 		]
 	},
-	"infinitespire:Chaos": {
+	"${project.artifactId}:Chaos": {
 		"NAME": "Chaos",
 		"FLAVOR": "CHAOS!!!",
 		"DESCRIPTIONS": [
 			"Upon pickup, replace every relic you hold with a random relic."
 		]
 	},
-	"infinitespire:CursedDice": {
+	"${project.artifactId}:CursedDice": {
 		"NAME": "Cursed Dice",
 		"FLAVOR": "Onward unto death! Die like a nail hammered into a coffin!",
 		"DESCRIPTIONS": [
 			"[#2aecd7]Can [#2aecd7]only [#2aecd7]be [#2aecd7]used [#2aecd7]once.[] NL When you would die, shuffle your hand and discard pile into your draw pile, you no longer take damage. If you win before you empty your draw pile and hand, heal #b35% max hp. Otherwise you die!"
 		]
 	},
-	"infinitespire:EmptyRelic": {
+	"${project.artifactId}:EmptyRelic": {
 		"NAME": "EmptyRelic",
 		"FLAVOR": "how are you seeing this?",
 		"DESCRIPTIONS": [
 			"nothing"
 		]
 	},
-	"infinitespire:BottledMercury": {
+	"${project.artifactId}:BottledMercury": {
 		"NAME": "Bottled Mercury",
 		"FLAVOR": "Tastes real bad...",
 		"DESCRIPTIONS":  [
 			"Upon pickup choose a card, when it is played, if it is an #yAttack, gain #b1 #yStrength, if it is a #ySkill, gain #b1 #yDexterity, if it is a #yPower, gain #b2 #yFocus."
 		]
 	},
-	"infinitespire:EvilPickle": {
+	"${project.artifactId}:EvilPickle": {
 		"NAME": "Abe's Evil Pickle",
 		"FLAVOR": "Nothing is more evil than gold!",
 		"DESCRIPTIONS": [
 			"After combat, gain #b6.5% interest on your #ygold."
 		]
 	},
-	"infinitespire:BlackEgg": {
+	"${project.artifactId}:BlackEgg": {
 		"NAME": "Black Egg",
 		"FLAVOR": "Something terrifying... contained...",
 		"DESCRIPTIONS": [
@@ -218,21 +218,21 @@
 			" NL When activated the next floor's boss will be [#9166ff]The[] [#9166ff]Lord[] [#9166ff]of[] [#9166ff]Annihilation.[]"
 		]
 	},
-	"infinitespire:CheckeredPen": {
+	"${project.artifactId}:CheckeredPen": {
 		"NAME": "Checkered Pen",
 		"FLAVOR": "Secrets revealed...",
 		"DESCRIPTIONS": [
 			"Whenever you play a card, deal #b1 damage to a random enemy."
 		]
 	},
-	"infinitespire:PuzzleCube": {
+	"${project.artifactId}:PuzzleCube": {
 		"NAME": "Puzzle Cube",
 		"FLAVOR": "Timing...",
 		"DESCRIPTIONS": [
 			"At the start of each turn, #yPuzzle #yCube picks a random card in your draw pile, if you play that card, draw a card."
 		]
 	},
-	"infinitespire:SneckoEssence": {
+	"${project.artifactId}:SneckoEssence": {
 		"NAME": "Snecko Essence",
 		"FLAVOR": "Huh?",
 		"DESCRIPTIONS": [
