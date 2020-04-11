@@ -16,7 +16,8 @@ class ProceedButtonPatch {
     @SpirePrefixPatch
     @JvmStatic
     fun openEndlessScreen(proceedButton: ProceedButton, room: AbstractRoom) {
-      if (AbstractDungeon.actNum.rem(2) == 0 && EndlessScreen.shouldPrompt) {
+      InfiniteSpire.saveData.actNumber++
+      if (InfiniteSpire.saveData.actNumber.rem(2) == 0 && EndlessScreen.shouldPrompt) {
         InfiniteSpire.endlessScreen.open() {
           log.info("Closed Screen")
         }

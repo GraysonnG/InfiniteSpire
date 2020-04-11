@@ -16,10 +16,7 @@ class ClearPatch {
     fun saveAndExit(popup: ConfirmPopup) {
       if (popup.type == ConfirmPopup.ConfirmType.ABANDON) {
         log.info("Clearing Data...")
-        Savable.savables.forEach {
-          it.clearData(InfiniteSpire.saveData)
-          it.beforeConfigSave(InfiniteSpire.saveData)
-        }
+        InfiniteSpire.saveData.clear()
         InfiniteSpire.saveData.save()
       }
     }

@@ -18,8 +18,18 @@ class SaveData(
   var shouldDoParticles: Boolean = true,
   var shouldSpawnLords: Boolean = true,
   var stats: Statistics = Statistics(),
-  val shouldPromptEndless: Boolean = true
+  var shouldPromptEndless: Boolean = true,
+  var actNumber: Int = 0
 ) {
+  fun clear() {
+    bottledSoul = BottledRelicData()
+    bottledMercury = BottledRelicData()
+    nightmareData = NightmareData()
+    questLog = QuestLog()
+    shouldPromptEndless = true
+    actNumber = 0
+  }
+
   fun save() {
     log.info("Saving Data...")
     val file = File(dirPath)
