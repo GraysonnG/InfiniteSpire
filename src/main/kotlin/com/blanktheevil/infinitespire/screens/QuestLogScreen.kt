@@ -26,8 +26,7 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
     TODO("init")
   }
 
-  override fun update() {
-    super.update()
+  override fun updateScreen() {
     if (show) {
 
       questLog.parallelStream()
@@ -49,7 +48,7 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
     bgColor.a = Interpolation.fade.apply(0f, SCREEN_BG_OPEN_TARGET, bgColorInterpProgress)
   }
 
-  override fun render(sb: SpriteBatch) {
+  override fun renderScreen(sb: SpriteBatch) {
     renderBg(sb)
 
     if (show) {

@@ -40,7 +40,7 @@ class TargetMonsterScreen : Screen<TargetMonsterScreen>(), RenderSubscriber, Pos
     update()
   }
 
-  override fun update() {
+  override fun updateScreen() {
     updateTargetMode()
   }
 
@@ -99,7 +99,7 @@ class TargetMonsterScreen : Screen<TargetMonsterScreen>(), RenderSubscriber, Pos
     render(sb)
   }
 
-  override fun render(sb: SpriteBatch) {
+  override fun renderScreen(sb: SpriteBatch) {
     renderTargetingUi(sb)
     if (this.hoveredCreature != null) {
       this.hoveredCreature!!.renderReticle(sb)

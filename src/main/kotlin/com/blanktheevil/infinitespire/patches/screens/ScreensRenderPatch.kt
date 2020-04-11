@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.patches.questlog
+package com.blanktheevil.infinitespire.patches.screens
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.InfiniteSpire
@@ -8,11 +8,13 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = AbstractDungeon::class, method = "render")
-class QuestLogRenderPatch {
+class ScreensRenderPatch {
   companion object {
     @SpirePostfixPatch
     @JvmStatic
     fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
+      InfiniteSpire.powerSelectScreen.render(sb)
+      InfiniteSpire.infiniteScreen.render(sb)
       InfiniteSpire.questLogScreen.render(sb)
     }
   }

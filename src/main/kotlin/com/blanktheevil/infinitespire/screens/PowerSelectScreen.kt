@@ -31,8 +31,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
   private val bgColor = Color.BLACK.cpy().also { it.a = 0f }
   private var bgColorInterpProgress = 0f
 
-  override fun update() {
-    super.update()
+  override fun updateScreen() {
     updateHiboxes()
 
     if (show) {
@@ -69,7 +68,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
     }
   }
 
-  override fun render(sb: SpriteBatch) {
+  override fun renderScreen(sb: SpriteBatch) {
     renderBg(sb)
 
     if (!show) return

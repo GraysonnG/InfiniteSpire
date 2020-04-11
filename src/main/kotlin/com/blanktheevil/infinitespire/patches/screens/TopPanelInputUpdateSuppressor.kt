@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.patches.questlog
+package com.blanktheevil.infinitespire.patches.screens
 
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch
@@ -15,7 +15,11 @@ class TopPanelInputUpdateSuppressor {
     )
     @JvmStatic
     fun suppressInputs(): SpireReturn<Void> {
-      return if (InfiniteSpire.questLogScreen.isOpen()) {
+      return if (
+        InfiniteSpire.questLogScreen.isOpen() ||
+        InfiniteSpire.powerSelectScreen.show ||
+        InfiniteSpire.infiniteScreen.show
+      ) {
         SpireReturn.Return(null)
       } else {
         SpireReturn.Continue()

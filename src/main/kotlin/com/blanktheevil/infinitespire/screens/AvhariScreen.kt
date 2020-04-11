@@ -4,12 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 
 class AvhariScreen : Screen<AvhariScreen>() {
-  override fun update() {
-    super.update()
-    // do some code
+  override fun renderScreen(sb: SpriteBatch) {
   }
 
-  override fun render(sb: SpriteBatch) {
+  override fun updateScreen() {
   }
 
   override fun open(callback: (screen: AvhariScreen) -> Unit) {
