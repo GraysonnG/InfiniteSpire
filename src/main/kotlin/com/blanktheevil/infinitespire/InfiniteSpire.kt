@@ -8,10 +8,8 @@ import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.cards.Card
-import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.crossover.CrossoverManager
 import com.blanktheevil.infinitespire.crossover.Crossovers
-import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.interfaces.*
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
@@ -26,9 +24,7 @@ import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
-import com.blanktheevil.infinitespire.utils.CardBuilder
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
-import com.megacrit.cardcrawl.actions.common.GainBlockAction
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.unlock.UnlockTracker
@@ -55,7 +51,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var avhariScreen: AvhariScreen
     lateinit var powerSelectScreen: PowerSelectScreen
     lateinit var targetMonsterScreen: TargetMonsterScreen
-    lateinit var infiniteScreen: InfiniteScreen
+    lateinit var endlessScreen: EndlessScreen
     lateinit var voidShardDisplay: VoidShardDisplay
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
@@ -176,7 +172,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     voidShardDisplay = VoidShardDisplay()
     powerSelectScreen = PowerSelectScreen()
     targetMonsterScreen = TargetMonsterScreen()
-    infiniteScreen = InfiniteScreen()
+    endlessScreen = EndlessScreen()
 
     BaseMod.addTopPanelItem(questLogButton)
     BaseMod.addTopPanelItem(voidShardDisplay)

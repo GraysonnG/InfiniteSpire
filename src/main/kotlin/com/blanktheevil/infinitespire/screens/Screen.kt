@@ -15,6 +15,7 @@ abstract class Screen<T>: SpireElement {
     uiElements.forEach {
       it.update()
     }
+    if (!show) return
     updateScreen()
     AbstractDungeon.isScreenUp = show
   }

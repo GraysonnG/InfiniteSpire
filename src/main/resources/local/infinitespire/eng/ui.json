@@ -1,4 +1,12 @@
 {
+	"${project.artifactId}:EndlessScreen": {
+		"TEXT": [
+			"Enable Endless?",
+			"Continue Endless?",
+			"Yes",
+			"No"
+		]
+	},
 	"VoidShard": {
 		"TEXT": [
 			"Void Shard",

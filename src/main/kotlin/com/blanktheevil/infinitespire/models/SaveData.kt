@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.models
 
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.relics.BottledMercury
 import com.blanktheevil.infinitespire.relics.BottledSoul
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils
@@ -16,9 +17,11 @@ class SaveData(
   var questLog: QuestLog = QuestLog(),
   var shouldDoParticles: Boolean = true,
   var shouldSpawnLords: Boolean = true,
-  var stats: Statistics = Statistics()
+  var stats: Statistics = Statistics(),
+  val shouldPromptEndless: Boolean = true
 ) {
   fun save() {
+    log.info("Saving Data...")
     val file = File(dirPath)
     file.writer(UTF_8).also {
       it.write(Gson().toJson(this))

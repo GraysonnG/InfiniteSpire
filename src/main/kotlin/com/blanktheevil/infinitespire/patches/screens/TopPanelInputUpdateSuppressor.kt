@@ -18,7 +18,7 @@ class TopPanelInputUpdateSuppressor {
       return if (
         InfiniteSpire.questLogScreen.isOpen() ||
         InfiniteSpire.powerSelectScreen.show ||
-        InfiniteSpire.infiniteScreen.show
+        InfiniteSpire.endlessScreen.show
       ) {
         SpireReturn.Return(null)
       } else {

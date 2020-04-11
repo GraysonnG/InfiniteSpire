@@ -13,7 +13,7 @@ class ScreensUpdatePatch {
     @JvmStatic
     fun run(dungeon: AbstractDungeon) {
       InfiniteSpire.powerSelectScreen.update()
-      InfiniteSpire.infiniteScreen.update()
+      InfiniteSpire.endlessScreen.update()
       InfiniteSpire.questLogScreen.update()
     }
   }

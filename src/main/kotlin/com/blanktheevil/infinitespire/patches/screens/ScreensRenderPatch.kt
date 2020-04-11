@@ -14,7 +14,7 @@ class ScreensRenderPatch {
     @JvmStatic
     fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
       InfiniteSpire.powerSelectScreen.render(sb)
-      InfiniteSpire.infiniteScreen.render(sb)
+      InfiniteSpire.endlessScreen.render(sb)
       InfiniteSpire.questLogScreen.render(sb)
     }
   }
