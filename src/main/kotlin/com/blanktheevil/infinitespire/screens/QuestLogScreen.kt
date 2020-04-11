@@ -8,6 +8,7 @@ import com.blanktheevil.infinitespire.extensions.clamp
 import com.blanktheevil.infinitespire.interfaces.QuestLogCloseInterface
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
+import com.blanktheevil.infinitespire.vfx.DarkBgEffect
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.FontHelper
@@ -15,12 +16,7 @@ import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.helpers.input.InputActionSet
 
 class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLogButton) : Screen<QuestLogScreen>() {
-  companion object {
-    const val SCREEN_BG_OPEN_TARGET = 0.65f
-  }
-
-  private val bgColor = Color.BLACK.cpy().also { it.a = 0f }
-  private var bgColorInterpProgress = 0f
+  private val darkBgEffect = DarkBgEffect(this)
 
   fun init() {
     TODO("init")
@@ -38,18 +34,11 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
       }
     }
 
-    updateBgAlpha()
-  }
-
-  private fun updateBgAlpha() {
-    bgColorInterpProgress += if (show) Gdx.graphics.rawDeltaTime.times(3) else -Gdx.graphics.rawDeltaTime.times(3)
-    bgColorInterpProgress = bgColorInterpProgress.clamp(0f, 1f)
-
-    bgColor.a = Interpolation.fade.apply(0f, SCREEN_BG_OPEN_TARGET, bgColorInterpProgress)
+    darkBgEffect.update()
   }
 
   override fun renderScreen(sb: SpriteBatch) {
-    renderBg(sb)
+    darkBgEffect.render(sb)
 
     if (show) {
       FontHelper.renderFontCentered(
@@ -63,19 +52,6 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
     }
 
     renderQuestLogIcon(sb)
-  }
-
-  private fun renderBg(sb: SpriteBatch) {
-    with(sb) {
-      color = this@QuestLogScreen.bgColor
-      draw(
-        ImageMaster.WHITE_SQUARE_IMG,
-        0f,
-        0f,
-        Settings.WIDTH.toFloat(),
-        Settings.HEIGHT.toFloat()
-      )
-    }
   }
 
   private fun renderQuestLogIcon(sb: SpriteBatch) {

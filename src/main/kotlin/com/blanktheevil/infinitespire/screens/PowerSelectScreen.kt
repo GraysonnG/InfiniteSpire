@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.vfx.DarkBgEffect
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.FontHelper
@@ -18,7 +19,6 @@ import com.megacrit.cardcrawl.powers.AbstractPower
 
 class PowerSelectScreen : Screen<PowerSelectScreen>() {
   companion object {
-    const val SCREEN_BG_OPEN_TARGET = 0.65f
     private const val HB_SIZE = 128f
     private const val SPACING = 4f
     private const val HB_SIZE_SPACING = HB_SIZE + SPACING
@@ -27,9 +27,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
   }
 
   var selectedPower: AbstractPower? = null
-
-  private val bgColor = Color.BLACK.cpy().also { it.a = 0f }
-  private var bgColorInterpProgress = 0f
+  private val darkBgEffect = DarkBgEffect(this)
 
   override fun updateScreen() {
     updateHiboxes()
@@ -40,7 +38,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
       }
     }
 
-    updateBgAlpha()
+    darkBgEffect.update()
   }
 
   private fun updateHiboxes() {
@@ -69,7 +67,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
   }
 
   override fun renderScreen(sb: SpriteBatch) {
-    renderBg(sb)
+    darkBgEffect.render(sb)
 
     if (!show) return
 
@@ -139,26 +137,6 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
         index++
       }
     }
-  }
-
-  private fun renderBg(sb: SpriteBatch) {
-    with(sb) {
-      color = this@PowerSelectScreen.bgColor
-      draw(
-        ImageMaster.WHITE_SQUARE_IMG,
-        0f,
-        0f,
-        Settings.WIDTH.toFloat(),
-        Settings.HEIGHT.toFloat()
-      )
-    }
-  }
-
-  private fun updateBgAlpha() {
-    bgColorInterpProgress += if (show) Gdx.graphics.rawDeltaTime.times(3) else -Gdx.graphics.rawDeltaTime.times(3)
-    bgColorInterpProgress = bgColorInterpProgress.clamp(0f, 1f)
-
-    bgColor.a = Interpolation.fade.apply(0f, SCREEN_BG_OPEN_TARGET, bgColorInterpProgress)
   }
 
   override fun close() {
