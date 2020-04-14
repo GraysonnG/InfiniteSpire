@@ -5,11 +5,12 @@ import basemod.BaseMod
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.cards.Card
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.cards.black.FinalStrike
 import com.blanktheevil.infinitespire.extensions.getRandomItem
 import com.blanktheevil.infinitespire.patches.EnumPatches
+import com.blanktheevil.infinitespire.patches.utils.filters.NotPackageFilter
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.CardLibrary
 import com.megacrit.cardcrawl.unlock.UnlockTracker
@@ -28,6 +29,7 @@ object CardManager {
   fun addAllCards() {
     AutoAdd(InfiniteSpire.modid)
       .packageFilter(Card::class.java)
+      .filter(NotPackageFilter(CardManager::class.java))
       .any(Card::class.java) { info, card ->
         InfiniteSpire.logger.info("Added Card: ${card.cardID}")
         addCard(card)

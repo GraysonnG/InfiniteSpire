@@ -1,4 +1,6 @@
-package com.blanktheevil.infinitespire.interfaces
+package com.blanktheevil.infinitespire.interfaces.utils
+
+import com.blanktheevil.infinitespire.interfaces.*
 
 object SubscriberManager {
   fun <T : IInfiniteSpire> subscribe(subscriber: T) {

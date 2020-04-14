@@ -8,6 +8,7 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 
+@Suppress("unused")
 class CardBuilder(
   var id: String = "",
   var img: String = Textures.cards.getString("beta.png"),

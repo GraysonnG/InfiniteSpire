@@ -7,7 +7,7 @@ import com.google.gson.reflect.TypeToken
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.localization.*
 
-object Localization {
+object LocalizationManager {
   fun init() {
     loadFiles(Settings.GameLanguage.ENG)
     if (Settings.language != Settings.GameLanguage.ENG) {

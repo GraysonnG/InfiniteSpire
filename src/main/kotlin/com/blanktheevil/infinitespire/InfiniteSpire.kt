@@ -10,6 +10,7 @@ import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
 import com.blanktheevil.infinitespire.crossover.Crossovers
 import com.blanktheevil.infinitespire.interfaces.*
+import com.blanktheevil.infinitespire.interfaces.utils.SubscriberManager
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
@@ -86,7 +87,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     }
   }
 
-  override fun receiveEditStrings() = Localization.init()
+  override fun receiveEditStrings() = LocalizationManager.init()
   override fun receiveEditCards() = CardManager.addAllCards()
   override fun receiveEditRelics() = RelicManager.addAllRelics()
   private fun addQuests() = QuestManager.addAllQuests()
