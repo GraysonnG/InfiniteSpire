@@ -1,11 +1,11 @@
-package com.blanktheevil.infinitespire.utils
+package com.blanktheevil.infinitespire.cards.utils
 
 import basemod.AutoAdd
 import basemod.BaseMod
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.cards.Card
+import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.cards.black.FinalStrike
 import com.blanktheevil.infinitespire.extensions.getRandomItem

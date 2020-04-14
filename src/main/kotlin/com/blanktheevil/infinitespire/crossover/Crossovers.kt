@@ -1,5 +1,6 @@
 package com.blanktheevil.infinitespire.crossover
 
+import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
 import java.util.function.Consumer
 
 class Crossovers {

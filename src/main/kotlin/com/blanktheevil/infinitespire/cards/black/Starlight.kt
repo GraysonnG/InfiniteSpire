@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.cards.black
 
 import com.blanktheevil.infinitespire.extensions.applyHeal
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.utils.CardBuilder
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 
 @Suppress("unused")
 class Starlight : BlackCard(BUILDER) {

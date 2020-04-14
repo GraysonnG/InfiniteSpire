@@ -1,19 +1,14 @@
 package com.blanktheevil.infinitespire.cards.black
 
 import basemod.AutoAdd.Ignore
-import basemod.abstracts.CustomCard
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.Textures
+import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.cards.Card
-import com.blanktheevil.infinitespire.extensions.doNothing
-import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.patches.EnumPatches
-import com.blanktheevil.infinitespire.utils.CardBuilder
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
-import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.AbstractMonster

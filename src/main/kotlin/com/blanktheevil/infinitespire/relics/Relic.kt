@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.Textures
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.helpers.GameDictionary
 import com.megacrit.cardcrawl.helpers.PowerTip
 import com.megacrit.cardcrawl.helpers.TipHelper

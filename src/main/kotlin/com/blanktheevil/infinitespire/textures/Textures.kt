@@ -1,7 +1,7 @@
-package com.blanktheevil.infinitespire
+package com.blanktheevil.infinitespire.textures
 
 import com.badlogic.gdx.graphics.Texture
-import com.blanktheevil.infinitespire.utils.TextureGetter
+import com.blanktheevil.infinitespire.InfiniteSpire
 
 @Suppress("unused")
 abstract class Textures {

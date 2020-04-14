@@ -3,7 +3,7 @@ package com.blanktheevil.infinitespire.ui
 import basemod.IUIElement
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.Textures
+import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable

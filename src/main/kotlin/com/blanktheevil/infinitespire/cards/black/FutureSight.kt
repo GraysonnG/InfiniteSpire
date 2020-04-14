@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.cards.black
 
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.utils.CardBuilder
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction
 
 class FutureSight : BlackCard(BUILDER) {

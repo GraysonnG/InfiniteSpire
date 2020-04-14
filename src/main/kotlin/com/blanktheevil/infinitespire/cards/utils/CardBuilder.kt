@@ -1,7 +1,7 @@
-package com.blanktheevil.infinitespire.utils
+package com.blanktheevil.infinitespire.cards.utils
 
-import com.blanktheevil.infinitespire.Textures
 import com.blanktheevil.infinitespire.cards.Card
+import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.megacrit.cardcrawl.cards.AbstractCard

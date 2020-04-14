@@ -1,8 +1,7 @@
-package com.blanktheevil.infinitespire.utils
+package com.blanktheevil.infinitespire.textures
 
 import com.badlogic.gdx.graphics.Texture
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.Textures
 
 class TextureGetter(private val folder: String) {
   fun get(texture: String): Texture = TextureLoaderKt.getTexture(getString(texture))

@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.powers
 
 import basemod.interfaces.CloneablePowerInterface
-import com.blanktheevil.infinitespire.Textures
+import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.megacrit.cardcrawl.characters.AbstractPlayer

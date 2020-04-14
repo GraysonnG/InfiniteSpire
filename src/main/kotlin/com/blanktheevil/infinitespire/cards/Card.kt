@@ -3,9 +3,9 @@ package com.blanktheevil.infinitespire.cards
 import basemod.AutoAdd
 import basemod.abstracts.CustomCard
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.models.CardStringsKt
-import com.blanktheevil.infinitespire.utils.CardBuilder
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.monsters.AbstractMonster

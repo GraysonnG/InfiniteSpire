@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.utils
+package com.blanktheevil.infinitespire.quests.utils
 
 import basemod.AutoAdd
 import com.blanktheevil.infinitespire.InfiniteSpire
