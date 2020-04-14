@@ -29,7 +29,6 @@ class Chaos : Relic(ID, IMG, TIER, SOUND) {
 
   override fun update() {
     super.update()
-    log.info("Chaos: ${CardCrawlGame.isInARun()} && ${!allRelicsReplaced()} && ${!hasScreenChanged()}")
     while (CardCrawlGame.isInARun() && !allRelicsReplaced() && !hasScreenChanged()) {
       getRandomChaosRelic().also {
         it.removeFromPools()

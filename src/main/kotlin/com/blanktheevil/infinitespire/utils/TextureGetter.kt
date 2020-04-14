@@ -2,6 +2,7 @@ package com.blanktheevil.infinitespire.utils
 
 import com.badlogic.gdx.graphics.Texture
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.Textures
 
 class TextureGetter(private val folder: String) {
   fun get(texture: String): Texture = TextureLoaderKt.getTexture(getString(texture))
@@ -9,7 +10,7 @@ class TextureGetter(private val folder: String) {
     return when {
       ignoreValidation -> getString(folder, texture)
       TextureLoaderKt.exists(getString(folder, texture)) -> getString(folder, texture)
-      else -> "img/infinitespire/ui/missingtexture.png"
+      else -> Textures.missingTexturePath
     }
   }
 

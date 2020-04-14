@@ -12,7 +12,7 @@
       <resource>
         <directory>src/main/resources</directory>
         <excludes>
-          <exclude>local/infinitespire/**/*</exclude>
+          <exclude>infinite-spire/local/**/*</exclude>
           <exclude>ModTheSpire.json</exclude>
           <exclude>META-INF/**/*</exclude>
         </excludes>
@@ -21,7 +21,7 @@
         <filtering>true</filtering>
         <directory>src/main/resources</directory>
         <includes>
-          <include>local/infinitespire/**/*</include>
+          <include>infinite-spire/local/**/*</include>
           <include>ModTheSpire.json</include>
           <include>META-INF/**/*</include>
         </includes>

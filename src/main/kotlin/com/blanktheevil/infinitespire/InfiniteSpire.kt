@@ -96,7 +96,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     }
 
     fun createPath(restOfPath: String): String {
-      return "img/infinitespire/$restOfPath"
+      return "$modid/images/$restOfPath"
     }
 
     private fun loadProperties() {

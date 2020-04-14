@@ -15,6 +15,7 @@ abstract class Textures {
     val screen = TextureGetter("screen")
     val ui = TextureGetter("ui")
     val vfx = TextureGetter("vfx")
-    val missingTexture by lazy { Texture("img/infinitespire/ui/missingtexture.png") }
+    val missingTexture by lazy { Texture(InfiniteSpire.createPath(missingTexturePath)) }
+    val missingTexturePath = ui.getString("missingtexture.png", true)
   }
 }

@@ -25,13 +25,15 @@ class Localization {
     }
 
     private fun makePath(language: Settings.GameLanguage, fileName: String): String {
-      var langFolder = "local/infinitespire/"
+      var langFolder = "${InfiniteSpire.modid}/local/"
 
       @Suppress("LiftReturnOrAssignment")
       when (language) {
         Settings.GameLanguage.ENG -> langFolder += "eng"
         else -> langFolder += "eng"
       }
+
+      println("$langFolder/$fileName.json")
 
       return "$langFolder/$fileName.json"
     }
