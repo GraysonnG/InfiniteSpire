@@ -13,16 +13,14 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveFile
   method = SpirePatch.CONSTRUCTOR,
   paramtypez = [SaveFile.SaveType::class]
 )
-class SavePatch {
-  companion object {
-    @JvmStatic
-    @SpirePostfixPatch
-    fun saveInfiniteSpireData(saveFile: SaveFile) {
-      log.info("Saving Data...")
-      Savable.savables.forEach {
-        it.beforeConfigSave(InfiniteSpire.saveData)
-      }
-      InfiniteSpire.saveData.save()
+object SavePatch {
+  @JvmStatic
+  @SpirePostfixPatch
+  fun saveInfiniteSpireData(saveFile: SaveFile) {
+    log.info("Saving Data...")
+    Savable.savables.forEach {
+      it.beforeConfigSave(InfiniteSpire.saveData)
     }
+    InfiniteSpire.saveData.save()
   }
 }

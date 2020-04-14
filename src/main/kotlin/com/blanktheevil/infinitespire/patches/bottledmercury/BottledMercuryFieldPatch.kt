@@ -5,9 +5,7 @@ import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.megacrit.cardcrawl.cards.AbstractCard
 
 @SpirePatch(clz = AbstractCard::class, method = SpirePatch.CLASS)
-class BottledMercuryFieldPatch {
-  companion object {
-    @JvmField
-    var isBottledMercuryCard = SpireField { false }
-  }
+object BottledMercuryFieldPatch {
+  @JvmField
+  var isBottledMercuryCard = SpireField { false }
 }

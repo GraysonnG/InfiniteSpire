@@ -8,16 +8,14 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 
 @Suppress("unused")
 @SpirePatch(clz = AbstractCard::class, method = "makeStatEquivalentCopy")
-class BottledMercuryCardCopyPatch {
-  companion object {
-    @JvmStatic
-    @SpireInsertPatch(rloc = 6, localvars = ["card"])
-    fun applyBottledMercury(instance: AbstractCard, @ByRef cardRef: Array<AbstractCard>) {
-      val card = cardRef[0]
+object BottledMercuryCardCopyPatch {
+  @JvmStatic
+  @SpireInsertPatch(rloc = 6, localvars = ["card"])
+  fun applyBottledMercury(instance: AbstractCard, @ByRef cardRef: Array<AbstractCard>) {
+    val card = cardRef[0]
 
-      if (instance.inBottleMercury) {
-        card.inBottleMercury = true
-      }
+    if (instance.inBottleMercury) {
+      card.inBottleMercury = true
     }
   }
 }

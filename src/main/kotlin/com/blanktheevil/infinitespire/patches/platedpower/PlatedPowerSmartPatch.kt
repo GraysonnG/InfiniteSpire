@@ -18,66 +18,64 @@ import java.util.ArrayList
 
 @Suppress("unused")
 @SpirePatch(clz = AbstractPower::class, method = SpirePatch.CONSTRUCTOR)
-class PlatedPowerSmartPatch {
-  companion object {
-    @Suppress("unused")
-    @JvmStatic
-    @SpireRawPatch
-    fun platedPowerSmartPatch(ctBehavior: CtBehavior) {
-      println("\nInfinite Spire: Smart Plated Power Patch")
+object PlatedPowerSmartPatch {
+  @Suppress("unused")
+  @JvmStatic
+  @SpireRawPatch
+  fun platedPowerSmartPatch(ctBehavior: CtBehavior) {
+    println("\nInfinite Spire: Smart Plated Power Patch")
 
-      val foundClasses = findClasses()
+    val foundClasses = findClasses()
 
-      println("\t- Done Finding Classes...\n\t- Begin Patching...")
-      var cInfo: ClassInfo? = null
-      try {
-        foundClasses.stream()
-          .map {
-            cInfo = it
-            ctBehavior.declaringClass.classPool.get(it.className)
-          }
-          .forEach { ctClass ->
-            ctClass.declaredMethods.asList().stream()
-              .filter {
-                it != null && (
-                    RemovePowerLocator().Locate(it).isNotEmpty() ||
-                    ReducePowerLocator().Locate(it).isNotEmpty()
-                  )
-              }
-              .forEach {
-                it.instrument(PlatedPowerInstrument())
-              }
-          }
-      } catch (e: Exception) {
-        println("\t- Failed to Patch Classes!")
-        e.printStackTrace()
-      }
-      println("\t- Done Patching...")
-    }
-
-    private fun findClasses(): List<ClassInfo> {
-      val filter = AndClassFilter(
-        NotClassFilter(InterfaceOnlyClassFilter()),
-        NotClassFilter(AbstractClassFilter()),
-        ClassModifiersClassFilter(Modifier.PUBLIC),
-        StsClassFilter(AbstractPower::class.java)
-      )
-
-      val finder = ClassFinder()
-      finder.add(File(Loader.STS_JAR))
-      Loader.MODINFOS.asList().stream()
-        .filter { it.jarURL != null }
-        .forEach {
-          try {
-            finder.add(File(it.jarURL.toURI()))
-          } catch (e: URISyntaxException) {
-            doNothing()
-          }
+    println("\t- Done Finding Classes...\n\t- Begin Patching...")
+    var cInfo: ClassInfo? = null
+    try {
+      foundClasses.stream()
+        .map {
+          cInfo = it
+          ctBehavior.declaringClass.classPool.get(it.className)
         }
+        .forEach { ctClass ->
+          ctClass.declaredMethods.asList().stream()
+            .filter {
+              it != null && (
+                  RemovePowerLocator().Locate(it).isNotEmpty() ||
+                  ReducePowerLocator().Locate(it).isNotEmpty()
+                )
+            }
+            .forEach {
+              it.instrument(PlatedPowerInstrument())
+            }
+        }
+    } catch (e: Exception) {
+      println("\t- Failed to Patch Classes!")
+      e.printStackTrace()
+    }
+    println("\t- Done Patching...")
+  }
 
-      return ArrayList<ClassInfo>().also {
-        finder.findClasses(it, filter)
+  private fun findClasses(): List<ClassInfo> {
+    val filter = AndClassFilter(
+      NotClassFilter(InterfaceOnlyClassFilter()),
+      NotClassFilter(AbstractClassFilter()),
+      ClassModifiersClassFilter(Modifier.PUBLIC),
+      StsClassFilter(AbstractPower::class.java)
+    )
+
+    val finder = ClassFinder()
+    finder.add(File(Loader.STS_JAR))
+    Loader.MODINFOS.asList().stream()
+      .filter { it.jarURL != null }
+      .forEach {
+        try {
+          finder.add(File(it.jarURL.toURI()))
+        } catch (e: URISyntaxException) {
+          doNothing()
+        }
       }
+
+    return ArrayList<ClassInfo>().also {
+      finder.findClasses(it, filter)
     }
   }
 }

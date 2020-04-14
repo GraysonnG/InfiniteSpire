@@ -9,20 +9,18 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveFile
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = AbstractDungeon::class, method = "nextRoomTransition", paramtypez = [SaveFile::class])
-class RoomTransitionPatch {
-  companion object {
-    @JvmStatic
-    @SpirePrefixPatch
-    fun onRoomNodeClicked(instance: AbstractDungeon, saveFile: SaveFile?) {
-      if (
-        AbstractDungeon.currMapNode != null &&
-        AbstractDungeon.getCurrRoom() != null &&
-        AbstractDungeon.nextRoom != null &&
-        AbstractDungeon.nextRoom.room != null
-      ) {
-        RoomTransitionInterface.subscribers.forEach {
-          it.onRoomTransition(AbstractDungeon.getCurrRoom(), AbstractDungeon.nextRoom.room)
-        }
+object RoomTransitionPatch {
+  @JvmStatic
+  @SpirePrefixPatch
+  fun onRoomNodeClicked(instance: AbstractDungeon, saveFile: SaveFile?) {
+    if (
+      AbstractDungeon.currMapNode != null &&
+      AbstractDungeon.getCurrRoom() != null &&
+      AbstractDungeon.nextRoom != null &&
+      AbstractDungeon.nextRoom.room != null
+    ) {
+      RoomTransitionInterface.subscribers.forEach {
+        it.onRoomTransition(AbstractDungeon.getCurrRoom(), AbstractDungeon.nextRoom.room)
       }
     }
   }

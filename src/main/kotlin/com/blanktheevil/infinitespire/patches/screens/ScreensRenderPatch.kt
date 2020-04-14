@@ -8,14 +8,12 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = AbstractDungeon::class, method = "render")
-class ScreensRenderPatch {
-  companion object {
-    @SpirePostfixPatch
-    @JvmStatic
-    fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
-      InfiniteSpire.powerSelectScreen.render(sb)
-      InfiniteSpire.endlessScreen.render(sb)
-      InfiniteSpire.questLogScreen.render(sb)
-    }
+object ScreensRenderPatch {
+  @SpirePostfixPatch
+  @JvmStatic
+  fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
+    InfiniteSpire.powerSelectScreen.render(sb)
+    InfiniteSpire.endlessScreen.render(sb)
+    InfiniteSpire.questLogScreen.render(sb)
   }
 }

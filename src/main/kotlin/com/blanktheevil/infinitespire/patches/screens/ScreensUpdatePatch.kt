@@ -7,14 +7,12 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = AbstractDungeon::class, method = "update")
-class ScreensUpdatePatch {
-  companion object {
-    @SpirePrefixPatch
-    @JvmStatic
-    fun run(dungeon: AbstractDungeon) {
-      InfiniteSpire.powerSelectScreen.update()
-      InfiniteSpire.endlessScreen.update()
-      InfiniteSpire.questLogScreen.update()
-    }
+object ScreensUpdatePatch {
+  @SpirePrefixPatch
+  @JvmStatic
+  fun run(dungeon: AbstractDungeon) {
+    InfiniteSpire.powerSelectScreen.update()
+    InfiniteSpire.endlessScreen.update()
+    InfiniteSpire.questLogScreen.update()
   }
 }

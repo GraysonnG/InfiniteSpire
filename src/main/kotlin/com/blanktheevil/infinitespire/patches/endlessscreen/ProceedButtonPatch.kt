@@ -11,16 +11,14 @@ import com.megacrit.cardcrawl.ui.buttons.ProceedButton
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = ProceedButton::class, method = "goToNextDungeon")
-class ProceedButtonPatch {
-  companion object {
-    @SpirePrefixPatch
-    @JvmStatic
-    fun openEndlessScreen(proceedButton: ProceedButton, room: AbstractRoom) {
-      InfiniteSpire.saveData.actNumber++
-      if (InfiniteSpire.saveData.actNumber.rem(2) == 0 && EndlessScreen.shouldPrompt) {
-        InfiniteSpire.endlessScreen.open() {
-          log.info("Closed Screen")
-        }
+object ProceedButtonPatch {
+  @SpirePrefixPatch
+  @JvmStatic
+  fun openEndlessScreen(proceedButton: ProceedButton, room: AbstractRoom) {
+    InfiniteSpire.saveData.actNumber++
+    if (InfiniteSpire.saveData.actNumber.rem(2) == 0 && EndlessScreen.shouldPrompt) {
+      InfiniteSpire.endlessScreen.open() {
+        log.info("Closed Screen")
       }
     }
   }

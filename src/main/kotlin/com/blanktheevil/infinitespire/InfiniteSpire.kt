@@ -21,9 +21,7 @@ import com.blanktheevil.infinitespire.relics.Relic
 import com.blanktheevil.infinitespire.screens.*
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
-import com.blanktheevil.infinitespire.utils.CardManager
-import com.blanktheevil.infinitespire.utils.Localization
-import com.blanktheevil.infinitespire.utils.SubscriberManager
+import com.blanktheevil.infinitespire.utils.*
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.RelicLibrary
@@ -93,26 +91,10 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     }
   }
 
-  override fun receiveEditStrings() {
-    Localization.loadFiles(Settings.GameLanguage.ENG)
-    if (Settings.language != Settings.GameLanguage.ENG) {
-      Localization.loadFiles(Settings.language)
-    }
-  }
-
+  override fun receiveEditStrings() = Localization.init()
   override fun receiveEditCards() = CardManager.addAllCards()
-
-  override fun receiveEditRelics() {
-    AutoAdd(modid)
-      .packageFilter(Relic::class.java)
-      .any(Relic::class.java) { info, relic ->
-        logger.info("Added Relic: ${relic.relicId}")
-        RelicLibrary.add(relic)
-        if (info.seen) {
-          UnlockTracker.markRelicAsSeen(relic.relicId)
-        }
-      }
-  }
+  override fun receiveEditRelics() = RelicManager.addAllRelics()
+  private fun addQuests() = QuestManager.addAllQuests()
 
   override fun receivePostInitialize() {
     addQuests()
@@ -129,19 +111,5 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     BaseMod.addTopPanelItem(voidShardDisplay)
     // some stuff
     CrossoverManager.addCrossoverContent()
-  }
-
-  lateinit var livingQuest: Quest
-
-  private fun addQuests() {
-    AutoAdd(modid)
-      .packageFilter(QuestReward::class.java)
-      .any(QuestReward::class.java) { _, rewardType ->
-        with (rewardType) {
-          logger.info("Added Quest Reward Type: $id")
-          QuestReward.questRewardTypes[id] = this
-        }
-      }
-    livingQuest = IgnoreRelicQuest()
   }
 }

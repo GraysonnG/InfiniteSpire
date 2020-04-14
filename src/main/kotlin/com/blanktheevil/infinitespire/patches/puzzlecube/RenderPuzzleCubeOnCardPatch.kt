@@ -12,31 +12,29 @@ import com.megacrit.cardcrawl.cards.AbstractCard
 
 @Suppress("unused")
 @SpirePatch(clz = AbstractCard::class, method = "renderCard")
-class RenderPuzzleCubeOnCardPatch {
-  companion object {
-    @JvmStatic
-    @SpirePostfixPatch
-    fun renderPuzzleCubeOnCard(card: AbstractCard, sb: SpriteBatch, b1: Boolean, b2: Boolean) {
-      player.relics.stream()
-        .filter { it is PuzzleCube }
-        .map { it as PuzzleCube }
-        .forEach {
-          if (card.inPuzzleCube) {
-            it.makeCopy().also { preview ->
-              preview.currentX = card.current_x
-                .plus(390f.times(card.drawScale).div(3f).scale())
-              preview.currentY =
-                if (card.isBottled())
-                  card.current_y.plus(350f.times(card.drawScale).div(3f).scale())
-                else
-                  card.current_y.plus(546f.times(card.drawScale).div(3f).scale())
-              preview.scale = card.drawScale
-              preview.renderOutline(sb, false)
-              preview.render(sb)
-            }
-
+object RenderPuzzleCubeOnCardPatch {
+  @JvmStatic
+  @SpirePostfixPatch
+  fun renderPuzzleCubeOnCard(card: AbstractCard, sb: SpriteBatch, b1: Boolean, b2: Boolean) {
+    player.relics.stream()
+      .filter { it is PuzzleCube }
+      .map { it as PuzzleCube }
+      .forEach {
+        if (card.inPuzzleCube) {
+          it.makeCopy().also { preview ->
+            preview.currentX = card.current_x
+              .plus(390f.times(card.drawScale).div(3f).scale())
+            preview.currentY =
+              if (card.isBottled())
+                card.current_y.plus(350f.times(card.drawScale).div(3f).scale())
+              else
+                card.current_y.plus(546f.times(card.drawScale).div(3f).scale())
+            preview.scale = card.drawScale
+            preview.renderOutline(sb, false)
+            preview.render(sb)
           }
+
         }
-    }
+      }
   }
 }

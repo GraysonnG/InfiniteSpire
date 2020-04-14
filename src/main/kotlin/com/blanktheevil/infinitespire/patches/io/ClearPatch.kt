@@ -9,16 +9,14 @@ import com.megacrit.cardcrawl.screens.options.ConfirmPopup
 
 @Suppress("unused")
 @SpirePatch(clz = ConfirmPopup::class, method = "effect")
-class ClearPatch {
-  companion object {
-    @JvmStatic
-    @SpirePostfixPatch
-    fun saveAndExit(popup: ConfirmPopup) {
-      if (popup.type == ConfirmPopup.ConfirmType.ABANDON) {
-        log.info("Clearing Data...")
-        InfiniteSpire.saveData.clear()
-        InfiniteSpire.saveData.save()
-      }
+object ClearPatch {
+  @JvmStatic
+  @SpirePostfixPatch
+  fun saveAndExit(popup: ConfirmPopup) {
+    if (popup.type == ConfirmPopup.ConfirmType.ABANDON) {
+      log.info("Clearing Data...")
+      InfiniteSpire.saveData.clear()
+      InfiniteSpire.saveData.save()
     }
   }
 }

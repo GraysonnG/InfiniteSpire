@@ -8,22 +8,20 @@ import com.megacrit.cardcrawl.ui.panels.TopPanel
 
 @Suppress("unused")
 @SpirePatch(clz = TopPanel::class, method = "update")
-class TopPanelInputUpdateSuppressor {
-  companion object {
-    @SpireInsertPatch(
-      rloc = 0
-    )
-    @JvmStatic
-    fun suppressInputs(): SpireReturn<Void> {
-      return if (
-        InfiniteSpire.questLogScreen.isOpen() ||
-        InfiniteSpire.powerSelectScreen.show ||
-        InfiniteSpire.endlessScreen.show
-      ) {
-        SpireReturn.Return(null)
-      } else {
-        SpireReturn.Continue()
-      }
+object TopPanelInputUpdateSuppressor {
+  @SpireInsertPatch(
+    rloc = 0
+  )
+  @JvmStatic
+  fun suppressInputs(): SpireReturn<Void> {
+    return if (
+      InfiniteSpire.questLogScreen.isOpen() ||
+      InfiniteSpire.powerSelectScreen.show ||
+      InfiniteSpire.endlessScreen.show
+    ) {
+      SpireReturn.Return(null)
+    } else {
+      SpireReturn.Continue()
     }
   }
 }

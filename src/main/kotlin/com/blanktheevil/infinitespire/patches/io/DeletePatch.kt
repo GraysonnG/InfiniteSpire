@@ -9,14 +9,12 @@ import com.megacrit.cardcrawl.saveAndContinue.SaveAndContinue
 
 @Suppress("unused", "UNUSED_PARAMETER")
 @SpirePatch(clz = SaveAndContinue::class, method = "deleteSave")
-class DeletePatch {
-  companion object {
-    @JvmStatic
-    @SpirePostfixPatch
-    fun clearInfiniteSpire(player: AbstractPlayer) {
-      log.info("Clearing Data...")
-      InfiniteSpire.saveData.clear()
-      InfiniteSpire.saveData.save()
-    }
+object DeletePatch {
+  @JvmStatic
+  @SpirePostfixPatch
+  fun clearInfiniteSpire(player: AbstractPlayer) {
+    log.info("Clearing Data...")
+    InfiniteSpire.saveData.clear()
+    InfiniteSpire.saveData.save()
   }
 }
