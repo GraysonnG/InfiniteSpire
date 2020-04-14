@@ -24,6 +24,7 @@ import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.CardHelper
 import com.blanktheevil.infinitespire.utils.Localization
+import com.blanktheevil.infinitespire.utils.SubscriberManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.RelicLibrary
@@ -69,25 +70,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
 
     @JvmStatic
     fun <T : IInfiniteSpire> subscribe(subscriber: T) {
-      if (subscriber is Savable) {
-        Savable.savables.add(subscriber)
-      }
-
-      if (subscriber is ActCompleteInterface) {
-        ActCompleteInterface.subscribers.add(subscriber)
-      }
-
-      if (subscriber is QuestLogCloseInterface) {
-        QuestLogCloseInterface.subscribers.add(subscriber)
-      }
-
-      if (subscriber is QuestCompleteInterface) {
-        QuestCompleteInterface.subscribers.add(subscriber)
-      }
-
-      if (subscriber is RoomTransitionInterface) {
-        RoomTransitionInterface.subscribers.add(subscriber)
-      }
+      SubscriberManager.subscribe(subscriber)
     }
 
     @JvmStatic

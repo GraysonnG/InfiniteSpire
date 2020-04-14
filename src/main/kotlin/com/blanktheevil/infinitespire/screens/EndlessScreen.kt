@@ -50,8 +50,9 @@ class EndlessScreen : Screen<EndlessScreen>() {
       ColoredButton(text = leftText,
         x = Settings.WIDTH.div(2f) + 150f.scale(),
         y = Settings.HEIGHT.div(2f) - 200f.scale(),
-        color = Color.RED.cpy()) {
-        if(Settings.isEndless) {
+        color = Color.RED.cpy(),
+        scale = 2f) {
+        if (Settings.isEndless) {
           Settings.isEndless = false
           AbstractDungeon.topPanel.setPlayerName()
           CardCrawlGame.sound.play("CARD_BURN")
