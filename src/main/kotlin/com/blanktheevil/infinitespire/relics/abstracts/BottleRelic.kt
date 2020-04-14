@@ -18,7 +18,11 @@ abstract class BottleRelic(
   id: String,
   img: String,
   tier: RelicTier,
-  sound: LandingSound
+  sound: LandingSound,
+  private val filterBy: BottleRelic.(card: AbstractCard) -> Boolean = { true },
+  private val onCardSelected: BottleRelic.(card: AbstractCard) -> Unit,
+  private val onUnEquipped: BottleRelic.(card: AbstractCard) -> Unit,
+  private val isBottled: BottleRelic.(card: AbstractCard) -> Boolean
 ) : Relic(id, img, tier, sound), Savable {
 
   init {
@@ -29,17 +33,14 @@ abstract class BottleRelic(
   private var renderCard: AbstractCard? = null
   protected var cardSelected: Boolean = false
 
-  abstract fun filterGridSelectBy(card: AbstractCard): Boolean
-  abstract fun actionWhenSelected(card: AbstractCard)
-  abstract fun actionWhenUnEquipped(card: AbstractCard)
-  abstract fun isCardBottled(card: AbstractCard): Boolean
+  fun isCardBottled(card: AbstractCard): Boolean = isBottled.invoke(this, card)
 
   override fun onEquip() {
     cardSelected = false
     val group = CardGroup(CardGroup.CardGroupType.UNSPECIFIED).apply {
       group.addAll(player.masterDeck.group.stream()
         .filter {
-          filterGridSelectBy(it)
+          filterBy.invoke(this@BottleRelic, it)
         }.toList())
     }
 
@@ -72,7 +73,7 @@ abstract class BottleRelic(
     if (selectedCard != null) {
       val cardInDeck = player.masterDeck.getSpecificCard(selectedCard)
       if (cardInDeck != null) {
-        actionWhenUnEquipped(cardInDeck)
+        onUnEquipped.invoke(this, cardInDeck)
       }
     }
   }
@@ -83,7 +84,7 @@ abstract class BottleRelic(
     if (!cardSelected && AbstractDungeon.gridSelectScreen.selectedCards.isNotEmpty()) {
       cardSelected = true
       selectedCard = AbstractDungeon.gridSelectScreen.selectedCards[0].also {
-        actionWhenSelected(it)
+        onCardSelected.invoke(this, it)
       }
       currentRoom!!.phase = AbstractRoom.RoomPhase.COMPLETE
       AbstractDungeon.gridSelectScreen.selectedCards.clear()

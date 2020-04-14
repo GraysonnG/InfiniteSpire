@@ -61,6 +61,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     @JvmStatic
     fun initialize() {
       loadProperties()
+      Textures.missingTexturePath = Textures.ui.getString("missingtexture.png", true)
       saveData = SaveData.init()
       BaseMod.subscribe(InfiniteSpire())
       // init infinite spire settings menu

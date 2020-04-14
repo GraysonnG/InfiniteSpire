@@ -8,23 +8,21 @@ import com.blanktheevil.infinitespire.relics.abstracts.BottleRelic
 import com.megacrit.cardcrawl.cards.AbstractCard
 
 
-class BottledSoul : BottleRelic(ID, IMG, TIER, SOUND) {
+class BottledSoul : BottleRelic(
+  ID,
+  IMG,
+  TIER,
+  SOUND,
+  { it.exhaust },
+  { it.inBottleSoul = true},
+  { it.inBottleSoul = false},
+  { it.inBottleSoul }
+  ) {
   companion object {
     val ID = "Bottled Soul".makeID()
     private val IMG = "bottledsoul-cracked"
     private val TIER = RelicTier.UNCOMMON
     private val SOUND = LandingSound.CLINK
-  }
-
-  override fun filterGridSelectBy(card: AbstractCard): Boolean = card.exhaust
-  override fun isCardBottled(card: AbstractCard): Boolean = card.inBottleSoul
-
-  override fun actionWhenUnEquipped(card: AbstractCard) {
-    card.inBottleSoul = false
-  }
-
-  override fun actionWhenSelected(card: AbstractCard) {
-    card.inBottleSoul = true
   }
 
   override fun beforeConfigSave(saveData: SaveData) {

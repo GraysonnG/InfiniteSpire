@@ -10,7 +10,15 @@ import com.megacrit.cardcrawl.powers.DexterityPower
 import com.megacrit.cardcrawl.powers.FocusPower
 import com.megacrit.cardcrawl.powers.StrengthPower
 
-class BottledMercury : BottleRelic(ID, IMG, TIER, SOUND) {
+class BottledMercury : BottleRelic(
+  ID,
+  IMG,
+  TIER,
+  SOUND,
+  onCardSelected = { it.inBottleMercury = true },
+  onUnEquipped = { it.inBottleMercury = false },
+  isBottled = { it.inBottleMercury }
+) {
   companion object {
     val ID = "BottledMercury".makeID()
     private val IMG = "bottledMercury"
@@ -32,17 +40,6 @@ class BottledMercury : BottleRelic(ID, IMG, TIER, SOUND) {
         else -> doNothing()
       }
     }
-  }
-
-  override fun filterGridSelectBy(card: AbstractCard): Boolean = true
-  override fun isCardBottled(card: AbstractCard): Boolean = card.inBottleMercury
-
-  override fun actionWhenSelected(card: AbstractCard) {
-    card.inBottleMercury = true
-  }
-
-  override fun actionWhenUnEquipped(card: AbstractCard) {
-    card.inBottleMercury = false
   }
 
   override fun beforeConfigSave(saveData: SaveData) {

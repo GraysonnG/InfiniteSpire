@@ -32,9 +32,6 @@ class Localization {
         Settings.GameLanguage.ENG -> langFolder += "eng"
         else -> langFolder += "eng"
       }
-
-      println("$langFolder/$fileName.json")
-
       return "$langFolder/$fileName.json"
     }
   }
