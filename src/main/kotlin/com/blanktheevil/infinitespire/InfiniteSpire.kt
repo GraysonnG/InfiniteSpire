@@ -14,7 +14,6 @@ import com.blanktheevil.infinitespire.interfaces.*
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
-import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.quests.IgnoreRelicQuest
 import com.blanktheevil.infinitespire.quests.Quest
 import com.blanktheevil.infinitespire.quests.questrewards.QuestReward
@@ -22,7 +21,7 @@ import com.blanktheevil.infinitespire.relics.Relic
 import com.blanktheevil.infinitespire.screens.*
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
-import com.blanktheevil.infinitespire.utils.CardHelper
+import com.blanktheevil.infinitespire.utils.CardManager
 import com.blanktheevil.infinitespire.utils.Localization
 import com.blanktheevil.infinitespire.utils.SubscriberManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
@@ -65,35 +64,13 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       saveData = SaveData.init()
       BaseMod.subscribe(InfiniteSpire())
       // init infinite spire settings menu
-      addBlackCardColor()
+      CardManager.addBlackCardColor()
       Crossovers.init()
     }
 
     @JvmStatic
     fun <T : IInfiniteSpire> subscribe(subscriber: T) {
       SubscriberManager.subscribe(subscriber)
-    }
-
-    @JvmStatic
-    fun addBlackCardColor() {
-      BaseMod.addColor(
-        EnumPatches.CardColor.INFINITE_BLACK,
-        Color.BLACK.cpy(),
-        Color.BLACK.cpy(),
-        Color.BLACK.cpy(),
-        Color.BLACK.cpy(),
-        Color.BLACK.cpy(),
-        Color.BLACK.cpy(),
-        Color.BLACK.cpy(),
-        Textures.cards.getString("ui/512/boss-attack.png", true),
-        Textures.cards.getString("ui/512/boss-skill.png", true),
-        Textures.cards.getString("ui/512/boss-power.png", true),
-        Textures.cards.getString("ui/512/boss-orb.png", true),
-        Textures.cards.getString("ui/1024/boss-attack.png", true),
-        Textures.cards.getString("ui/1024/boss-skill.png", true),
-        Textures.cards.getString("ui/1024/boss-power.png", true),
-        Textures.cards.getString("ui/1024/boss-orb.png", true)
-      )
     }
 
     fun createPath(restOfPath: String): String {
@@ -123,17 +100,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     }
   }
 
-  override fun receiveEditCards() {
-    AutoAdd(modid)
-      .packageFilter(Card::class.java)
-      .any(Card::class.java) { info, card ->
-        logger.info("Added Card: ${card.cardID}")
-        CardHelper.addCard(card)
-        if (info.seen) {
-          UnlockTracker.markCardAsSeen(card.cardID)
-        }
-      }
-  }
+  override fun receiveEditCards() = CardManager.addAllCards()
 
   override fun receiveEditRelics() {
     AutoAdd(modid)

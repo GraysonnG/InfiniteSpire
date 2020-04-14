@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.relics
 
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
-import com.blanktheevil.infinitespire.utils.CardHelper
+import com.blanktheevil.infinitespire.utils.CardManager
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
 import com.megacrit.cardcrawl.actions.animations.VFXAction
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInDrawPileAction
@@ -22,7 +22,7 @@ class DarkRift : Relic(ID, IMG, TIER, SOUND) {
     addToBot(RelicAboveCreatureAction(player, this))
     addToBot(
       MakeTempCardInDrawPileAction(
-        CardHelper.getRandomBlackCard(),
+        CardManager.getRandomBlackCard(),
         1,
         true,
         true
