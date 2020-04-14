@@ -1,39 +1,33 @@
 package com.blanktheevil.infinitespire.powers
 
-import basemod.interfaces.CloneablePowerInterface
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.actionManager
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.extensions.scale
+import com.blanktheevil.infinitespire.powers.util.PowerBuilder
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.CardQueueItem
 import com.megacrit.cardcrawl.characters.AbstractPlayer
-import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class JokerCardPower(owner: AbstractPlayer) : AbstractPower(), CloneablePowerInterface {
+class JokerCardPower(owner: AbstractPlayer) : Power(
+  owner,
+  1,
+  BUILDER
+) {
   companion object {
     val powerID = "JokerCardPower".makeID()
-    private val strings = CardCrawlGame.languagePack.getPowerStrings(powerID)
+    private val BUILDER = PowerBuilder(powerID)
+      .img("jokercard.png")
+      .buff()
+      .priority(6)
   }
 
-  init {
-    this.owner = owner
-    this.amount = 1
-    this.name = strings.NAME
-    this.ID = powerID
-    this.img = Textures.powers.get("jokercard.png")
-    this.type = PowerType.BUFF
-    this.updateDescription()
-    this.priority = 6
-  }
-
-  override fun updateDescription() {
+  override fun updateDesc() {
     this.description = strings.DESCRIPTIONS[0]
   }
 

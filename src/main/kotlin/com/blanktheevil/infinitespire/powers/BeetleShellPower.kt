@@ -1,30 +1,23 @@
 package com.blanktheevil.infinitespire.powers
 
-import basemod.interfaces.CloneablePowerInterface
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.powers.util.PowerBuilder
 import com.megacrit.cardcrawl.characters.AbstractPlayer
-import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class BeetleShellPower(player: AbstractPlayer) : AbstractPower(), CloneablePowerInterface {
+class BeetleShellPower(player: AbstractPlayer) : Power(
+  player,
+  1,
+  BUILDER
+) {
   companion object {
     val powerID = "BeetleShellPower".makeID()
-    private val strings = CardCrawlGame.languagePack.getPowerStrings(powerID)
+    private val BUILDER = PowerBuilder(powerID)
+      .buff()
+      .img("beetleshell.png")
   }
 
-  init {
-    owner = player
-    amount = 1
-    name = strings.NAME
-    ID = powerID
-    img = Textures.powers.get("beetleshell.png")
-    type = PowerType.BUFF
-    updateDescription()
-    priority = 6
-  }
-
-  override fun updateDescription() {
+  override fun updateDesc() {
     this.description = strings.DESCRIPTIONS[0]
   }
 

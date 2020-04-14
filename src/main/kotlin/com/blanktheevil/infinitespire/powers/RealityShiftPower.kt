@@ -1,34 +1,28 @@
 package com.blanktheevil.infinitespire.powers
 
-import basemod.interfaces.CloneablePowerInterface
-import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.monsters.Nightmare
+import com.blanktheevil.infinitespire.powers.util.PowerBuilder
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class RealityShiftPower(val nightmare: Nightmare, amount: Int) : AbstractPower(), CloneablePowerInterface {
+class RealityShiftPower(val nightmare: Nightmare, amount: Int) : Power(
+  nightmare,
+  amount,
+  BUILDER
+) {
   companion object {
     val powerID = "RealityShiftPower".makeID()
-    val STRINGS = languagePack.getPowerStrings(powerID)
+    val BUILDER = PowerBuilder(powerID)
+      .img("realityshift.png")
+      .isTurnBased()
+      .buff()
+      .priority(Int.MIN_VALUE)
   }
 
   private val maxAmount = amount
   private var hasTriggered = false
-
-  init {
-    owner = nightmare
-    this.amount = amount
-    this.name = STRINGS.NAME
-    this.ID = powerID
-    this.img = Textures.powers.get("realityshift.png")
-    this.type = PowerType.BUFF
-    this.isTurnBased = true
-    this.priority = Int.MIN_VALUE
-    this.updateDescription()
-  }
 
   override fun atEndOfTurn(isPlayer: Boolean) {
     if (!isPlayer) {
@@ -55,8 +49,8 @@ class RealityShiftPower(val nightmare: Nightmare, amount: Int) : AbstractPower()
     return dmg.output
   }
 
-  override fun updateDescription() {
-    with(STRINGS) {
+  override fun updateDesc() {
+    with(strings) {
       description = StringBuilder()
         .append(DESCRIPTIONS[0])
         .append(amount.toString())

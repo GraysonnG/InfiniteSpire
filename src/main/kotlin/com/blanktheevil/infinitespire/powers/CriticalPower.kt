@@ -1,9 +1,7 @@
 package com.blanktheevil.infinitespire.powers
 
-import basemod.interfaces.CloneablePowerInterface
-import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.powers.util.PowerBuilder
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -11,24 +9,20 @@ import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class CriticalPower(player: AbstractPlayer): AbstractPower(), CloneablePowerInterface {
+class CriticalPower(player: AbstractPlayer) : Power(
+  player,
+  -1,
+  BUILDER
+) {
   companion object {
     val powerID = "CriticalPower".makeID()
-    private val STRINGS = languagePack.getPowerStrings(powerID)
+    private val BUILDER = PowerBuilder(powerID)
+      .img("crit.png")
+      .buff()
   }
 
-  init {
-    owner = player
-    amount = -1
-    name = STRINGS.NAME
-    ID = powerID
-    img = Textures.powers.get("crit.png")
-    type = PowerType.BUFF
-    updateDescription()
-  }
-
-  override fun updateDescription() {
-    this.description = STRINGS.DESCRIPTIONS[0]
+  override fun updateDesc() {
+    this.description = strings.DESCRIPTIONS[0]
   }
 
   override fun atDamageFinalGive(damage: Float, type: DamageInfo.DamageType?): Float =

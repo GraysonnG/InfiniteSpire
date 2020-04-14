@@ -1,10 +1,10 @@
 package com.blanktheevil.infinitespire.powers
 
-import basemod.interfaces.CloneablePowerInterface
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.extensions.isPlatedPower
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.powers.util.PowerBuilder
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -15,26 +15,31 @@ import com.megacrit.cardcrawl.orbs.AbstractOrb
 import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.stances.AbstractStance
 
-class PlatedPower<T : AbstractPower>(private val simulatedPower: T, amount: Int) : AbstractPower(),
-    CloneablePowerInterface {
+class PlatedPower<T : AbstractPower>(private val simulatedPower: T, amount: Int) : Power(
+  simulatedPower.owner,
+  amount,
+  BUILDER
+) {
   companion object {
     val POWER_ID = "PlatedPower".makeID()
+    private val BUILDER = PowerBuilder(POWER_ID)
   }
 
   private val amountToLose = simulatedPower.amount
 
   init {
-    this.owner = simulatedPower.owner
     this.ID = POWER_ID + ":${simulatedPower.ID}"
     this.name = "Plated " + simulatedPower.name
     this.amount = amount
+    this.type = simulatedPower.type
+    this.img = null
     simulatedPower.amount *= amount
     simulatedPower.isPlatedPower = true
     loadRegion("platedarmor")
     updateDescription()
   }
 
-  override fun updateDescription() {
+  override fun updateDesc() {
     simulatedPower.updateDescription()
     this.description = "Gain the effect of $amount #y${simulatedPower.name}" +
         " NL NL Receiving unblocked attack damage reduces #yPlated #y${simulatedPower.name} by #b$amountToLose."

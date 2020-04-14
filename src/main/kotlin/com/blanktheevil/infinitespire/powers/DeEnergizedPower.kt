@@ -1,17 +1,22 @@
 package com.blanktheevil.infinitespire.powers
 
-import basemod.interfaces.CloneablePowerInterface
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
+import com.blanktheevil.infinitespire.powers.util.PowerBuilder
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.characters.AbstractPlayer
-import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class DeEnergizedPower(owner: AbstractPlayer, amount: Int) : AbstractPower(), CloneablePowerInterface {
+class DeEnergizedPower(owner: AbstractPlayer, amount: Int) : Power(
+  owner,
+  amount,
+  BUILDER
+) {
   companion object {
     val powerID = "DeenergizedPower".makeID()
-    private val strings = CardCrawlGame.languagePack.getPowerStrings(powerID)
+    private val BUILDER = PowerBuilder(powerID)
+      .debuff()
+      .img("energydown.png")
   }
 
   init {
@@ -24,7 +29,7 @@ class DeEnergizedPower(owner: AbstractPlayer, amount: Int) : AbstractPower(), Cl
     this.type = PowerType.DEBUFF
   }
 
-  override fun updateDescription() {
+  override fun updateDesc() {
     this.description = "${strings.DESCRIPTIONS[0]}$amount${strings.DESCRIPTIONS[1]}"
   }
 
