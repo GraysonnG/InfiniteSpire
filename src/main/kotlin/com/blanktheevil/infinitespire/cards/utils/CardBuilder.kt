@@ -17,157 +17,47 @@ class CardBuilder(
   var rarity: AbstractCard.CardRarity = AbstractCard.CardRarity.SPECIAL,
   var color: AbstractCard.CardColor = AbstractCard.CardColor.COLORLESS,
   var cost: Int = 0,
+  var exhaust: Boolean = false,
   var use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = {_,_ -> },
   var init: Card.() -> Unit = {},
   var upgr: Card.() -> Unit = {}
 ) {
-  fun id(id: String): CardBuilder {
-    this.id = id
-    return this
-  }
-
-  fun img(img: String): CardBuilder {
-    this.img = Textures.cards.getString(img)
-    return this
-  }
-
-  fun cost(cost: Int): CardBuilder {
-    this.cost = cost
-    return this
-  }
-
-  fun use(use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit): CardBuilder {
-    this.use = use
-    return this
-  }
-
-  fun init(init: Card.() -> Unit): CardBuilder {
-    this.init = init
-    return this
-  }
-
-  fun upgr(upgr: Card.() -> Unit): CardBuilder {
-    this.upgr = upgr
-    return this
-  }
-
-  fun color(color: AbstractCard.CardColor): CardBuilder {
-    this.color = color
-    return this
-  }
-
-  fun red(): CardBuilder {
-    this.color = AbstractCard.CardColor.RED
-    return this
-  }
-
-  fun green(): CardBuilder {
-    this.color = AbstractCard.CardColor.GREEN
-    return this
-  }
-
-  fun blue(): CardBuilder {
-    this.color = AbstractCard.CardColor.BLUE
-    return this
-  }
-
-  fun purple(): CardBuilder {
-    this.color = AbstractCard.CardColor.PURPLE
-    return this
-  }
-
-  fun colorless(): CardBuilder {
-    this.color = AbstractCard.CardColor.COLORLESS
-    return this
-  }
-
-  fun black(): CardBuilder {
-    this.color = EnumPatches.CardColor.INFINITE_BLACK
-    return this
-  }
-
-  fun rare(): CardBuilder {
-    this.rarity = AbstractCard.CardRarity.RARE
-    return this
-  }
-
-  fun uncommon(): CardBuilder {
-    this.rarity = AbstractCard.CardRarity.UNCOMMON
-    return this
-  }
-
-  fun common(): CardBuilder {
-    this.rarity = AbstractCard.CardRarity.COMMON
-    return this
-  }
-
-  fun special(): CardBuilder {
-    this.rarity = AbstractCard.CardRarity.SPECIAL
-    return this
-  }
-
-  fun curse(): CardBuilder {
+  fun id(id: String): CardBuilder = apply { this.id = id }
+  fun img(img: String): CardBuilder = apply { this.img = Textures.cards.getString(img) }
+  fun cost(cost: Int): CardBuilder = apply { this.cost = cost }
+  fun use(use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit): CardBuilder = apply { this.use = use }
+  fun init(init: Card.() -> Unit): CardBuilder = apply { this.init = init }
+  fun exhaust(): CardBuilder = apply { exhaust = true }
+  fun upgr(upgr: Card.() -> Unit): CardBuilder = apply { this.upgr = upgr }
+  fun color(color: AbstractCard.CardColor): CardBuilder = apply { this.color = color }
+  fun red(): CardBuilder = apply { this.color = AbstractCard.CardColor.RED }
+  fun green(): CardBuilder = apply { this.color = AbstractCard.CardColor.GREEN }
+  fun blue(): CardBuilder = apply { this.color = AbstractCard.CardColor.BLUE }
+  fun purple(): CardBuilder = apply { this.color = AbstractCard.CardColor.PURPLE }
+  fun colorless(): CardBuilder = apply { this.color = AbstractCard.CardColor.COLORLESS }
+  fun black(): CardBuilder = apply { this.color = EnumPatches.CardColor.INFINITE_BLACK }
+  fun rare(): CardBuilder = apply { this.rarity = AbstractCard.CardRarity.RARE }
+  fun uncommon(): CardBuilder = apply { this.rarity = AbstractCard.CardRarity.UNCOMMON }
+  fun common(): CardBuilder = apply { this.rarity = AbstractCard.CardRarity.COMMON }
+  fun special(): CardBuilder = apply { this.rarity = AbstractCard.CardRarity.SPECIAL }
+  fun curse(): CardBuilder = apply {
     this.type = AbstractCard.CardType.CURSE
     this.rarity = AbstractCard.CardRarity.CURSE
     this.color = AbstractCard.CardColor.CURSE
-    return this
   }
-
-  fun basic(): CardBuilder {
-    this.rarity = AbstractCard.CardRarity.BASIC
-    return this
-  }
-
-  fun attack(): CardBuilder {
-    this.type = AbstractCard.CardType.ATTACK
-    return this
-  }
-
-  fun skill(): CardBuilder {
-    this.type = AbstractCard.CardType.SKILL
-    return this
-  }
-
-  fun power(): CardBuilder {
-    this.type = AbstractCard.CardType.POWER
-    return this
-  }
-
-  fun enemy(): CardBuilder {
-    this.target = AbstractCard.CardTarget.ENEMY
-    return this
-  }
-
-  fun allEnemy(): CardBuilder {
-    this.target = AbstractCard.CardTarget.ALL_ENEMY
-    return this
-  }
-
-  fun self(): CardBuilder {
-    this.target = AbstractCard.CardTarget.SELF
-    return this
-  }
-
-  fun selfAndEnemy(): CardBuilder {
-    this.target = AbstractCard.CardTarget.SELF_AND_ENEMY
-    return this
-  }
-
-  fun all(): CardBuilder {
-    this.target = AbstractCard.CardTarget.ALL
-    return this
-  }
-
-  fun none(): CardBuilder {
-    this.target = AbstractCard.CardTarget.NONE
-    return this
-  }
-
-  fun build(): Card {
-    return if (this.color == EnumPatches.CardColor.INFINITE_BLACK) {
-      object: BlackCard(this@CardBuilder) {}
-    } else {
-      object: Card(this@CardBuilder) {}
-    }
+  fun basic(): CardBuilder = apply { this.rarity = AbstractCard.CardRarity.BASIC }
+  fun attack(): CardBuilder = apply { this.type = AbstractCard.CardType.ATTACK }
+  fun skill(): CardBuilder = apply { this.type = AbstractCard.CardType.SKILL }
+  fun power(): CardBuilder = apply { this.type = AbstractCard.CardType.POWER }
+  fun enemy(): CardBuilder = apply { this.target = AbstractCard.CardTarget.ENEMY }
+  fun allEnemy(): CardBuilder = apply { this.target = AbstractCard.CardTarget.ALL_ENEMY }
+  fun self(): CardBuilder = apply { this.target = AbstractCard.CardTarget.SELF }
+  fun selfAndEnemy(): CardBuilder = apply { this.target = AbstractCard.CardTarget.SELF_AND_ENEMY }
+  fun all(): CardBuilder = apply { this.target = AbstractCard.CardTarget.ALL }
+  fun none(): CardBuilder = apply { this.target = AbstractCard.CardTarget.NONE }
+  fun build(): Card = if (this.color == EnumPatches.CardColor.INFINITE_BLACK) {
+    object: BlackCard(this@CardBuilder) {}
+  } else {
+    object: Card(this@CardBuilder) {}
   }
 }

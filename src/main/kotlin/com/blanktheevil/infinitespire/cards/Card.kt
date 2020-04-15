@@ -19,6 +19,7 @@ abstract class Card(
   rarity: CardRarity,
   color: CardColor,
   cost: Int,
+  exhaust: Boolean,
   private val use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = {_,_ -> },
   private var init: Card.() -> Unit = {},
   private var upgr: Card.() -> Unit = {}
@@ -39,6 +40,7 @@ abstract class Card(
 
   init {
     this.init.invoke(this)
+    this.exhaust = exhaust
   }
 
   constructor(builder: CardBuilder):
@@ -50,6 +52,7 @@ abstract class Card(
         builder.rarity,
         builder.color,
         builder.cost,
+        builder.exhaust,
         builder.use,
         builder.init,
         builder.upgr

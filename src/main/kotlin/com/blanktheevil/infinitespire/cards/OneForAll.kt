@@ -7,8 +7,8 @@ import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.defect.IncreaseMiscAction
 import com.megacrit.cardcrawl.cards.DamageInfo
 
-class OneForAll: Card(BUILDER) {
-  companion object{
+class OneForAll : Card(BUILDER) {
+  companion object {
     val ID = "OneForAll".makeID()
     private const val MISC = 2
     private const val MAGIC = 2
