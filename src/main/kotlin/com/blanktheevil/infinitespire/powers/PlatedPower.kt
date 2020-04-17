@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.extensions.isPlatedPower
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.powers.util.PowerBuilder
+import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction
 import com.megacrit.cardcrawl.cards.AbstractCard

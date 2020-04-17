@@ -20,10 +20,10 @@ abstract class Card(
   color: CardColor,
   cost: Int,
   exhaust: Boolean,
-  private val use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = {_,_ -> },
+  private val use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = { _, _ -> },
   private var init: Card.() -> Unit = {},
   private var upgr: Card.() -> Unit = {}
-): CustomCard(
+) : CustomCard(
   id,
   strings(id).NAME,
   img,
@@ -33,7 +33,7 @@ abstract class Card(
   color,
   rarity,
   target
-)  {
+) {
   companion object {
     fun strings(id: String): CardStringsKt = InfiniteSpire.cardStringsKt[id] ?: CardStringsKt()
   }
@@ -43,50 +43,17 @@ abstract class Card(
     this.exhaust = exhaust
   }
 
-  constructor(builder: CardBuilder):
-      this(
-        builder.id,
-        builder.img,
-        builder.type,
-        builder.target,
-        builder.rarity,
-        builder.color,
-        builder.cost,
-        builder.exhaust,
-        builder.use,
-        builder.init,
-        builder.upgr
-      )
+  constructor(builder: CardBuilder) :
+      this(builder.id, builder.img, builder.type, builder.target, builder.rarity, builder.color, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
 
   open fun onUpgrade() = doNothing()
-
-  override fun use(p: AbstractPlayer?, m: AbstractMonster?) {
-    use.invoke(this, p, m)
-  }
-
-  public override fun upgradeMagicNumber(amount: Int) {
-    super.upgradeMagicNumber(amount)
-  }
-
-  public override fun upgradeBaseCost(newBaseCost: Int) {
-    super.upgradeBaseCost(newBaseCost)
-  }
-
-  public override fun upgradeBlock(amount: Int) {
-    super.upgradeBlock(amount)
-  }
-
-  public override fun upgradeDamage(amount: Int) {
-    super.upgradeDamage(amount)
-  }
-
-  public override fun addToBot(action: AbstractGameAction?) {
-    super.addToBot(action)
-  }
-
-  public override fun addToTop(action: AbstractGameAction?) {
-    super.addToTop(action)
-  }
+  override fun use(p: AbstractPlayer?, m: AbstractMonster?) = use.invoke(this, p, m)
+  public override fun upgradeMagicNumber(amount: Int) = super.upgradeMagicNumber(amount)
+  public override fun upgradeBaseCost(newBaseCost: Int) = super.upgradeBaseCost(newBaseCost)
+  public override fun upgradeBlock(amount: Int) = super.upgradeBlock(amount)
+  public override fun upgradeDamage(amount: Int) = super.upgradeDamage(amount)
+  public override fun addToBot(action: AbstractGameAction?) = super.addToBot(action)
+  public override fun addToTop(action: AbstractGameAction?) = super.addToTop(action)
 
   override fun upgrade() {
     if (!upgraded) {

@@ -4,10 +4,10 @@ import basemod.AutoAdd.Ignore
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.cards.Card
-import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
+import com.blanktheevil.infinitespire.patches.EnumPatches
+import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
@@ -22,7 +22,8 @@ abstract class BlackCard(
   type: CardType,
   target: CardTarget,
   cost: Int,
-  use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = {_,_ -> },
+  exhaust: Boolean,
+  use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = { _, _ -> },
   init: Card.() -> Unit = {},
   upgr: Card.() -> Unit = {}
 ) : Card(
@@ -33,6 +34,7 @@ abstract class BlackCard(
   RARITY,
   EnumPatches.CardColor.INFINITE_BLACK,
   cost,
+  exhaust,
   use,
   init,
   upgr
@@ -45,8 +47,8 @@ abstract class BlackCard(
 
   private val particles = mutableListOf<BlackCardParticle>()
 
-  constructor(builder: CardBuilder):
-      this(builder.id, builder.img, builder.type, builder.target, builder.cost, builder.use, builder.init, builder.upgr)
+  constructor(builder: CardBuilder) :
+      this(builder.id, builder.img, builder.type, builder.target, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
 
   init {
     setOrbAndBanner()

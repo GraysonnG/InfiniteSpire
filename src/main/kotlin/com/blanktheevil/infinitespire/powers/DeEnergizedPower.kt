@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.powers
 
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
-import com.blanktheevil.infinitespire.powers.util.PowerBuilder
+import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
 import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.powers.AbstractPower

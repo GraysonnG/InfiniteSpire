@@ -3,7 +3,7 @@ package com.blanktheevil.infinitespire.powers
 import basemod.interfaces.CloneablePowerInterface
 import com.badlogic.gdx.graphics.Texture
 import com.blanktheevil.infinitespire.extensions.languagePack
-import com.blanktheevil.infinitespire.powers.util.PowerBuilder
+import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
 import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.localization.PowerStrings
 import com.megacrit.cardcrawl.powers.AbstractPower

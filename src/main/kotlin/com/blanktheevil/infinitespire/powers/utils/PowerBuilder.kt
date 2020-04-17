@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.powers.util
+package com.blanktheevil.infinitespire.powers.utils
 
 import com.badlogic.gdx.graphics.Texture
 import com.blanktheevil.infinitespire.extensions.languagePack

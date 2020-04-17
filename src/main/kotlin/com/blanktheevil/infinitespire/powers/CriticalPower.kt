@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.powers
 
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.powers.util.PowerBuilder
+import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction
 import com.megacrit.cardcrawl.cards.AbstractCard
