@@ -3,4 +3,5 @@
 .project
 .classpath
 .idea/
-InfiniteSpire.iml
+infinite-spire.iml
+dependency-reduced-pom.xml

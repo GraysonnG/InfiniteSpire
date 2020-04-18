@@ -208,6 +208,13 @@
       <scope>system</scope>
       <systemPath>${modsFolder}1744254855/Bard.jar</systemPath>
     </dependency>
+    <dependency>
+      <groupId>actlikeit</groupId>
+      <artifactId>actlikeit</artifactId>
+      <version>1.1.1</version>
+      <scope>system</scope>
+      <systemPath>${modsFolder}1934902042/actlikeit.jar</systemPath>
+    </dependency>
   </dependencies>
   <properties>
     <steamFolder>D:/Steam/</steamFolder>

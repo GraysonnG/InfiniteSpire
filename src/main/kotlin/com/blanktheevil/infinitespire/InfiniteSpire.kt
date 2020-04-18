@@ -8,7 +8,6 @@ import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
-import com.blanktheevil.infinitespire.crossover.Crossovers
 import com.blanktheevil.infinitespire.interfaces.*
 import com.blanktheevil.infinitespire.interfaces.utils.SubscriberManager
 import com.blanktheevil.infinitespire.models.CardStringsKt
@@ -59,7 +58,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
       BaseMod.subscribe(InfiniteSpire())
       // init infinite spire settings menu
       CardManager.addBlackCardColor()
-      Crossovers.init()
+      CrossoverManager.init()
     }
 
     @JvmStatic

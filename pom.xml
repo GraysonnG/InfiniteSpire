@@ -97,6 +97,13 @@
       <artifactId>kotlin-stdlib-jdk8</artifactId>
       <version>${kotlin.version}</version>
     </dependency>
+    <dependency>
+      <groupId>actlikeit</groupId>
+      <artifactId>actlikeit</artifactId>
+      <version>1.1.1</version>
+      <scope>system</scope>
+      <systemPath>${modsFolder}1934902042/actlikeit.jar</systemPath>
+    </dependency>
   </dependencies>
 
   <build>
