@@ -6,10 +6,13 @@ import basemod.interfaces.EditRelicsSubscriber
 import basemod.interfaces.EditStringsSubscriber
 import basemod.interfaces.PostInitializeSubscriber
 import com.badlogic.gdx.graphics.Color
+import com.blanktheevil.infinitespire.acts.TheVoid
+import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
 import com.blanktheevil.infinitespire.interfaces.*
 import com.blanktheevil.infinitespire.interfaces.utils.SubscriberManager
+import com.blanktheevil.infinitespire.models.ActStringsKt
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.models.QuestLog
@@ -21,6 +24,7 @@ import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.utils.*
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
+import com.megacrit.cardcrawl.monsters.MonsterInfo
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.IOException
@@ -48,6 +52,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var voidShardDisplay: VoidShardDisplay
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
+    lateinit var actStringsKt: Map<String, ActStringsKt>
 
     @Suppress("unused")
     @JvmStatic
@@ -106,5 +111,6 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     BaseMod.addTopPanelItem(voidShardDisplay)
     // some stuff
     CrossoverManager.addCrossoverContent()
+    ActManager.init()
   }
 }

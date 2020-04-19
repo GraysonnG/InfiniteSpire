@@ -6,6 +6,7 @@ import com.blanktheevil.infinitespire.InfiniteSpire
 @Suppress("unused")
 object Textures {
   private fun getString(folder: String, texture: String) = InfiniteSpire.createPath("$folder/") + texture
+  val acts = TextureGetter("acts")
   val cards = TextureGetter("cards")
   val events = TextureGetter("events")
   val monsters = TextureGetter("monsters")

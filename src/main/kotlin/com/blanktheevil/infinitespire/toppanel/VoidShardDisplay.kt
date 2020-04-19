@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.additiveMode
 import com.blanktheevil.infinitespire.extensions.makeID

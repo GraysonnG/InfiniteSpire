@@ -1,0 +1,6 @@
+{
+  "${project.artifactId}:TheVoid": {
+    "NAME": "The Void",
+    "TEXT": []
+  }
+}

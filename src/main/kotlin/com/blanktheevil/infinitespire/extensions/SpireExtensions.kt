@@ -22,6 +22,8 @@ import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.helpers.input.InputHelper
 import com.megacrit.cardcrawl.localization.LocalizedStrings
+import com.megacrit.cardcrawl.map.MapEdge
+import com.megacrit.cardcrawl.map.MapRoomNode
 import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.relics.AbstractRelic
@@ -107,6 +109,22 @@ fun <T> List<T>.getRandomItem(random: Random = Random()): T? {
   return if (this.isNotEmpty()) {
     this[random.random(this.size - 1)]
   } else null
+}
+
+fun MapRoomNode.connectToNode(dst: MapRoomNode) {
+  addEdge(
+    MapEdge(
+      x,
+      y,
+      offsetX,
+      offsetY,
+      dst.x,
+      dst.y,
+      dst.offsetX,
+      dst.offsetY,
+      false
+    )
+  )
 }
 
 fun addToTop(action: AbstractGameAction) = AbstractDungeon.actionManager.addToTop(action)

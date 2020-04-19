@@ -9,6 +9,11 @@
 		"NAME": "Nightmare",
 		"DIALOG": []
 	},
+	"${project.artifactId}:Voidling": {
+		"DIALOG": [],
+		"MOVES": [],
+		"NAME": "Voidling"
+	},
 	"${project.artifactId}:NightmareAlpha": {
 		"MOVES":[
 			"Death's Touch",

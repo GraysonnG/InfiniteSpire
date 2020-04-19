@@ -23,5 +23,9 @@ object SubscriberManager {
     if (subscriber is RoomTransitionInterface) {
       RoomTransitionInterface.subscribers.add(subscriber)
     }
+
+    if (subscriber is OnMonsterDeathInterface) {
+      OnMonsterDeathInterface.subscribers.add(subscriber)
+    }
   }
 }
