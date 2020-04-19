@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.ui
+package com.blanktheevil.infinitespire.ui.buttons
 
 import basemod.IUIElement
 import com.badlogic.gdx.graphics.Color

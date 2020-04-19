@@ -17,7 +17,6 @@ import com.megacrit.cardcrawl.rooms.RestRoom
 import com.megacrit.cardcrawl.rooms.ShopRoom
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile
 import com.megacrit.cardcrawl.scenes.AbstractScene
-import com.megacrit.cardcrawl.ui.campfire.RestOption
 
 @Suppress("unused")
 class TheVoid : CustomDungeon {

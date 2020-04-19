@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.screens
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.ui.PowerButton
+import com.blanktheevil.infinitespire.ui.buttons.PowerButton
 import com.blanktheevil.infinitespire.vfx.DarkBgEffect
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon

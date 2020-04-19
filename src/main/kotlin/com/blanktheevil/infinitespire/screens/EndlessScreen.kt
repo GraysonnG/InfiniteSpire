@@ -6,7 +6,7 @@ import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.scale
-import com.blanktheevil.infinitespire.ui.ColoredButton
+import com.blanktheevil.infinitespire.ui.buttons.ColoredButton
 import com.blanktheevil.infinitespire.vfx.DarkBgEffect
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
