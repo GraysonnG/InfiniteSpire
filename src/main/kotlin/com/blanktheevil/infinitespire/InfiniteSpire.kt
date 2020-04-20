@@ -22,8 +22,10 @@ import com.blanktheevil.infinitespire.screens.*
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
+import com.blanktheevil.infinitespire.ui.campfire.VoidOption
 import com.blanktheevil.infinitespire.utils.*
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
+import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.MonsterInfo
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -48,8 +50,8 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var avhariScreen: AvhariScreen
     lateinit var powerSelectScreen: PowerSelectScreen
     lateinit var targetMonsterScreen: TargetMonsterScreen
-    lateinit var endlessScreen: EndlessScreen
     lateinit var voidShardDisplay: VoidShardDisplay
+    lateinit var voidOption: VoidOption
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
     lateinit var actStringsKt: Map<String, ActStringsKt>
@@ -57,6 +59,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     @Suppress("unused")
     @JvmStatic
     fun initialize() {
+      Settings.isDebug = true
       loadProperties()
       Textures.missingTexturePath = Textures.ui.getString("missingtexture.png", true)
       saveData = SaveData.init()
@@ -105,7 +108,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     voidShardDisplay = VoidShardDisplay()
     powerSelectScreen = PowerSelectScreen()
     targetMonsterScreen = TargetMonsterScreen()
-    endlessScreen = EndlessScreen()
+    voidOption = VoidOption()
 
     BaseMod.addTopPanelItem(questLogButton)
     BaseMod.addTopPanelItem(voidShardDisplay)

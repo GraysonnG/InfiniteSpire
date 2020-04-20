@@ -28,6 +28,7 @@ import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.rooms.AbstractRoom
+import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect
 
 fun Float.scale(): Float = this * Settings.scale
 fun Int.scale(): Float = this * Settings.scale
@@ -125,6 +126,16 @@ fun MapRoomNode.connectToNode(dst: MapRoomNode) {
       false
     )
   )
+}
+
+fun endPlayerTurn() {
+  actionManager.cardQueue.clear()
+  player.limbo.group.forEach {
+    AbstractDungeon.effectList.add(ExhaustCardEffect(it))
+  }
+  player.limbo.group.clear()
+  player.releaseCard()
+  AbstractDungeon.overlayMenu.endTurnButton.disable(true)
 }
 
 fun addToTop(action: AbstractGameAction) = AbstractDungeon.actionManager.addToTop(action)

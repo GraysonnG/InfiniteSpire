@@ -1,5 +1,7 @@
 package com.blanktheevil.infinitespire.powers
 
+import basemod.interfaces.CloneablePowerInterface
+import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.monsters.Nightmare
@@ -7,11 +9,9 @@ import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.powers.AbstractPower
 
-class RealityShiftPower(val nightmare: Nightmare, amount: Int) : Power(
-  nightmare,
-  amount,
-  BUILDER
-) {
+class RealityShiftPower(val nightmare: Nightmare, amount: Int) :
+    AbstractPower(),
+    CloneablePowerInterface {
   companion object {
     val powerID = "RealityShiftPower".makeID()
     val BUILDER = PowerBuilder(powerID)
@@ -19,6 +19,19 @@ class RealityShiftPower(val nightmare: Nightmare, amount: Int) : Power(
       .isTurnBased()
       .buff()
       .priority(Int.MIN_VALUE)
+  }
+
+  val strings = languagePack.getPowerStrings(powerID)
+
+  init {
+    this.owner = nightmare
+    this.amount = amount
+    this.name = strings.NAME
+    this.ID = powerID
+    this.img = BUILDER.img
+    this.type = BUILDER.type
+    this.priority = BUILDER.priority
+    updateDescription()
   }
 
   private val maxAmount = amount
@@ -49,7 +62,7 @@ class RealityShiftPower(val nightmare: Nightmare, amount: Int) : Power(
     return dmg.output
   }
 
-  override fun updateDesc() {
+  override fun updateDescription() {
     with(strings) {
       description = StringBuilder()
         .append(DESCRIPTIONS[0])
@@ -57,7 +70,7 @@ class RealityShiftPower(val nightmare: Nightmare, amount: Int) : Power(
         .append(DESCRIPTIONS[1])
         .append(getAttackStr())
         .append(DESCRIPTIONS[2])
-        .append(nightmare.effectAmount + 1)
+        .append(nightmare.attackAmount + 1)
         .append(DESCRIPTIONS[3])
         .toString()
     }

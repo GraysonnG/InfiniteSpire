@@ -1,26 +1,29 @@
 package com.blanktheevil.infinitespire.monsters
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.extensions.asAtlasRegion
-import com.blanktheevil.infinitespire.extensions.languagePack
-import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.extensions.scale
+import actlikeit.savefields.BehindTheScenesActNum
+import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.SaveData
+import com.blanktheevil.infinitespire.powers.RealityShiftPower
+import com.blanktheevil.infinitespire.vfx.BlackCardVfx
+import com.megacrit.cardcrawl.actions.AbstractGameAction
+import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction
+import com.megacrit.cardcrawl.actions.common.DamageAction
+import com.megacrit.cardcrawl.actions.common.GainBlockAction
+import com.megacrit.cardcrawl.actions.common.RollMoveAction
+import com.megacrit.cardcrawl.blights.Spear
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
+import com.megacrit.cardcrawl.dungeons.Exordium
+import com.megacrit.cardcrawl.dungeons.TheCity
 import com.megacrit.cardcrawl.monsters.AbstractMonster
-import com.megacrit.cardcrawl.vfx.TintEffect
-import java.util.*
-import kotlin.math.round
-import kotlin.math.sin
+import com.megacrit.cardcrawl.powers.StrengthPower
+import com.megacrit.cardcrawl.powers.WeakPower
+import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect
 
-class Nightmare(val isAlpha: Boolean = false) :
+class Nightmare :
     AbstractMonster(
       NAME,
       ID,
@@ -33,13 +36,14 @@ class Nightmare(val isAlpha: Boolean = false) :
     ), Savable {
   companion object {
     val ID = "Nightmare".makeID()
-    private val ALPHA_ID = "NightmareAlpha".makeID()
     private val STRINGS = languagePack.getMonsterStrings(ID)
-    private val ALPHA_STRINGS = languagePack.getMonsterStrings(ALPHA_ID)
     private val NAME = STRINGS.NAME
     private val MOVES = STRINGS.MOVES
     private val DIALOG = STRINGS.DIALOG
-    private const val MAX_HP = 200
+    private const val MAX_HP = 550
+    private const val MIN_HP = 520
+    private const val ASC_HP = 50
+    private const val BLOCK_ON_TRIGGER = 35
     private const val HB_X = 0f
     private const val HB_Y = -10f
     private const val HB_W = 160f
@@ -49,111 +53,125 @@ class Nightmare(val isAlpha: Boolean = false) :
     private var timesNotReceivedBlackCard = 0
   }
 
-  private var attackDmg = 5
-  private var blockAmount: Int
-  private var debuffDmg: Int
-  private var slamDmg: Int
-  private var effectTime = 0f
-
-  var effectAmount: Int
+  var attackAmount = 5
+  private var attackDamage = 5
+  private var slamDamage = 30
+  private var debuffAmount = 3
+  private var buffAmount = 1
+  private var blockAmount = 35
+  private var realityShiftAmount = 50
+  private var firstTurn = true
 
   init {
-    img = Textures.monsters.get("nightmare/nightmare-1.png")
-    var hpAmount = MAX_HP
-    if (isAlpha) {
-      this.name = ALPHA_STRINGS.NAME
-      hpAmount += 100
+    if (AbstractDungeon.ascensionLevel > 7)
+      setHp(MIN_HP.plus(ASC_HP), MAX_HP.plus(ASC_HP))
+    else
+      setHp(MIN_HP, MAX_HP)
+
+    if (AbstractDungeon.ascensionLevel > 2) {
+      this.attackDamage += 1
+      this.slamDamage += 5
+      this.debuffAmount += 1
     }
 
-    if (CardCrawlGame.playerName == "fiiiiilth" || Math.random() < 0.01) {
-      this.name = "Niiiiightmare"
+    if (CardCrawlGame.isInARun() && player.hasBlight(Spear.ID)) {
+      realityShiftAmount *= 1 + player.getBlight(Spear.ID).counter
     }
 
-    this.debuffDmg = 10
-
-    if (AbstractDungeon.bossCount > 1) {
-      hpAmount = hpAmount.times(1.5f).toInt()
-      blockAmount = 30
-      effectAmount = 4
-      slamDmg = 25
-    } else {
-      blockAmount = 20
-      effectAmount = 2
-      slamDmg = 15
+    this.damage.also {
+      it.add(DamageInfo(this, attackDamage))
+      it.add(DamageInfo(this, slamDamage))
     }
+  }
 
-    if (Settings.hasSapphireKey) hpAmount += 50
+  fun triggerRealityShiftAttack() {
+    AbstractDungeon.effectList.add(
+      PowerBuffEffect(
+        this.hb.cX - this.animX,
+        this.hb.cY + this.hb.height / 2f,
+        "")
+    )
+    AbstractDungeon.effectList.add(
+      BlackCardVfx()
+    )
+    addToTop(GainBlockAction(this, this, BLOCK_ON_TRIGGER))
 
-    this.setHp(hpAmount)
-    this.damage.add(DamageInfo(this, attackDmg))
-    this.damage.add(DamageInfo(this, slamDmg))
-    this.damage.add(DamageInfo(this, debuffDmg))
-    this.tint = TintEffect()
-    subscribe()
+    this.setMove(MOVES[1], MoveBytes.MULTI_STRIKE, Intent.ATTACK, damage[0].base, attackAmount, true)
+    this.createIntent()
+    endPlayerTurn()
   }
 
   override fun die() {
+    var actNum = BehindTheScenesActNum.getActNum()
+    BehindTheScenesActNum.setActNum(--actNum)
+    log.info("Set Current Act Num: $actNum")
+
+    Settings.isEndless = true
+    AbstractDungeon.topPanel.setPlayerName()
+
     super.die()
-    timesDefeated++
-    timesNotReceivedBlackCard++
   }
 
-  override fun render(sb: SpriteBatch) {
-    if (isAlpha) {
-      val portalTexture = Textures.screen.get("portal.png").asAtlasRegion()
-      sb.color = Color.WHITE.cpy()
-      sb.draw(
-        portalTexture,
-        0f,
-        0f,
-        hb.cX - portalTexture.packedWidth.div(2),
-        hb.cY - portalTexture.packedHeight.div(2),
-        portalTexture.packedWidth.toFloat(),
-        portalTexture.packedHeight.toFloat(),
-        1.5f,
-        1.6f,
-        effectTime
-      )
+  override fun getMove(roll: Int) {
+    if (firstTurn) {
+      this.setMove(MOVES[0], MoveBytes.REALITY_SHIFT, Intent.MAGIC)
+      firstTurn = false
+      return
     }
-    this.tint.changeColor(Color.WHITE.cpy())
-    super.render(sb)
+    when {
+      roll < 29 -> this.setMove(MOVES[1], MoveBytes.MULTI_STRIKE, Intent.ATTACK, damage[0].base, attackAmount, true)
+      roll > 69 -> this.setMove(MOVES[3], MoveBytes.DEBUFF_BLOCK, Intent.DEFEND_DEBUFF)
+      else -> this.setMove(MOVES[2], MoveBytes.SLAM, Intent.ATTACK_BUFF, damage[1].base)
+    }
   }
 
-  override fun update() {
-    super.update()
-    effectTime += Gdx.graphics.rawDeltaTime
-    drawY += sin(effectTime).div(10.scale())
-
-    if (round(effectTime * 10).toInt() % 3 == 0) {
-      val rand = Random()
-      val num1 = rand.nextInt(3)
-      val num2 = rand.nextInt(3)
-      if (num1 == 0) {
-        this.img = Textures.monsters.get(
-          "nightmare/nightmare-${num2 + 1}.png"
+  override fun takeTurn() {
+    when(this.nextMove) {
+      MoveBytes.MULTI_STRIKE -> {
+        addToBot(
+          AnimateFastAttackAction(this)
+        )
+        for(i in 0 until attackAmount) {
+          addToBot(DamageAction(
+            player,
+            this.damage[0],
+            AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
+            true
+          ))
+        }
+      }
+      MoveBytes.SLAM -> {
+        addToBot(DamageAction(
+          player,
+          this.damage[1],
+          AbstractGameAction.AttackEffect.BLUNT_HEAVY
+        ))
+        applyPower(
+          StrengthPower(this, buffAmount)
+        )
+      }
+      MoveBytes.DEBUFF_BLOCK -> {
+        addToBot(GainBlockAction(this, blockAmount))
+        for (i in 0 until debuffAmount) {
+          player.applyPower(
+            WeakPower(player, 1, true),
+            source = this
+          )
+          player.applyPower(
+            WeakPower(player, 1, true),
+            source = this
+          )
+        }
+      }
+      MoveBytes.REALITY_SHIFT -> {
+        this.applyPower(
+          RealityShiftPower(this, 50),
+          source = this
         )
       }
     }
 
-    powers.stream()
-      .filter { it.ID == "" }
-      .distinct()
-      .forEach { it.updateDescription() }
-  }
-
-  fun triggerRealityShiftAttack() {
-    this.effectAmount++
-    if (AbstractDungeon.overlayMenu.endTurnButton.enabled) {
-      // do the thing
-    }
-  }
-
-  override fun getMove(p0: Int) {
-    TODO("Not yet implemented")
-  }
-
-  override fun takeTurn() {
-    TODO("Not yet implemented")
+    addToBot(RollMoveAction(this))
   }
 
   override fun beforeConfigSave(saveData: SaveData) {
@@ -169,5 +187,12 @@ class Nightmare(val isAlpha: Boolean = false) :
   override fun clearData(saveData: SaveData) {
     timesDefeated = 0
     timesNotReceivedBlackCard = 0
+  }
+
+  object MoveBytes {
+    const val MULTI_STRIKE: Byte = 0
+    const val SLAM: Byte = 1
+    const val DEBUFF_BLOCK: Byte = 2
+    const val REALITY_SHIFT: Byte = 3
   }
 }

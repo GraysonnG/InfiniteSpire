@@ -15,6 +15,6 @@ object Textures {
   val screen = TextureGetter("screen")
   val ui = TextureGetter("ui")
   val vfx = TextureGetter("vfx")
-  val missingTexture by lazy { Texture(InfiniteSpire.createPath(missingTexturePath)) }
+  val missingTexture by lazy { Texture(missingTexturePath) }
   var missingTexturePath: String = ""
 }

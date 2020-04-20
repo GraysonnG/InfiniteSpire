@@ -6,6 +6,7 @@ import com.blanktheevil.infinitespire.acts.scenes.TheVoidScene
 import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.monsters.utils.Encounters
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
@@ -29,9 +30,6 @@ class TheVoid : CustomDungeon {
   constructor(cd: CustomDungeon, p: AbstractPlayer, saveFile: SaveFile) :
       super(cd, p, saveFile)
 
-  init {
-  }
-
   companion object {
     val ID = "TheVoid".makeID()
     private val strings = InfiniteSpire.actStringsKt[ID]
@@ -53,22 +51,31 @@ class TheVoid : CustomDungeon {
 
     AbstractDungeon.firstRoomChosen = false
     AbstractDungeon.fadeIn()
+
   }
 
   override fun generateMonsters() {
+    AbstractDungeon.monsterList = ArrayList()
+    AbstractDungeon.monsterList.also {
+      it.add(Encounters.THREE_VOIDLINGS)
+      it.add(Encounters.VOIDLING)
+      it.add(Encounters.VOIDLING_MYSTIC)
+    }
     AbstractDungeon.eliteMonsterList = ArrayList()
     AbstractDungeon.eliteMonsterList.also {
       it.add("Shield and Spear")
       it.add("Shield and Spear")
       it.add("Shield and Spear")
     }
+
+    ActManager.registerMonsters()
   }
 
   override fun initializeBoss() {
     AbstractDungeon.bossList.also {
-      it.add("The Heart")
-      it.add("The Heart")
-      it.add("The Heart")
+      it.add(Encounters.NIGHTMARE_BOSS)
+      it.add(Encounters.NIGHTMARE_BOSS)
+      it.add(Encounters.NIGHTMARE_BOSS)
     }
   }
 

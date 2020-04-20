@@ -44,11 +44,11 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : AbstractMonster(
   private val ascHPOffset = 6
 
   init {
-    if (AbstractDungeon.ascensionLevel > 7) {
+    if (AbstractDungeon.ascensionLevel > 7)
       setHp(minHP.plus(ascHPOffset), maxHP.plus(ascHPOffset))
-    } else {
+    else
       setHp(minHP, maxHP)
-    }
+
 
     if (AbstractDungeon.ascensionLevel > 2) {
       this.tackleDamage += 2
