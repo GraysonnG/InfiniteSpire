@@ -34,11 +34,11 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : AbstractMonster(
     val strings = languagePack.getMonsterStrings(ID)
   }
 
-  private var tackleDamage = 30
-  private var fangAttack = 25
-  private var fangPoison = 3
-  private var venomShotAmt = 10
-  private var blockAmt = 30
+  private var tackleDamage = 17
+  private var fangAttack = 9
+  private var fangPoison = 2
+  private var venomShotAmt = 7
+  private var blockAmt = 16
   private val maxHP = 67
   private val minHP = 58
   private val ascHPOffset = 6
