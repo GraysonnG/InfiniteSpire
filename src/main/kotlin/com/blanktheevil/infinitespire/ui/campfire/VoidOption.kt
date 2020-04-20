@@ -4,6 +4,7 @@ import actlikeit.savefields.BehindTheScenesActNum
 import basemod.ReflectionHacks
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable
@@ -71,9 +72,38 @@ class VoidOption : SpireElement, SpireClickable {
       return
     }
 
+    // Shadow
+    sb.color = Color.BLACK.cpy().apply {
+      a = 1.div(5f)
+    }
+    renderImage(sb, "campfire/voidoption.png")
+
+    // Highlight
+    val scaler = (scale - NORM_SCALE) * 10f / Settings.scale
+    sb.color = InfiniteSpire.PURPLE.cpy().apply {
+      a = scaler
+    }
+    renderImage(sb, "campfire/voidoption-hg.png")
+
+    // Image
     sb.color = Color.WHITE.cpy()
+    renderImage(sb, "campfire/voidoption.png")
+
+    FontHelper.renderFontCenteredTopAligned(
+      sb,
+      FontHelper.topPanelInfoFont,
+      "Enter The Void",
+      hb.cX,
+      hb.cY - 60f * Settings.scale - 50f * Settings.scale * (scale / Settings.scale),
+      Settings.GOLD_COLOR
+    )
+
+    hb.render(sb)
+  }
+
+  private fun renderImage(sb: SpriteBatch, textureString: String) {
     sb.draw(
-      Textures.ui.get("campfire/voidoption.png"),
+      Textures.ui.get(textureString),
       hb.cX.minus(IMG_W.div(2f)),
       hb.cY.minus(IMG_H.div(2f)),
       IMG_W.div(2f),
@@ -90,16 +120,6 @@ class VoidOption : SpireElement, SpireClickable {
       false,
       false
     )
-    FontHelper.renderFontCenteredTopAligned(
-      sb,
-      FontHelper.topPanelInfoFont,
-      "Enter The Void",
-      hb.cX,
-      hb.cY - 60f * Settings.scale - 50f * Settings.scale * (scale / Settings.scale),
-      Settings.GOLD_COLOR
-    )
-
-    hb.render(sb)
   }
 
   override fun getHitbox(): Hitbox = hb

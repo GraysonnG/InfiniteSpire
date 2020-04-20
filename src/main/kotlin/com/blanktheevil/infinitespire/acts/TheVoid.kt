@@ -7,6 +7,7 @@ import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
+import com.blanktheevil.infinitespire.rooms.AvhariRoom
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
@@ -15,7 +16,6 @@ import com.megacrit.cardcrawl.map.MapRoomNode
 import com.megacrit.cardcrawl.rooms.MonsterRoom
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss
 import com.megacrit.cardcrawl.rooms.RestRoom
-import com.megacrit.cardcrawl.rooms.ShopRoom
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile
 import com.megacrit.cardcrawl.scenes.AbstractScene
 
@@ -36,11 +36,13 @@ class TheVoid : CustomDungeon {
     val NAME = strings!!.NAME
   }
 
+  override fun getActNumberText(): String = strings!!.TEXT[0]
+
   override fun makeMap() {
     AbstractDungeon.map = ArrayList<ArrayList<MapRoomNode>>().apply {
       add(ActManager.makeRowWithCenteredRoom(0, MonsterRoom()))
       add(ActManager.makeRowWithCenteredRoom(1, RestRoom()))
-      add(ActManager.makeRowWithCenteredRoom(2, ShopRoom()))
+      add(ActManager.makeRowWithCenteredRoom(2, AvhariRoom()))
       add(ActManager.makeRowWithCenteredRoom(3, MonsterRoomBoss()))
     }
     ActManager.connectNonEmptyNodes(map)
