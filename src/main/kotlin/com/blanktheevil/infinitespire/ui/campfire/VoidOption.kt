@@ -74,7 +74,7 @@ class VoidOption : SpireElement, SpireClickable {
     sb.color = Color.WHITE.cpy()
     sb.draw(
       Textures.ui.get("campfire/voidoption.png"),
-      hb.cX.minus(IMG_W.div(2f)).minus(11f.scale().times(scale)),
+      hb.cX.minus(IMG_W.div(2f)),
       hb.cY.minus(IMG_H.div(2f)),
       IMG_W.div(2f),
       IMG_H.div(2f),

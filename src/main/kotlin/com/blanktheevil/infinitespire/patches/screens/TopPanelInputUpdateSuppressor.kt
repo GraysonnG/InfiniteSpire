@@ -16,8 +16,7 @@ object TopPanelInputUpdateSuppressor {
   fun suppressInputs(): SpireReturn<Void> {
     return if (
       InfiniteSpire.questLogScreen.isOpen() ||
-      InfiniteSpire.powerSelectScreen.show ||
-      InfiniteSpire.endlessScreen.show
+      InfiniteSpire.powerSelectScreen.show
     ) {
       SpireReturn.Return(null)
     } else {
