@@ -27,7 +27,7 @@ class TheVoid : CustomDungeon {
   constructor(cd: CustomDungeon, p: AbstractPlayer, emptyList: ArrayList<String>) :
       super(cd, p, emptyList)
 
-  constructor(cd: CustomDungeon, p: AbstractPlayer, saveFile: SaveFile) :
+  constructor(cd: CustomDungeon?, p: AbstractPlayer?, saveFile: SaveFile?) :
       super(cd, p, saveFile)
 
   companion object {
@@ -61,9 +61,12 @@ class TheVoid : CustomDungeon {
   override fun generateMonsters() {
     AbstractDungeon.monsterList = ArrayList()
     AbstractDungeon.monsterList.also {
-      it.add(Encounters.THREE_VOIDLINGS)
-      it.add(Encounters.VOIDLING)
-      it.add(Encounters.VOIDLING_MYSTIC)
+      it.add(Encounters.CORRUPTED_SHAPES)
+      it.add(Encounters.CORRUPTED_SHAPES)
+      it.add(Encounters.CORRUPTED_SHAPES)
+//      it.add(Encounters.THREE_VOIDLINGS)
+//      it.add(Encounters.VOIDLING)
+//      it.add(Encounters.VOIDLING_MYSTIC)
     }
     AbstractDungeon.eliteMonsterList = ArrayList()
     AbstractDungeon.eliteMonsterList.also {

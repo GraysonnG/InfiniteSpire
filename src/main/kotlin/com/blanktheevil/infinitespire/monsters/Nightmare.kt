@@ -75,6 +75,8 @@ class Nightmare :
   private var sprintIndex = 0
 
   init {
+    type = EnemyType.BOSS
+
     if (AbstractDungeon.ascensionLevel > 7)
       setHp(MIN_HP.plus(ASC_HP), MAX_HP.plus(ASC_HP))
     else

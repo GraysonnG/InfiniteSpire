@@ -2,8 +2,11 @@ package com.blanktheevil.infinitespire.vfx.utils
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
+import com.blanktheevil.infinitespire.enums.ShapeType
+import com.blanktheevil.infinitespire.extensions.getRandomItem
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.random.Random
 import kotlin.math.*
@@ -75,5 +78,9 @@ object VFXManager {
     val speed = hypot(target.x.minus(position.x), target.y.minus(position.y))
 
     return Vector2(speed, speed).setAngle(angle.toFloat())
+  }
+
+  fun getRandomShapeType(): ShapeType {
+    return ShapeType.values().asList().getRandomItem(AbstractDungeon.miscRng) ?: ShapeType.SPIKER
   }
 }

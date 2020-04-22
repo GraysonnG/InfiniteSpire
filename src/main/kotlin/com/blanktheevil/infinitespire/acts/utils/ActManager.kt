@@ -5,6 +5,7 @@ import basemod.BaseMod
 import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.extensions.connectToNode
+import com.blanktheevil.infinitespire.monsters.CorruptedShapes
 import com.blanktheevil.infinitespire.monsters.Nightmare
 import com.blanktheevil.infinitespire.monsters.Voidling
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
@@ -39,11 +40,12 @@ object ActManager {
       ))
     })
     BaseMod.addMonster(Encounters.NIGHTMARE_BOSS, BaseMod.GetMonster { Nightmare() })
+    BaseMod.addMonster(Encounters.CORRUPTED_SHAPES, BaseMod.GetMonster { CorruptedShapes() })
   }
 
   private fun registerEncounters() {
     BaseMod.addMonsterEncounter(TheVoid.ID, MonsterInfo(Encounters.VOIDLING, 0.5f))
-    BaseMod.addMonsterEncounter(TheVoid.ID, MonsterInfo(Encounters.VOIDLING_MYSTIC, 1f))
+    BaseMod.addMonsterEncounter(TheVoid.ID, MonsterInfo(Encounters.VOIDLING_MYSTIC, 0.5f))
     BaseMod.addMonsterEncounter(TheVoid.ID, MonsterInfo(Encounters.THREE_VOIDLINGS, 1f))
 
     BaseMod.addBoss(
