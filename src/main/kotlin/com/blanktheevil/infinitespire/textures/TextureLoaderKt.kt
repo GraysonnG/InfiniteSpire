@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.textures
 
 import com.badlogic.gdx.graphics.Texture
+import com.blanktheevil.infinitespire.extensions.log
 import org.apache.logging.log4j.LogManager
 
 object TextureLoaderKt {
@@ -18,7 +19,6 @@ object TextureLoaderKt {
         Textures.missingTexture
       }
     }
-
   }
 
   fun exists(texturePath: String): Boolean {
@@ -34,7 +34,10 @@ object TextureLoaderKt {
 
   private fun loadTexture(texturePath: String): Texture {
     return Texture(texturePath).also {
-      it.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+      it.setFilter(
+        Texture.TextureFilter.Linear,
+        Texture.TextureFilter.Linear
+      )
       textures[texturePath] = it
     }
   }

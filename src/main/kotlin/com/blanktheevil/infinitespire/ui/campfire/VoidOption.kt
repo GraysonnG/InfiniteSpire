@@ -10,6 +10,8 @@ import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
@@ -19,22 +21,26 @@ import com.megacrit.cardcrawl.helpers.MathHelper
 import com.megacrit.cardcrawl.rooms.CampfireUI
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption
 import java.util.*
+import kotlin.math.ceil
 
 class VoidOption : SpireElement, SpireClickable {
   companion object {
-    private val IMG_W = 556f
-    private val IMG_H = 256f
+    private const val IMG_W = 556f
+    private const val IMG_H = 256f
     private val NORM_SCALE = 0.9f.scale()
     private val HOVER_SCALE = 1f.scale()
     private val START_X = Settings.WIDTH.div(2f)
     private val BREAKPOINT_X = 1550f.scale()
     private val START_Y = 210f.scale()
     private val BREAKPOINT_Y = 720f.scale()
+    private val FPS_SCALE: Int = ceil(240f.div(Settings.MAX_FPS)).toInt()
+    private const val MAX_PARTICLES = 150
   }
 
   var scale = NORM_SCALE
   val hb = Hitbox(512f.scale(), 140f.scale())
   var buttons: ArrayList<AbstractCampfireOption>? = null
+  private val particles = mutableListOf<BlackCardParticle>()
 
   override fun update() {
     if (BehindTheScenesActNum.getActNum().rem(2) != 0 && !Settings.isDebug) {
@@ -46,7 +52,20 @@ class VoidOption : SpireElement, SpireClickable {
       CardCrawlGame.sound.play("UI_HOVER")
     }
 
+    particles.asSequence().forEach { it.update() }
+    particles.removeIf { it.isDead() }
+
     scale = if (hb.hovered) {
+      if (particles.size < MAX_PARTICLES) {
+        for (i in 1..FPS_SCALE.times(2)) {
+          particles.add(BlackCardParticle(
+            VFXManager.generateRandomPointAlongEdgeOfHitbox(hb),
+            scale,
+            true
+          ))
+        }
+      }
+
       MathHelper.scaleLerpSnap(scale, HOVER_SCALE)
     } else {
       MathHelper.scaleLerpSnap(scale, NORM_SCALE)
@@ -58,8 +77,12 @@ class VoidOption : SpireElement, SpireClickable {
     }
   }
 
+  @Suppress("UNCHECKED_CAST")
   fun updatePosition(cui: CampfireUI) {
-    buttons = ReflectionHacks.getPrivate(cui, CampfireUI::class.java, "buttons") as ArrayList<AbstractCampfireOption>
+    if (buttons == null) {
+      buttons = ReflectionHacks.getPrivate(cui, CampfireUI::class.java, "buttons")
+          as ArrayList<AbstractCampfireOption>
+    }
     if (buttons?.size!! > 4) {
       hb.move(BREAKPOINT_X, BREAKPOINT_Y)
     } else {
@@ -84,6 +107,10 @@ class VoidOption : SpireElement, SpireClickable {
       a = scaler
     }
     renderImage(sb, "campfire/voidoption-hg.png")
+
+    // Particles
+    particles.asSequence()
+      .forEach { it.render(sb) }
 
     // Image
     sb.color = Color.WHITE.cpy()

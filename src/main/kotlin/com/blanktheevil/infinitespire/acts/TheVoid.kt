@@ -39,11 +39,13 @@ class TheVoid : CustomDungeon {
   override fun getActNumberText(): String = strings!!.TEXT[0]
 
   override fun makeMap() {
-    AbstractDungeon.map = ArrayList<ArrayList<MapRoomNode>>().apply {
-      add(ActManager.makeRowWithCenteredRoom(0, MonsterRoom()))
-      add(ActManager.makeRowWithCenteredRoom(1, RestRoom()))
-      add(ActManager.makeRowWithCenteredRoom(2, AvhariRoom()))
-      add(ActManager.makeRowWithCenteredRoom(3, MonsterRoomBoss()))
+    var floorNum = 0
+    AbstractDungeon.map = ArrayList<ArrayList<MapRoomNode>>().also {
+      it.add(ActManager.makeRowWithCenteredRoom(++floorNum, MonsterRoom()))
+      it.add(ActManager.makeRandomRowWithRoom(++floorNum, AvhariRoom()))
+      it.add(ActManager.makeRandomRowWithRoom(++floorNum, MonsterRoom())) // this should be an elite
+      it.add(ActManager.makeRandomRowWithRoom(++floorNum, RestRoom()))
+      it.add(ActManager.makeRowWithCenteredRoom(++floorNum, MonsterRoomBoss()))
     }
     ActManager.connectNonEmptyNodes(map)
 

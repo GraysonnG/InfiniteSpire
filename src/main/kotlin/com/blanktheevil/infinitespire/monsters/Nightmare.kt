@@ -1,11 +1,17 @@
 package com.blanktheevil.infinitespire.monsters
 
 import actlikeit.savefields.BehindTheScenesActNum
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
+import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.powers.RealityShiftPower
+import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.vfx.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
+import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
@@ -22,6 +28,8 @@ import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.powers.StrengthPower
 import com.megacrit.cardcrawl.powers.WeakPower
 import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect
+import java.util.*
+import kotlin.math.roundToInt
 
 class Nightmare :
     AbstractMonster(
@@ -61,6 +69,10 @@ class Nightmare :
   private var blockAmount = 35
   private var realityShiftAmount = 50
   private var firstTurn = true
+  private var particles = mutableListOf<BlackCardParticle>()
+  private var particleTimer = 0f
+  private var spriteTimer = 0f
+  private var sprintIndex = 0
 
   init {
     if (AbstractDungeon.ascensionLevel > 7)
@@ -82,6 +94,8 @@ class Nightmare :
       it.add(DamageInfo(this, attackDamage))
       it.add(DamageInfo(this, slamDamage))
     }
+
+    this.img = Textures.monsters.get("nightmare/nightmare-1.png")
   }
 
   fun triggerRealityShiftAttack() {
@@ -100,6 +114,82 @@ class Nightmare :
     this.createIntent()
     endPlayerTurn()
   }
+
+  override fun damage(info: DamageInfo) {
+    super.damage(info)
+    if (info.owner != null && info.type != DamageInfo.DamageType.THORNS && info.output > 0) {
+      for (i in 0..99) {
+        val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
+          hb.cX,
+          hb.cY,
+          200f.scale()
+        )
+        particles.add(
+          BlackCardParticle(
+            point,
+            1f,
+            true,
+            VFXManager.getVelocityAwayFromPoint(
+              Vector2(hb.cX, hb.cY),
+              point
+            )
+          )
+        )
+      }
+    }
+  }
+
+  override fun update() {
+    particleTimer -= deltaTime
+    spriteTimer += deltaTime
+
+    if (particleTimer <= 0f && !this.isDying && !this.isDead) {
+      for (i in 0 until 8) {
+        val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
+          hb.cX,
+          hb.cY,
+          200f.scale()
+        )
+        particles.add(
+          BlackCardParticle(
+            point,
+            1f,
+            true,
+            VFXManager.getVelocityToPoint(
+              Vector2(hb.cX, hb.cY),
+              point
+            )
+          )
+        )
+      }
+      particleTimer = MathUtils.random(0.01f, 0.02f)
+    }
+
+    particles.asSequence()
+      .forEach { it.update() }
+    particles.removeIf { it.isDead() }
+
+    if (spriteTimer.times(10f).roundToInt().rem(3) == 0) {
+      if ((Random()).nextInt(3) == 0) {
+        if(++sprintIndex > 2) {
+          sprintIndex = 0
+        }
+        img = Textures.monsters.get(
+          "nightmare/nightmare-${sprintIndex + 1}.png"
+        )
+      }
+    }
+
+    super.update()
+  }
+
+  override fun render(sb: SpriteBatch) {
+    particles.asSequence()
+      .forEach { it.render(sb) }
+    super.render(sb)
+  }
+
+  override fun dispose() = doNothing()
 
   override fun die() {
     var actNum = BehindTheScenesActNum.getActNum()

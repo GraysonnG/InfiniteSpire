@@ -15,7 +15,7 @@ object RenderBottleRelicOnCardPatch {
   @JvmStatic
   @SpirePostfixPatch
   fun renderBottleOnCard(card: AbstractCard, sb: SpriteBatch, b1: Boolean, b2: Boolean) {
-    player.relics.stream()
+    player.relics.asSequence()
       .filter { it is BottleRelic }
       .map { it as BottleRelic }
       .forEach {

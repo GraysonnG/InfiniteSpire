@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.cards.Card
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
+import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.AbstractMonster
@@ -68,7 +70,7 @@ abstract class BlackCard(
   override fun update() {
     super.update()
 
-    particles.stream()
+    particles.asSequence()
       .forEach { it.update() }
     particles.removeIf {
       it.isDead()
@@ -76,7 +78,7 @@ abstract class BlackCard(
 
     if (particles.size < MAX_PARTICLES) {
       for (i in 1..FPS_SCALE.times(2)) {
-        particles.add(BlackCardParticle(generateRandomPointAlongEdgeOfHitbox(), drawScale, upgraded))
+        particles.add(BlackCardParticle(VFXManager.generateRandomPointAlongEdgeOfHitbox(hb), drawScale, upgraded))
       }
     }
   }
@@ -84,36 +86,9 @@ abstract class BlackCard(
   override fun render(sb: SpriteBatch) {
     with(sb) {
       color = Color.WHITE.cpy()
-      particles.stream()
+      particles.asSequence()
         .forEach { it.render(this) }
       super.render(this)
-    }
-  }
-
-  private fun generateRandomPointAlongEdgeOfHitbox(): Vector2 {
-    return Vector2().also {
-      with(Random()) {
-        val topOrBottom = randomBoolean()
-        val leftOrRight = randomBoolean()
-        val verticalOrHorizontal = randomBoolean()
-
-        if (verticalOrHorizontal) {
-          it.x = random(
-            hb.cX.minus(hb.width.div(2f)),
-            hb.cX.plus(hb.width.div(2f)))
-          it.y = if (topOrBottom)
-            hb.cY.plus(hb.height.div(2f)) else
-            hb.cY.minus(hb.height.div(2f))
-        } else {
-          it.x = if (leftOrRight)
-            hb.cX.plus(hb.width.div(2f)) else
-            hb.cX.minus(hb.width.div(2f))
-          it.y = random(
-            hb.cY.minus(hb.height.div(2f)),
-            hb.cY.plus(hb.height.div(2f))
-          )
-        }
-      }
     }
   }
 }

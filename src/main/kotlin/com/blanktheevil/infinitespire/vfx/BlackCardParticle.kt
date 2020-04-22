@@ -12,10 +12,23 @@ import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 
 
-class BlackCardParticle(private var pos: Vector2, private var cardScale: Float, private val upgraded: Boolean) : SpireElement {
-  private val texture = Textures.vfx.get("particle.png").asAtlasRegion()
+class BlackCardParticle(
+  private var pos: Vector2,
+  private var cardScale: Float,
+  private val upgraded: Boolean,
+  private var vel: Vector2 = Vector2(
+    MathUtils.random(-75f, 75f).scale().times(cardScale),
+    MathUtils.random(-50f, 225f).scale().times(cardScale)
+  )
+) : SpireElement {
+  companion object {
+    val IMG = "particle_new.png"
+    private val TEXTURE = Textures.vfx.get(IMG).asAtlasRegion()
+  }
 
   private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f)
+  private var rotationSpeed: Float = MathUtils.random(-90f, 90f)
+  private var rotation: Float = MathUtils.random(0f, 66f)
 
   private var color: Color = when {
     Math.random() < 0.25 -> InfiniteSpire.PURPLE.cpy()
@@ -23,20 +36,16 @@ class BlackCardParticle(private var pos: Vector2, private var cardScale: Float, 
     else -> Color.BLACK.cpy()
   }
 
-  private var vel: Vector2 = Vector2(
-    MathUtils.random(-75f, 75f).scale().times(cardScale),
-    MathUtils.random(-50f, 225f).scale().times(cardScale)
-  )
-
   init {
     pos.add(
-      -texture.regionWidth.div(2f),
-      -texture.regionHeight.div(2f)
+      -TEXTURE.regionWidth.div(2f),
+      -TEXTURE.regionHeight.div(2f)
     )
   }
 
   override fun update() {
     this.lifeSpan -= deltaTime
+    this.rotation += this.rotationSpeed.times(deltaTime)
     val weightedVelocity = this.vel.cpy().scl(deltaTime)
     this.pos.add(weightedVelocity)
   }
@@ -44,16 +53,16 @@ class BlackCardParticle(private var pos: Vector2, private var cardScale: Float, 
   override fun render(sb: SpriteBatch) {
     sb.color = this.color
     sb.draw(
-      texture,
+      TEXTURE,
       pos.x,
       pos.y,
-      texture.regionWidth.div(2f),
-      texture.regionHeight.div(2f),
-      texture.regionWidth.toFloat(),
-      texture.regionHeight.toFloat(),
+      TEXTURE.regionWidth.div(2f),
+      TEXTURE.regionHeight.div(2f),
+      TEXTURE.regionWidth.toFloat(),
+      TEXTURE.regionHeight.toFloat(),
       lifeSpan.div(0.5f).times(cardScale).times(2f),
       lifeSpan.div(0.5f).times(cardScale).times(2f),
-      0f
+      rotation
     )
 
   }
