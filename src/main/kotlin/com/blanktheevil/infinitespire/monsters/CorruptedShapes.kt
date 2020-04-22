@@ -61,7 +61,7 @@ class CorruptedShapes : AbstractMonster(
             1 -> ShapeMonsterVFX(
               hitbox = this.hb,
               color = InfiniteSpire.PURPLE.cpy().mul(Color.GRAY),
-              scale = .825f
+              scale = .9f
             )
             else -> ShapeMonsterVFX(
               hitbox = this.hb,

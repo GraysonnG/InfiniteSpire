@@ -15,6 +15,7 @@ import com.megacrit.cardcrawl.map.MapGenerator
 import com.megacrit.cardcrawl.map.MapRoomNode
 import com.megacrit.cardcrawl.rooms.MonsterRoom
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss
+import com.megacrit.cardcrawl.rooms.MonsterRoomElite
 import com.megacrit.cardcrawl.rooms.RestRoom
 import com.megacrit.cardcrawl.saveAndContinue.SaveFile
 import com.megacrit.cardcrawl.scenes.AbstractScene
@@ -41,11 +42,11 @@ class TheVoid : CustomDungeon {
   override fun makeMap() {
     var floorNum = 0
     AbstractDungeon.map = ArrayList<ArrayList<MapRoomNode>>().also {
-      it.add(ActManager.makeRowWithCenteredRoom(++floorNum, MonsterRoom()))
-      it.add(ActManager.makeRandomRowWithRoom(++floorNum, AvhariRoom()))
-      it.add(ActManager.makeRandomRowWithRoom(++floorNum, MonsterRoom())) // this should be an elite
-      it.add(ActManager.makeRandomRowWithRoom(++floorNum, RestRoom()))
-      it.add(ActManager.makeRowWithCenteredRoom(++floorNum, MonsterRoomBoss()))
+      it.add(ActManager.makeRowWithCenteredRoom(floorNum++, MonsterRoom()))
+      it.add(ActManager.makeRandomRowWithRoom(floorNum++, AvhariRoom()))
+      it.add(ActManager.makeRandomRowWithRoom(floorNum++, MonsterRoomElite()))
+      it.add(ActManager.makeRandomRowWithRoom(floorNum++, RestRoom()))
+      it.add(ActManager.makeRowWithCenteredRoom(floorNum++, MonsterRoomBoss()))
     }
     ActManager.connectNonEmptyNodes(map)
 
@@ -61,18 +62,15 @@ class TheVoid : CustomDungeon {
   override fun generateMonsters() {
     AbstractDungeon.monsterList = ArrayList()
     AbstractDungeon.monsterList.also {
-      it.add(Encounters.CORRUPTED_SHAPES)
-      it.add(Encounters.CORRUPTED_SHAPES)
-      it.add(Encounters.CORRUPTED_SHAPES)
-//      it.add(Encounters.THREE_VOIDLINGS)
-//      it.add(Encounters.VOIDLING)
-//      it.add(Encounters.VOIDLING_MYSTIC)
+      it.add(Encounters.THREE_VOIDLINGS)
+      it.add(Encounters.VOIDLING)
+      it.add(Encounters.VOIDLING_MYSTIC)
     }
     AbstractDungeon.eliteMonsterList = ArrayList()
     AbstractDungeon.eliteMonsterList.also {
-      it.add("Shield and Spear")
-      it.add("Shield and Spear")
-      it.add("Shield and Spear")
+      it.add(Encounters.CORRUPTED_SHAPES)
+      it.add(Encounters.CORRUPTED_SHAPES)
+      it.add(Encounters.CORRUPTED_SHAPES)
     }
 
     ActManager.registerMonsters()
