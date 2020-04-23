@@ -30,19 +30,7 @@ abstract class BlackCard(
   use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = { _, _ -> },
   init: Card.() -> Unit = {},
   upgr: Card.() -> Unit = {}
-) : Card(
-  id,
-  img,
-  type,
-  target,
-  RARITY,
-  EnumPatches.CardColor.INFINITE_BLACK,
-  cost,
-  exhaust,
-  use,
-  init,
-  upgr
-) {
+) : Card(id, img, type, target, RARITY, EnumPatches.CardColor.INFINITE_BLACK, cost, exhaust, use, init, upgr) {
   companion object {
     private val RARITY = EnumPatches.CardRarity.BLACK
   }
