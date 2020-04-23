@@ -18,15 +18,17 @@ class BlackCardParticle(
   private val upgraded: Boolean,
   private var vel: Vector2 = Vector2(
     MathUtils.random(-75f, 75f).scale().times(cardScale),
-    MathUtils.random(-50f, 225f).scale().times(cardScale)
-  )
+    MathUtils.random(-50f, 275f).scale().times(cardScale)
+  ),
+  private val glow: Boolean = true,
+  private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f)
 ) : SpireElement {
   companion object {
-    val IMG = "particle_new.png"
+    private const val IMG = "particle_new.png"
     private val TEXTURE = Textures.vfx.get(IMG).asAtlasRegion()
+    private val TEXTURE_NO_GLOW = Textures.vfx.get("particle-no-glow.png").asAtlasRegion()
   }
 
-  private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f)
   private var rotationSpeed: Float = MathUtils.random(-90f, 90f)
   private var rotation: Float = MathUtils.random(0f, 66f)
 
@@ -46,25 +48,24 @@ class BlackCardParticle(
   override fun update() {
     this.lifeSpan -= deltaTime
     this.rotation += this.rotationSpeed.times(deltaTime)
-    val weightedVelocity = this.vel.cpy().scl(deltaTime)
-    this.pos.add(weightedVelocity)
+    val velW = this.vel.cpy().scl(deltaTime).scl(scale)
+    this.pos.add(velW)
   }
 
   override fun render(sb: SpriteBatch) {
     sb.color = this.color
     sb.draw(
-      TEXTURE,
+      if (glow) TEXTURE else TEXTURE_NO_GLOW,
       pos.x,
       pos.y,
       TEXTURE.regionWidth.div(2f),
       TEXTURE.regionHeight.div(2f),
       TEXTURE.regionWidth.toFloat(),
       TEXTURE.regionHeight.toFloat(),
-      lifeSpan.div(0.5f).times(cardScale).times(2f),
-      lifeSpan.div(0.5f).times(cardScale).times(2f),
+      lifeSpan.div(0.5f).times(cardScale).times(2f).scale(),
+      lifeSpan.div(0.5f).times(cardScale).times(2f).scale(),
       rotation
     )
-
   }
 
   fun isDead(): Boolean {

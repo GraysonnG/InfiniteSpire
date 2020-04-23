@@ -4,12 +4,14 @@ import basemod.AutoAdd.Ignore
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
+import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.cards.Card
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
@@ -43,11 +45,18 @@ abstract class BlackCard(
 ) {
   companion object {
     private val RARITY = EnumPatches.CardRarity.BLACK
-    private val FPS_SCALE: Int = ceil(240.0.div(Settings.MAX_FPS)).toInt()
-    private const val MAX_PARTICLES: Int = 150
   }
 
-  private val particles = mutableListOf<BlackCardParticle>()
+  private val particleSystem = BlackCardParticleSystem(
+    createNewParticle = {
+      BlackCardParticle(
+        VFXManager.generateRandomPointAlongEdgeOfHitbox(hb),
+        drawScale,
+        upgraded,
+        glow = false
+      )
+    }
+  )
 
   constructor(builder: CardBuilder) :
       this(builder.id, builder.img, builder.type, builder.target, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
@@ -68,26 +77,15 @@ abstract class BlackCard(
   }
 
   override fun update() {
+    this.glowColor = InfiniteSpire.PURPLE.cpy()
     super.update()
-
-    particles.asSequence()
-      .forEach { it.update() }
-    particles.removeIf {
-      it.isDead()
-    }
-
-    if (particles.size < MAX_PARTICLES) {
-      for (i in 1..FPS_SCALE.times(2)) {
-        particles.add(BlackCardParticle(VFXManager.generateRandomPointAlongEdgeOfHitbox(hb), drawScale, upgraded))
-      }
-    }
+    particleSystem.update()
   }
 
   override fun render(sb: SpriteBatch) {
     with(sb) {
       color = Color.WHITE.cpy()
-      particles.asSequence()
-        .forEach { it.render(this) }
+      particleSystem.render(sb)
       super.render(this)
     }
   }

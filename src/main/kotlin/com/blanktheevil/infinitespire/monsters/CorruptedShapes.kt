@@ -43,14 +43,10 @@ class CorruptedShapes : AbstractMonster(
     }
   }
 
-  /**
-   *  when taking damage select a random boi or two from each list and set its velocity away from this dudes hb
-   */
-
   override fun update() {
     super.update()
-    shapes.forEachIndexed() {index, list ->
-      if (list.size < 10) {
+    shapes.forEachIndexed() { index, list ->
+      if (list.size < 10 && !(this.isDying || this.isDead)) {
         for (i in 0 until 10 - list.size) {
           list.add(when (index) {
             2 -> ShapeMonsterVFX(
@@ -70,6 +66,9 @@ class CorruptedShapes : AbstractMonster(
             )
           })
         }
+      }
+      if (this.isDying || this.isDead) {
+        list.forEach { it.setDying() }
       }
       list.forEach { it.update() }
       list.removeIf { it.isDead() }

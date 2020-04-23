@@ -83,7 +83,7 @@ class ShapeMonsterVFX(
 
     state.update(deltaTime)
     state.apply(skeleton)
-    pos.add(vel.scl(deltaTime))
+    pos.add(vel.scl(deltaTime).scl(Settings.scale))
     skeleton.setPosition(pos.x, pos.y)
     skeleton.rootBone.rotation = rotation
     skeleton.color = this.color
@@ -107,8 +107,10 @@ class ShapeMonsterVFX(
     skeleton.updateWorldTransform()
   }
 
-  fun applyVelocity(vel: Vector2) {
-    this.vel = vel
+  fun setDying() {
+    val dyingNum = maxLife.div(6f)
+    if (lifeSpan > dyingNum)
+      this.lifeSpan = dyingNum
   }
 
   private fun scaleBone(bone: Bone, scale: Float) {

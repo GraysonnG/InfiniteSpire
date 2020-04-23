@@ -11,6 +11,7 @@ import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
@@ -33,14 +34,24 @@ class VoidOption : SpireElement, SpireClickable {
     private val BREAKPOINT_X = 1550f.scale()
     private val START_Y = 210f.scale()
     private val BREAKPOINT_Y = 720f.scale()
-    private val FPS_SCALE: Int = ceil(240f.div(Settings.MAX_FPS)).toInt()
-    private const val MAX_PARTICLES = 150
   }
 
   var scale = NORM_SCALE
   val hb = Hitbox(512f.scale(), 140f.scale())
   var buttons: ArrayList<AbstractCampfireOption>? = null
-  private val particles = mutableListOf<BlackCardParticle>()
+  private val particleSystem = BlackCardParticleSystem(
+    createNewParticle = {
+      BlackCardParticle(
+        VFXManager.generateRandomPointAlongEdgeOfHitbox(hb),
+        scale,
+        true,
+        glow = false
+      )
+    },
+    shouldCreateParticle = {
+      hb.hovered
+    }
+  )
 
   override fun update() {
     if (BehindTheScenesActNum.getActNum().rem(2) != 0 && !Settings.isDebug) {
@@ -52,20 +63,9 @@ class VoidOption : SpireElement, SpireClickable {
       CardCrawlGame.sound.play("UI_HOVER")
     }
 
-    particles.asSequence().forEach { it.update() }
-    particles.removeIf { it.isDead() }
+    particleSystem.update()
 
     scale = if (hb.hovered) {
-      if (particles.size < MAX_PARTICLES) {
-        for (i in 1..FPS_SCALE.times(2)) {
-          particles.add(BlackCardParticle(
-            VFXManager.generateRandomPointAlongEdgeOfHitbox(hb),
-            scale,
-            true
-          ))
-        }
-      }
-
       MathHelper.scaleLerpSnap(scale, HOVER_SCALE)
     } else {
       MathHelper.scaleLerpSnap(scale, NORM_SCALE)
@@ -109,8 +109,7 @@ class VoidOption : SpireElement, SpireClickable {
     renderImage(sb, "campfire/voidoption-hg.png")
 
     // Particles
-    particles.asSequence()
-      .forEach { it.render(sb) }
+    particleSystem.render(sb)
 
     // Image
     sb.color = Color.WHITE.cpy()

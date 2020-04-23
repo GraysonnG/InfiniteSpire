@@ -2,7 +2,6 @@ package com.blanktheevil.infinitespire.monsters
 
 import actlikeit.savefields.BehindTheScenesActNum
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.interfaces.Savable
@@ -11,6 +10,7 @@ import com.blanktheevil.infinitespire.powers.RealityShiftPower
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
+import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction
@@ -22,8 +22,6 @@ import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
-import com.megacrit.cardcrawl.dungeons.Exordium
-import com.megacrit.cardcrawl.dungeons.TheCity
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.powers.StrengthPower
 import com.megacrit.cardcrawl.powers.WeakPower
@@ -47,7 +45,6 @@ class Nightmare :
     private val STRINGS = languagePack.getMonsterStrings(ID)
     private val NAME = STRINGS.NAME
     private val MOVES = STRINGS.MOVES
-    private val DIALOG = STRINGS.DIALOG
     private const val MAX_HP = 550
     private const val MIN_HP = 520
     private const val ASC_HP = 50
@@ -69,10 +66,29 @@ class Nightmare :
   private var blockAmount = 35
   private var realityShiftAmount = 50
   private var firstTurn = true
-  private var particles = mutableListOf<BlackCardParticle>()
-  private var particleTimer = 0f
   private var spriteTimer = 0f
   private var sprintIndex = 0
+  private var particleSystem = BlackCardParticleSystem(
+    8,
+    {
+      val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
+        hb.cX,
+        hb.cY,
+        200f.scale()
+      )
+
+      BlackCardParticle(
+        point,
+        1f,
+        true,
+        VFXManager.getVelocityToPoint(
+          Vector2(hb.cX, hb.cY),
+          point
+        ).scl(0.75f.div(scale))
+      )
+    },
+    { !isDying && !isDead }
+  )
 
   init {
     type = EnemyType.BOSS
@@ -120,60 +136,32 @@ class Nightmare :
   override fun damage(info: DamageInfo) {
     super.damage(info)
     if (info.owner != null && info.type != DamageInfo.DamageType.THORNS && info.output > 0) {
-      for (i in 0..99) {
+      particleSystem.addParticles(100) {
         val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
           hb.cX,
           hb.cY,
           200f.scale()
         )
-        particles.add(
-          BlackCardParticle(
-            point,
-            1f,
-            true,
-            VFXManager.getVelocityAwayFromPoint(
-              Vector2(hb.cX, hb.cY),
-              point
-            )
-          )
+
+        BlackCardParticle(
+          point,
+          1f,
+          true,
+          VFXManager.getVelocityAwayFromPoint(
+            Vector2(hb.cX, hb.cY),
+            point
+          ).scl(0.75f.div(scale))
         )
       }
     }
   }
 
   override fun update() {
-    particleTimer -= deltaTime
     spriteTimer += deltaTime
-
-    if (particleTimer <= 0f && !this.isDying && !this.isDead) {
-      for (i in 0 until 8) {
-        val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
-          hb.cX,
-          hb.cY,
-          200f.scale()
-        )
-        particles.add(
-          BlackCardParticle(
-            point,
-            1f,
-            true,
-            VFXManager.getVelocityToPoint(
-              Vector2(hb.cX, hb.cY),
-              point
-            )
-          )
-        )
-      }
-      particleTimer = MathUtils.random(0.01f, 0.02f)
-    }
-
-    particles.asSequence()
-      .forEach { it.update() }
-    particles.removeIf { it.isDead() }
 
     if (spriteTimer.times(10f).roundToInt().rem(3) == 0) {
       if ((Random()).nextInt(3) == 0) {
-        if(++sprintIndex > 2) {
+        if (++sprintIndex > 2) {
           sprintIndex = 0
         }
         img = Textures.monsters.get(
@@ -182,12 +170,13 @@ class Nightmare :
       }
     }
 
+    particleSystem.update()
+
     super.update()
   }
 
   override fun render(sb: SpriteBatch) {
-    particles.asSequence()
-      .forEach { it.render(sb) }
+    particleSystem.render(sb)
     super.render(sb)
   }
 
@@ -218,12 +207,12 @@ class Nightmare :
   }
 
   override fun takeTurn() {
-    when(this.nextMove) {
+    when (this.nextMove) {
       MoveBytes.MULTI_STRIKE -> {
         addToBot(
           AnimateFastAttackAction(this)
         )
-        for(i in 0 until attackAmount) {
+        for (i in 0 until attackAmount) {
           addToBot(DamageAction(
             player,
             this.damage[0],
