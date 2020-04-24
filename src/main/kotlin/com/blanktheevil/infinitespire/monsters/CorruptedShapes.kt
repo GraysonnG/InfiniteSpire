@@ -6,7 +6,7 @@ import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.vfx.ShapeMonsterVFX
+import com.blanktheevil.infinitespire.vfx.particles.ShapeMonsterParticle
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 
@@ -25,9 +25,9 @@ class CorruptedShapes : AbstractMonster(
     private val strings = languagePack.getMonsterStrings(ID)
   }
 
-  private val frontShapes = mutableListOf<ShapeMonsterVFX>()
-  private val middleShapes = mutableListOf<ShapeMonsterVFX>()
-  private val backShapes = mutableListOf<ShapeMonsterVFX>()
+  private val frontShapes = mutableListOf<ShapeMonsterParticle>()
+  private val middleShapes = mutableListOf<ShapeMonsterParticle>()
+  private val backShapes = mutableListOf<ShapeMonsterParticle>()
   private val shapes = mutableListOf(backShapes, middleShapes, frontShapes)
 
   private var poke = 3
@@ -49,17 +49,17 @@ class CorruptedShapes : AbstractMonster(
       if (list.size < 10 && !(this.isDying || this.isDead)) {
         for (i in 0 until 10 - list.size) {
           list.add(when (index) {
-            2 -> ShapeMonsterVFX(
+            2 -> ShapeMonsterParticle(
               hitbox = this.hb,
               color = InfiniteSpire.PURPLE.cpy(),
               scale = 1f
             )
-            1 -> ShapeMonsterVFX(
+            1 -> ShapeMonsterParticle(
               hitbox = this.hb,
               color = InfiniteSpire.PURPLE.cpy().mul(Color.GRAY),
               scale = .9f
             )
-            else -> ShapeMonsterVFX(
+            else -> ShapeMonsterParticle(
               hitbox = this.hb,
               color = InfiniteSpire.PURPLE.cpy().mul(Color.DARK_GRAY).cpy(),
               scale = .75f

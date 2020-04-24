@@ -10,7 +10,7 @@ import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.core.CardCrawlGame
@@ -22,7 +22,6 @@ import com.megacrit.cardcrawl.helpers.MathHelper
 import com.megacrit.cardcrawl.rooms.CampfireUI
 import com.megacrit.cardcrawl.ui.campfire.AbstractCampfireOption
 import java.util.*
-import kotlin.math.ceil
 
 class VoidOption : SpireElement, SpireClickable {
   companion object {

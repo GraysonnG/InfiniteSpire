@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.vfx
+package com.blanktheevil.infinitespire.vfx.particles
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
@@ -19,7 +19,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.Hitbox
 
-class ShapeMonsterVFX(
+class ShapeMonsterParticle(
   private val shapeType: ShapeType = VFXManager.getRandomShapeType(),
   x: Float = Settings.WIDTH.div(2f),
   y: Float = Settings.WIDTH.div(2f),

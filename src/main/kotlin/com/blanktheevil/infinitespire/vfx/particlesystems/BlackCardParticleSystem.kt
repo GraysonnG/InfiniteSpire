@@ -2,9 +2,10 @@ package com.blanktheevil.infinitespire.vfx.particlesystems
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
+import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.interfaces.SpireElement
-import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 
 class BlackCardParticleSystem(
   private val numberOfParticlesPerSpawn: Int = 4,
@@ -26,7 +27,7 @@ class BlackCardParticleSystem(
   override fun update() {
     particleTimer -= deltaTime
 
-    if (particleTimer <= 0f && shouldCreateParticle.invoke()) {
+    if (particleTimer <= 0f && shouldCreateParticle.invoke() && InfiniteSpire.saveData.shouldDoParticles) {
       for (i in 0 until numberOfParticlesPerSpawn) {
         particles.add(
           createNewParticle.invoke()

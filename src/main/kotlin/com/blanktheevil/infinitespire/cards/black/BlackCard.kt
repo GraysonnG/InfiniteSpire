@@ -3,21 +3,16 @@ package com.blanktheevil.infinitespire.cards.black
 import basemod.AutoAdd.Ignore
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.cards.Card
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
-import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.vfx.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.characters.AbstractPlayer
-import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.AbstractMonster
-import com.megacrit.cardcrawl.random.Random
-import kotlin.math.ceil
 
 @Ignore
 abstract class BlackCard(

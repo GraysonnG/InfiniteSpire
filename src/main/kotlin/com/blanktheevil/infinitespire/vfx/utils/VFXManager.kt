@@ -1,11 +1,8 @@
 package com.blanktheevil.infinitespire.vfx.utils
 
-import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.enums.ShapeType
 import com.blanktheevil.infinitespire.extensions.getRandomItem
-import com.blanktheevil.infinitespire.extensions.scale
-import com.blanktheevil.infinitespire.vfx.BlackCardParticle
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.random.Random
@@ -45,6 +42,12 @@ object VFXManager {
     val angle = Math.random().times(PI).times(2f)
     val pX = cos(angle).times(radius).plus(x).toFloat()
     val pY = sin(angle).times(radius).plus(y).toFloat()
+    return Vector2(pX, pY)
+  }
+
+  fun generatePointAlongEdgeOfCircle(x: Float, y: Float, radius: Float, degrees: Float): Vector2 {
+    val pX = cos(degrees).times(radius).plus(x)
+    val pY = sin(degrees).times(radius).plus(y)
     return Vector2(pX, pY)
   }
 
