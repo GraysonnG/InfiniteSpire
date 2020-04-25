@@ -21,8 +21,13 @@ class BlackCardParticle(
     MathUtils.random(-50f, 275f).scale().times(cardScale)
   ),
   private val glow: Boolean = true,
-  private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f)
-) : SpireElement {
+  private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f),
+  private var color: Color = when {
+    Math.random() < 0.25 -> InfiniteSpire.PURPLE.cpy()
+    Math.random() < 0.07 && upgraded -> InfiniteSpire.RED.cpy()
+    else -> Color.BLACK.cpy()
+  }
+) : Particle() {
   companion object {
     private const val IMG = "particle_new.png"
     private val TEXTURE = Textures.vfx.get(IMG).asAtlasRegion()
@@ -31,12 +36,6 @@ class BlackCardParticle(
 
   private var rotationSpeed: Float = MathUtils.random(-90f, 90f)
   private var rotation: Float = MathUtils.random(0f, 66f)
-
-  private var color: Color = when {
-    Math.random() < 0.25 -> InfiniteSpire.PURPLE.cpy()
-    Math.random() < 0.07 && this.upgraded -> InfiniteSpire.RED.cpy()
-    else -> Color.BLACK.cpy()
-  }
 
   init {
     pos.add(
@@ -68,7 +67,7 @@ class BlackCardParticle(
     )
   }
 
-  fun isDead(): Boolean {
+  override fun isDead(): Boolean {
     return lifeSpan <= 0f
   }
 }

@@ -1,0 +1,8 @@
+{
+  "${project.artifactId}:UltimateStance": {
+    "NAME": "Limitless",
+    "DESCRIPTION": [
+      "At the end of your turn gain #b3 #yStrength and #b3 #yDexterity."
+    ]
+  }
+}

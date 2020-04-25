@@ -26,7 +26,7 @@ class ShapeMonsterParticle(
   dist: Float = 300f,
   val color: Color = Color.WHITE.cpy(),
   val scale: Float = 1f
-) : SpireElement {
+) : Particle() {
   constructor(
     shapeType: ShapeType = VFXManager.getRandomShapeType(),
     hitbox: Hitbox,
@@ -131,5 +131,5 @@ class ShapeMonsterParticle(
     sb.normalMode()
   }
 
-  fun isDead() = lifeSpan <= 0.0f
+  override fun isDead() = lifeSpan <= 0.0f
 }

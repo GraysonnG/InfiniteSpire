@@ -27,6 +27,7 @@ object LocalizationManager {
       object : TypeToken<Map<String, ActStringsKt>>() {}
     )
 
+    BaseMod.loadCustomStringsFile(StanceStrings::class.java, makePath(language, "stances"))
     BaseMod.loadCustomStringsFile(RelicStrings::class.java, makePath(language, "relics"))
     BaseMod.loadCustomStringsFile(BlightStrings::class.java, makePath(language, "blights"))
     BaseMod.loadCustomStringsFile(EventStrings::class.java, makePath(language, "events"))

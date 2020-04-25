@@ -13,6 +13,7 @@ class BlackCardParticleSystem(
   private val shouldCreateParticle: () -> Boolean = { true },
   private val particleTimerReset: () -> Float = { MathUtils.random(0.01f, 0.02f) }
 ): SpireElement {
+
   private val particles = mutableListOf<BlackCardParticle>()
   private var particleTimer = 0f
 
@@ -23,6 +24,8 @@ class BlackCardParticleSystem(
       )
     }
   }
+
+  fun isEmpty(): Boolean = particles.isEmpty()
 
   override fun update() {
     particleTimer -= deltaTime

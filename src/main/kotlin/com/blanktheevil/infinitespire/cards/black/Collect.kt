@@ -3,6 +3,9 @@ package com.blanktheevil.infinitespire.cards.black
 import com.blanktheevil.infinitespire.actions.DrawCardAndUpgrade
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.vfx.FinalStrikeVfx
+import com.blanktheevil.infinitespire.vfx.UltimateFormVfx
+import com.megacrit.cardcrawl.actions.animations.VFXAction
 
 class Collect : BlackCard(BUILDER) {
   companion object {
