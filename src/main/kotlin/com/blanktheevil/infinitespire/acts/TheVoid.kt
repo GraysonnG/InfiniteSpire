@@ -76,6 +76,8 @@ class TheVoid : CustomDungeon {
     ActManager.registerMonsters()
   }
 
+
+
   override fun initializeBoss() {
     AbstractDungeon.bossList.also {
       it.add(Encounters.NIGHTMARE_BOSS)

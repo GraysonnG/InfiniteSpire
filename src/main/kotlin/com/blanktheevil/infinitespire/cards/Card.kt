@@ -54,6 +54,7 @@ abstract class Card(
   public override fun upgradeDamage(amount: Int) = super.upgradeDamage(amount)
   public override fun addToBot(action: AbstractGameAction?) = super.addToBot(action)
   public override fun addToTop(action: AbstractGameAction?) = super.addToTop(action)
+  public override fun initializeTitle() = super.initializeTitle()
 
   override fun upgrade() {
     if (!upgraded) {
