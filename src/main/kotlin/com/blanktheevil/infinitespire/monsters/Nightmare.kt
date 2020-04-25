@@ -8,8 +8,8 @@ import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.powers.RealityShiftPower
 import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
+import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.actions.AbstractGameAction

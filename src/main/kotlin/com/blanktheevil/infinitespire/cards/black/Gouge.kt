@@ -1,8 +1,8 @@
 package com.blanktheevil.infinitespire.cards.black
 
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.extensions.applyPower
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.common.RemoveSpecificPowerAction

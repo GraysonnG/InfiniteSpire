@@ -2,7 +2,6 @@ package com.blanktheevil.infinitespire.acts.utils
 
 import actlikeit.dungeons.CustomDungeon
 import basemod.BaseMod
-import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.extensions.connectToNode
 import com.blanktheevil.infinitespire.monsters.CorruptedShapes

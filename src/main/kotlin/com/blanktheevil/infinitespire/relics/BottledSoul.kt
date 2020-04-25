@@ -5,7 +5,6 @@ import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.relics.abstracts.BottleRelic
-import com.megacrit.cardcrawl.cards.AbstractCard
 
 
 class BottledSoul : BottleRelic(
@@ -14,10 +13,10 @@ class BottledSoul : BottleRelic(
   TIER,
   SOUND,
   { it.exhaust },
-  { it.inBottleSoul = true},
-  { it.inBottleSoul = false},
+  { it.inBottleSoul = true },
+  { it.inBottleSoul = false },
   { it.inBottleSoul }
-  ) {
+) {
   companion object {
     val ID = "Bottled Soul".makeID()
     private val IMG = "bottledsoul-cracked"

@@ -11,7 +11,6 @@ import com.blanktheevil.infinitespire.enums.ShapeType
 import com.blanktheevil.infinitespire.extensions.clamp
 import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.normalMode
-import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.esotericsoftware.spine.*
 import com.megacrit.cardcrawl.core.AbstractCreature.sr

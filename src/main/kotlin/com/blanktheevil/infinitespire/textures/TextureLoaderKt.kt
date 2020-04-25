@@ -1,7 +1,6 @@
 package com.blanktheevil.infinitespire.textures
 
 import com.badlogic.gdx.graphics.Texture
-import com.blanktheevil.infinitespire.extensions.log
 import org.apache.logging.log4j.LogManager
 
 object TextureLoaderKt {

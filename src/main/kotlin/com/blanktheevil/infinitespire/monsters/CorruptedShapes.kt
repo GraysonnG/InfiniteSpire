@@ -45,7 +45,7 @@ class CorruptedShapes : AbstractMonster(
 
   override fun update() {
     super.update()
-    shapes.forEachIndexed() { index, list ->
+    shapes.forEachIndexed { index, list ->
       if (list.size < 10 && !(this.isDying || this.isDead)) {
         for (i in 0 until 10 - list.size) {
           list.add(when (index) {

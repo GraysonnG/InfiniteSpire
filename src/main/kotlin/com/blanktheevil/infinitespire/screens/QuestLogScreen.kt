@@ -1,10 +1,7 @@
 package com.blanktheevil.infinitespire.screens
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.Interpolation
-import com.blanktheevil.infinitespire.extensions.clamp
 import com.blanktheevil.infinitespire.interfaces.QuestLogCloseInterface
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
@@ -12,7 +9,6 @@ import com.blanktheevil.infinitespire.vfx.DarkBgEffect
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.FontHelper
-import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.helpers.input.InputActionSet
 
 class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLogButton) : Screen<QuestLogScreen>() {
@@ -69,7 +65,7 @@ class QuestLogScreen(private val questLog: QuestLog, private val button: QuestLo
   }
 
   override fun open(callback: (screen: QuestLogScreen) -> Unit) {
-    this.callback =  callback
+    this.callback = callback
     toggle()
   }
 

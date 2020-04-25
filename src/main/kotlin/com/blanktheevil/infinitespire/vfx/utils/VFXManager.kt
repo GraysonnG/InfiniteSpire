@@ -48,7 +48,7 @@ object VFXManager {
   }
 
   fun generateRandomPointAlongEdgeOfTriangle(x: Float, y: Float, size: Float, angle: Float): Vector2 =
-    when(MathUtils.random(0, 2)) {
+    when (MathUtils.random(0, 2)) {
       0 -> {
         val point = generatePointAtDistanceWithAngle(
           x,
@@ -100,10 +100,10 @@ object VFXManager {
     return point
   }
 
-  fun generateRandomPointAlongLine(x: Float, y: Float, length: Float, angle:Float): Vector2 {
+  fun generateRandomPointAlongLine(x: Float, y: Float, length: Float, angle: Float): Vector2 {
     val pos = MathUtils.randomBoolean()
 
-    return if(pos) {
+    return if (pos) {
       generatePointAtDistanceWithAngle(x, y, MathUtils.random(0f, length.div(2)), angle)
     } else {
       generatePointAtDistanceWithAngle(x, y, -MathUtils.random(0f, length.div(2)), angle)

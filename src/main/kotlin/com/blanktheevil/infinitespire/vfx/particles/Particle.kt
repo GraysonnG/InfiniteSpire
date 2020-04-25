@@ -2,14 +2,13 @@ package com.blanktheevil.infinitespire.vfx.particles
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
-import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 
 abstract class Particle : SpireElement {
   abstract fun isDead(): Boolean
 
-  fun toStsEffect(): AbstractGameEffect = object: AbstractGameEffect() {
+  fun toStsEffect(): AbstractGameEffect = object : AbstractGameEffect() {
     var particle: Particle? = this@Particle
 
     init {

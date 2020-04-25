@@ -14,7 +14,7 @@ object NodeVFXManager {
   private var flameVfxTimer = 0f
 
   fun render(node: MapRoomNode, sb: SpriteBatch) {
-    if(node.room is AvhariRoom) {
+    if (node.room is AvhariRoom) {
       val scale = ReflectionHacks.getPrivate(
         node,
         MapRoomNode::class.java,
@@ -29,7 +29,7 @@ object NodeVFXManager {
   }
 
   fun update(node: MapRoomNode) {
-    if(node.room is AvhariRoom) {
+    if (node.room is AvhariRoom) {
       flameVfxTimer -= deltaTime
       if (flameVfxTimer < 0f) {
         flameVfxTimer = MathUtils.random(0.2f, 0.4f)

@@ -25,7 +25,7 @@ class BurningSword : Relic(ID, IMG, TIER, SOUND) {
   }
 
   override fun onPlayCard(card: AbstractCard?, monster: AbstractMonster?) {
-    if(card != null && card.type == AbstractCard.CardType.ATTACK && attacksPlayed == 0) {
+    if (card != null && card.type == AbstractCard.CardType.ATTACK && attacksPlayed == 0) {
       addToBot(
         MakeTempCardInHandAction(Burn())
       )

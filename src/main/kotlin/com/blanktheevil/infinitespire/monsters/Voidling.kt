@@ -79,7 +79,8 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : AbstractMonster(
         state.setAnimation(0, "attack", false)
         state.addAnimation(0, "idle", true, 0.0f)
       }
-      else -> {}
+      else -> {
+      }
     }
   }
 
@@ -104,7 +105,7 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : AbstractMonster(
   }
 
   override fun takeTurn() {
-    when(nextMove) {
+    when (nextMove) {
       MoveBytes.TACKLE -> {
         addToBot(
           ChangeStateAction(this, "ATTACK")

@@ -1,8 +1,8 @@
 package com.blanktheevil.infinitespire.cards.black
 
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.extensions.applyHeal
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 
 @Suppress("unused")
 class Starlight : BlackCard(BUILDER) {
@@ -15,7 +15,7 @@ class Starlight : BlackCard(BUILDER) {
       .cost(1)
       .skill()
       .self()
-      .use { p,_ ->
+      .use { p, _ ->
         p?.applyHeal(magicNumber)
       }
       .init {

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 
-abstract class Screen<T>: SpireElement {
+abstract class Screen<T> : SpireElement {
   var show = false
   var callback: (screen: T) -> Unit = {}
   protected val uiElements = mutableListOf<IUIElement>()

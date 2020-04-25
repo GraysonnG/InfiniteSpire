@@ -5,11 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.scale
-import com.blanktheevil.infinitespire.interfaces.SpireElement
+import com.blanktheevil.infinitespire.textures.Textures
 
 
 class BlackCardParticle(

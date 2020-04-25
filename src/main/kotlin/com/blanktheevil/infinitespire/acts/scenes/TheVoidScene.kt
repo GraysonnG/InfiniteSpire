@@ -15,7 +15,6 @@ class TheVoidScene : AbstractScene(ATLAS_URL) {
   }
 
 
-
   override fun renderCombatRoomBg(sb: SpriteBatch) {
     renderAtlasRegionIf(sb, this.bg, true)
   }

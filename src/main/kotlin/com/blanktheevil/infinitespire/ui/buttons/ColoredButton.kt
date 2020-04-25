@@ -3,11 +3,11 @@ package com.blanktheevil.infinitespire.ui.buttons
 import basemod.IUIElement
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.FontHelper

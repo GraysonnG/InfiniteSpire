@@ -8,7 +8,7 @@ import com.megacrit.cardcrawl.helpers.RelicLibrary
 import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.relics.Circlet
 
-class CubicDiamond : Relic(ID, IMG, TIER, SOUND){
+class CubicDiamond : Relic(ID, IMG, TIER, SOUND) {
   companion object {
     val ID = "Cubic Diamond".makeID()
     private const val IMG = "cubicdiamond"

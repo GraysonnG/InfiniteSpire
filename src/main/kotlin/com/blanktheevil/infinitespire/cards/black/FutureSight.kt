@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.cards.black
 
-import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
+import com.blanktheevil.infinitespire.extensions.makeID
 import com.megacrit.cardcrawl.actions.common.GainEnergyAction
 
 class FutureSight : BlackCard(BUILDER) {
@@ -14,7 +14,7 @@ class FutureSight : BlackCard(BUILDER) {
       .skill()
       .self()
       .cost(1)
-      .use { _,_ ->
+      .use { _, _ ->
         addToBot(GainEnergyAction(magicNumber))
       }
       .init {

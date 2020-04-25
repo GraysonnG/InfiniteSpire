@@ -1,19 +1,15 @@
 package com.blanktheevil.infinitespire.stances
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
-import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
-import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
-import com.megacrit.cardcrawl.helpers.MathHelper
 import com.megacrit.cardcrawl.powers.DexterityPower
 import com.megacrit.cardcrawl.powers.StrengthPower
 import com.megacrit.cardcrawl.stances.AbstractStance
@@ -46,7 +42,7 @@ class UltimateStance : AbstractStance() {
 
     if (!Settings.DISABLE_EFFECTS) {
       particleTimer -= deltaTime
-      if(particleTimer < 0f) {
+      if (particleTimer < 0f) {
         particleTimer = 0.01f
         AbstractDungeon.effectsQueue.add(createParticle())
       }

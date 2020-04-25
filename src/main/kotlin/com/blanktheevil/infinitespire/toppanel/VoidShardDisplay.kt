@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.acts.TheVoid
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.additiveMode
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.normalMode
 import com.blanktheevil.infinitespire.extensions.scale
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.FontHelper

@@ -77,7 +77,6 @@ class TheVoid : CustomDungeon {
   }
 
 
-
   override fun initializeBoss() {
     AbstractDungeon.bossList.also {
       it.add(Encounters.NIGHTMARE_BOSS)

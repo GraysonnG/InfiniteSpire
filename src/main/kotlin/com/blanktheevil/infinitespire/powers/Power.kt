@@ -20,7 +20,7 @@ abstract class Power(
   canGoNegative: Boolean = false,
   val strings: PowerStrings = languagePack.getPowerStrings(id)
 ) : AbstractPower(), CloneablePowerInterface {
-  constructor(owner: AbstractCreature, amount: Int, builder: PowerBuilder): this(
+  constructor(owner: AbstractCreature, amount: Int, builder: PowerBuilder) : this(
     owner,
     amount,
     builder.id,

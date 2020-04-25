@@ -12,7 +12,7 @@ class BlackCardParticleSystem(
   private val createNewParticle: () -> BlackCardParticle,
   private val shouldCreateParticle: () -> Boolean = { true },
   private val particleTimerReset: () -> Float = { MathUtils.random(0.01f, 0.02f) }
-): SpireElement {
+) : SpireElement {
 
   private val particles = mutableListOf<BlackCardParticle>()
   private var particleTimer = 0f

@@ -12,14 +12,17 @@ object EnumPatches {
     @SpireEnum
     lateinit var INFINITE_BLACK: AbstractCard.CardColor
   }
+
   object CardRarity {
     @SpireEnum
     lateinit var BLACK: AbstractCard.CardRarity
   }
+
   object LibColor {
     @SpireEnum
     lateinit var INFINITE_BLACK: CardLibrary.LibraryType
   }
+
   object RewardType {
     @SpireEnum
     lateinit var BLACK_CARD: RewardItem.RewardType

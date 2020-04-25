@@ -30,7 +30,7 @@ abstract class Quest(
     TODO("implement abandon")
   }
 
-  fun getReward() : QuestReward = QuestReward.getQuestRewardById(rewardID)
+  fun getReward(): QuestReward = QuestReward.getQuestRewardById(rewardID)
 
   fun onQuestComplete() {
     QuestCompleteInterface.subscribers.forEach {

@@ -5,7 +5,6 @@ import com.blanktheevil.infinitespire.crossover.Crossover
 import com.blanktheevil.infinitespire.crossover.cards.black.DarkHarmony
 import com.blanktheevil.infinitespire.extensions.log
 import com.evacipated.cardcrawl.modthespire.Loader
-import java.util.function.Consumer
 
 object CrossoverManager {
   private val crossovers = mutableListOf<Crossover>()
@@ -25,7 +24,8 @@ object CrossoverManager {
   fun addCrossoverContent() {
     crossovers.stream()
       .filter {
-        Loader.isModLoaded(it.modid) }
+        Loader.isModLoaded(it.modid)
+      }
       .forEach {
         log.info("Found Mod: ${it.modid}")
         log.info("|\tLoading Crossover Content...")

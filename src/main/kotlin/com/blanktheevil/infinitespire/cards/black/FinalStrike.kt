@@ -1,18 +1,16 @@
 package com.blanktheevil.infinitespire.cards.black
 
+import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
-import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.vfx.FinalStrikeVfx
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.animations.VFXAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
-import com.megacrit.cardcrawl.actions.utility.WaitAction
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.cards.CardGroup
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.cards.red.PerfectedStrike
-import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import kotlin.math.floor
 import kotlin.streams.toList

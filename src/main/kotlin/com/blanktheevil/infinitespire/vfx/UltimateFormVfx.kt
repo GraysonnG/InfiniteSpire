@@ -1,11 +1,8 @@
 package com.blanktheevil.infinitespire.vfx
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.MathUtils
-import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.doNothing
-import com.blanktheevil.infinitespire.extensions.toRadians
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager

@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Bezier
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.Vector2
-import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.extensions.clamp
+import com.blanktheevil.infinitespire.extensions.deltaTime
+import com.blanktheevil.infinitespire.extensions.player
+import com.blanktheevil.infinitespire.extensions.scale
 import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.core.GameCursor
 import com.megacrit.cardcrawl.core.Settings

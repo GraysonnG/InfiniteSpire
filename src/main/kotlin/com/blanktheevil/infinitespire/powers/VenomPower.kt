@@ -64,7 +64,7 @@ class VenomPower(
   }
 
   override fun onMonsterDeath(monster: AbstractMonster) {
-    if(source == monster) {
+    if (source == monster) {
       addToBot(HealAction(owner, owner, this.amount2))
       this.amount = 0
       this.amount2 = 0
@@ -72,7 +72,7 @@ class VenomPower(
   }
 
   override fun update(slot: Int) {
-    if(amount > 0) {
+    if (amount > 0) {
       capAmount()
     }
     super.update(slot)

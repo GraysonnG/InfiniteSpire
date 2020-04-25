@@ -80,7 +80,7 @@ fun AbstractCreature.applyHeal(
   source: AbstractCreature = this,
   top: Boolean = false
 ) {
-  if(!top) {
+  if (!top) {
     actionManager.addToBottom(
       HealAction(this, source, amount)
     )

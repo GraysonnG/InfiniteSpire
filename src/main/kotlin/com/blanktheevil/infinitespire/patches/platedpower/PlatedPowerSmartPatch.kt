@@ -14,7 +14,7 @@ import javassist.Modifier
 import org.clapper.util.classutil.*
 import java.io.File
 import java.net.URISyntaxException
-import java.util.ArrayList
+import java.util.*
 
 @Suppress("unused")
 @SpirePatch(clz = AbstractPower::class, method = SpirePatch.CONSTRUCTOR)
@@ -40,8 +40,8 @@ object PlatedPowerSmartPatch {
             .filter {
               it != null && (
                   RemovePowerLocator().Locate(it).isNotEmpty() ||
-                  ReducePowerLocator().Locate(it).isNotEmpty()
-                )
+                      ReducePowerLocator().Locate(it).isNotEmpty()
+                  )
             }
             .forEach {
               it.instrument(PlatedPowerInstrument())

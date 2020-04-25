@@ -1,9 +1,9 @@
 package com.blanktheevil.infinitespire.cards.utils
 
 import com.blanktheevil.infinitespire.cards.Card
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.patches.EnumPatches
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.cards.AbstractCard
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.monsters.AbstractMonster
@@ -18,7 +18,7 @@ class CardBuilder(
   var color: AbstractCard.CardColor = AbstractCard.CardColor.COLORLESS,
   var cost: Int = 0,
   var exhaust: Boolean = false,
-  var use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = {_,_ -> },
+  var use: Card.(player: AbstractPlayer?, monster: AbstractMonster?) -> Unit = { _, _ -> },
   var init: Card.() -> Unit = {},
   var upgr: Card.() -> Unit = {}
 ) {
@@ -45,6 +45,7 @@ class CardBuilder(
     this.rarity = AbstractCard.CardRarity.CURSE
     this.color = AbstractCard.CardColor.CURSE
   }
+
   fun basic(): CardBuilder = apply { this.rarity = AbstractCard.CardRarity.BASIC }
   fun attack(): CardBuilder = apply { this.type = AbstractCard.CardType.ATTACK }
   fun skill(): CardBuilder = apply { this.type = AbstractCard.CardType.SKILL }
@@ -56,8 +57,8 @@ class CardBuilder(
   fun all(): CardBuilder = apply { this.target = AbstractCard.CardTarget.ALL }
   fun none(): CardBuilder = apply { this.target = AbstractCard.CardTarget.NONE }
   fun build(): Card = if (this.color == EnumPatches.CardColor.INFINITE_BLACK) {
-    object: BlackCard(this@CardBuilder) {}
+    object : BlackCard(this@CardBuilder) {}
   } else {
-    object: Card(this@CardBuilder) {}
+    object : Card(this@CardBuilder) {}
   }
 }
