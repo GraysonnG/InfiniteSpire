@@ -75,10 +75,7 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
   }
 
   private fun renderFlash(sb: SpriteBatch) {
-
     val tmp = Interpolation.exp10In.apply(0f, 4f, flashTimer / FLASH_ANIM_TIME)
-
-    log.info("$flashTimer/$FLASH_ANIM_TIME : Interp:$tmp")
 
     sb.additiveMode()
     sb.color = Color.WHITE.cpy().also { it.a = flashTimer / FLASH_ANIM_TIME }
