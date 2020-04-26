@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.extensions.additiveMode
-import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.extensions.normalMode
-import com.blanktheevil.infinitespire.extensions.scale
+import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
@@ -26,6 +23,8 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
   }
 
   var flashTimer = 0.0f
+
+  override fun isClickable(): Boolean = false
 
   override fun onClick() {
     CardCrawlGame.sound.play("RELIC_DROP_MAGICAL")
@@ -47,9 +46,10 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
   }
 
   private fun updateFlash() {
-    if (flashTimer != 0.0f) {
+    if (flashTimer >= 0.0f) {
       flashTimer -= Gdx.graphics.rawDeltaTime
     }
+    flashTimer = flashTimer.clamp(0f, FLASH_ANIM_TIME)
   }
 
   private fun renderCount(sb: SpriteBatch) {
@@ -75,10 +75,13 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
   }
 
   private fun renderFlash(sb: SpriteBatch) {
+
     val tmp = Interpolation.exp10In.apply(0f, 4f, flashTimer / FLASH_ANIM_TIME)
 
+    log.info("$flashTimer/$FLASH_ANIM_TIME : Interp:$tmp")
+
     sb.additiveMode()
-    sb.color = Color.WHITE.cpy().also { it.a = flashTimer * FLASH_ANIM_TIME }
+    sb.color = Color.WHITE.cpy().also { it.a = flashTimer / FLASH_ANIM_TIME }
 
     renderImageWithScale(sb, scale.plus(tmp))
     renderImageWithScale(sb, scale.plus(tmp.times(0.66f)))
