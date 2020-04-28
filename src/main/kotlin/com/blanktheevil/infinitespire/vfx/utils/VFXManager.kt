@@ -111,8 +111,8 @@ object VFXManager {
   }
 
   fun generatePointAlongEdgeOfCircle(x: Float, y: Float, radius: Float, degrees: Float): Vector2 {
-    val pX = cos(degrees).times(radius).plus(x)
-    val pY = sin(degrees).times(radius).plus(y)
+    val pX = cos(degrees.toRadians()).times(radius).plus(x)
+    val pY = sin(degrees.toRadians()).times(radius).plus(y)
     return Vector2(pX, pY)
   }
 

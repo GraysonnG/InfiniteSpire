@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.acts.TheVoid
+import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
@@ -33,6 +34,9 @@ class VoidOption : SpireElement, SpireClickable {
     private val BREAKPOINT_X = 1550f.scale()
     private val START_Y = 210f.scale()
     private val BREAKPOINT_Y = 720f.scale()
+    private const val TEXT = "Enter The Void"
+    private const val TEXTURE = "campfire/voidoption.png"
+    private const val TEXTURE_HG = "campfire/voidoption-hg.png"
   }
 
   var scale = NORM_SCALE
@@ -90,37 +94,37 @@ class VoidOption : SpireElement, SpireClickable {
   }
 
   override fun render(sb: SpriteBatch) {
-    if (BehindTheScenesActNum.getActNum().rem(2) != 0 && !Settings.isDebug) {
+    if ((!ActManager.atLastCampfireInDungeon() || BehindTheScenesActNum.getActNum().rem(2) != 0) && !Settings.isDebug) {
       return
     }
 
     // Shadow
-    sb.color = Color.BLACK.cpy().apply {
-      a = 1.div(5f)
+    sb.color = Color.BLACK.cpy().also {
+      it.a = 1.div(5f)
     }
-    renderImage(sb, "campfire/voidoption.png")
+    renderImage(sb, TEXTURE)
 
     // Highlight
     val scaler = (scale - NORM_SCALE) * 10f / Settings.scale
-    sb.color = InfiniteSpire.PURPLE.cpy().apply {
-      a = scaler
+    sb.color = InfiniteSpire.PURPLE.cpy().also {
+      it.a = scaler
     }
-    renderImage(sb, "campfire/voidoption-hg.png")
+    renderImage(sb, TEXTURE_HG)
 
     // Particles
     particleSystem.render(sb)
 
     // Image
     sb.color = Color.WHITE.cpy()
-    renderImage(sb, "campfire/voidoption.png")
+    renderImage(sb, TEXTURE)
 
     FontHelper.renderFontCenteredTopAligned(
       sb,
       FontHelper.topPanelInfoFont,
-      "Enter The Void",
+      TEXT,
       hb.cX,
       hb.cY - 60f * Settings.scale - 50f * Settings.scale * (scale / Settings.scale),
-      Settings.GOLD_COLOR
+      Settings.GOLD_COLOR.cpy()
     )
 
     hb.render(sb)

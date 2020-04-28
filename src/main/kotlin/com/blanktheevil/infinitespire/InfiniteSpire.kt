@@ -15,8 +15,11 @@ import com.blanktheevil.infinitespire.models.ActStringsKt
 import com.blanktheevil.infinitespire.models.CardStringsKt
 import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.models.SaveData
+import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.quests.utils.QuestManager
 import com.blanktheevil.infinitespire.relics.utils.RelicManager
+import com.blanktheevil.infinitespire.rewards.EndlessUnlockReward
+import com.blanktheevil.infinitespire.rewards.VoidShardReward
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.PowerSelectScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
@@ -28,6 +31,7 @@ import com.blanktheevil.infinitespire.ui.campfire.VoidOption
 import com.blanktheevil.infinitespire.utils.LocalizationManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.rewards.RewardSave
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.IOException
@@ -110,6 +114,31 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     powerSelectScreen = PowerSelectScreen()
     targetMonsterScreen = TargetMonsterScreen()
     voidOption = VoidOption()
+
+    BaseMod.registerCustomReward(
+      EnumPatches.RewardType.VOID_SHARD,
+      BaseMod.LoadCustomReward {
+        return@LoadCustomReward VoidShardReward(it.amount)
+      },
+      BaseMod.SaveCustomReward {
+        return@SaveCustomReward RewardSave(
+          it.type.toString(),
+          null,
+          (it as VoidShardReward).amountOfShards,
+          0
+        )
+      }
+    )
+
+    BaseMod.registerCustomReward(
+      EnumPatches.RewardType.ENDLESS,
+      BaseMod.LoadCustomReward {
+        return@LoadCustomReward EndlessUnlockReward()
+      },
+      BaseMod.SaveCustomReward {
+        return@SaveCustomReward RewardSave(it.type.toString(), null)
+      }
+    )
 
     BaseMod.addTopPanelItem(questLogButton)
     BaseMod.addTopPanelItem(voidShardDisplay)

@@ -35,5 +35,8 @@ object EnumPatches {
 
     @SpireEnum
     lateinit var VOID_SHARD: RewardItem.RewardType
+
+    @SpireEnum
+    lateinit var ENDLESS: RewardItem.RewardType
   }
 }

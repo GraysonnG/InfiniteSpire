@@ -22,7 +22,7 @@ object TextureLoaderKt {
 
   fun exists(texturePath: String): Boolean {
     return try {
-      loadTexture(texturePath)
+      val dispose: Texture = loadTexture(texturePath)
       true
     } catch (e: Exception) {
       logger.error("Could not find texture: $texturePath")

@@ -186,10 +186,6 @@ class Nightmare :
     var actNum = BehindTheScenesActNum.getActNum()
     BehindTheScenesActNum.setActNum(--actNum)
     log.info("Set Current Act Num: $actNum")
-
-    Settings.isEndless = true
-    AbstractDungeon.topPanel.setPlayerName()
-
     super.die()
   }
 

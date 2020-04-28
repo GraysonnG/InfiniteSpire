@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Texture
 import com.blanktheevil.infinitespire.InfiniteSpire
 
 class TextureGetter(private val folder: String) {
-  fun get(texture: String): Texture = TextureLoaderKt.getTexture(getString(texture))
+  fun get(texture: String): Texture = TextureLoaderKt.getTexture(getString(texture, true))
   fun getString(texture: String, ignoreValidation: Boolean = false): String {
+    val finalString = getString(folder, texture)
+    val validated = if(!ignoreValidation) TextureLoaderKt.exists(finalString) else true
+
     return when {
-      ignoreValidation -> getString(folder, texture)
-      TextureLoaderKt.exists(getString(folder, texture)) -> getString(folder, texture)
+      validated -> finalString
       else -> Textures.missingTexturePath
     }
   }

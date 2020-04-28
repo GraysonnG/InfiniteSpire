@@ -14,7 +14,7 @@ class BlackCardParticleSystem(
   private val particleTimerReset: () -> Float = { MathUtils.random(0.01f, 0.02f) }
 ) : SpireElement {
 
-  private val particles = mutableListOf<BlackCardParticle>()
+  private val particles = ArrayList<BlackCardParticle?>()
   private var particleTimer = 0f
 
   fun addParticles(amount: Int, createNewParticle: () -> BlackCardParticle = this.createNewParticle) {
@@ -39,13 +39,11 @@ class BlackCardParticleSystem(
       particleTimer = particleTimerReset.invoke()
     }
 
-    particles.asSequence()
-      .forEach { it.update() }
-    particles.removeIf { it.isDead() }
+    particles.forEach { it?.update() }
+    particles.removeIf { it!!.isDead() }
   }
 
   override fun render(sb: SpriteBatch) {
-    particles.asSequence()
-      .forEach { it.render(sb) }
+    particles.forEach { it?.render(sb) }
   }
 }

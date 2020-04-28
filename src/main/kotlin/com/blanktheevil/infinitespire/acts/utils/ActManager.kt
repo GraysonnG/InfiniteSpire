@@ -4,17 +4,20 @@ import actlikeit.dungeons.CustomDungeon
 import basemod.BaseMod
 import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.extensions.connectToNode
+import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.monsters.CorruptedShapes
 import com.blanktheevil.infinitespire.monsters.Nightmare
 import com.blanktheevil.infinitespire.monsters.Voidling
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
 import com.blanktheevil.infinitespire.textures.Textures
+import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.map.MapRoomNode
 import com.megacrit.cardcrawl.monsters.MonsterGroup
 import com.megacrit.cardcrawl.monsters.MonsterInfo
 import com.megacrit.cardcrawl.monsters.city.Healer
 import com.megacrit.cardcrawl.rooms.AbstractRoom
+import com.megacrit.cardcrawl.rooms.MonsterRoomBoss
 
 object ActManager {
   fun init() {
@@ -82,5 +85,14 @@ object ActManager {
         }
       }
     }
+  }
+
+  fun atLastCampfireInDungeon(): Boolean {
+    AbstractDungeon.map[AbstractDungeon.map.size - 1].forEach {
+      if (AbstractDungeon.currMapNode == it && AbstractDungeon.id != TheVoid.ID) {
+        return true
+      }
+    }
+    return false
   }
 }
