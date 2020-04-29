@@ -1,24 +1,31 @@
 package com.blanktheevil.infinitespire.crossover.utils
 
+import basemod.BaseMod
+import basemod.helpers.RelicType
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.Crossover
 import com.blanktheevil.infinitespire.crossover.cards.black.DarkHarmony
 import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.relics.BrokenMirror
+import com.blanktheevil.infinitespire.relics.EvilPickle
 import com.evacipated.cardcrawl.modthespire.Loader
 
 object CrossoverManager {
   private val crossovers = mutableListOf<Crossover>()
 
   fun init() {
-    addCrossover(Crossover("ReplayTheSpireMod"))
-    addCrossover(Crossover("hubris"))
-    addCrossover(Crossover("bard") {
+    addCrossover("ReplayTheSpireMod") {
+      BaseMod.addRelic(BrokenMirror(), RelicType.SHARED)
+      BaseMod.addRelic(EvilPickle(), RelicType.SHARED)
+    }
+    addCrossover("hubris")
+    addCrossover("bard") {
       CardManager.addBlackCard(DarkHarmony())
-    })
+    }
   }
 
-  private fun addCrossover(crossover: Crossover) {
-    crossovers.add(crossover)
+  private fun addCrossover(modid: String, content: () -> Unit = {}) {
+    crossovers.add(Crossover(modid, content))
   }
 
   fun addCrossoverContent() {

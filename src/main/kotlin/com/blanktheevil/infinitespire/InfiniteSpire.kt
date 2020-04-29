@@ -19,7 +19,9 @@ import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.quests.utils.QuestManager
 import com.blanktheevil.infinitespire.relics.utils.RelicManager
 import com.blanktheevil.infinitespire.rewards.EndlessUnlockReward
+import com.blanktheevil.infinitespire.rewards.InterestReward
 import com.blanktheevil.infinitespire.rewards.VoidShardReward
+import com.blanktheevil.infinitespire.rewards.utils.RewardManager
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.PowerSelectScreen
 import com.blanktheevil.infinitespire.screens.QuestLogScreen
@@ -115,30 +117,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     targetMonsterScreen = TargetMonsterScreen()
     voidOption = VoidOption()
 
-    BaseMod.registerCustomReward(
-      EnumPatches.RewardType.VOID_SHARD,
-      BaseMod.LoadCustomReward {
-        return@LoadCustomReward VoidShardReward(it.amount)
-      },
-      BaseMod.SaveCustomReward {
-        return@SaveCustomReward RewardSave(
-          it.type.toString(),
-          null,
-          (it as VoidShardReward).amountOfShards,
-          0
-        )
-      }
-    )
-
-    BaseMod.registerCustomReward(
-      EnumPatches.RewardType.ENDLESS,
-      BaseMod.LoadCustomReward {
-        return@LoadCustomReward EndlessUnlockReward()
-      },
-      BaseMod.SaveCustomReward {
-        return@SaveCustomReward RewardSave(it.type.toString(), null)
-      }
-    )
+    RewardManager.registerRewards()
 
     BaseMod.addTopPanelItem(questLogButton)
     BaseMod.addTopPanelItem(voidShardDisplay)

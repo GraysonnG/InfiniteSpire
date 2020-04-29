@@ -10,7 +10,7 @@
 		"NAME" : "Golem's Mask",
 		"FLAVOR" : "Just like the golem, slow and steady.",
 		"DESCRIPTIONS" : [
-			"On the first turn of combat, gain #yGolem's #yMight."
+			"Each turn your attacks deal #b10% more damage than the last turn."
 		]
 	},
 	"${project.artifactId}:Lychee Nut" : {
