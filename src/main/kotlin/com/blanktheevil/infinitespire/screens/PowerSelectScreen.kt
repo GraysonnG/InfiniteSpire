@@ -2,6 +2,8 @@ package com.blanktheevil.infinitespire.screens
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.blanktheevil.infinitespire.extensions.languagePack
+import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.ui.buttons.PowerButton
 import com.blanktheevil.infinitespire.vfx.DarkBgEffect
 import com.megacrit.cardcrawl.core.Settings
@@ -10,6 +12,9 @@ import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.powers.AbstractPower
 
 class PowerSelectScreen : Screen<PowerSelectScreen>() {
+  companion object {
+    private val strings = languagePack.getUIString("PowerSelectScreen".makeID())
+  }
   var powerButtons = List(8) { PowerButton(0f, 0f) }
 
   var selectedPower: AbstractPower? = null
@@ -46,7 +51,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
     FontHelper.renderFontCentered(
       sb,
       FontHelper.buttonLabelFont,
-      "Select A Power",
+      strings.TEXT[0],
       Settings.WIDTH.div(2f),
       Settings.HEIGHT.div(3f).times(2f),
       Color.WHITE.cpy()

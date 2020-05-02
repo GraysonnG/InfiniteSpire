@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.acts.utils.ActManager
+import com.blanktheevil.infinitespire.extensions.languagePack
+import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
@@ -34,7 +36,7 @@ class VoidOption : SpireElement, SpireClickable {
     private val BREAKPOINT_X = 1550f.scale()
     private val START_Y = 210f.scale()
     private val BREAKPOINT_Y = 720f.scale()
-    private const val TEXT = "Enter The Void"
+    private val TEXT = languagePack.getUIString("VoidOption".makeID()).TEXT[0]
     private const val TEXTURE = "campfire/voidoption.png"
     private const val TEXTURE_HG = "campfire/voidoption-hg.png"
   }

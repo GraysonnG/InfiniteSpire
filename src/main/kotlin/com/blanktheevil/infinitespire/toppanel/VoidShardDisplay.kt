@@ -19,7 +19,7 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
     val ID = "VoidDisplay".makeID()
     private const val FLASH_ANIM_TIME = 2.0f
     private val TIP_Y_POS = Settings.HEIGHT.minus(120.0f.scale())
-    private val STRINGS = CardCrawlGame.languagePack.getUIString("VoidShard")
+    private val STRINGS = languagePack.getUIString("VoidShard")
   }
 
   var flashTimer = 0.0f

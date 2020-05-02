@@ -12,6 +12,16 @@
 			"Unlock Endless"
 		]
 	},
+	"${project.artifactId}:VoidOption": {
+		"TEXT": [
+			"Enter The Void"
+		]
+	},
+	"${project.artifactId}:PowerSelectScreen": {
+		"TEXT": [
+			"Select A Power"
+		]
+	},
 	"VoidShard": {
 		"TEXT": [
 			"Void Shard",

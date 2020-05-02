@@ -7,6 +7,7 @@ import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.cards.Card
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.cards.black.FinalStrike
+import com.blanktheevil.infinitespire.cards.variables.PoisonVariable
 import com.blanktheevil.infinitespire.extensions.getRandomItem
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.patches.utils.filters.NotPackageFilter
@@ -27,6 +28,7 @@ object CardManager {
   }
 
   fun addAllCards() {
+    addCustomVariables()
     AutoAdd(InfiniteSpire.modid)
       .packageFilter(Card::class.java)
       .filter(NotPackageFilter(CardManager::class.java))
@@ -37,6 +39,10 @@ object CardManager {
           UnlockTracker.markCardAsSeen(card.cardID)
         }
       }
+  }
+
+  private fun addCustomVariables() {
+    BaseMod.addDynamicVariable(PoisonVariable())
   }
 
   @JvmStatic
