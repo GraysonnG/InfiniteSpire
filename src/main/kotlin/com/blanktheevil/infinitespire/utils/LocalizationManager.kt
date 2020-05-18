@@ -4,6 +4,7 @@ import basemod.BaseMod
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.models.ActStringsKt
 import com.blanktheevil.infinitespire.models.CardStringsKt
+import com.blanktheevil.infinitespire.models.QuestStringsKt
 import com.google.gson.reflect.TypeToken
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.localization.*
@@ -25,6 +26,11 @@ object LocalizationManager {
     InfiniteSpire.actStringsKt = JSONHelper.readFileAsMapOf(
       makePath(language, "acts"),
       object : TypeToken<Map<String, ActStringsKt>>() {}
+    )
+
+    InfiniteSpire.questStringsKt = JSONHelper.readFileAsMapOf(
+      makePath(language, "quests"),
+      object: TypeToken<Map<String, QuestStringsKt>>() {}
     )
 
     BaseMod.loadCustomStringsFile(StanceStrings::class.java, makePath(language, "stances"))

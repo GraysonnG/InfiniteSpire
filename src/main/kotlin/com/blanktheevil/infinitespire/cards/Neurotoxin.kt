@@ -13,7 +13,7 @@ class Neurotoxin : Card(BUILDER) {
     private const val POISON_CREEP_UPG = 3
     private const val MAGIC = 1
     private val BUILDER = CardBuilder(ID)
-      .img("neurotoxin")
+      .img("neurotoxin.png")
       .cost(1)
       .skill()
       .enemy()

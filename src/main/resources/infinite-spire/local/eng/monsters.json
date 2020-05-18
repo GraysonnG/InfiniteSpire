@@ -24,7 +24,7 @@
 		"NAME": "Nightmare Alpha",
 		"DIALOG": []
 	},
-	"LordOfAnnihilation":{
+	"${project.artifactId}:LordOfAnnihilation":{
 		"MOVES": [
 			"Temporal Rift",
 			"Absolute Burial",
@@ -33,7 +33,7 @@
 			"Defend Order",
 			"Divine Shield"
 		],
-		"NAME": "The Lord of Annihilation",
+		"NAME": "Lord of Annihilation",
 		"DIALOG": []
 	},
     "ShieldPylon":{

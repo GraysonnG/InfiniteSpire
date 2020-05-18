@@ -14,5 +14,6 @@ object ScreensRenderPatch {
   fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
     InfiniteSpire.powerSelectScreen.render(sb)
     InfiniteSpire.questLogScreen.render(sb)
+    InfiniteSpire.questLogPanel.render(sb)
   }
 }

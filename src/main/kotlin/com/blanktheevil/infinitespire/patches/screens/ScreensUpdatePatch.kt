@@ -13,5 +13,6 @@ object ScreensUpdatePatch {
   fun run(dungeon: AbstractDungeon) {
     InfiniteSpire.powerSelectScreen.update()
     InfiniteSpire.questLogScreen.update()
+    InfiniteSpire.questLogPanel.update()
   }
 }

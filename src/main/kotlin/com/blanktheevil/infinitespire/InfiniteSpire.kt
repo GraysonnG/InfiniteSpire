@@ -1,20 +1,14 @@
 package com.blanktheevil.infinitespire
 
 import basemod.BaseMod
-import basemod.interfaces.EditCardsSubscriber
-import basemod.interfaces.EditRelicsSubscriber
-import basemod.interfaces.EditStringsSubscriber
-import basemod.interfaces.PostInitializeSubscriber
+import basemod.interfaces.*
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
 import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
 import com.blanktheevil.infinitespire.interfaces.utils.SubscriberManager
-import com.blanktheevil.infinitespire.models.ActStringsKt
-import com.blanktheevil.infinitespire.models.CardStringsKt
-import com.blanktheevil.infinitespire.models.QuestLog
-import com.blanktheevil.infinitespire.models.SaveData
+import com.blanktheevil.infinitespire.models.*
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.quests.utils.QuestManager
 import com.blanktheevil.infinitespire.relics.utils.RelicManager
@@ -30,9 +24,12 @@ import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.toppanel.QuestLogButton
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.ui.campfire.VoidOption
+import com.blanktheevil.infinitespire.ui.panels.QuestLogPanel
 import com.blanktheevil.infinitespire.utils.LocalizationManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon
+import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.rewards.RewardSave
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
@@ -40,7 +37,7 @@ import java.io.IOException
 import java.util.*
 
 @SpireInitializer
-class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStringsSubscriber, EditRelicsSubscriber {
+class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStringsSubscriber, EditRelicsSubscriber, PreStartGameSubscriber {
   companion object {
     val logger: Logger = LogManager.getLogger(InfiniteSpire::class.java.name)
     val PURPLE: Color = Color.valueOf("#3D00D6")
@@ -54,6 +51,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var description: String
     lateinit var questLogButton: QuestLogButton
     lateinit var questLogScreen: QuestLogScreen
+    lateinit var questLogPanel: QuestLogPanel
     lateinit var avhariScreen: AvhariScreen
     lateinit var powerSelectScreen: PowerSelectScreen
     lateinit var targetMonsterScreen: TargetMonsterScreen
@@ -62,6 +60,8 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
     lateinit var actStringsKt: Map<String, ActStringsKt>
+    lateinit var questStringsKt: Map<String, QuestStringsKt>
+    lateinit var questRng: Random
 
     @Suppress("unused")
     @JvmStatic
@@ -111,6 +111,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
 
     questLogButton = QuestLogButton()
     questLogScreen = QuestLogScreen(questLog, questLogButton)
+    questLogPanel = QuestLogPanel()
     avhariScreen = AvhariScreen()
     voidShardDisplay = VoidShardDisplay()
     powerSelectScreen = PowerSelectScreen()
@@ -124,5 +125,9 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     // some stuff
     CrossoverManager.addCrossoverContent()
     ActManager.init()
+  }
+
+  override fun receivePreStartGame() {
+    questRng = Random(Settings.seed)
   }
 }

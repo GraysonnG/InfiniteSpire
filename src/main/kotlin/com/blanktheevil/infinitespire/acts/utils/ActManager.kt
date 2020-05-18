@@ -6,6 +6,7 @@ import com.blanktheevil.infinitespire.acts.TheVoid
 import com.blanktheevil.infinitespire.extensions.connectToNode
 import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.monsters.CorruptedShapes
+import com.blanktheevil.infinitespire.monsters.LordOfAnnihilation
 import com.blanktheevil.infinitespire.monsters.Nightmare
 import com.blanktheevil.infinitespire.monsters.Voidling
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
@@ -43,6 +44,7 @@ object ActManager {
     })
     BaseMod.addMonster(Encounters.NIGHTMARE_BOSS, BaseMod.GetMonster { Nightmare() })
     BaseMod.addMonster(Encounters.CORRUPTED_SHAPES, BaseMod.GetMonster { CorruptedShapes() })
+    BaseMod.addMonster(LordOfAnnihilation.ID, BaseMod.GetMonster { LordOfAnnihilation() })
   }
 
   private fun registerEncounters() {

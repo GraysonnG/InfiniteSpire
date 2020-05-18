@@ -1,3 +1,21 @@
 {
-
+  "${project.artifactId}:IgnoreRelicQuest" : {
+    "NAME": "Ignore a Relic",
+    "DESCRIPTIONS": [
+      "Skip a relic after combat."
+    ]
+  },
+  "${project.artifactId}:InsultQuest" : {
+    "NAME": "Insult the Shop Keeper",
+    "DESCRIPTIONS": [
+      "Ruin the Shop Keeper's day by ",
+      "making fun of his hair.",
+      "burning him with a sick yo mamma joke.",
+      "calling his shoes wack.",
+      "dabbing on him.",
+      "stepping on his rug.",
+      "laughing at his mask.",
+      "telling him he can't fight."
+    ]
+  }
 }
