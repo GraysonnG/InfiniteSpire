@@ -31,5 +31,5 @@ object QuestManager {
     (quests.getRandomItem(InfiniteSpire.questRng) ?: TestQuest()).makeCopy()
 
   fun getQuestByID(questId: String) : Quest =
-    quests.first { it.questId == questId }
+    quests.first { it.questId == questId }.makeCopy()
 }

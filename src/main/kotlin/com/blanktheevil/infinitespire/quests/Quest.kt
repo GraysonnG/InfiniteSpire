@@ -35,7 +35,7 @@ abstract class Quest(
     subscribe()
   }
 
-  fun getReward(): QuestReward = QuestReward.getQuestRewardById(rewardID)
+  private fun getReward(): QuestReward = QuestReward.getQuestRewardById(rewardID)
 
   fun onQuestComplete() {
     QuestCompleteInterface.subscribers.forEach {

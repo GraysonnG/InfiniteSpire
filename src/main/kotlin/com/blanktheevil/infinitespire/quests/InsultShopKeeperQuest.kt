@@ -6,10 +6,13 @@ import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.textures.Textures
 
 class InsultShopKeeperQuest : Quest(
-  questId = "InsultQuest".makeID(),
+  questId = ID,
   questImg = Textures.ui.getString("questlog2/mystery.png"),
   color = Color.RED.cpy()
 ) {
+  companion object {
+    val ID = "InsultQuest".makeID()
+  }
   val randInsult = MathUtils.random(1, strings.DESCRIPTIONS.size.minus(2))
 
   override fun makeCopy(): Quest = InsultShopKeeperQuest()

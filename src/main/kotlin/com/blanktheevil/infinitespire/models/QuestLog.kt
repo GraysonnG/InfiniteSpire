@@ -25,10 +25,6 @@ class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable, ActCompl
 
   override fun afterConfigLoad(saveData: SaveData) {
     this.addAll(saveData.questLog)
-    this.clear()
-    for (i in 0 until MAX_QUESTS) {
-      this.add(InsultShopKeeperQuest())
-    }
   }
 
   override fun clearData(saveData: SaveData) {
