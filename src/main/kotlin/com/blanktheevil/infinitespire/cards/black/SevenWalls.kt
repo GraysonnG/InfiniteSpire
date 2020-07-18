@@ -2,7 +2,9 @@ package com.blanktheevil.infinitespire.cards.black
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.cards.utils.CardBuilder
+import com.blanktheevil.infinitespire.extensions.dealDamage
 import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.textures.Textures
 import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
@@ -47,18 +49,17 @@ class SevenWalls : BlackCard(BUILDER) {
             AddTemporaryHPAction(player, player, this.block)
           }
         )
-        addToBot(
-          DamageAction(
-            monster,
-            DamageInfo(player, damage, damageTypeForTurn),
-            AbstractGameAction.AttackEffect.BLUNT_HEAVY)
+        player.dealDamage(
+          monster!!,
+          damage,
+          AbstractGameAction.AttackEffect.BLUNT_HEAVY
         )
       }
   }
 
   override fun render(sb: SpriteBatch) {
     if (upgraded) {
-      textureImg = IMG_2
+      textureImg = Textures.cards.getString(IMG_2)
       loadCardImage(textureImg)
     }
     super.render(sb)

@@ -60,7 +60,7 @@
 	},
 	"${project.artifactId}:UltimateForm": {
 		"NAME": "Ultimate Form",
-		"DESCRIPTION": "Gain !M! Strength and Dexterity each turn. NL If you have orb slots gain !M! Focus each turn."
+		"DESCRIPTION": "DEBUG"
 	},
 	"${project.artifactId}:DarkHarmony": {
 		"NAME" : "Dark Harmony",
@@ -90,5 +90,9 @@
 		"NAME" : "Seal of Darkness",
 		"DESCRIPTION" : "Innate. NL Retain. NL Banish all enemies to another dimension. NL Fleeting."
 
+	},
+	"${project.artifactId}:Strike": {
+		"NAME" : "Strike",
+		"DESCRIPTION" : "Deal damage."
 	}
 }

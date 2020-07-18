@@ -15,7 +15,6 @@ object TopPanelInputUpdateSuppressor {
   @JvmStatic
   fun suppressInputs(): SpireReturn<Void> {
     return if (
-      InfiniteSpire.questLogScreen.isOpen() ||
       InfiniteSpire.powerSelectScreen.show
     ) {
       SpireReturn.Return(null)

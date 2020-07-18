@@ -12,7 +12,10 @@ import com.blanktheevil.infinitespire.InfiniteSpire
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.GameActionManager
 import com.megacrit.cardcrawl.actions.common.ApplyPowerAction
+import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.common.HealAction
+import com.megacrit.cardcrawl.cards.DamageInfo
+import com.megacrit.cardcrawl.cards.DamageInfo.DamageType
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.core.CardCrawlGame
@@ -106,10 +109,13 @@ fun Hitbox.move(vector2: Vector2) {
   this.cY = this.y.plus(this.height.div(2f))
 }
 
-fun <T> List<T>.getRandomItem(random: Random = Random()): T? {
-  return if (this.isNotEmpty()) {
-    this[random.random(this.size - 1)]
-  } else null
+fun <T> List<T>.getRandomItem(random: Random = Random()): T =
+  if (this.isNotEmpty()) this[random.random(this.size - 1)] else throw NullPointerException()
+
+fun <T> List<T>.forEachIndexedReversed(action: (index: Int, T) -> Unit) {
+  for (i in size - 1..0) {
+    action.invoke(i, this.elementAt(i))
+  }
 }
 
 fun MapRoomNode.connectToNode(dst: MapRoomNode) {
@@ -140,6 +146,45 @@ fun endPlayerTurn() {
 
 fun addToTop(action: AbstractGameAction) = AbstractDungeon.actionManager.addToTop(action)
 fun addToBot(action: AbstractGameAction) = AbstractDungeon.actionManager.addToBottom(action)
+
+fun AbstractCreature?.dealDamage(
+  target: AbstractCreature,
+  amount: Int = 0,
+  effect: AbstractGameAction.AttackEffect = AbstractGameAction.AttackEffect.NONE,
+  type: DamageType = DamageType.NORMAL,
+  source: AbstractCreature? = this,
+  toTop: Boolean = false
+) {
+  if (toTop) {
+    addToTop(
+      DamageAction(target, DamageInfo(
+        source, amount, type
+      ), effect)
+    )
+  } else {
+    addToBot(
+      DamageAction(target, DamageInfo(
+        source, amount, type
+      ), effect)
+    )
+  }
+}
+
+fun AbstractCreature?.dealThornsDamage(
+  target: AbstractCreature,
+  amount: Int = 0,
+  effect: AbstractGameAction.AttackEffect = AbstractGameAction.AttackEffect.NONE,
+  source: AbstractCreature? = this,
+  toTop: Boolean = false
+) = dealDamage(target, amount, effect, DamageType.THORNS, source, toTop)
+
+fun AbstractCreature?.dealHPDamage(
+  target: AbstractCreature,
+  amount: Int = 0,
+  effect: AbstractGameAction.AttackEffect = AbstractGameAction.AttackEffect.NONE,
+  source: AbstractCreature? = this,
+  toTop: Boolean = false
+) = dealDamage(target, amount, effect, DamageType.HP_LOSS, source, toTop)
 
 val allRelics: List<AbstractRelic>
   get() = mutableListOf<AbstractRelic>().also {

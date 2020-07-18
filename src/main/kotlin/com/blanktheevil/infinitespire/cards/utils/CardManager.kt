@@ -37,6 +37,7 @@ object CardManager {
         addCard(card)
         if (info.seen) {
           UnlockTracker.markCardAsSeen(card.cardID)
+          card.isSeen = true
         }
       }
   }
@@ -53,7 +54,7 @@ object CardManager {
 
   @JvmStatic
   fun getRandomBlackCard(): BlackCard =
-    (blackCards.getRandomItem(AbstractDungeon.cardRandomRng) ?: FinalStrike()).makeCopy() as BlackCard
+    blackCards.getRandomItem(AbstractDungeon.cardRandomRng).makeCopy() as BlackCard
 
   @JvmStatic
   fun addBlackCardColor() {

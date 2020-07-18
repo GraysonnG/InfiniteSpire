@@ -46,10 +46,6 @@ abstract class BottleRelic(
 
     if (group.size() > 0) {
       if (AbstractDungeon.isScreenUp) {
-        if (InfiniteSpire.questLogScreen.isOpen()) {
-          InfiniteSpire.questLogScreen.toggle()
-        }
-
         AbstractDungeon.dynamicBanner.hide()
         AbstractDungeon.overlayMenu.cancelButton.hide()
         AbstractDungeon.previousScreen = AbstractDungeon.screen

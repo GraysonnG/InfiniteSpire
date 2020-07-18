@@ -2,6 +2,7 @@ package com.blanktheevil.infinitespire.patches.neowevent
 
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.models.QuestLog
 import com.blanktheevil.infinitespire.quests.utils.QuestManager
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
@@ -14,7 +15,7 @@ object ConstructorPatch {
   @SpirePostfixPatch
   fun infiniteSetup(event: NeowEvent) {
     log.info("Adding 5 Quests to Quest Log...")
-    for (i in 0 until 5) {
+    for (i in 0 until QuestLog.MAX_QUESTS) {
       InfiniteSpire.questLog.add(
         QuestManager.getRandomQuest()
       )

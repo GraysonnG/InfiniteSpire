@@ -14,7 +14,7 @@
     <stsVersion>07-01-2019</stsVersion>
     <mtsVersion>3.11.0</mtsVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kotlin.version>1.3.70</kotlin.version>
+    <kotlin.version>1.3.72</kotlin.version>
   </properties>
 
   <dependencies>
@@ -83,11 +83,6 @@
     </dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib-jdk8</artifactId>
-      <version>${kotlin.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test</artifactId>
       <version>${kotlin.version}</version>
       <scope>test</scope>
@@ -96,6 +91,12 @@
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
       <version>${kotlin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-maven-plugin</artifactId>
+      <version>${kotlin.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>actlikeit</groupId>

@@ -9,12 +9,8 @@ import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
 import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
 import com.blanktheevil.infinitespire.interfaces.utils.SubscriberManager
 import com.blanktheevil.infinitespire.models.*
-import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.quests.utils.QuestManager
 import com.blanktheevil.infinitespire.relics.utils.RelicManager
-import com.blanktheevil.infinitespire.rewards.EndlessUnlockReward
-import com.blanktheevil.infinitespire.rewards.InterestReward
-import com.blanktheevil.infinitespire.rewards.VoidShardReward
 import com.blanktheevil.infinitespire.rewards.utils.RewardManager
 import com.blanktheevil.infinitespire.screens.AvhariScreen
 import com.blanktheevil.infinitespire.screens.PowerSelectScreen
@@ -28,9 +24,7 @@ import com.blanktheevil.infinitespire.ui.panels.QuestLogPanel
 import com.blanktheevil.infinitespire.utils.LocalizationManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
-import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.random.Random
-import com.megacrit.cardcrawl.rewards.RewardSave
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.IOException
@@ -49,8 +43,6 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var modid: String
     lateinit var author: String
     lateinit var description: String
-    lateinit var questLogButton: QuestLogButton
-    lateinit var questLogScreen: QuestLogScreen
     lateinit var questLogPanel: QuestLogPanel
     lateinit var avhariScreen: AvhariScreen
     lateinit var powerSelectScreen: PowerSelectScreen
@@ -109,8 +101,6 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   override fun receivePostInitialize() {
     addQuests()
 
-    questLogButton = QuestLogButton()
-    questLogScreen = QuestLogScreen(questLog, questLogButton)
     questLogPanel = QuestLogPanel()
     avhariScreen = AvhariScreen()
     voidShardDisplay = VoidShardDisplay()
@@ -120,9 +110,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
 
     RewardManager.registerRewards()
 
-    BaseMod.addTopPanelItem(questLogButton)
     BaseMod.addTopPanelItem(voidShardDisplay)
-    // some stuff
     CrossoverManager.addCrossoverContent()
     ActManager.init()
   }
