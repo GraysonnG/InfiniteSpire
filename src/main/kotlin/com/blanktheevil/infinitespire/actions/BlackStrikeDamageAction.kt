@@ -14,6 +14,7 @@ import kotlin.math.ceil
 class BlackStrikeDamageAction(target: AbstractCreature, damage: Int) : AbstractGameAction()  {
   companion object {
     private const val DELAY = 0.5f
+    private const val FIST_SCALE = 0.5f
   }
 
   private val hb: Hitbox = target.hb
@@ -44,7 +45,7 @@ class BlackStrikeDamageAction(target: AbstractCreature, damage: Int) : AbstractG
         override fun update() {
           if (!this@BlackStrikeDamageAction.target.isDying && !this@BlackStrikeDamageAction.target.isDead) {
             AbstractDungeon.effectList.add(
-              BlackStrikeLargeVfx(hb)
+              BlackStrikeLargeVfx(hb, FIST_SCALE)
             )
             addToBot(Wait(DELAY))
             player.dealDamage(this@BlackStrikeDamageAction.target, halfDamage, AttackEffect.NONE)

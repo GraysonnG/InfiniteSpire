@@ -15,7 +15,7 @@ import com.megacrit.cardcrawl.helpers.ScreenShake
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import kotlin.math.atan2
 
-class BlackStrikeLargeVfx(val hb: Hitbox) : AbstractGameEffect()  {
+class BlackStrikeLargeVfx(val hb: Hitbox, fistScale: Float = 1f) : AbstractGameEffect()  {
   companion object {
     private val IMG: TextureAtlas.AtlasRegion by lazy {
       Textures.vfx.get("strike/fist-l.png").asAtlasRegion()
@@ -27,8 +27,8 @@ class BlackStrikeLargeVfx(val hb: Hitbox) : AbstractGameEffect()  {
   private val yEnd = hb.cY.minus(IMG.packedHeight.div(2f))
   private val xStart = 0f
   private val yStart = Settings.HEIGHT.toFloat()
-  private val scaleStart = Settings.scale.div(2f)
-  private val scaleEnd = Settings.scale
+  private val scaleStart = fistScale.times(Settings.scale.div(2f))
+  private val scaleEnd = fistScale.times(Settings.scale)
   private var angle = 0f
   private var hasSoundPlayed = false
   private var hasScreenShook = false
@@ -49,8 +49,9 @@ class BlackStrikeLargeVfx(val hb: Hitbox) : AbstractGameEffect()  {
 
     val oneThird = this.startingDuration / 3f
     val twoThirds = oneThird * 2f
-
+    // first third of the animation nothing happens
     when {
+      // second third of the animation is the fist swinging in with low rumble on screen
       duration <= twoThirds && duration > oneThird -> {
         if (!hasScreenShook) {
           CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.LOW, ScreenShake.ShakeDur.LONG, true)
@@ -58,17 +59,19 @@ class BlackStrikeLargeVfx(val hb: Hitbox) : AbstractGameEffect()  {
         }
         updateData()
       }
+      // last third of the animation play the sound once shake screen really hard and shake the fist in place
       duration <= oneThird -> {
         if (!hasSoundPlayed) {
-          updateData()
+          updateData() // update data one last time to make sure "animation" is at the end of the "track"
           CardCrawlGame.screenShake.shake(ScreenShake.ShakeIntensity.HIGH, ScreenShake.ShakeDur.LONG, true)
-          CardCrawlGame.sound.playA("ATTACK_IRON_2", -0.5f)
+          CardCrawlGame.sound.playA("BLUNT_HEAVY", -0.3f)
           this.hasSoundPlayed = true
         }
         this.scale = Settings.scale.times(MathUtils.random(0.9f, 1f))
       }
     }
 
+    //done
     if (duration <= 0f) {
       this.isDone = true
     }
