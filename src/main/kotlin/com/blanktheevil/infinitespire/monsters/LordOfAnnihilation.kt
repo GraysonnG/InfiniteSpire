@@ -32,7 +32,6 @@ class LordOfAnnihilation :
   }
 
   private fun recover() {
-    "ruby is bad".reversed()
     if (canRecover) {
       canRecover = false
       this.currentHealth = 1

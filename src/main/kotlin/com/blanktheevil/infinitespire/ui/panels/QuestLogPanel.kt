@@ -20,6 +20,7 @@ import com.megacrit.cardcrawl.helpers.input.InputHelper
 
 class QuestLogPanel : SpireElement {
   companion object {
+    private val FEATURE_TOGGLE = Settings.isDebug // game has to start in debug mode for this to be true
     private val questIcon: TextureAtlas.AtlasRegion by lazy {
       Textures.ui.get("questlog2/quest-icon.png").asAtlasRegion()
     }
@@ -51,6 +52,7 @@ class QuestLogPanel : SpireElement {
   }
 
   override fun update() {
+    if (FEATURE_TOGGLE) return
     collapseButtonHb.update()
     InfiniteSpire.questLog.forEachIndexed { i, quest ->
       quest.hb.update(
@@ -75,6 +77,7 @@ class QuestLogPanel : SpireElement {
   }
 
   override fun render(sb: SpriteBatch) {
+    if (FEATURE_TOGGLE) return
     renderQuests(sb)
     sb.color = WHITE.cpy()
     sb.draw(

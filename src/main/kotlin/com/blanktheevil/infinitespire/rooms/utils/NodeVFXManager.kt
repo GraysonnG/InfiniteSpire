@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.infinitespire.extensions.deltaTime
-import com.blanktheevil.infinitespire.rooms.AvhariRoom
+import com.blanktheevil.infinitespire.rooms.avhari.AvhariRoom
 import com.megacrit.cardcrawl.map.MapRoomNode
 import com.megacrit.cardcrawl.vfx.FlameAnimationEffect
 

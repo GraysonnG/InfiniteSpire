@@ -7,7 +7,7 @@ import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
-import com.blanktheevil.infinitespire.rooms.AvhariRoom
+import com.blanktheevil.infinitespire.rooms.avhari.AvhariRoom
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon

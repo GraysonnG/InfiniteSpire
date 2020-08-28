@@ -57,6 +57,26 @@ object CardManager {
     blackCards.getRandomItem(AbstractDungeon.cardRandomRng).makeCopy() as BlackCard
 
   @JvmStatic
+  fun getBlackCardList(amount: Int): List<BlackCard> {
+    fun getUniqueCard(list: List<BlackCard>, depth: Int = 0): BlackCard {
+      var card = getRandomBlackCard()
+      list.forEach {
+        if (depth < 100 && it.cardID == card.cardID) {
+          card = getUniqueCard(list, depth + 1)
+        }
+      }
+      return card
+    }
+
+    val cards = mutableListOf<BlackCard>()
+    for (i in 0 until amount) {
+      cards.add(getUniqueCard(cards))
+    }
+
+    return cards
+  }
+
+  @JvmStatic
   fun addBlackCardColor() {
     BaseMod.addColor(
       EnumPatches.CardColor.INFINITE_BLACK,
