@@ -149,6 +149,6 @@ object VFXManager {
   }
 
   fun getRandomShapeType(): ShapeType {
-    return ShapeType.values().asList().getRandomItem(AbstractDungeon.miscRng) ?: ShapeType.SPIKER
+    return ShapeType.values().asList().getRandomItem(AbstractDungeon.miscRng)
   }
 }

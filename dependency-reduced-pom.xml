@@ -136,7 +136,7 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test</artifactId>
-      <version>1.3.72</version>
+      <version>1.4.0</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -148,7 +148,7 @@
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-maven-plugin</artifactId>
-      <version>1.3.72</version>
+      <version>1.4.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -220,13 +220,6 @@
       <systemPath>${modsFolder}1611666859/ColoredMap.jar</systemPath>
     </dependency>
     <dependency>
-      <groupId>com.blanktheevil</groupId>
-      <artifactId>rare-cards-sparkle</artifactId>
-      <version>0.0.1</version>
-      <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/mods/rare-cards-sparkle.jar</systemPath>
-    </dependency>
-    <dependency>
       <groupId>hubris</groupId>
       <artifactId>hubris</artifactId>
       <version>0.3.0</version>
@@ -255,7 +248,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <mtsVersion>3.11.0</mtsVersion>
     <modsFolder>${steamFolder}steamapps/workshop/content/646570/</modsFolder>
-    <kotlin.version>1.3.72</kotlin.version>
+    <kotlin.version>1.4.0</kotlin.version>
   </properties>
 </project>
 

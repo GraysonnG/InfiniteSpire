@@ -124,12 +124,12 @@ class QuestLogPanel : SpireElement {
         scale,
         0f
       )
-      renderTip(sb, quest)
+      renderTip(quest)
       quest.hb.render(sb)
     }
   }
 
-  private fun renderTip(sb: SpriteBatch, quest: Quest) {
+  private fun renderTip(quest: Quest) {
     if (quest.hb.hovered && open) {
       TipHelper.renderGenericTip(
         quest.hb.x,
