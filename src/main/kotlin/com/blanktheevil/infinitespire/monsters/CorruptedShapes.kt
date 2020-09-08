@@ -3,26 +3,37 @@ package com.blanktheevil.infinitespire.monsters
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.extensions.languagePack
-import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.monsters.utils.Move
+import com.blanktheevil.infinitespire.monsters.utils.setMove
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.particles.ShapeMonsterParticle
+import com.megacrit.cardcrawl.actions.AbstractGameAction
+import com.megacrit.cardcrawl.actions.common.DamageAction
+import com.megacrit.cardcrawl.actions.common.MakeTempCardInDrawPileAction
 import com.megacrit.cardcrawl.cards.DamageInfo
-import com.megacrit.cardcrawl.monsters.AbstractMonster
+import com.megacrit.cardcrawl.cards.status.Dazed
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon
+import com.megacrit.cardcrawl.random.Random
+import com.megacrit.cardcrawl.vfx.combat.ExplosionSmallEffect
 
-class CorruptedShapes : AbstractMonster(
+class CorruptedShapes : Monster(
   "Corrupted Shapes",
   ID,
-  60,
+  80,
   0.0f,
   0.0f,
   300f,
-  300f,
-  null
+  300f
 ) {
   companion object {
     val ID = "CorruptedShapes".makeID()
     private val strings = languagePack.getMonsterStrings(ID)
+    private var dazedCount = 3
+    private const val explodeDamage = 30
+    private const val pokeDamage = 2
+    private const val pokeMultiplier = 10
+    private const val dazedDamage = 15
   }
 
   private val frontShapes = mutableListOf<ShapeMonsterParticle>()
@@ -30,16 +41,20 @@ class CorruptedShapes : AbstractMonster(
   private val backShapes = mutableListOf<ShapeMonsterParticle>()
   private val shapes = mutableListOf(backShapes, middleShapes, frontShapes)
 
-  private var poke = 3
-  private var explode = 30
-  private var blockbase = 3
-
   init {
     this.img = Textures.monsters.get("massofshapes/massofshapes.png")
 
-    this.damage.also {
-      it.add(DamageInfo(this, poke))
-      it.add(DamageInfo(this, explode))
+    Moves.allMoves.forEach {
+      registerMove(it)
+      damage.add(DamageInfo(this, it.damage))
+    }
+
+    dazedCount = if (AbstractDungeon.ascensionLevel >= 7) 4 else 3
+
+    if (AbstractDungeon.ascensionLevel >= 2) {
+      Moves.EXPLODE.modify(damage = explodeDamage + 5)
+      Moves.POKE.modify(multiplier = pokeMultiplier + 2)
+      Moves.DAZED.modify(damage = dazedDamage + 5)
     }
   }
 
@@ -83,10 +98,44 @@ class CorruptedShapes : AbstractMonster(
   }
 
   override fun getMove(roll: Int) {
-    setMove(0.toByte(), Intent.MAGIC)
+    when {
+      roll < 25 -> setMove(Moves.EXPLODE)
+      roll in 26..65 -> setMove(Moves.DAZED)
+      else -> setMove(Moves.POKE)
+    }
   }
 
-  override fun takeTurn() {
+  private object Moves {
+    val EXPLODE = Move(Intent.ATTACK, explodeDamage) {
+      addToBot(
+        DamageAction(player, it.damage[this.getByte().toInt()], AbstractGameAction.AttackEffect.FIRE)
+      )
+      effectsQueue.add(ExplosionSmallEffect(it.hb.cX, it.hb.cY))
+    }
 
+    val DAZED = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
+      it.dealDamage(player, this.damage)
+      addToBot(MakeTempCardInDrawPileAction(Dazed().makeCopy(), dazedCount, true, true))
+    }
+
+    val POKE = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
+      for (i in 0 until this.multiplier) {
+        val effect = when(Random().random(2))  {
+          0 -> AbstractGameAction.AttackEffect.FIRE
+          1 -> AbstractGameAction.AttackEffect.BLUNT_HEAVY
+          else -> AbstractGameAction.AttackEffect.BLUNT_LIGHT
+        }
+        addToBot(
+          DamageAction(player, it.damage[this.getByte().toInt()], effect)
+        )
+      }
+    }
+
+    val allMoves: List<Move>
+      get() = mutableListOf<Move>().also {
+        it.add(EXPLODE)
+        it.add(DAZED)
+        it.add(POKE)
+      }
   }
 }

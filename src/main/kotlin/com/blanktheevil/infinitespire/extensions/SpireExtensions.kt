@@ -31,7 +31,9 @@ import com.megacrit.cardcrawl.powers.AbstractPower
 import com.megacrit.cardcrawl.random.Random
 import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.rooms.AbstractRoom
+import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect
+import java.util.ArrayList
 
 fun Float.scale(): Float = this * Settings.scale
 fun Int.scale(): Float = this * Settings.scale
@@ -203,6 +205,7 @@ val dungeon: AbstractDungeon get() = CardCrawlGame.dungeon
 val currentRoom: AbstractRoom? get() = AbstractDungeon.getCurrRoom()
 val player: AbstractPlayer get() = AbstractDungeon.player
 val actionManager: GameActionManager get() = AbstractDungeon.actionManager
+val effectsQueue: ArrayList<AbstractGameEffect> get() = AbstractDungeon.effectsQueue
 val scale: Float get() = Settings.scale
 val languagePack: LocalizedStrings get() = CardCrawlGame.languagePack
 val deltaTime: Float get() = Gdx.graphics.rawDeltaTime
