@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.extensions
+package com.blanktheevil.infinitespire.powers.utils
 
 import com.blanktheevil.infinitespire.patches.platedpower.PlatedPowerFieldPatch
 import com.megacrit.cardcrawl.powers.AbstractPower

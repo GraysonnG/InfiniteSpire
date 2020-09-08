@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.powers
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.extensions.isPlatedPower
+import com.blanktheevil.infinitespire.powers.utils.isPlatedPower
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction
