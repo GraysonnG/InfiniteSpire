@@ -11,7 +11,6 @@ import com.blanktheevil.infinitespire.vfx.particles.ShapeMonsterParticle
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.common.MakeTempCardInDrawPileAction
-import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.cards.status.Dazed
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.random.Random
@@ -40,22 +39,43 @@ class CorruptedShapes : Monster(
   private val middleShapes = mutableListOf<ShapeMonsterParticle>()
   private val backShapes = mutableListOf<ShapeMonsterParticle>()
   private val shapes = mutableListOf(backShapes, middleShapes, frontShapes)
-
+  private val explode = Move(Intent.ATTACK, explodeDamage) {
+    com.blanktheevil.infinitespire.extensions.addToBot(
+      DamageAction(player, it.damage[this.getByte().toInt()], AbstractGameAction.AttackEffect.FIRE)
+    )
+    effectsQueue.add(ExplosionSmallEffect(it.hb.cX, it.hb.cY))
+  }
+  private val dazed = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
+    it.dealDamage(player, this.damage)
+    com.blanktheevil.infinitespire.extensions.addToBot(MakeTempCardInDrawPileAction(Dazed().makeCopy(), dazedCount, true, true))
+  }
+  private val poke = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
+    for (i in 0 until this.multiplier) {
+      val effect = when(Random().random(2))  {
+        0 -> AbstractGameAction.AttackEffect.FIRE
+        1 -> AbstractGameAction.AttackEffect.BLUNT_HEAVY
+        else -> AbstractGameAction.AttackEffect.BLUNT_LIGHT
+      }
+      com.blanktheevil.infinitespire.extensions.addToBot(
+        DamageAction(player, it.damage[this.getByte().toInt()], effect)
+      )
+    }
+  }
+  
   init {
     this.img = Textures.monsters.get("massofshapes/massofshapes.png")
-
-    Moves.allMoves.forEach {
-      registerMove(it)
-      damage.add(DamageInfo(this, it.damage))
-    }
-
+    
     dazedCount = if (AbstractDungeon.ascensionLevel >= 7) 4 else 3
 
     if (AbstractDungeon.ascensionLevel >= 2) {
-      Moves.EXPLODE.modify(damage = explodeDamage + 5)
-      Moves.POKE.modify(multiplier = pokeMultiplier + 2)
-      Moves.DAZED.modify(damage = dazedDamage + 5)
+      explode.modify(damage = explodeDamage + 5)
+      poke.modify(multiplier = pokeMultiplier + 2)
+      dazed.modify(damage = dazedDamage + 5)
     }
+
+    registerMove(explode)
+    registerMove(dazed)
+    registerMove(poke)
   }
 
   override fun update() {
@@ -99,43 +119,9 @@ class CorruptedShapes : Monster(
 
   override fun getMove(roll: Int) {
     when {
-      roll < 25 -> setMove(Moves.EXPLODE)
-      roll in 26..65 -> setMove(Moves.DAZED)
-      else -> setMove(Moves.POKE)
+      roll < 25 -> setMove(explode)
+      roll in 26..65 -> setMove(dazed)
+      else -> setMove(poke)
     }
-  }
-
-  private object Moves {
-    val EXPLODE = Move(Intent.ATTACK, explodeDamage) {
-      addToBot(
-        DamageAction(player, it.damage[this.getByte().toInt()], AbstractGameAction.AttackEffect.FIRE)
-      )
-      effectsQueue.add(ExplosionSmallEffect(it.hb.cX, it.hb.cY))
-    }
-
-    val DAZED = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
-      it.dealDamage(player, this.damage)
-      addToBot(MakeTempCardInDrawPileAction(Dazed().makeCopy(), dazedCount, true, true))
-    }
-
-    val POKE = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
-      for (i in 0 until this.multiplier) {
-        val effect = when(Random().random(2))  {
-          0 -> AbstractGameAction.AttackEffect.FIRE
-          1 -> AbstractGameAction.AttackEffect.BLUNT_HEAVY
-          else -> AbstractGameAction.AttackEffect.BLUNT_LIGHT
-        }
-        addToBot(
-          DamageAction(player, it.damage[this.getByte().toInt()], effect)
-        )
-      }
-    }
-
-    val allMoves: List<Move>
-      get() = mutableListOf<Move>().also {
-        it.add(EXPLODE)
-        it.add(DAZED)
-        it.add(POKE)
-      }
   }
 }

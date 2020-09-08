@@ -8,16 +8,17 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.vfx.TextAboveCreatureEffect
 
+val attackIntents = mutableListOf<AbstractMonster.Intent>().also {
+  it.add(AbstractMonster.Intent.ATTACK)
+  it.add(AbstractMonster.Intent.ATTACK_DEBUFF)
+  it.add(AbstractMonster.Intent.ATTACK_BUFF)
+  it.add(AbstractMonster.Intent.ATTACK_DEFEND)
+}
+
 fun AbstractMonster.setMove(
   move: Move,
 ) {
   val errorMsg = "ENEMY MOVE ${move.name} IS SET INCORRECTLY! REPORT TO DEV"
-  val attackIntents = mutableListOf<AbstractMonster.Intent>().also {
-    it.add(AbstractMonster.Intent.ATTACK)
-    it.add(AbstractMonster.Intent.ATTACK_DEBUFF)
-    it.add(AbstractMonster.Intent.ATTACK_BUFF)
-    it.add(AbstractMonster.Intent.ATTACK_DEFEND)
-  }
 
   if (move.intent in attackIntents && move.damage < 0) {
     for (i in 0 until 8) {

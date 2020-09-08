@@ -10,17 +10,10 @@ class Move(
   var isMultiDamage: Boolean = false,
   var takeTurn: Move.(AbstractMonster) -> Unit
 ) {
-  companion object {
-    private var byteValue: Byte = 0
-  }
-
-  private val byte = getNextByte()
-
-  private fun getNextByte(): Byte {
-    return byteValue++
-  }
+  private var byte: Byte = -1
 
   fun getByte(): Byte = byte
+  fun setByte(value: Byte) { byte = value }
 
   fun modify(
     intent: AbstractMonster.Intent = this.intent,
