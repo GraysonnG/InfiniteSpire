@@ -3,7 +3,6 @@ package com.blanktheevil.infinitespire.quests
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.enums.QuestType
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
 import com.blanktheevil.infinitespire.interfaces.QuestCompleteInterface
@@ -13,7 +12,6 @@ import com.blanktheevil.infinitespire.models.QuestStringsKt
 import com.blanktheevil.infinitespire.quests.questrewards.QuestReward
 import com.blanktheevil.infinitespire.quests.questrewards.ShardReward
 import com.blanktheevil.infinitespire.textures.TextureLoaderKt
-import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.helpers.Hitbox
 import java.util.*
 

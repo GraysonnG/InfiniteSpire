@@ -4,7 +4,7 @@ import actlikeit.dungeons.CustomDungeon
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.acts.scenes.TheVoidScene
 import com.blanktheevil.infinitespire.acts.utils.ActManager
-import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
 import com.blanktheevil.infinitespire.rooms.avhari.AvhariRoom

@@ -2,7 +2,10 @@ package com.blanktheevil.infinitespire.relics
 
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.cards.utils.inPuzzleCube
-import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.extensions.actionManager
+import com.blanktheevil.infinitespire.extensions.getRandomItem
+import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.extensions.player
 import com.megacrit.cardcrawl.actions.common.DrawCardAction
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction
 import com.megacrit.cardcrawl.cards.AbstractCard

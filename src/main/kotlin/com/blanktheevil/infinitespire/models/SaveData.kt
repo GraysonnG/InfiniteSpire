@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.models
 
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.relics.BottledMercury
 import com.blanktheevil.infinitespire.relics.BottledSoul
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils

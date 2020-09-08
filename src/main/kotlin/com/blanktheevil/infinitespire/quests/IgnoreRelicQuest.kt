@@ -1,8 +1,7 @@
 package com.blanktheevil.infinitespire.quests
 
 import com.badlogic.gdx.graphics.Color
-import com.blanktheevil.infinitespire.enums.QuestType
-import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.interfaces.RoomTransitionInterface
 import com.blanktheevil.infinitespire.textures.Textures

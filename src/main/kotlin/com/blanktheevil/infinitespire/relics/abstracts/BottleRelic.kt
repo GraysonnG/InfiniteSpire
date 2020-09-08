@@ -1,7 +1,6 @@
 package com.blanktheevil.infinitespire.relics.abstracts
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.currentRoom
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.extensions.scale

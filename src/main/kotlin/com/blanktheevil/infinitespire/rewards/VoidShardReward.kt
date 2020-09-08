@@ -1,7 +1,7 @@
 package com.blanktheevil.infinitespire.rewards
 
 import basemod.abstracts.CustomReward
-import com.blanktheevil.infinitespire.extensions.addVoidShard
+import com.blanktheevil.infinitespire.utils.addVoidShard
 import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.textures.Textures

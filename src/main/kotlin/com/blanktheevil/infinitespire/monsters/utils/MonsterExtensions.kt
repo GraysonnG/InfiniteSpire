@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.monsters.utils
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
-import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.utils.log
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.monsters.AbstractMonster

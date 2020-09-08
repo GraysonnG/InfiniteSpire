@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.extensions.scale
-import com.blanktheevil.infinitespire.extensions.subVoidShard
+import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.blanktheevil.infinitespire.rooms.avhari.interfaces.ShopElementBase
 import com.blanktheevil.infinitespire.rooms.avhari.utils.AvhariManager
 import com.blanktheevil.infinitespire.textures.Textures

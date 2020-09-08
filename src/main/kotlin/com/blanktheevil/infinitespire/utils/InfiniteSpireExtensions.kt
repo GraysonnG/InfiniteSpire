@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.extensions
+package com.blanktheevil.infinitespire.utils
 
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.megacrit.cardcrawl.core.CardCrawlGame

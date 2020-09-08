@@ -15,7 +15,6 @@ import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import kotlin.math.max
-import kotlin.math.min
 
 class BlackStrikeSmallVfx(val hb: Hitbox) : AbstractGameEffect() {
 

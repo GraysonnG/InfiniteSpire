@@ -6,8 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.extensions.asAtlasRegion
+import com.blanktheevil.infinitespire.extensions.clamp
+import com.blanktheevil.infinitespire.extensions.deltaTime
+import com.blanktheevil.infinitespire.extensions.doNothing
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.Hitbox

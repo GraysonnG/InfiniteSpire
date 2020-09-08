@@ -1,7 +1,6 @@
 package com.blanktheevil.infinitespire.utils
 
 import com.badlogic.gdx.Gdx
-import com.blanktheevil.infinitespire.extensions.log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

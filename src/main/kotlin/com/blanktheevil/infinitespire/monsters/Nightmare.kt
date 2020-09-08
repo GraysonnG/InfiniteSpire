@@ -8,6 +8,7 @@ import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.powers.RealityShiftPower
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.utils.*
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
 import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
@@ -20,7 +21,6 @@ import com.megacrit.cardcrawl.actions.common.RollMoveAction
 import com.megacrit.cardcrawl.blights.Spear
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.core.CardCrawlGame
-import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.powers.StrengthPower

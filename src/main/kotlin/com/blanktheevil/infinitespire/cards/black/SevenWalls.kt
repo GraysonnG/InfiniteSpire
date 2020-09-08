@@ -7,9 +7,7 @@ import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.textures.Textures
 import com.evacipated.cardcrawl.mod.stslib.actions.tempHp.AddTemporaryHPAction
 import com.megacrit.cardcrawl.actions.AbstractGameAction
-import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.common.GainBlockAction
-import com.megacrit.cardcrawl.cards.DamageInfo
 
 class SevenWalls : BlackCard(BUILDER) {
   companion object {

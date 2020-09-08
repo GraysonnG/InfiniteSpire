@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.cards.Card
 import com.blanktheevil.infinitespire.cards.black.BlackCard
-import com.blanktheevil.infinitespire.cards.black.FinalStrike
 import com.blanktheevil.infinitespire.cards.variables.PoisonVariable
 import com.blanktheevil.infinitespire.extensions.getRandomItem
 import com.blanktheevil.infinitespire.patches.EnumPatches

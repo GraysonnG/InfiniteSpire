@@ -1,20 +1,22 @@
 package com.blanktheevil.infinitespire.monsters
 
 import com.badlogic.gdx.math.MathUtils
-import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.extensions.applyPower
+import com.blanktheevil.infinitespire.extensions.languagePack
+import com.blanktheevil.infinitespire.extensions.makeID
+import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.monsters.utils.Move
 import com.blanktheevil.infinitespire.monsters.utils.setMove
 import com.blanktheevil.infinitespire.powers.VenomPower
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.utils.*
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.GameActionManager
 import com.megacrit.cardcrawl.actions.common.ChangeStateAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.common.GainBlockAction
-import com.megacrit.cardcrawl.actions.common.RollMoveAction
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
-import com.megacrit.cardcrawl.monsters.AbstractMonster
 
 class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
   strings.NAME,

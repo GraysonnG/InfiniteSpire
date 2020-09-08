@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.quests.questrewards
 
-import com.blanktheevil.infinitespire.extensions.log
+import com.blanktheevil.infinitespire.utils.log
 
 abstract class QuestReward(val id: String) {
   companion object {
