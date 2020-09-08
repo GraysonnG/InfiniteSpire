@@ -1,5 +1,6 @@
 package com.blanktheevil.infinitespire.relics
 
+import com.blanktheevil.infinitespire.cards.utils.inBottleMercury
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.relics.abstracts.BottleRelic

@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.relics
 
-import com.blanktheevil.infinitespire.extensions.inBottleSoul
+import com.blanktheevil.infinitespire.cards.utils.inBottleSoul
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.models.SaveData

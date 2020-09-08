@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.relics
 
 import com.badlogic.gdx.graphics.Color
+import com.blanktheevil.infinitespire.cards.utils.inPuzzleCube
 import com.blanktheevil.infinitespire.extensions.*
 import com.megacrit.cardcrawl.actions.common.DrawCardAction
 import com.megacrit.cardcrawl.actions.common.RelicAboveCreatureAction

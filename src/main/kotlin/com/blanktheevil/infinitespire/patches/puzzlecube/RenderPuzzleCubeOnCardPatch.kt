@@ -1,8 +1,8 @@
 package com.blanktheevil.infinitespire.patches.puzzlecube
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.extensions.inPuzzleCube
-import com.blanktheevil.infinitespire.extensions.isBottled
+import com.blanktheevil.infinitespire.cards.utils.inPuzzleCube
+import com.blanktheevil.infinitespire.cards.utils.isBottled
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.relics.PuzzleCube

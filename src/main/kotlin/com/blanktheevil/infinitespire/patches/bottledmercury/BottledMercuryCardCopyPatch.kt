@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.patches.bottledmercury
 
-import com.blanktheevil.infinitespire.extensions.inBottleMercury
+import com.blanktheevil.infinitespire.cards.utils.inBottleMercury
 import com.evacipated.cardcrawl.modthespire.lib.ByRef
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch

@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.patches.bottledsoul
 
-import com.blanktheevil.infinitespire.extensions.inBottleSoul
+import com.blanktheevil.infinitespire.cards.utils.inBottleSoul
 import com.evacipated.cardcrawl.modthespire.lib.ByRef
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch

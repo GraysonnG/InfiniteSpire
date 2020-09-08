@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.extensions
+package com.blanktheevil.infinitespire.cards.utils
 
 import com.blanktheevil.infinitespire.patches.bottledmercury.BottledMercuryFieldPatch
 import com.blanktheevil.infinitespire.patches.bottledsoul.BottledSoulFieldPatch
