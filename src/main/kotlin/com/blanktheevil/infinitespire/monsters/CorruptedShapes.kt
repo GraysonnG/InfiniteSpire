@@ -41,17 +41,17 @@ class CorruptedShapes : Monster(
   private val pokeMultiplier = 10
   private val dazedDamage = 15
 
-  private val EXPLODE = Move(Intent.ATTACK, explodeDamage) {
+  private val explodeMove = Move(Intent.ATTACK, explodeDamage) {
     com.blanktheevil.infinitespire.extensions.addToBot(
       DamageAction(player, it.damage[this.getByte().toInt()], AbstractGameAction.AttackEffect.FIRE)
     )
     effectsQueue.add(ExplosionSmallEffect(it.hb.cX, it.hb.cY))
   }
-  private val DAZED = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
+  private val dazedMove = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
     it.dealDamage(player, this.damage)
     com.blanktheevil.infinitespire.extensions.addToBot(MakeTempCardInDrawPileAction(Dazed().makeCopy(), dazedCount, true, true))
   }
-  private val POKE = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
+  private val pokeMove = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
     for (i in 0 until this.multiplier) {
       val effect = when(Random().random(2))  {
         0 -> AbstractGameAction.AttackEffect.FIRE
@@ -70,14 +70,14 @@ class CorruptedShapes : Monster(
     dazedCount = if (AbstractDungeon.ascensionLevel >= 7) 4 else 3
 
     if (AbstractDungeon.ascensionLevel >= 2) {
-      EXPLODE.modify(damage = explodeDamage + 5)
-      POKE.modify(multiplier = pokeMultiplier + 2)
-      DAZED.modify(damage = dazedDamage + 5)
+      explodeMove.modify(damage = explodeDamage + 5)
+      pokeMove.modify(multiplier = pokeMultiplier + 2)
+      dazedMove.modify(damage = dazedDamage + 5)
     }
 
-    registerMove(EXPLODE)
-    registerMove(DAZED)
-    registerMove(POKE)
+    registerMove(explodeMove)
+    registerMove(dazedMove)
+    registerMove(pokeMove)
   }
 
   override fun update() {
@@ -121,9 +121,9 @@ class CorruptedShapes : Monster(
 
   override fun getMove(roll: Int) {
     when {
-      roll < 25 -> setMove(EXPLODE)
-      roll in 26..65 -> setMove(DAZED)
-      else -> setMove(POKE)
+      roll < 25 -> setMove(explodeMove)
+      roll in 26..65 -> setMove(dazedMove)
+      else -> setMove(pokeMove)
     }
   }
 }

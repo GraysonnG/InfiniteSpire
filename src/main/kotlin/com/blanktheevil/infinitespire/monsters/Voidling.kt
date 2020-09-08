@@ -1,10 +1,7 @@
 package com.blanktheevil.infinitespire.monsters
 
 import com.badlogic.gdx.math.MathUtils
-import com.blanktheevil.infinitespire.extensions.applyPower
-import com.blanktheevil.infinitespire.extensions.languagePack
-import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.extensions.player
+import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.monsters.utils.Move
 import com.blanktheevil.infinitespire.monsters.utils.setMove
 import com.blanktheevil.infinitespire.powers.VenomPower
@@ -44,7 +41,7 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
   private val minHP = 58
   private val ascHPOffset = 6
 
-  val TACKLE = Move(Intent.ATTACK, tackleDamage) {
+  private val tackleMove = Move(Intent.ATTACK, tackleDamage) {
     addToBot(
       ChangeStateAction(it, "ATTACK")
     )
@@ -52,10 +49,10 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
       DamageAction(player, it.damage[getByte().toInt()], AbstractGameAction.AttackEffect.BLUNT_HEAVY)
     )
   }
-  val DEFEND = Move(Intent.DEFEND) {
+  private val defendMove = Move(Intent.DEFEND) {
     addToBot(GainBlockAction(it, it, blockAmt))
   }
-  val VENOM_SHOT = Move(Intent.ATTACK_DEBUFF, 1) {
+  private val venomShotMove = Move(Intent.ATTACK_DEBUFF, 1) {
     log.info("MoveByte: ${getByte()}")
     addToBot(
       DamageAction(player, it.damage[getByte().toInt()], AbstractGameAction.AttackEffect.BLUNT_HEAVY)
@@ -65,7 +62,7 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
       source = it
     )
   }
-  val FANG_ATTACK = Move(Intent.ATTACK_DEBUFF, fangAttack, multiplier = 2, isMultiDamage = true) {
+  private val fangAttackMove = Move(Intent.ATTACK_DEBUFF, fangAttack, multiplier = 2, isMultiDamage = true) {
     for (i in 0 until 2) {
       addToBot(
         DamageAction(player, it.damage[getByte().toInt()], AbstractGameAction.AttackEffect.SLASH_VERTICAL)
@@ -85,15 +82,15 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
 
 
     if (AbstractDungeon.ascensionLevel > 2) {
-      TACKLE.modify (damage = tackleDamage + 2)
+      tackleMove.modify (damage = tackleDamage + 2)
       venomShotAmt += 2
-      FANG_ATTACK.modify(damage = fangAttack + 2)
+      fangAttackMove.modify(damage = fangAttack + 2)
     }
 
-    registerMove(TACKLE)
-    registerMove(DEFEND)
-    registerMove(VENOM_SHOT)
-    registerMove(FANG_ATTACK)
+    registerMove(tackleMove)
+    registerMove(defendMove)
+    registerMove(venomShotMove)
+    registerMove(fangAttackMove)
 
     loadAnimation(
       Textures.monsters.getString("voidling/Voidling.atlas", true),
@@ -112,8 +109,7 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
         state.setAnimation(0, "attack", false)
         state.addAnimation(0, "idle", true, 0.0f)
       }
-      else -> {
-      }
+      else -> doNothing()
     }
   }
 
@@ -128,12 +124,12 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
   override fun getMove(moveInt: Int) {
     when {
       moveInt < 30 || GameActionManager.turn == 0 -> when {
-        !lastMove(VENOM_SHOT.getByte()) -> setMove(VENOM_SHOT)
-        AbstractDungeon.ascensionLevel >= 17 -> setMove(FANG_ATTACK)
-        else -> setMove(TACKLE)
+        !lastMove(venomShotMove.getByte()) -> setMove(venomShotMove)
+        AbstractDungeon.ascensionLevel >= 17 -> setMove(fangAttackMove)
+        else -> setMove(tackleMove)
       }
-      moveInt < 45 -> setMove(DEFEND)
-      else -> setMove(TACKLE)
+      moveInt < 45 -> setMove(defendMove)
+      else -> setMove(tackleMove)
     }
   }
 }
