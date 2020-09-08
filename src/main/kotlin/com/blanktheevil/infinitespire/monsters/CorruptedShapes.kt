@@ -28,28 +28,30 @@ class CorruptedShapes : Monster(
   companion object {
     val ID = "CorruptedShapes".makeID()
     private val strings = languagePack.getMonsterStrings(ID)
-    private var dazedCount = 3
-    private const val explodeDamage = 30
-    private const val pokeDamage = 2
-    private const val pokeMultiplier = 10
-    private const val dazedDamage = 15
   }
 
   private val frontShapes = mutableListOf<ShapeMonsterParticle>()
   private val middleShapes = mutableListOf<ShapeMonsterParticle>()
   private val backShapes = mutableListOf<ShapeMonsterParticle>()
   private val shapes = mutableListOf(backShapes, middleShapes, frontShapes)
-  private val explode = Move(Intent.ATTACK, explodeDamage) {
+
+  private var dazedCount = 3
+  private val explodeDamage = 30
+  private val pokeDamage = 2
+  private val pokeMultiplier = 10
+  private val dazedDamage = 15
+
+  private val EXPLODE = Move(Intent.ATTACK, explodeDamage) {
     com.blanktheevil.infinitespire.extensions.addToBot(
       DamageAction(player, it.damage[this.getByte().toInt()], AbstractGameAction.AttackEffect.FIRE)
     )
     effectsQueue.add(ExplosionSmallEffect(it.hb.cX, it.hb.cY))
   }
-  private val dazed = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
+  private val DAZED = Move(Intent.ATTACK_DEBUFF, dazedDamage) {
     it.dealDamage(player, this.damage)
     com.blanktheevil.infinitespire.extensions.addToBot(MakeTempCardInDrawPileAction(Dazed().makeCopy(), dazedCount, true, true))
   }
-  private val poke = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
+  private val POKE = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
     for (i in 0 until this.multiplier) {
       val effect = when(Random().random(2))  {
         0 -> AbstractGameAction.AttackEffect.FIRE
@@ -61,21 +63,21 @@ class CorruptedShapes : Monster(
       )
     }
   }
-  
+
   init {
     this.img = Textures.monsters.get("massofshapes/massofshapes.png")
     
     dazedCount = if (AbstractDungeon.ascensionLevel >= 7) 4 else 3
 
     if (AbstractDungeon.ascensionLevel >= 2) {
-      explode.modify(damage = explodeDamage + 5)
-      poke.modify(multiplier = pokeMultiplier + 2)
-      dazed.modify(damage = dazedDamage + 5)
+      EXPLODE.modify(damage = explodeDamage + 5)
+      POKE.modify(multiplier = pokeMultiplier + 2)
+      DAZED.modify(damage = dazedDamage + 5)
     }
 
-    registerMove(explode)
-    registerMove(dazed)
-    registerMove(poke)
+    registerMove(EXPLODE)
+    registerMove(DAZED)
+    registerMove(POKE)
   }
 
   override fun update() {
@@ -119,9 +121,9 @@ class CorruptedShapes : Monster(
 
   override fun getMove(roll: Int) {
     when {
-      roll < 25 -> setMove(explode)
-      roll in 26..65 -> setMove(dazed)
-      else -> setMove(poke)
+      roll < 25 -> setMove(EXPLODE)
+      roll in 26..65 -> setMove(DAZED)
+      else -> setMove(POKE)
     }
   }
 }

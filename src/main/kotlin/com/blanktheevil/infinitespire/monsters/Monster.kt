@@ -1,5 +1,6 @@
 package com.blanktheevil.infinitespire.monsters
 
+import com.blanktheevil.infinitespire.extensions.log
 import com.blanktheevil.infinitespire.monsters.utils.Move
 import com.blanktheevil.infinitespire.monsters.utils.attackIntents
 import com.megacrit.cardcrawl.actions.common.RollMoveAction
@@ -34,7 +35,7 @@ abstract class Monster(
 
   private val moves = mutableListOf<Move>()
   fun registerMove(move: Move) {
-    move.setByte(++moveByteIndex)
+    move.setByte(moveByteIndex++)
     moves.add(move)
 
     if (move.intent in attackIntents) {
