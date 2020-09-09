@@ -15,7 +15,6 @@ object LoadPatch {
   @JvmStatic
   @SpirePostfixPatch
   fun loadData(game: CardCrawlGame, p: AbstractPlayer) {
-    log.info("Infinite Spire loading data...")
     InfiniteSpire.saveData = SaveData.load()
     Savable.savables.forEach {
       it.afterConfigLoad(InfiniteSpire.saveData)

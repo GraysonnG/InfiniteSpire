@@ -14,7 +14,6 @@ class SaveData(
   var bottledSoul: BottledRelicData<BottledSoul> = BottledRelicData(),
   var bottledMercury: BottledRelicData<BottledMercury> = BottledRelicData(),
   var nightmareData: NightmareData = NightmareData(),
-  var questLog: QuestLog = QuestLog(),
   var shouldDoParticles: Boolean = true,
   var shouldSpawnLords: Boolean = true,
   var stats: Statistics = Statistics(),
@@ -22,10 +21,11 @@ class SaveData(
   var actNumber: Int = 0
 ) {
   fun clear() {
+    log.info("Clearing Data...")
     bottledSoul = BottledRelicData()
     bottledMercury = BottledRelicData()
     nightmareData = NightmareData()
-    questLog = QuestLog()
+    voidShards = VoidShardCurrency(voidShards.count)
     shouldPromptEndless = true
     actNumber = 0
   }
@@ -45,6 +45,7 @@ class SaveData(
     fun init(): SaveData {
       val file = File(dirPath)
       if (!file.exists()) {
+        log.info("Creating Save File...")
         file.parentFile.mkdirs()
         file.createNewFile()
         return SaveData().also {
@@ -56,11 +57,13 @@ class SaveData(
     }
 
     fun load(): SaveData {
+      log.info("Loading Data...")
       val file = File(dirPath)
 
       return try {
         Gson().fromJson(file.readText(UTF_8), SaveData::class.java)
       } catch (e: Exception) {
+        log.error("Could not load data! Using Defaults instead!")
         SaveData()
       }
     }

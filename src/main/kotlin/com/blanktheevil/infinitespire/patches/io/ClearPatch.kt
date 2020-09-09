@@ -13,7 +13,6 @@ object ClearPatch {
   @SpirePostfixPatch
   fun saveAndExit(popup: ConfirmPopup) {
     if (popup.type == ConfirmPopup.ConfirmType.ABANDON) {
-      log.info("Clearing Data...")
       InfiniteSpire.saveData.clear()
       InfiniteSpire.saveData.save()
     }

@@ -24,11 +24,11 @@ class QuestLog(savable: Boolean = false) : ArrayList<Quest>(), Savable, ActCompl
   }
 
   override fun beforeConfigSave(saveData: SaveData) {
-    InfiniteSpire.saveData.questLog.addAll(this)
+//    InfiniteSpire.saveData.questLog.addAll(this)
   }
 
   override fun afterConfigLoad(saveData: SaveData) {
-    this.addAll(saveData.questLog)
+//    this.addAll(saveData.questLog)
   }
 
   override fun clearData(saveData: SaveData) {

@@ -17,7 +17,6 @@ object SavePatch {
   @JvmStatic
   @SpirePostfixPatch
   fun saveInfiniteSpireData(saveFile: SaveFile) {
-    log.info("Saving Data...")
     Savable.savables.forEach {
       it.beforeConfigSave(InfiniteSpire.saveData)
     }

@@ -13,7 +13,6 @@ object DeletePatch {
   @JvmStatic
   @SpirePostfixPatch
   fun clearInfiniteSpire(player: AbstractPlayer) {
-    log.info("Clearing Data...")
     InfiniteSpire.saveData.clear()
     InfiniteSpire.saveData.save()
   }
