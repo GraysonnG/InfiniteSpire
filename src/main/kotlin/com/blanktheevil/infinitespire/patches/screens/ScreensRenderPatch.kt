@@ -13,6 +13,5 @@ object ScreensRenderPatch {
   @JvmStatic
   fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
     InfiniteSpire.powerSelectScreen.render(sb)
-    InfiniteSpire.questLogPanel.render(sb)
   }
 }

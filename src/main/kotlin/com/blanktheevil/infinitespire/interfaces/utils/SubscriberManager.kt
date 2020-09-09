@@ -12,18 +12,6 @@ object SubscriberManager {
       ActCompleteInterface.subscribers.add(subscriber)
     }
 
-    if (subscriber is QuestLogCloseInterface) {
-      QuestLogCloseInterface.subscribers.add(subscriber)
-    }
-
-    if (subscriber is QuestCompleteInterface) {
-      QuestCompleteInterface.subscribers.add(subscriber)
-    }
-
-    if (subscriber is RoomTransitionInterface) {
-      RoomTransitionInterface.subscribers.add(subscriber)
-    }
-
     if (subscriber is OnMonsterDeathInterface) {
       OnMonsterDeathInterface.subscribers.add(subscriber)
     }
