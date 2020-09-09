@@ -36,10 +36,7 @@ abstract class Monster(
   fun registerMove(move: Move) {
     move.setByte(moveByteIndex++)
     moves.add(move)
-
-    if (move.intent in attackIntents) {
-      this.damage.add(DamageInfo(this, move.damage))
-    }
+    this.damage.add(DamageInfo(this, move.damage))
   }
 
   override fun takeTurn() {

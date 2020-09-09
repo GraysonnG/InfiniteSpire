@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.interfaces.Savable
 import com.blanktheevil.infinitespire.models.SaveData
+import com.blanktheevil.infinitespire.monsters.utils.Move
+import com.blanktheevil.infinitespire.monsters.utils.setMove
 import com.blanktheevil.infinitespire.powers.RealityShiftPower
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.utils.*
@@ -30,7 +32,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class Nightmare :
-    AbstractMonster(
+    Monster(
       NAME,
       ID,
       MAX_HP,
@@ -89,6 +91,47 @@ class Nightmare :
     },
     { !isDying && !isDead }
   )
+  private val realityShiftMove = Move(Intent.MAGIC, name = MOVES[0]) {
+    it.applyPower(
+      RealityShiftPower(it as Nightmare, 50)
+    )
+  }
+  private val multiStrikeMove = Move(Intent.ATTACK, attackDamage, MOVES[1], attackAmount, true) {
+    addToBot(
+      AnimateFastAttackAction(it)
+    )
+    for (i in 0 until this.multiplier) {
+      addToBot(DamageAction(
+        player,
+        it.damage[this.getByte().toInt()],
+        AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
+        true
+      ))
+    }
+  }
+  private val debuffBlockMove = Move(Intent.DEFEND_DEBUFF, name = MOVES[3]) {
+    addToBot(GainBlockAction(it, blockAmount))
+      for (i in 0 until debuffAmount) {
+        player.applyPower(
+          WeakPower(player, 1, true),
+          source = it
+        )
+        player.applyPower(
+          WeakPower(player, 1, true),
+          source = it
+        )
+      }
+  }
+  private val slamMove = Move(Intent.ATTACK_BUFF, slamDamage, name = MOVES[2]) {
+    addToBot(DamageAction(
+          player,
+          it.damage[this.getByte().toInt()],
+          AbstractGameAction.AttackEffect.BLUNT_HEAVY
+        ))
+        applyPower(
+          StrengthPower(it, buffAmount)
+        )
+  }
 
   init {
     type = EnemyType.BOSS
@@ -99,8 +142,8 @@ class Nightmare :
       setHp(MIN_HP, MAX_HP)
 
     if (AbstractDungeon.ascensionLevel > 2) {
-      this.attackDamage += 1
-      this.slamDamage += 5
+      multiStrikeMove.modify(damage = attackDamage + 1)
+      slamMove.modify(damage = slamDamage + 5)
       this.debuffAmount += 1
     }
 
@@ -108,10 +151,10 @@ class Nightmare :
       realityShiftAmount *= 1 + player.getBlight(Spear.ID).counter
     }
 
-    this.damage.also {
-      it.add(DamageInfo(this, attackDamage))
-      it.add(DamageInfo(this, slamDamage))
-    }
+    registerMove(realityShiftMove)
+    registerMove(multiStrikeMove)
+    registerMove(debuffBlockMove)
+    registerMove(slamMove)
 
     this.img = Textures.monsters.get("nightmare/nightmare-1.png")
   }
@@ -128,7 +171,7 @@ class Nightmare :
     )
     addToTop(GainBlockAction(this, this, BLOCK_ON_TRIGGER))
 
-    this.setMove(MOVES[1], MoveBytes.MULTI_STRIKE, Intent.ATTACK, damage[0].base, attackAmount, true)
+    this.setMove(multiStrikeMove)
     this.createIntent()
     endPlayerTurn()
   }
@@ -191,64 +234,15 @@ class Nightmare :
 
   override fun getMove(roll: Int) {
     if (firstTurn) {
-      this.setMove(MOVES[0], MoveBytes.REALITY_SHIFT, Intent.MAGIC)
+      this.setMove(realityShiftMove)
       firstTurn = false
       return
     }
     when {
-      roll < 29 -> this.setMove(MOVES[1], MoveBytes.MULTI_STRIKE, Intent.ATTACK, damage[0].base, attackAmount, true)
-      roll > 69 -> this.setMove(MOVES[3], MoveBytes.DEBUFF_BLOCK, Intent.DEFEND_DEBUFF)
-      else -> this.setMove(MOVES[2], MoveBytes.SLAM, Intent.ATTACK_BUFF, damage[1].base)
+      roll < 29 -> this.setMove(multiStrikeMove)
+      roll > 69 -> this.setMove(debuffBlockMove)
+      else -> this.setMove(slamMove)
     }
-  }
-
-  override fun takeTurn() {
-    when (this.nextMove) {
-      MoveBytes.MULTI_STRIKE -> {
-        addToBot(
-          AnimateFastAttackAction(this)
-        )
-        for (i in 0 until attackAmount) {
-          addToBot(DamageAction(
-            player,
-            this.damage[0],
-            AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
-            true
-          ))
-        }
-      }
-      MoveBytes.SLAM -> {
-        addToBot(DamageAction(
-          player,
-          this.damage[1],
-          AbstractGameAction.AttackEffect.BLUNT_HEAVY
-        ))
-        applyPower(
-          StrengthPower(this, buffAmount)
-        )
-      }
-      MoveBytes.DEBUFF_BLOCK -> {
-        addToBot(GainBlockAction(this, blockAmount))
-        for (i in 0 until debuffAmount) {
-          player.applyPower(
-            WeakPower(player, 1, true),
-            source = this
-          )
-          player.applyPower(
-            WeakPower(player, 1, true),
-            source = this
-          )
-        }
-      }
-      MoveBytes.REALITY_SHIFT -> {
-        this.applyPower(
-          RealityShiftPower(this, 50),
-          source = this
-        )
-      }
-    }
-
-    addToBot(RollMoveAction(this))
   }
 
   override fun beforeConfigSave(saveData: SaveData) {
@@ -264,12 +258,5 @@ class Nightmare :
   override fun clearData(saveData: SaveData) {
     timesDefeated = 0
     timesNotReceivedBlackCard = 0
-  }
-
-  object MoveBytes {
-    const val MULTI_STRIKE: Byte = 0
-    const val SLAM: Byte = 1
-    const val DEBUFF_BLOCK: Byte = 2
-    const val REALITY_SHIFT: Byte = 3
   }
 }
