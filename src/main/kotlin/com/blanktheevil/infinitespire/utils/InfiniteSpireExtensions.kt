@@ -1,6 +1,7 @@
 package com.blanktheevil.infinitespire.utils
 
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.extensions.actionManager
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import org.apache.logging.log4j.Logger
 import java.lang.Math.PI
@@ -23,3 +24,11 @@ fun getVoidShardCount(): Int {
 fun Float.toRadians(): Float = this.times(PI.div(180f)).toFloat()
 
 val log: Logger get() = InfiniteSpire.logger
+
+fun logDumpActionManager() {
+  println("\n============= Action Queue =============")
+  actionManager.actions.forEach {
+    log.info(it::class.java.simpleName)
+  }
+  println("========================================\n")
+}

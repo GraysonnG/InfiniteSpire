@@ -25,12 +25,15 @@ class BlackCardParticle(
     Math.random() < 0.25 -> InfiniteSpire.PURPLE.cpy()
     Math.random() < 0.07 && upgraded -> InfiniteSpire.RED.cpy()
     else -> Color.BLACK.cpy()
-  }
+  },
+  private val line: Boolean = false,
 ) : Particle() {
   companion object {
     private const val IMG = "particle_new.png"
     private val TEXTURE = Textures.vfx.get(IMG).asAtlasRegion()
     private val TEXTURE_NO_GLOW = Textures.vfx.get("particle-no-glow.png").asAtlasRegion()
+    private val TEXTURE_LINE = Textures.vfx.get("particle-line.png").asAtlasRegion()
+    private val TEXTURE_LINE_NO_GLOW = Textures.vfx.get("particle-line-no-glow.png").asAtlasRegion()
   }
 
   private var rotationSpeed: Float = MathUtils.random(-90f, 90f)
@@ -53,7 +56,7 @@ class BlackCardParticle(
   override fun render(sb: SpriteBatch) {
     sb.color = this.color
     sb.draw(
-      if (glow) TEXTURE else TEXTURE_NO_GLOW,
+      if (glow) if (line) TEXTURE_LINE else TEXTURE else if (line) TEXTURE_LINE_NO_GLOW else TEXTURE_NO_GLOW,
       pos.x,
       pos.y,
       TEXTURE.regionWidth.div(2f),

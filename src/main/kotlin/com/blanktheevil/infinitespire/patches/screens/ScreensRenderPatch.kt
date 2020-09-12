@@ -12,6 +12,7 @@ object ScreensRenderPatch {
   @SpirePostfixPatch
   @JvmStatic
   fun run(dungeon: AbstractDungeon, sb: SpriteBatch) {
+    InfiniteSpire.badgeOverlay.render(sb)
     InfiniteSpire.powerSelectScreen.render(sb)
   }
 }

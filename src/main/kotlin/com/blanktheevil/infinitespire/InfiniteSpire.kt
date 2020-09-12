@@ -1,9 +1,11 @@
 package com.blanktheevil.infinitespire
 
+import basemod.AutoAdd
 import basemod.BaseMod
 import basemod.interfaces.*
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.acts.utils.ActManager
+import com.blanktheevil.infinitespire.badges.utils.BadgeManager
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
 import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
@@ -17,6 +19,7 @@ import com.blanktheevil.infinitespire.screens.TargetMonsterScreen
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.ui.campfire.VoidOption
+import com.blanktheevil.infinitespire.ui.overlays.BadgeOverlay
 import com.blanktheevil.infinitespire.utils.LocalizationManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
@@ -41,11 +44,13 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var avhariScreen: AvhariScreen
     lateinit var powerSelectScreen: PowerSelectScreen
     lateinit var targetMonsterScreen: TargetMonsterScreen
+    lateinit var badgeOverlay: BadgeOverlay
     lateinit var voidShardDisplay: VoidShardDisplay
     lateinit var voidOption: VoidOption
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
     lateinit var actStringsKt: Map<String, ActStringsKt>
+    lateinit var badgeStringsKt: Map<String, BadgeStringsKt>
     lateinit var questRng: Random
 
     @Suppress("unused")
@@ -64,6 +69,10 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     @JvmStatic
     fun <T : IInfiniteSpire> subscribe(subscriber: T) {
       SubscriberManager.subscribe(subscriber)
+    }
+
+    fun <T : IInfiniteSpire> unsubscribe(subscriber: T) {
+      SubscriberManager.unsubscribe(subscriber)
     }
 
     fun createPath(restOfPath: String): String {
@@ -91,10 +100,12 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   override fun receiveEditRelics() = RelicManager.addAllRelics()
 
   override fun receivePostInitialize() {
+    BadgeManager.addAllBadges()
     avhariScreen = AvhariScreen()
     voidShardDisplay = VoidShardDisplay()
     powerSelectScreen = PowerSelectScreen()
     targetMonsterScreen = TargetMonsterScreen()
+    badgeOverlay = BadgeOverlay()
     voidOption = VoidOption()
 
     RewardManager.registerRewards()

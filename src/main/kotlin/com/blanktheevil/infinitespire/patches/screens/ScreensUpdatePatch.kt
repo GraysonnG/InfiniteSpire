@@ -11,6 +11,7 @@ object ScreensUpdatePatch {
   @SpirePrefixPatch
   @JvmStatic
   fun run(dungeon: AbstractDungeon) {
+    InfiniteSpire.badgeOverlay.update()
     InfiniteSpire.powerSelectScreen.update()
   }
 }

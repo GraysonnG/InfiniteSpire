@@ -1,0 +1,30 @@
+{
+  "${project.artifactId}:ThreeOfAKind": {
+    "NAME": "Three of a Kind",
+    "DESCRIPTION": "Play the same card 3 times in a row"
+  },
+  "${project.artifactId}:FourOfAKind": {
+    "NAME": "Four of a Kind",
+    "DESCRIPTION": "Play the same card 4 times in a row"
+  },
+  "${project.artifactId}:DoubleKill": {
+    "NAME": "Double Kill",
+    "DESCRIPTION": "Defeat two enemies at the same time"
+  },
+  "${project.artifactId}:TripleKill": {
+    "NAME": "Triple Kill",
+    "DESCRIPTION": "Defeat 3 enemies at the same time"
+  },
+  "${project.artifactId}:QuadraKill": {
+    "NAME": "Quadra Kill",
+    "DESCRIPTION": "Defeat 4 enemies at the same time"
+  },
+  "${project.artifactId}:PentaKill": {
+    "NAME": "Penta Kill",
+    "DESCRIPTION": "Defeat 5 enemies at the same time"
+  },
+  "${project.artifactId}:EmptyHanded": {
+    "NAME": "Empty Handed",
+    "DESCRIPTION": "End your turn with no cards in your hand"
+  }
+}
