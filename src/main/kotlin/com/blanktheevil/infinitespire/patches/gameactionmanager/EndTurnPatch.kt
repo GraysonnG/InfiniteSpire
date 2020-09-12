@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.patches.gameactionmanager
 
-import com.blanktheevil.infinitespire.interfaces.AfterTurnEndInterface
+import com.blanktheevil.infinitespire.interfaces.hooks.AfterTurnEndInterface
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
 import com.megacrit.cardcrawl.actions.GameActionManager

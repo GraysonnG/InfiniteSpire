@@ -1,4 +1,4 @@
-package com.blanktheevil.infinitespire.interfaces
+package com.blanktheevil.infinitespire.interfaces.hooks
 
 interface AfterTurnEndInterface {
   fun afterEndTurn()

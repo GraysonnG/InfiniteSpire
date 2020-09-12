@@ -3,7 +3,7 @@ package com.blanktheevil.infinitespire.powers
 import com.badlogic.gdx.graphics.Color
 import com.blanktheevil.infinitespire.extensions.languagePack
 import com.blanktheevil.infinitespire.extensions.makeID
-import com.blanktheevil.infinitespire.interfaces.OnMonsterDeathInterface
+import com.blanktheevil.infinitespire.interfaces.hooks.OnMonsterDeathInterface
 import com.blanktheevil.infinitespire.textures.Textures
 import com.evacipated.cardcrawl.mod.stslib.powers.abstracts.TwoAmountPower
 import com.evacipated.cardcrawl.mod.stslib.powers.interfaces.HealthBarRenderPower
@@ -24,7 +24,7 @@ class VenomPower(
     TwoAmountPower(),
     HealthBarRenderPower,
     NonStackablePower,
-    OnMonsterDeathInterface {
+  OnMonsterDeathInterface {
   companion object {
     val powerID = "VenomPower".makeID()
     private val strings = languagePack.getPowerStrings(powerID)

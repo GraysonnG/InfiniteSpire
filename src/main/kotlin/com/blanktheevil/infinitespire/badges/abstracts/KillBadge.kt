@@ -4,7 +4,7 @@ import basemod.AutoAdd
 import basemod.interfaces.OnCardUseSubscriber
 import com.blanktheevil.infinitespire.badges.Badge
 import com.blanktheevil.infinitespire.extensions.addToBot
-import com.blanktheevil.infinitespire.interfaces.OnMonsterDeathInterface
+import com.blanktheevil.infinitespire.interfaces.hooks.OnMonsterDeathInterface
 import com.blanktheevil.infinitespire.utils.addVoidShard
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.cards.AbstractCard

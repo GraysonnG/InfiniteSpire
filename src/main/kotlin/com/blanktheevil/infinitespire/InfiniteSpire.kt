@@ -1,6 +1,5 @@
 package com.blanktheevil.infinitespire
 
-import basemod.AutoAdd
 import basemod.BaseMod
 import basemod.interfaces.*
 import com.badlogic.gdx.graphics.Color
@@ -8,7 +7,7 @@ import com.blanktheevil.infinitespire.acts.utils.ActManager
 import com.blanktheevil.infinitespire.badges.utils.BadgeManager
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.utils.CrossoverManager
-import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
+import com.blanktheevil.infinitespire.interfaces.hooks.IInfiniteSpire
 import com.blanktheevil.infinitespire.interfaces.utils.SubscriberManager
 import com.blanktheevil.infinitespire.models.*
 import com.blanktheevil.infinitespire.relics.utils.RelicManager

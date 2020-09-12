@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.patches.abstractmonster
 
-import com.blanktheevil.infinitespire.interfaces.OnMonsterDeathInterface
+import com.blanktheevil.infinitespire.interfaces.hooks.OnMonsterDeathInterface
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch
 import com.megacrit.cardcrawl.monsters.AbstractMonster

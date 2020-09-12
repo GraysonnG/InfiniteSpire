@@ -4,10 +4,8 @@ import basemod.AutoAdd
 import basemod.interfaces.ISubscriber
 import basemod.interfaces.OnStartBattleSubscriber
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.extensions.effectsQueue
-import com.blanktheevil.infinitespire.interfaces.IInfiniteSpire
+import com.blanktheevil.infinitespire.interfaces.hooks.IInfiniteSpire
 import com.blanktheevil.infinitespire.utils.log
-import com.blanktheevil.infinitespire.vfx.BadgeObtainVfx
 import com.megacrit.cardcrawl.rooms.AbstractRoom
 
 @AutoAdd.Ignore

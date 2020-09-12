@@ -1,6 +1,6 @@
 package com.blanktheevil.infinitespire.patches.proceedbutton
 
-import com.blanktheevil.infinitespire.interfaces.RoomTransitionInterface
+import com.blanktheevil.infinitespire.interfaces.hooks.RoomTransitionInterface
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon

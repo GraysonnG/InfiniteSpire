@@ -4,7 +4,7 @@ import actlikeit.savefields.BehindTheScenesActNum
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.*
-import com.blanktheevil.infinitespire.interfaces.Savable
+import com.blanktheevil.infinitespire.interfaces.hooks.Savable
 import com.blanktheevil.infinitespire.models.SaveData
 import com.blanktheevil.infinitespire.monsters.utils.Move
 import com.blanktheevil.infinitespire.monsters.utils.setMove
@@ -19,12 +19,10 @@ import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction
 import com.megacrit.cardcrawl.actions.common.DamageAction
 import com.megacrit.cardcrawl.actions.common.GainBlockAction
-import com.megacrit.cardcrawl.actions.common.RollMoveAction
 import com.megacrit.cardcrawl.blights.Spear
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
-import com.megacrit.cardcrawl.monsters.AbstractMonster
 import com.megacrit.cardcrawl.powers.StrengthPower
 import com.megacrit.cardcrawl.powers.WeakPower
 import com.megacrit.cardcrawl.vfx.combat.PowerBuffEffect

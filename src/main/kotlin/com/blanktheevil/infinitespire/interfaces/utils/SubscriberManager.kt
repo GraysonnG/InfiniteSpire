@@ -2,7 +2,7 @@ package com.blanktheevil.infinitespire.interfaces.utils
 
 import basemod.BaseMod
 import basemod.interfaces.ISubscriber
-import com.blanktheevil.infinitespire.interfaces.*
+import com.blanktheevil.infinitespire.interfaces.hooks.*
 
 object SubscriberManager {
   fun <T : IInfiniteSpire> subscribe(subscriber: T) {
