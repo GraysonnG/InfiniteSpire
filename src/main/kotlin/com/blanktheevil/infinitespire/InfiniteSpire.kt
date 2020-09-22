@@ -115,6 +115,7 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
   }
 
   override fun receivePreStartGame() {
-    questRng = Random(Settings.seed)
+    val seed = Settings.seed ?: 0
+    questRng = Random(seed)
   }
 }

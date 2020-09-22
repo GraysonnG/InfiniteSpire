@@ -26,5 +26,13 @@
   "${project.artifactId}:EmptyHanded": {
     "NAME": "Empty Handed",
     "DESCRIPTION": "End your turn with no cards in your hand"
+  },
+  "${project.artifactId}:Collector": {
+    "NAME": "Collector",
+    "DESCRIPTION": "Collect 5 Badges in a single turn"
+  },
+  "${project.artifactId}:Survivor": {
+    "NAME": "Survivor",
+    "DESCRIPTION": "End your turn with 1 hp"
   }
 }
