@@ -28,16 +28,12 @@ class Shop : SpireElement {
   private var velocityRelics = 1f
   private var hoveredCards = false
   private var hoveredRelics = false
-  private val cards = mutableListOf<ShopCard>().also {
-    it.addAll(CardManager.getBlackCardList(5).map { card ->
-      ShopCard(card, CARD_COST)
-    })
-  }
-  private val relics = mutableListOf<ShopRelic>().also {
-    it.addAll(RelicManager.getRelicList(3).map { relic ->
-      ShopRelic(relic, RELIC_COST)
-    })
-  }
+  private val cards = CardManager.getBlackCardList(5).map { card ->
+    ShopCard(card, CARD_COST)
+  }.toMutableList()
+  private val relics = RelicManager.getRelicList(3).map { relic ->
+    ShopRelic(relic, RELIC_COST)
+  }.toMutableList()
   private val elements = ArrayList<ShopElementBase>().also {
     it.addAll(cards)
     it.addAll(relics)

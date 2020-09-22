@@ -14,10 +14,13 @@ class SaveData(
   var bottledSoul: BottledRelicData<BottledSoul> = BottledRelicData(),
   var bottledMercury: BottledRelicData<BottledMercury> = BottledRelicData(),
   var nightmareData: NightmareData = NightmareData(),
-  var shouldDoParticles: Boolean = true,
-  var shouldSpawnLords: Boolean = true,
   var stats: Statistics = Statistics(),
-  var shouldPromptEndless: Boolean = true,
+  var settings: Settings = Settings(
+    true,
+    true,
+    true,
+    false
+  ),
   var actNumber: Int = 0
 ) {
   fun clear() {
@@ -25,8 +28,7 @@ class SaveData(
     bottledSoul = BottledRelicData()
     bottledMercury = BottledRelicData()
     nightmareData = NightmareData()
-    voidShards = VoidShardCurrency(voidShards.count)
-    shouldPromptEndless = true
+    voidShards = VoidShardCurrency(if (settings.shouldRetainShards) voidShards.count else 0)
     actNumber = 0
   }
 

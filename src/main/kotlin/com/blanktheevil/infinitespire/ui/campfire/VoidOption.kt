@@ -59,9 +59,8 @@ class VoidOption : SpireElement, SpireClickable {
   )
 
   override fun update() {
-    if (BehindTheScenesActNum.getActNum().rem(2) != 0 && !Settings.isDebug) {
-      return
-    }
+    if (shouldNotRender()) return
+
     hb.update()
 
     if (hb.justHovered) {
@@ -96,9 +95,7 @@ class VoidOption : SpireElement, SpireClickable {
   }
 
   override fun render(sb: SpriteBatch) {
-    if ((!ActManager.atLastCampfireInDungeon() || BehindTheScenesActNum.getActNum().rem(2) != 0) && !Settings.isDebug) {
-      return
-    }
+    if (shouldNotRender()) return
 
     // Shadow
     sb.color = Color.BLACK.cpy().also {
@@ -152,6 +149,8 @@ class VoidOption : SpireElement, SpireClickable {
       false
     )
   }
+
+  private fun shouldNotRender(): Boolean = (!ActManager.atLastCampfireInDungeon() || BehindTheScenesActNum.getActNum().rem(2) != 0 || !InfiniteSpire.saveData.settings.shouldDoEndless) && !Settings.isDebug
 
   override fun getHitbox(): Hitbox = hb
 

@@ -30,7 +30,7 @@ class BlackCardParticleSystem(
   override fun update() {
     particleTimer -= deltaTime
 
-    if (particleTimer <= 0f && shouldCreateParticle.invoke() && InfiniteSpire.saveData.shouldDoParticles) {
+    if (particleTimer <= 0f && shouldCreateParticle.invoke() && InfiniteSpire.saveData.settings.shouldDoParticles) {
       for (i in 0 until numberOfParticlesPerSpawn) {
         particles.add(
           createNewParticle.invoke()
