@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.extensions.deltaTime
+import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.relics.utils.RelicManager
@@ -27,11 +28,15 @@ class Shop : SpireElement {
   private var velocityRelics = 1f
   private var hoveredCards = false
   private var hoveredRelics = false
-  private val cards = CardManager.getBlackCardList(5).map {
-    ShopCard(it, CARD_COST)
+  private val cards = mutableListOf<ShopCard>().also {
+    it.addAll(CardManager.getBlackCardList(5).map { card ->
+      ShopCard(card, CARD_COST)
+    })
   }
-  private val relics = RelicManager.getRelicList(3).map {
-    ShopRelic(it, RELIC_COST)
+  private val relics = mutableListOf<ShopRelic>().also {
+    it.addAll(RelicManager.getRelicList(3).map { relic ->
+      ShopRelic(relic, RELIC_COST)
+    })
   }
   private val elements = ArrayList<ShopElementBase>().also {
     it.addAll(cards)
@@ -40,6 +45,9 @@ class Shop : SpireElement {
 
   override fun update() {
     elements.forEach { it.update() }
+    elements.removeIf { it.purchaced }
+    cards.removeIf { it.purchaced }
+    relics.removeIf { it.purchaced }
     hoveredCards = cards.any { it.getHitbox().hovered }
     hoveredRelics = relics.any { it.getHitbox().hovered }
 
@@ -52,6 +60,15 @@ class Shop : SpireElement {
     rotationRelics += -SPIN_SPEED.times(velocityRelics).times(deltaTime)
 
     placeElements()
+    movePlayerRelics()
+  }
+
+  private fun movePlayerRelics() {
+    player.relics.forEach {
+      it.currentX = MathHelper.scaleLerpSnap(it.currentX, it.targetX)
+      it.currentY = MathHelper.scaleLerpSnap(it.currentY, it.targetY)
+      it.hb.move(it.targetX, it.targetY)
+    }
   }
 
   override fun render(sb: SpriteBatch) {

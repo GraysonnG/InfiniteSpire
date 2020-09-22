@@ -7,13 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Interpolation
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.extensions.*
+import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.utils.addVoidShard
+import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.TipHelper
 
-class VoidShardDisplay : TopPanelItem(IMG, ID) {
+class VoidShardDisplay : TopPanelItem(IMG, ID), SpireClickable {
   companion object {
     private val IMG = Textures.ui.get("topPanel/avhari/voidShard.png")
     val ID = "VoidDisplay".makeID()
@@ -27,12 +30,16 @@ class VoidShardDisplay : TopPanelItem(IMG, ID) {
   override fun isClickable(): Boolean = false
 
   override fun onClick() {
+    if (Settings.isDebug) addVoidShard(1)
     CardCrawlGame.sound.play("RELIC_DROP_MAGICAL")
   }
 
   override fun update() {
     updateFlash()
     super.update()
+    if (Settings.isDebug && rightClicked()) {
+      subVoidShard(1)
+    }
   }
 
   override fun render(sb: SpriteBatch) {

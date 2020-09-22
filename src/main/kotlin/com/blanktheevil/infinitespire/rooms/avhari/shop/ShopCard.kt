@@ -43,7 +43,7 @@ class ShopCard(private val card: BlackCard, cost: Int) : ShopElementBase(cost) {
 
   override fun render(sb: SpriteBatch) {
     card.render(sb)
-//    renderPrice(sb)
+    renderPrice(sb)
   }
 
   override fun renderPrice(sb: SpriteBatch) {
@@ -54,8 +54,8 @@ class ShopCard(private val card: BlackCard, cost: Int) : ShopElementBase(cost) {
       sb.color = lockAlpha
       sb.draw(
         this,
-        card.current_x + shardCx,
-        card.current_y + shardCy,
+        card.current_x - shardCx,
+        card.current_y - shardCy,
         shardCx,
         shardCy,
         packedWidth.toFloat(),

@@ -13,6 +13,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.Hitbox
+import com.megacrit.cardcrawl.helpers.MathHelper
 import com.megacrit.cardcrawl.relics.AbstractRelic
 
 class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(cost) {
@@ -24,8 +25,15 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
 
   override fun update() {
     relic.update()
+    moveRelic()
     hb.move(relic.currentX, relic.currentY)
     hb.update()
+    if (leftClicked()) {
+      CardCrawlGame.sound.play("UI_CLICK_1")
+      if (canAfford() && !purchaced) {
+        purchace()
+      }
+    }
     renderOnTop = relic.hb.hovered
   }
 
@@ -36,11 +44,10 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
   }
 
   override fun purchace() {
-    if (!purchaced) {
-      CardCrawlGame.sound.play("SHOP_PURCHASE")
-      subVoidShard(cost)
-      purchaced = true
-    }
+    CardCrawlGame.sound.play("SHOP_PURCHASE")
+    subVoidShard(cost)
+    purchaced = true
+    relic.obtain()
   }
 
   override fun renderPrice(sb: SpriteBatch) {
@@ -53,6 +60,7 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
         fontColor = Color.RED.cpy().also { it.a = 1f }
       }
 
+      sb.color = fontColor
       sb.draw(
         this,
         xPos,
@@ -78,11 +86,17 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
     }
   }
 
+  fun moveRelic() {
+    relic.currentX = MathHelper.uiLerpSnap(relic.currentX, relic.targetX)
+    relic.currentY = MathHelper.uiLerpSnap(relic.currentY, relic.targetY)
+
+  }
+
   override fun getHitbox(): Hitbox = hb
 
   override fun placeAtPoint(position: Vector2, distance: Float, rotation: Float, index: Int, size: Int) {
     val point = AvhariManager.getPoint(position, distance, rotation, index, size)
-    relic.currentX = point.x
-    relic.currentY = point.y
+    relic.targetX = point.x
+    relic.targetY = point.y
   }
 }
