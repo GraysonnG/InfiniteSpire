@@ -62,7 +62,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.evacipated.cardcrawl:ModTheSpire:2.9.1">
         <CLASSES>
-          <root url="jar://D:/Steam/steamapps/workshop/content/646570/1605060445/ModTheSpire.jar!/" />
+          <root url="jar://D:/Steam/steamapps/common/SlayTheSpire/ModTheSpire.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

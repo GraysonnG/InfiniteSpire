@@ -61,6 +61,15 @@ fun Hitbox.rightClicked(): Boolean = InputHelper.justClickedRight && this.hovere
 fun SpriteBatch.additiveMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE)
 fun SpriteBatch.normalMode() = this.setBlendFunction(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA)
 
+val TextureAtlas.AtlasRegion.width
+  get() = this.packedWidth.toFloat()
+val TextureAtlas.AtlasRegion.height
+  get() = this.packedHeight.toFloat()
+val TextureAtlas.AtlasRegion.halfWidth
+  get() = this.packedWidth.div(2f)
+val TextureAtlas.AtlasRegion.halfHeight
+  get() = this.packedHeight.div(2f)
+
 fun AbstractCreature.applyPower(
   power: AbstractPower,
   amount: Int = power.amount,

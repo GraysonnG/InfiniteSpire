@@ -9,4 +9,5 @@ interface ShopElement : SpireElement, SpireClickable {
   fun purchace()
   fun renderPrice(sb: SpriteBatch)
   fun placeAtPoint(position: Vector2, distance: Float, rotation: Float, index: Int, size: Int)
+  fun mouseOverSkipButton(): Boolean
 }

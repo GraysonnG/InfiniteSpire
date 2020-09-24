@@ -4,6 +4,7 @@ package com.blanktheevil.infinitespire.patches
 
 import com.evacipated.cardcrawl.modthespire.lib.SpireEnum
 import com.megacrit.cardcrawl.cards.AbstractCard
+import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.helpers.CardLibrary
 import com.megacrit.cardcrawl.rewards.RewardItem
 

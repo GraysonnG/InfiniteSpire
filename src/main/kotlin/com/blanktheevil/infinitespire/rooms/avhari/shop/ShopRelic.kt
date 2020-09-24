@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
+import com.blanktheevil.infinitespire.extensions.halfHeight
 import com.blanktheevil.infinitespire.extensions.scale
 import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.blanktheevil.infinitespire.rooms.avhari.interfaces.ShopElementBase
@@ -28,12 +29,7 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
     moveRelic()
     hb.move(relic.currentX, relic.currentY)
     hb.update()
-    if (leftClicked()) {
-      CardCrawlGame.sound.play("UI_CLICK_1")
-      if (canAfford() && !purchaced) {
-        purchace()
-      }
-    }
+    checkOnClick()
     renderOnTop = relic.hb.hovered
   }
 
@@ -80,7 +76,7 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
         FontHelper.cardTitleFont,
         "$cost",
         relic.currentX,
-        yPos.plus(16.scale().scale()),
+        yPos + halfHeight.div(2f).scale(),
         fontColor
       )
     }

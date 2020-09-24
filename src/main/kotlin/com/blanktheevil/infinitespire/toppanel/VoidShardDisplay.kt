@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.helpers.TipHelper
 class VoidShardDisplay : TopPanelItem(IMG, ID), SpireClickable {
   companion object {
     private val IMG = Textures.ui.get("topPanel/avhari/voidShard.png")
+    private val REGION = IMG.asAtlasRegion()
     val ID = "VoidDisplay".makeID()
     private const val FLASH_ANIM_TIME = 2.0f
     private val TIP_Y_POS = Settings.HEIGHT.minus(120.0f.scale())
@@ -37,6 +38,12 @@ class VoidShardDisplay : TopPanelItem(IMG, ID), SpireClickable {
   override fun update() {
     updateFlash()
     super.update()
+
+    with(getHitbox()) {
+      cX = x.plus(width.div(2f))
+      cY = y.plus(height.div(2f))
+    }
+
     if (Settings.isDebug && rightClicked()) {
       subVoidShard(1)
     }
@@ -82,7 +89,7 @@ class VoidShardDisplay : TopPanelItem(IMG, ID), SpireClickable {
   }
 
   private fun renderFlash(sb: SpriteBatch) {
-    val tmp = Interpolation.exp10In.apply(0f, 4f, flashTimer / FLASH_ANIM_TIME)
+    val tmp = Interpolation.exp10In.apply(1f, 4f, flashTimer / FLASH_ANIM_TIME)
 
     sb.additiveMode()
     sb.color = Color.WHITE.cpy().also { it.a = flashTimer / FLASH_ANIM_TIME }
@@ -95,26 +102,19 @@ class VoidShardDisplay : TopPanelItem(IMG, ID), SpireClickable {
   }
 
   private fun renderImageWithScale(sb: SpriteBatch, imgScale: Float) {
-    val halfWidth = this.image.width.div(2f)
-    val halfHeight = this.image.height.div(2f)
-
-    sb.draw(
-      image,
-      this.x.minus(halfWidth).plus(halfHeight).scale(),
-      this.y.minus(halfHeight).plus(halfWidth).scale(),
-      halfWidth,
-      halfHeight,
-      this.image.width.toFloat(),
-      this.image.height.toFloat(),
-      imgScale,
-      imgScale,
-      this.angle,
-      0,
-      0,
-      this.image.width,
-      this.image.height,
-      false,
-      false
-    )
+    with(REGION) {
+      sb.draw(
+        this,
+        getHitbox().cX.minus(halfWidth),
+        getHitbox().cY.minus(halfHeight),
+        halfWidth,
+        halfHeight,
+        width,
+        height,
+        imgScale,
+        imgScale,
+        angle
+      )
+    }
   }
 }
