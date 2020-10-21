@@ -7,7 +7,7 @@ import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.extensions.player
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
-import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
+import com.blanktheevil.infinitespire.vfx.particlesystems.ParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.core.AbstractCreature
 import com.megacrit.cardcrawl.core.CardCrawlGame
@@ -31,7 +31,7 @@ class FinalStrikeVfx(private val creature: AbstractCreature) : AbstractGameEffec
   private var tScale = 2f
   private var exploded = false
 
-  private val particles = BlackCardParticleSystem(
+  private val particles = ParticleSystem(
     numberOfParticlesPerSpawn = 6,
     createNewParticle = {
       BlackCardParticle(

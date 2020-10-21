@@ -7,7 +7,7 @@ class TextureGetter(private val folder: String) {
   fun get(texture: String): Texture = TextureLoaderKt.getTexture(getString(texture, true))
   fun getString(texture: String, ignoreValidation: Boolean = false): String {
     val finalString = getString(folder, texture)
-    val validated = if(!ignoreValidation) TextureLoaderKt.exists(finalString) else true
+    val validated = if (!ignoreValidation) TextureLoaderKt.exists(finalString) else true
 
     return when {
       validated -> finalString

@@ -6,7 +6,7 @@ import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.megacrit.cardcrawl.helpers.Hitbox
 
 class Avhari : SpireElement, SpireClickable {
-  private val hb = Hitbox(0f,0f)
+  private val hb = Hitbox(0f, 0f)
 
   override fun getHitbox(): Hitbox = hb
 

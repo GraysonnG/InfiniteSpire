@@ -1,7 +1,6 @@
 package com.blanktheevil.infinitespire.monsters
 
 import com.blanktheevil.infinitespire.monsters.utils.Move
-import com.blanktheevil.infinitespire.monsters.utils.attackIntents
 import com.megacrit.cardcrawl.actions.common.RollMoveAction
 import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.monsters.AbstractMonster

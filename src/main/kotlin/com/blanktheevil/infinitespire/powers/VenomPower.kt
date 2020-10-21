@@ -21,9 +21,9 @@ class VenomPower(
   val source: AbstractCreature,
   amount: Int
 ) :
-    TwoAmountPower(),
-    HealthBarRenderPower,
-    NonStackablePower,
+  TwoAmountPower(),
+  HealthBarRenderPower,
+  NonStackablePower,
   OnMonsterDeathInterface {
   companion object {
     val powerID = "VenomPower".makeID()

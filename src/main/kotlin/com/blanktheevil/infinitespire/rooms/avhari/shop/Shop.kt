@@ -2,7 +2,6 @@ package com.blanktheevil.infinitespire.rooms.avhari.shop
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.extensions.*
@@ -22,7 +21,7 @@ class Shop : SpireElement {
     private val CARD_DIST = Settings.HEIGHT / 3.5f
     private val RELIC_DIST = 90f.scale()
     private const val CARD_COST = 8
-    private const val RELIC_COST= 15
+    private const val RELIC_COST = 15
     private const val SPIN_SPEED = 15f
     private const val VORTEX_SPEED = 10f
     private val VORTEX_TEXTURE by lazy { Textures.ui.get("avhari/portal.png").asAtlasRegion() }
@@ -48,9 +47,7 @@ class Shop : SpireElement {
 
   override fun update() {
     elements.forEach { it.update() }
-    elements.removeIf { it.purchaced }
-    cards.removeIf { it.purchaced }
-    relics.removeIf { it.purchaced }
+    elements.removeIfPurchased()
     hoveredCards = cards.any { it.getHitbox().hovered && !it.mouseOverSkipButton() }
     hoveredRelics = relics.any { it.getHitbox().hovered && !it.mouseOverSkipButton() }
 
@@ -65,6 +62,16 @@ class Shop : SpireElement {
 
     placeElements()
     movePlayerRelics()
+  }
+
+  private fun MutableList<ShopElementBase>.removeIfPurchased() {
+    removeIf { element ->
+      when (element) {
+        is ShopCard -> cards.removeIf { it.purchaced && it == element }
+        is ShopRelic -> relics.removeIf { it.purchaced && it == element }
+        else -> false
+      }
+    }
   }
 
   private fun movePlayerRelics() {

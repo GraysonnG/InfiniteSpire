@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.doNothing
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
-import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
+import com.blanktheevil.infinitespire.vfx.particlesystems.ParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
@@ -17,7 +17,7 @@ class UltimateFormVfx(player: AbstractPlayer) : AbstractGameEffect() {
     duration = Settings.ACTION_DUR_XLONG
   }
 
-  val particles = BlackCardParticleSystem(
+  val particles = ParticleSystem(
     numberOfParticlesPerSpawn = 8,
     createNewParticle = {
       BlackCardParticle(

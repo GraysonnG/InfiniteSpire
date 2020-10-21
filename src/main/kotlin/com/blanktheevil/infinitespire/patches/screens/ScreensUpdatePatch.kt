@@ -1,8 +1,6 @@
 package com.blanktheevil.infinitespire.patches.screens
 
-import com.badlogic.gdx.Gdx
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.utils.DebugControls
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn
@@ -18,7 +16,9 @@ object ScreensUpdatePatch {
     InfiniteSpire.powerSelectScreen.update()
     InfiniteSpire.debugControls.update()
 
-    if (InfiniteSpire.pauseGame && !InfiniteSpire.debugControls.stepForward.isJustPressed) return SpireReturn.Return(null)
+    if (InfiniteSpire.pauseGame && !InfiniteSpire.debugControls.stepForward.isJustPressed) {
+      return SpireReturn.Return(null)
+    }
 
     return SpireReturn.Continue()
   }

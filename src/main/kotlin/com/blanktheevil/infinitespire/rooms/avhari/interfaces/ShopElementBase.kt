@@ -9,8 +9,10 @@ import com.megacrit.cardcrawl.ui.buttons.ProceedButton
 
 abstract class ShopElementBase(protected val cost: Int) : ShopElement {
   companion object {
-    private val proceedHb by lazy { ReflectionHacks.getPrivate(AbstractDungeon.overlayMenu.proceedButton, ProceedButton::class.java, "hb") as Hitbox }
+    private val proceedHb
+      get() = ReflectionHacks.getPrivate(AbstractDungeon.overlayMenu.proceedButton, ProceedButton::class.java, "hb") as Hitbox
   }
+
   protected var angle = 0f
   var purchaced = false
   var renderOnTop = false

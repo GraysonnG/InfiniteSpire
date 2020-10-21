@@ -44,7 +44,7 @@ abstract class Card(
   }
 
   constructor(builder: CardBuilder) :
-      this(builder.id, builder.img, builder.type, builder.target, builder.rarity, builder.color, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
+    this(builder.id, builder.img, builder.type, builder.target, builder.rarity, builder.color, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
 
   open fun onUpgrade() = doNothing()
   override fun use(p: AbstractPlayer?, m: AbstractMonster?) = use.invoke(this, p, m)

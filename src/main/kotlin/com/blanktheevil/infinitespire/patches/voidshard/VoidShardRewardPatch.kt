@@ -18,7 +18,7 @@ object VoidShardRewardPatch {
     if (AbstractDungeon.miscRng.randomBoolean(VoidShardCurrency.DROP_RATE)) {
       rewardScreen.rewards.add(
         VoidShardReward(
-          if(AbstractDungeon.id == TheVoid.ID) 5 else 1
+          if (AbstractDungeon.id == TheVoid.ID) 5 else 1
         )
       )
     }

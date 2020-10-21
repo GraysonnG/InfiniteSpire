@@ -13,7 +13,9 @@ class Move(
   private var byte: Byte = -1
 
   fun getByte(): Byte = byte
-  fun setByte(value: Byte) { byte = value }
+  fun setByte(value: Byte) {
+    byte = value
+  }
 
   fun modify(
     intent: AbstractMonster.Intent = this.intent,

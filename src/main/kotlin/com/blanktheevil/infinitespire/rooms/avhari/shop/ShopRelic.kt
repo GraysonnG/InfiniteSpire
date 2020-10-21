@@ -6,10 +6,10 @@ import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.extensions.halfHeight
 import com.blanktheevil.infinitespire.extensions.scale
-import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.blanktheevil.infinitespire.rooms.avhari.interfaces.ShopElementBase
 import com.blanktheevil.infinitespire.rooms.avhari.utils.AvhariManager
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.FontHelper
@@ -47,7 +47,7 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
   }
 
   override fun renderPrice(sb: SpriteBatch) {
-    with (SHARD_TEXTURE) {
+    with(SHARD_TEXTURE) {
       val xPos = relic.currentX.minus(packedWidth.div(2f))
       val yPos = relic.currentY.minus(packedHeight).minus(10f.scale())
 

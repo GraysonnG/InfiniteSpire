@@ -4,10 +4,10 @@ import actlikeit.dungeons.CustomDungeon
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.acts.scenes.TheVoidScene
 import com.blanktheevil.infinitespire.acts.utils.ActManager
-import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.monsters.utils.Encounters
 import com.blanktheevil.infinitespire.rooms.avhari.AvhariRoom
+import com.blanktheevil.infinitespire.utils.log
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
@@ -23,13 +23,13 @@ import com.megacrit.cardcrawl.scenes.AbstractScene
 @Suppress("unused")
 class TheVoid : CustomDungeon {
   constructor() :
-      super(NAME, ID)
+    super(NAME, ID)
 
   constructor(cd: CustomDungeon, p: AbstractPlayer, emptyList: ArrayList<String>) :
-      super(cd, p, emptyList)
+    super(cd, p, emptyList)
 
   constructor(cd: CustomDungeon?, p: AbstractPlayer?, saveFile: SaveFile?) :
-      super(cd, p, saveFile)
+    super(cd, p, saveFile)
 
   companion object {
     val ID = "TheVoid".makeID()

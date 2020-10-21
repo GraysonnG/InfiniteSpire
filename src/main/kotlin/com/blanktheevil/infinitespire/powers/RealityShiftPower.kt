@@ -10,8 +10,8 @@ import com.megacrit.cardcrawl.cards.DamageInfo
 import com.megacrit.cardcrawl.powers.AbstractPower
 
 class RealityShiftPower(val nightmare: Nightmare, amount: Int) :
-    AbstractPower(),
-    CloneablePowerInterface {
+  AbstractPower(),
+  CloneablePowerInterface {
   companion object {
     val powerID = "RealityShiftPower".makeID()
     val BUILDER = PowerBuilder(powerID)

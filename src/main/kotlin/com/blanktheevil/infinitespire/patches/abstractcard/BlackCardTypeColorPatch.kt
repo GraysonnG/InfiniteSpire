@@ -19,34 +19,34 @@ object BlackCardTypeColorPatch {
   @SpireInsertPatch(
     locator = RenderRotatedTextLocator::class,
     localvars = [
-    "font",
-    "text",
-    "current_x",
-    "current_y",
-    "drawScale",
-    "angle",
-    "renderColor"
+      "font",
+      "text",
+      "current_x",
+      "current_y",
+      "drawScale",
+      "angle",
+      "renderColor"
     ]
   )
   fun adjustColor(card: AbstractCard, sb: SpriteBatch, font: BitmapFont, text: String, curX: Float, curY: Float, dScale: Float, angle: Float, renderColor: Color): SpireReturn<Void> {
-        return if (card is BlackCard) {
-          val textColor = Color.valueOf("d0beff").cpy()
-          textColor.a = renderColor.a
+    return if (card is BlackCard) {
+      val textColor = Color.valueOf("d0beff").cpy()
+      textColor.a = renderColor.a
 
-          FontHelper.renderRotatedText(
-            sb,
-            font,
-            text,
-            curX,
-            curY.minus(22f.times(dScale).scale()),
-            0f,
-            -1f.times(dScale).scale(),
-            angle,
-            false,
-            textColor
-          )
+      FontHelper.renderRotatedText(
+        sb,
+        font,
+        text,
+        curX,
+        curY.minus(22f.times(dScale).scale()),
+        0f,
+        -1f.times(dScale).scale(),
+        angle,
+        false,
+        textColor
+      )
 
-          SpireReturn.Return(null);
-        } else SpireReturn.Continue();
+      SpireReturn.Return(null)
+    } else SpireReturn.Continue()
   }
 }

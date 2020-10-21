@@ -5,6 +5,4 @@ class Settings(
   var shouldSpawnLords: Boolean = true,
   var shouldDoEndless: Boolean = true,
   var shouldRetainShards: Boolean = false
-) {
-
-}
+)

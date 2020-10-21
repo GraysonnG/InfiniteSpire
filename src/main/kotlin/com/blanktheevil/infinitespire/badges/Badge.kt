@@ -87,12 +87,12 @@ abstract class Badge(val id: String) : IInfiniteSpire, ISubscriber, OnStartBattl
 
 
     val glowPos = Vector2(
-      pos.x.minus(fWidth).minus(GLOW.packedWidth.div(2f).scale()).minus(5f.scale()).minus(VOID_SHARD.packedWidth.div(2f).scale()),
-      pos.y.minus(GLOW.packedHeight.div(2f).scale())
+      pos.x.minus(fWidth).minus(GLOW.packedWidth.div(2f)).minus(5f.scale()).minus(VOID_SHARD.packedWidth.div(2f)),
+      pos.y.minus(GLOW.packedHeight.div(2f))
     )
     val shardPos = Vector2(
-      pos.x.minus(fWidth).minus(VOID_SHARD.packedWidth.scale()).minus(5f.scale()),
-      pos.y.minus(VOID_SHARD.packedHeight.div(2f).scale())
+      pos.x.minus(fWidth).minus(VOID_SHARD.packedWidth).minus(5f.scale()),
+      pos.y.minus(VOID_SHARD.packedHeight.div(2f))
     )
 
     FontHelper.renderFontRightAligned(

@@ -39,9 +39,9 @@ object PlatedPowerSmartPatch {
           ctClass.declaredMethods.asList().stream()
             .filter {
               it != null && (
-                  RemovePowerLocator().Locate(it).isNotEmpty() ||
-                      ReducePowerLocator().Locate(it).isNotEmpty()
-                  )
+                RemovePowerLocator().Locate(it).isNotEmpty() ||
+                  ReducePowerLocator().Locate(it).isNotEmpty()
+                )
             }
             .forEach {
               it.instrument(PlatedPowerInstrument())

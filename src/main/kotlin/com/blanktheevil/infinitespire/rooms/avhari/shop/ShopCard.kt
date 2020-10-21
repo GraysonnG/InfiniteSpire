@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.extensions.*
-import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.blanktheevil.infinitespire.rooms.avhari.interfaces.ShopElementBase
 import com.blanktheevil.infinitespire.rooms.avhari.utils.AvhariManager
 import com.blanktheevil.infinitespire.textures.Textures
+import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.FontHelper
@@ -77,10 +77,10 @@ class ShopCard(private val card: BlackCard, cost: Int) : ShopElementBase(cost) {
   }
 
   override fun renderPrice(sb: SpriteBatch) {
-    with (SHARD_TEXTURE) {
+    with(SHARD_TEXTURE) {
       val shardCx = halfWidth
       val shardCy = halfHeight
-      val c = if(canAfford()) lockAlpha else cantAffordColor.cpy().also { it.a = lockAlpha.a }
+      val c = if (canAfford()) lockAlpha else cantAffordColor.cpy().also { it.a = lockAlpha.a }
 
       sb.color = c
       sb.draw(
@@ -93,7 +93,7 @@ class ShopCard(private val card: BlackCard, cost: Int) : ShopElementBase(cost) {
         height,
         scale,
         scale,
-        0f
+        90f
       )
 
       FontHelper.cardTitleFont.data.setScale(1.0f)

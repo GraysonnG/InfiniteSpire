@@ -3,5 +3,6 @@
 .project
 .classpath
 .idea/
+/lib/
 infinite-spire.iml
 dependency-reduced-pom.xml

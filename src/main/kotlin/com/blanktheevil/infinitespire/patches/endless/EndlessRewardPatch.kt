@@ -16,7 +16,7 @@ object EndlessRewardPatch {
   @JvmStatic
   @SpireInsertPatch(locator = PositionRewardsLocator::class)
   fun addEndlessReward(rewardScreen: CombatRewardScreen) {
-    if(!Settings.isEndless && AbstractDungeon.id == TheVoid.ID && AbstractDungeon.currMapNode.room != null && AbstractDungeon.getCurrRoom() is MonsterRoomBoss) {
+    if (!Settings.isEndless && AbstractDungeon.id == TheVoid.ID && AbstractDungeon.currMapNode.room != null && AbstractDungeon.getCurrRoom() is MonsterRoomBoss) {
       rewardScreen.rewards.add(
         EndlessUnlockReward()
       )

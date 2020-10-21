@@ -19,7 +19,7 @@ import com.megacrit.cardcrawl.vfx.combat.ExplosionSmallEffect
 class CorruptedShapes : Monster(
   "Corrupted Shapes",
   ID,
-  80,
+  87,
   0.0f,
   0.0f,
   300f,
@@ -53,7 +53,7 @@ class CorruptedShapes : Monster(
   }
   private val pokeMove = Move(Intent.ATTACK, pokeDamage, multiplier = pokeMultiplier, isMultiDamage = true) {
     for (i in 0 until this.multiplier) {
-      val effect = when(Random().random(2))  {
+      val effect = when (Random().random(2)) {
         0 -> AbstractGameAction.AttackEffect.FIRE
         1 -> AbstractGameAction.AttackEffect.BLUNT_HEAVY
         else -> AbstractGameAction.AttackEffect.BLUNT_LIGHT
@@ -66,8 +66,10 @@ class CorruptedShapes : Monster(
 
   init {
     this.img = Textures.monsters.get("massofshapes/massofshapes.png")
-    
+
     dazedCount = if (AbstractDungeon.ascensionLevel >= 7) 4 else 3
+
+    setHp(85, 92)
 
     if (AbstractDungeon.ascensionLevel >= 2) {
       explodeMove.modify(damage = explodeDamage + 5)
@@ -121,8 +123,8 @@ class CorruptedShapes : Monster(
 
   override fun getMove(roll: Int) {
     when {
-      roll < 25 -> setMove(explodeMove)
-      roll in 26..65 -> setMove(dazedMove)
+      roll < 40 -> setMove(explodeMove)
+      roll in 41..65 -> setMove(dazedMove)
       else -> setMove(pokeMove)
     }
   }

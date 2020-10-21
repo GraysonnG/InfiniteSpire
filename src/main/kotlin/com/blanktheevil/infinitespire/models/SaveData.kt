@@ -1,9 +1,9 @@
 package com.blanktheevil.infinitespire.models
 
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.relics.BottledMercury
 import com.blanktheevil.infinitespire.relics.BottledSoul
+import com.blanktheevil.infinitespire.utils.log
 import com.evacipated.cardcrawl.modthespire.lib.ConfigUtils
 import com.google.gson.Gson
 import java.io.File

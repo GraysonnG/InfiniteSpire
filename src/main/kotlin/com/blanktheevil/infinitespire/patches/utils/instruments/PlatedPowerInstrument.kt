@@ -29,12 +29,12 @@ class PlatedPowerInstrument : ExprEditor() {
 
   private fun getReplaceString(className: String, args: String): String =
     "{" +
-    "if($spireFieldBooleanString) {" +
-    "\$_=new $className$args;" +
-    "} else {" +
-    "\$_=\$proceed(\$\$);" +
-    "}" +
-    "}"
+      "if($spireFieldBooleanString) {" +
+      "\$_=new $className$args;" +
+      "} else {" +
+      "\$_=\$proceed(\$\$);" +
+      "}" +
+      "}"
 
   private val spireFieldBooleanString: String =
     "${PlatedPowerInstrument::class.java.name}.spireFieldToBoolean(this)"

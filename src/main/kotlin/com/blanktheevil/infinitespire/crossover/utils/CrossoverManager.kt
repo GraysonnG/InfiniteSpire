@@ -5,9 +5,9 @@ import basemod.helpers.RelicType
 import com.blanktheevil.infinitespire.cards.utils.CardManager
 import com.blanktheevil.infinitespire.crossover.Crossover
 import com.blanktheevil.infinitespire.crossover.cards.black.DarkHarmony
-import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.relics.BrokenMirror
 import com.blanktheevil.infinitespire.relics.EvilPickle
+import com.blanktheevil.infinitespire.utils.log
 import com.evacipated.cardcrawl.modthespire.Loader
 
 object CrossoverManager {

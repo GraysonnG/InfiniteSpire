@@ -2,9 +2,9 @@ package com.blanktheevil.infinitespire.powers
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.blanktheevil.infinitespire.powers.utils.isPlatedPower
 import com.blanktheevil.infinitespire.extensions.makeID
 import com.blanktheevil.infinitespire.powers.utils.PowerBuilder
+import com.blanktheevil.infinitespire.powers.utils.isPlatedPower
 import com.megacrit.cardcrawl.actions.common.ReducePowerAction
 import com.megacrit.cardcrawl.actions.utility.UseCardAction
 import com.megacrit.cardcrawl.cards.AbstractCard
@@ -42,7 +42,7 @@ class PlatedPower<T : AbstractPower>(private val simulatedPower: T, amount: Int)
   override fun updateDesc() {
     simulatedPower.updateDescription()
     this.description = "Gain the effect of $amount #y${simulatedPower.name}" +
-        " NL NL Receiving unblocked attack damage reduces #yPlated #y${simulatedPower.name} by #b$amountToLose."
+      " NL NL Receiving unblocked attack damage reduces #yPlated #y${simulatedPower.name} by #b$amountToLose."
   }
 
   override fun atEndOfTurnPreEndTurnCards(isPlayer: Boolean) {

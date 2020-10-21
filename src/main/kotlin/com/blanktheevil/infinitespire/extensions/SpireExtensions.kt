@@ -3,7 +3,6 @@
 package com.blanktheevil.infinitespire.extensions
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL30
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -34,7 +33,7 @@ import com.megacrit.cardcrawl.relics.AbstractRelic
 import com.megacrit.cardcrawl.rooms.AbstractRoom
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import com.megacrit.cardcrawl.vfx.cardManip.ExhaustCardEffect
-import java.util.ArrayList
+import java.util.*
 
 fun Float.scale(): Float = this * Settings.scale
 fun Int.scale(): Float = this * Settings.scale

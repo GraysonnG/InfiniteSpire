@@ -7,16 +7,16 @@ import com.megacrit.cardcrawl.actions.common.HealAction
 import com.megacrit.cardcrawl.monsters.AbstractMonster
 
 class LordOfAnnihilation :
-    AbstractMonster(
-      NAME,
-      ID,
-      MAX_HP,
-      0f,
-      0f,
-      200f,
-      200f,
-      ""
-    ) {
+  AbstractMonster(
+    NAME,
+    ID,
+    MAX_HP,
+    0f,
+    0f,
+    200f,
+    200f,
+    ""
+  ) {
   companion object {
     val ID = "LordOfAnnihilation".makeID()
     private val strings = languagePack.getMonsterStrings(ID)

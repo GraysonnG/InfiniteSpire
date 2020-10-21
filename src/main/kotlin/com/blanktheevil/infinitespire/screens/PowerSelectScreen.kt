@@ -15,6 +15,7 @@ class PowerSelectScreen : Screen<PowerSelectScreen>() {
   companion object {
     private val strings = languagePack.getUIString("PowerSelectScreen".makeID())
   }
+
   var powerButtons = List(8) { PowerButton(0f, 0f) }
 
   var selectedPower: AbstractPower? = null

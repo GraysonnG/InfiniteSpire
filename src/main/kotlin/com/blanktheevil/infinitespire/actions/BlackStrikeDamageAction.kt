@@ -11,7 +11,7 @@ import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
 import kotlin.math.ceil
 
-class BlackStrikeDamageAction(target: AbstractCreature, damage: Int) : AbstractGameAction()  {
+class BlackStrikeDamageAction(target: AbstractCreature, damage: Int) : AbstractGameAction() {
   companion object {
     private const val DELAY = 0.5f
     private const val FIST_SCALE = 0.5f

@@ -15,7 +15,7 @@ class InterestReward(val amount: Int) : CustomReward(ICON, getDesc(amount), Enum
     }
     private val strings = languagePack.getUIString("RewardItems".makeID())
 
-    private fun getDesc(amount: Int) : String {
+    private fun getDesc(amount: Int): String {
       return strings.TEXT[1] + amount + strings.TEXT[2]
     }
   }

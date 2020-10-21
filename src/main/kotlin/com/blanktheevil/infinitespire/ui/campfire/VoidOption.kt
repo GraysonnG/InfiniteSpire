@@ -14,7 +14,7 @@ import com.blanktheevil.infinitespire.interfaces.SpireClickable
 import com.blanktheevil.infinitespire.interfaces.SpireElement
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
-import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
+import com.blanktheevil.infinitespire.vfx.particlesystems.ParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
@@ -44,7 +44,7 @@ class VoidOption : SpireElement, SpireClickable {
   var scale = NORM_SCALE
   val hb = Hitbox(512f.scale(), 140f.scale())
   var buttons: ArrayList<AbstractCampfireOption>? = null
-  private val particleSystem = BlackCardParticleSystem(
+  private val particleSystem = ParticleSystem(
     createNewParticle = {
       BlackCardParticle(
         VFXManager.generateRandomPointAlongEdgeOfHitbox(hb),
@@ -85,7 +85,7 @@ class VoidOption : SpireElement, SpireClickable {
   fun updatePosition(cui: CampfireUI) {
     if (buttons == null) {
       buttons = ReflectionHacks.getPrivate(cui, CampfireUI::class.java, "buttons")
-          as ArrayList<AbstractCampfireOption>
+        as ArrayList<AbstractCampfireOption>
     }
     if (buttons?.size!! > 4) {
       hb.move(BREAKPOINT_X, BREAKPOINT_Y)

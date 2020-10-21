@@ -9,7 +9,7 @@ import com.blanktheevil.infinitespire.cards.utils.CardBuilder
 import com.blanktheevil.infinitespire.patches.EnumPatches
 import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
-import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
+import com.blanktheevil.infinitespire.vfx.particlesystems.ParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.characters.AbstractPlayer
 import com.megacrit.cardcrawl.monsters.AbstractMonster
@@ -30,7 +30,7 @@ abstract class BlackCard(
     private val RARITY = EnumPatches.CardRarity.BLACK
   }
 
-  private val particleSystem = BlackCardParticleSystem(
+  private val particleSystem = ParticleSystem(
     createNewParticle = {
       BlackCardParticle(
         VFXManager.generateRandomPointAlongEdgeOfHitbox(hb),
@@ -42,7 +42,7 @@ abstract class BlackCard(
   )
 
   constructor(builder: CardBuilder) :
-      this(builder.id, builder.img, builder.type, builder.target, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
+    this(builder.id, builder.img, builder.type, builder.target, builder.cost, builder.exhaust, builder.use, builder.init, builder.upgr)
 
   init {
     setOrbAndBanner()

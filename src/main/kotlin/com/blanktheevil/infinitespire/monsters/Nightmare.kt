@@ -3,6 +3,7 @@ package com.blanktheevil.infinitespire.monsters
 import actlikeit.savefields.BehindTheScenesActNum
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
+import com.blanktheevil.infinitespire.actions.MultishotAction
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.interfaces.hooks.Savable
 import com.blanktheevil.infinitespire.models.SaveData
@@ -10,10 +11,10 @@ import com.blanktheevil.infinitespire.monsters.utils.Move
 import com.blanktheevil.infinitespire.monsters.utils.setMove
 import com.blanktheevil.infinitespire.powers.RealityShiftPower
 import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.utils.*
+import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
-import com.blanktheevil.infinitespire.vfx.particlesystems.BlackCardParticleSystem
+import com.blanktheevil.infinitespire.vfx.particlesystems.ParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.animations.AnimateFastAttackAction
@@ -30,16 +31,16 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class Nightmare :
-    Monster(
-      NAME,
-      ID,
-      MAX_HP,
-      HB_X,
-      HB_Y,
-      HB_W,
-      HB_H,
-      IMG_URL
-    ), Savable {
+  Monster(
+    NAME,
+    ID,
+    MAX_HP,
+    HB_X,
+    HB_Y,
+    HB_W,
+    HB_H,
+    IMG_URL
+  ), Savable {
   companion object {
     val ID = "Nightmare".makeID()
     private val STRINGS = languagePack.getMonsterStrings(ID)
@@ -68,7 +69,7 @@ class Nightmare :
   private var firstTurn = true
   private var spriteTimer = 0f
   private var sprintIndex = 0
-  private var particleSystem = BlackCardParticleSystem(
+  private var particleSystem = ParticleSystem(
     8,
     {
       val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
@@ -91,44 +92,59 @@ class Nightmare :
   )
   private val realityShiftMove = Move(Intent.MAGIC, name = MOVES[0]) {
     it.applyPower(
-      RealityShiftPower(it as Nightmare, 50)
+      RealityShiftPower(it as Nightmare, 100)
     )
   }
   private val multiStrikeMove = Move(Intent.ATTACK, attackDamage, MOVES[1], attackAmount, true) {
     addToBot(
       AnimateFastAttackAction(it)
     )
-    for (i in 0 until this.multiplier) {
-      addToBot(DamageAction(
+//    AbstractDungeon.effectList.add(
+//      MultishotVfx(
+//        this@Nightmare.hb,
+//        player.hb,
+//        this.multiplier * 2
+//      )
+//    )
+//    for (i in 0 until this.multiplier) {
+//      addToBot(DamageAction(
+//        player,
+//        it.damage[this.getByte().toInt()],
+//        AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
+//        true
+//      ))
+//    }
+    addToBot(
+      MultishotAction(
+        this@Nightmare,
         player,
         it.damage[this.getByte().toInt()],
-        AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
-        true
-      ))
-    }
+        multiplier
+      )
+    )
   }
   private val debuffBlockMove = Move(Intent.DEFEND_DEBUFF, name = MOVES[3]) {
     addToBot(GainBlockAction(it, blockAmount))
-      for (i in 0 until debuffAmount) {
-        player.applyPower(
-          WeakPower(player, 1, true),
-          source = it
-        )
-        player.applyPower(
-          WeakPower(player, 1, true),
-          source = it
-        )
-      }
+    for (i in 0 until debuffAmount) {
+      player.applyPower(
+        WeakPower(player, 1, true),
+        source = it
+      )
+      player.applyPower(
+        WeakPower(player, 1, true),
+        source = it
+      )
+    }
   }
   private val slamMove = Move(Intent.ATTACK_BUFF, slamDamage, name = MOVES[2]) {
     addToBot(DamageAction(
-          player,
-          it.damage[this.getByte().toInt()],
-          AbstractGameAction.AttackEffect.BLUNT_HEAVY
-        ))
-        applyPower(
-          StrengthPower(it, buffAmount)
-        )
+      player,
+      it.damage[this.getByte().toInt()],
+      AbstractGameAction.AttackEffect.BLUNT_HEAVY
+    ))
+    applyPower(
+      StrengthPower(it, buffAmount)
+    )
   }
 
   init {
@@ -168,7 +184,8 @@ class Nightmare :
       BlackCardVfx()
     )
     addToTop(GainBlockAction(this, this, BLOCK_ON_TRIGGER))
-
+    this.attackAmount += 1
+    multiStrikeMove.modify(multiplier = attackAmount)
     this.setMove(multiStrikeMove)
     this.createIntent()
     endPlayerTurn()

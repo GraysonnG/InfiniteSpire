@@ -37,11 +37,11 @@ class BlackStrikeSmallVfx(val hb: Hitbox) : AbstractGameEffect() {
   init {
     this.duration = DURATION
     this.startingDuration = DURATION
-    this.color = (if(MathUtils.randomBoolean())
+    this.color = (if (MathUtils.randomBoolean())
       InfiniteSpire.RED.cpy()
     else
       InfiniteSpire.PURPLE.cpy()
-    )
+      )
     this.scale = MathUtils.random(Settings.scale.div(2f), Settings.scale)
     CardCrawlGame.sound.play("BLUNT_FAST")
   }

@@ -9,7 +9,7 @@ import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 
-class EndlessUnlockReward : CustomReward(ICON, strings.TEXT[0], EnumPatches.RewardType.ENDLESS){
+class EndlessUnlockReward : CustomReward(ICON, strings.TEXT[0], EnumPatches.RewardType.ENDLESS) {
   companion object {
     private val strings = languagePack.getUIString("EndlessReward".makeID())
     private val ICON = Textures.ui.get("topPanel/endless.png")

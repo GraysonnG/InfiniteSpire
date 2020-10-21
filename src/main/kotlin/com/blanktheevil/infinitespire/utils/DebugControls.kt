@@ -2,6 +2,7 @@ package com.blanktheevil.infinitespire.utils
 
 import com.badlogic.gdx.Input
 import com.blanktheevil.infinitespire.InfiniteSpire
+import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.input.InputAction
 
@@ -12,6 +13,8 @@ class DebugControls {
   val stepForward = InputAction(Input.Keys.PERIOD)
   private val shiftL = InputAction(Input.Keys.SHIFT_LEFT)
   private val shiftR = InputAction(Input.Keys.SHIFT_RIGHT)
+  private var advanceTimer = 0f
+  private var shouldBePaused = false
 
   fun update() {
     if (shiftDown) {
@@ -24,8 +27,27 @@ class DebugControls {
       Settings.isDebug = !Settings.isDebug
     }
 
-    if (togglePause.isJustPressed) {
+    if (shouldBePaused) {
+      advanceTimer -= deltaTime
+      if (advanceTimer < 0f) {
+        advanceTimer = 0f
+        InfiniteSpire.pauseGame = true
+      }
+    }
+
+    if (stepForward.isJustPressed && advanceTimer <= 0) {
+      if (!InfiniteSpire.pauseGame) {
+        shouldBePaused = true
+        InfiniteSpire.pauseGame = true
+      } else {
+        advanceTimer = deltaTime * 2f
+        InfiniteSpire.pauseGame = false
+      }
+    }
+
+    if (togglePause.isJustPressed && advanceTimer <= 0) {
       InfiniteSpire.pauseGame = !InfiniteSpire.pauseGame
+      shouldBePaused = InfiniteSpire.pauseGame
     }
   }
 

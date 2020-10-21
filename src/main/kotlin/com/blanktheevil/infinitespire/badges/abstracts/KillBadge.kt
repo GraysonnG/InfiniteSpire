@@ -15,16 +15,16 @@ abstract class KillBadge(id: String, val numberOfKillsToTrigger: Int) : Badge(id
   private var killedByThisCard = 0
 
   override fun onMonsterDeath(monster: AbstractMonster) {
-    killedByThisCard ++
+    killedByThisCard++
     if (killedByThisCard == numberOfKillsToTrigger) {
       completed()
     }
   }
 
   override fun receiveCardUsed(c: AbstractCard) {
-    addToBot(object: AbstractGameAction()  {
+    addToBot(object : AbstractGameAction() {
       override fun update() {
-        addToBot(object: AbstractGameAction() {
+        addToBot(object : AbstractGameAction() {
           override fun update() {
             reset()
             this.isDone = true

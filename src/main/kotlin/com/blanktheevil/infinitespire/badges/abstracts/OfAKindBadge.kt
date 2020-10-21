@@ -21,7 +21,7 @@ abstract class OfAKindBadge(id: String, private val amount: Int) : Badge(id), On
 
   override fun receiveCardUsed(c: AbstractCard) {
     if (focusedCardId == c.cardID) {
-      timesPlayedInARow ++
+      timesPlayedInARow++
       if (timesPlayedInARow == amount.minus(1)) {
         completed()
         timesPlayedInARow = 0

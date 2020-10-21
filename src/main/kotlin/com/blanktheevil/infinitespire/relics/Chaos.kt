@@ -49,6 +49,6 @@ class Chaos : Relic(ID, IMG, TIER, SOUND) {
       player.relics.forEach { listRelic ->
         it.removeIf { relic -> relic.relicId == listRelic.relicId }
       }
-      (it.getRandomItem(AbstractDungeon.relicRng) ?: Circlet()).makeCopy()
+      it.getRandomItem(AbstractDungeon.relicRng).makeCopy()
     }
 }

@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.math.MathUtils
 import com.blanktheevil.infinitespire.InfiniteSpire
-import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.extensions.asAtlasRegion
 import com.blanktheevil.infinitespire.extensions.clamp
 import com.blanktheevil.infinitespire.extensions.deltaTime
 import com.blanktheevil.infinitespire.extensions.doNothing
+import com.blanktheevil.infinitespire.textures.Textures
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.helpers.Hitbox
@@ -18,7 +18,7 @@ import com.megacrit.cardcrawl.helpers.ScreenShake
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
 import kotlin.math.atan2
 
-class BlackStrikeLargeVfx(val hb: Hitbox, fistScale: Float = 1f) : AbstractGameEffect()  {
+class BlackStrikeLargeVfx(val hb: Hitbox, fistScale: Float = 1f) : AbstractGameEffect() {
   companion object {
     private val IMG: TextureAtlas.AtlasRegion by lazy {
       Textures.vfx.get("strike/fist-l.png").asAtlasRegion()

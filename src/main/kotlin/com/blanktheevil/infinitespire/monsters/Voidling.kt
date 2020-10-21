@@ -6,7 +6,7 @@ import com.blanktheevil.infinitespire.monsters.utils.Move
 import com.blanktheevil.infinitespire.monsters.utils.setMove
 import com.blanktheevil.infinitespire.powers.VenomPower
 import com.blanktheevil.infinitespire.textures.Textures
-import com.blanktheevil.infinitespire.utils.*
+import com.blanktheevil.infinitespire.utils.log
 import com.megacrit.cardcrawl.actions.AbstractGameAction
 import com.megacrit.cardcrawl.actions.GameActionManager
 import com.megacrit.cardcrawl.actions.common.ChangeStateAction
@@ -82,7 +82,7 @@ class Voidling(xOffset: Float = 0.0f, yOffset: Float = 0.0f) : Monster(
 
 
     if (AbstractDungeon.ascensionLevel > 2) {
-      tackleMove.modify (damage = tackleDamage + 2)
+      tackleMove.modify(damage = tackleDamage + 2)
       venomShotAmt += 2
       fangAttackMove.modify(damage = fangAttack + 2)
     }
