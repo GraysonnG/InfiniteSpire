@@ -99,21 +99,6 @@ class Nightmare :
     addToBot(
       AnimateFastAttackAction(it)
     )
-//    AbstractDungeon.effectList.add(
-//      MultishotVfx(
-//        this@Nightmare.hb,
-//        player.hb,
-//        this.multiplier * 2
-//      )
-//    )
-//    for (i in 0 until this.multiplier) {
-//      addToBot(DamageAction(
-//        player,
-//        it.damage[this.getByte().toInt()],
-//        AbstractGameAction.AttackEffect.SLASH_HORIZONTAL,
-//        true
-//      ))
-//    }
     addToBot(
       MultishotAction(
         this@Nightmare,

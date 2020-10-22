@@ -16,7 +16,6 @@ import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.Hitbox
-import com.megacrit.cardcrawl.helpers.ImageMaster
 import com.megacrit.cardcrawl.helpers.MathHelper
 import com.megacrit.cardcrawl.helpers.ScreenShake
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
@@ -30,7 +29,6 @@ class MultishotVfx(
   companion object Jerry {
     val TEXTURE = Textures.vfx.get("multistrike/diamond.png").asAtlasRegion()
     val DETAIL = Textures.vfx.get("multistrike/detail.png").asAtlasRegion()
-    val SPARK = ImageMaster.GLOW_SPARK
   }
 
   val startSlots = maxSlots.div(2)
@@ -76,14 +74,12 @@ class MultishotVfx(
   private val targetPoints = List(startSlots) {
     Vector2(targetHb.cX, targetHb.cY)
   }
-
   private var globalOffset = 0f
   private val distOffset = 0.1f.scale()
   private var offsetAngle = 0f
   private val angleOffset = List(startSlots) {
     MathUtils.random(0f, 360f)
   }
-
   private val points = List(startSlots) {
     startingPoints[it].cpy()
   }
@@ -113,7 +109,6 @@ class MultishotVfx(
       }
     )
   }
-
   private var pointScale = 0f
   private var detailScale = 0f
   private var detail2Scale = 1.25f
@@ -197,8 +192,6 @@ class MultishotVfx(
           it.x = setupFinishedPoints[index].x
           it.y = setupFinishedPoints[index].y
           angles[index] = getAngleToTarget(it, sourceHb).plus(90f)
-
-
         }
         Phase.CHARGE2 -> {
           // logic
@@ -236,8 +229,7 @@ class MultishotVfx(
               pointScale.times(.33f),
               color = if (MathUtils.randomBoolean(0.85f)) InfiniteSpire.PURPLE.cpy().also { it.a = .33f } else InfiniteSpire.RED.cpy()
             )
-          }
-          )
+          })
 
           // logic
           angles[revIndex] = getAngleToTarget(points[revIndex], targetHb).plus(90f)
@@ -347,7 +339,6 @@ class MultishotVfx(
       )
       sb.normalMode()
     }
-
   }
 
   private fun updatePhase() {
