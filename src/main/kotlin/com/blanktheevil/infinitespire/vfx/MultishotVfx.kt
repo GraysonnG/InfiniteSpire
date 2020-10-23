@@ -74,27 +74,11 @@ class MultishotVfx(
   private val targetPoints = List(startSlots) {
     Vector2(targetHb.cX, targetHb.cY)
   }
-  private var globalOffset = 0f
-  private val distOffset = 0.1f.scale()
-  private var offsetAngle = 0f
   private val angleOffset = List(startSlots) {
     MathUtils.random(0f, 360f)
   }
   private val points = List(startSlots) {
     startingPoints[it].cpy()
-  }
-  private val angles = MutableList(startSlots) {
-    0f
-  }
-  private val phaseEffects = MutableList(startSlots) {
-    mutableListOf(
-      false, // hit sounds
-      false, // launch sounds
-      false, // charge finished sounds
-      false, // charge started sounds
-      false, // setup finished sounds
-      false, // setup started sounds
-    )
   }
   private val particleSystems = List(maxSlots.div(2)) {
     ParticleSystem(
@@ -109,13 +93,29 @@ class MultishotVfx(
       }
     )
   }
+  private val angles = MutableList(startSlots) {
+    0f
+  }
+  private val phaseEffects = MutableList(startSlots) {
+    mutableListOf(
+      false, // hit sounds
+      false, // launch sounds
+      false, // charge finished sounds
+      false, // charge started sounds
+      false, // setup finished sounds
+      false, // setup started sounds
+    )
+  }
+  private var globalOffset = 0f
+  private val distOffset = 0.1f.scale()
+  private var offsetAngle = 0f
   private var pointScale = 0f
   private var detailScale = 0f
   private var detail2Scale = 1.25f
   private var detail2AngleOffset = 0f
-  private var phase = Phase.SETUP
   private val targetOnRight = targetHb.cX - sourceHb.cX > 0f
   private var startDamageDealt = false
+  private var phase = Phase.SETUP
 
   init {
     this.duration = phase.duration
@@ -144,7 +144,8 @@ class MultishotVfx(
       val indivInterpPercent = indivMaxDuration
         .plus(indivMaxDuration.times(index))
         .minus(duration)
-        .div(indivMaxDuration).clamp(0f, 1f)
+        .div(indivMaxDuration)
+        .clamp(0f, 1f)
       applyOffset(index)
       when (phase) {
         Phase.SETUP -> {
