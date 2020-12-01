@@ -8,13 +8,13 @@
   <description>A mod that lets you climb infinitely but primarily is a content mod focused on adding new and interesting relics.</description>
 
   <properties>
-    <steamFolder>D:/Steam/</steamFolder>
+    <steamFolder>/home/grayson/.local/share/Steam/</steamFolder>
     <modsFolder>${steamFolder}steamapps/workshop/content/646570/</modsFolder>
     <stsPath>${steamFolder}steamapps/common/SlayTheSpire/</stsPath>
     <stsVersion>07-01-2019</stsVersion>
     <mtsVersion>3.11.0</mtsVersion>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <kotlin.version>1.4.0</kotlin.version>
+    <kotlin.version>1.4.10</kotlin.version>
   </properties>
 
   <dependencies>
@@ -23,7 +23,7 @@
       <artifactId>slaythespire</artifactId>
       <version>016</version>
       <scope>system</scope>
-      <systemPath>D:/Steam/steamapps/common/SlayTheSpire/desktop-1.0.jar</systemPath>
+      <systemPath>${steamFolder}steamapps/common/SlayTheSpire/desktop-1.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>basemod</groupId>
@@ -92,6 +92,11 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-coroutines-core</artifactId>
+      <version>1.4.2</version>
+    </dependency>
+    <dependency>
       <groupId>actlikeit</groupId>
       <artifactId>actlikeit</artifactId>
       <version>1.1.1</version>
@@ -149,19 +154,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>2.4.2</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>2.4</version>
         <configuration>
@@ -179,7 +171,6 @@
             <phase>package</phase>
             <configuration>
               <target>
-                <copy file="target/${project.artifactId}.jar" tofile="D:/StSWorkspace/InfiniteSpire/content/${project.artifactId}.jar" />
                 <copy file="target/${project.artifactId}.jar" tofile="${stsPath}mods/${project.artifactId}.jar" />
               </target>
             </configuration>

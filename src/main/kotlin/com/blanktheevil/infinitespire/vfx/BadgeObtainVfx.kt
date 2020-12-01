@@ -77,7 +77,7 @@ class BadgeObtainVfx(private val badge: Badge) : AbstractGameEffect() {
 
     FontHelper.renderFontCentered(
       sb,
-      FontHelper.bannerFont,
+      FontHelper.menuBannerFont,
       badge.description,
       Settings.WIDTH.div(2f),
       height.minus(35f.scale()),
