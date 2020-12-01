@@ -93,28 +93,28 @@ public class MassOfShapes extends AbstractMonster {
 	}
 
 	public void render(SpriteBatch sb) {
-		super.render(sb);
 		sb.setColor(this.tint.color);
 		sb.draw(
-			coreTexture,
-			this.hb.cX - coreTexture.getWidth() / 2f,
-			this.hb.cY - coreTexture.getHeight() / 2f,
-			coreTexture.getWidth() / 2f,
-			coreTexture.getWidth() / 2f,
-			coreTexture.getWidth(),
-			coreTexture.getHeight(),
-			1f,
-			1,
-			coreRotation,
-			0,0,
-			coreTexture.getWidth(),
-			coreTexture.getWidth(),
-			false,
-			false);
+				coreTexture,
+				this.hb.cX - coreTexture.getWidth() / 2f,
+				this.hb.cY - coreTexture.getHeight() / 2f,
+				coreTexture.getWidth() / 2f,
+				coreTexture.getWidth() / 2f,
+				coreTexture.getWidth(),
+				coreTexture.getHeight(),
+				1f,
+				1,
+				coreRotation,
+				0,0,
+				coreTexture.getWidth(),
+				coreTexture.getWidth(),
+				false,
+				false);
 
 		for(Shape shape : shapes){
 			shape.render(sb);
 		}
+		super.render(sb);
 	}
 
 	@Override
