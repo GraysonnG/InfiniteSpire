@@ -37,8 +37,9 @@ public class BlackCardPatches {
 	@SpirePatch(clz = AbstractCard.class, method = "renderTitle")
 	public static class RenderTitle {
 		//Inserted after: font.getData().setScale(this.drawScale);
-		@SpireInsertPatch(locator=Locator.class, localvars = {"font", "renderColor"})
-		public static SpireReturn<?> blackCardTitleColorAdjust(AbstractCard __instance, SpriteBatch sb, BitmapFont font, Color renderColor) {
+		@SpireInsertPatch(locator=Locator.class, localvars = {"renderColor"})
+		public static SpireReturn<?> blackCardTitleColorAdjust(AbstractCard __instance, SpriteBatch sb, Color renderColor) {
+			BitmapFont font = FontHelper.cardTitleFont;
 			if(__instance instanceof BlackCard) {
 				Color color = Settings.CREAM_COLOR.cpy();
 				if(__instance.upgraded) {
@@ -59,7 +60,11 @@ public class BlackCardPatches {
 						BitmapFont.BitmapFontData.class,"setScale"
 				);
 
-				int[] lines = LineFinder.findAllInOrder(ctMethodToPatch, matcher);
+				Matcher m = new Matcher.FieldAccessMatcher(
+						Color.class, "a"
+				);
+
+				int[] lines = LineFinder.findAllInOrder(ctMethodToPatch, m);
 
 				return new int[] {lines[lines.length - 1] + 1};
 			}
@@ -220,7 +225,7 @@ public class BlackCardPatches {
 			localvars = {"card", "label"})
 		public static SpireReturn<Void> blackCardTypeColorAdjust(SingleCardViewPopup __instance, SpriteBatch sb, AbstractCard card, String label) {
 			if(card instanceof BlackCard) {
-				FontHelper.renderFontCentered(sb, FontHelper.SCP_cardTypeFont, label, Settings.WIDTH / 2.0f + 3.0f * Settings.scale, Settings.HEIGHT / 2.0f - 40.0f * Settings.scale, Color.valueOf("d0beff"));
+				FontHelper.renderFontCentered(sb, FontHelper.cardTypeFont, label, Settings.WIDTH / 2.0f + 3.0f * Settings.scale, Settings.HEIGHT / 2.0f - 40.0f * Settings.scale, Color.valueOf("d0beff"));
 				return SpireReturn.Return(null);
 			}
 

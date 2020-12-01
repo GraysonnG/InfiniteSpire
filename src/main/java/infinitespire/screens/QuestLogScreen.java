@@ -130,7 +130,7 @@ public class QuestLogScreen {
 		sb.draw(ImageMaster.VICTORY_BANNER, Settings.WIDTH / 2.0f - 556.0f, y - 119.0f,
 				556.0f, 119.0f, 1112.0f, 238.0f, Settings.scale, Settings.scale,
 				0.0f, 0, 0, 1112, 238, false, false);
-		FontHelper.renderFontCentered(sb, FontHelper.bannerFont, questLogStrings.TEXT[0], Settings.WIDTH / 2.0f,
+		FontHelper.renderFontCentered(sb, FontHelper.bannerNameFont, questLogStrings.TEXT[0], Settings.WIDTH / 2.0f,
 				y + 22.0f * Settings.scale, Color.WHITE, 1f);
 	}
 

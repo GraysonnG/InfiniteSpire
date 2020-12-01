@@ -27,7 +27,6 @@ import com.megacrit.cardcrawl.monsters.MonsterInfo;
 import com.megacrit.cardcrawl.rewards.RewardSave;
 import com.megacrit.cardcrawl.rooms.AbstractRoom;
 import com.megacrit.cardcrawl.rooms.MonsterRoomBoss;
-import fruitymod.seeker.patches.AbstractCardEnum;
 import infinitespire.abstracts.Card;
 import infinitespire.abstracts.Quest;
 import infinitespire.abstracts.Relic;
@@ -365,9 +364,6 @@ public class InfiniteSpire implements PostInitializeSubscriber, PostBattleSubscr
 
 		if (isReplayLoaded) {
 			RelicLibrary.add(new BrokenMirror());
-		}
-		if (isFruityLoaded) {
-			BaseMod.addRelicToCustomPool(new SpectralDust(), AbstractCardEnum.SEEKER_PURPLE);
 		}
 	}
 

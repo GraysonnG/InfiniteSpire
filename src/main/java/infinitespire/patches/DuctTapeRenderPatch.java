@@ -1,5 +1,6 @@
 package infinitespire.patches;
 
+import basemod.Pair;
 import basemod.abstracts.CustomCard;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,7 +15,6 @@ import com.megacrit.cardcrawl.random.Random;
 import infinitespire.InfiniteSpire;
 import infinitespire.abstracts.BlackCard;
 import infinitespire.crossover.HubrisCrossover;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 
