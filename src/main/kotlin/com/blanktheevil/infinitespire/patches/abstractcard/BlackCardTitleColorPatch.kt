@@ -1,11 +1,10 @@
 package com.blanktheevil.infinitespire.patches.abstractcard
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.blanktheevil.infinitespire.cards.black.BlackCard
 import com.blanktheevil.infinitespire.extensions.scale
-import com.blanktheevil.infinitespire.patches.utils.locators.SetScaleLocator
+import com.blanktheevil.infinitespire.patches.utils.locators.ColorAlphaAccessLocator
 import com.evacipated.cardcrawl.modthespire.lib.SpireInsertPatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn
@@ -18,9 +17,10 @@ object BlackCardTitleColorPatch {
   private val TITLE_COLOR = Color(1f, 0.15f, 0.15f, 1f)
 
   @JvmStatic
-  @SpireInsertPatch(locator = SetScaleLocator::class, localvars = ["font", "renderColor"])
-  fun adjustColor(card: AbstractCard, sb: SpriteBatch, font: BitmapFont, renderColor: Color): SpireReturn<Void> {
+  @SpireInsertPatch(locator = ColorAlphaAccessLocator::class, localvars = ["renderColor"])
+  fun adjustColor(card: AbstractCard, sb: SpriteBatch, renderColor: Color): SpireReturn<Void> {
     return if (card is BlackCard && card.upgraded) {
+      val font = FontHelper.cardTitleFont
       val color = TITLE_COLOR
       color.a = renderColor.a
       FontHelper.renderRotatedText(
