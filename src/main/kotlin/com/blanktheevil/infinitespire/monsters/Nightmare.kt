@@ -1,8 +1,11 @@
 package com.blanktheevil.infinitespire.monsters
 
 import actlikeit.savefields.BehindTheScenesActNum
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
+import com.blanktheevil.infinitespire.InfiniteSpire
 import com.blanktheevil.infinitespire.actions.MultishotAction
 import com.blanktheevil.infinitespire.extensions.*
 import com.blanktheevil.infinitespire.interfaces.hooks.Savable
@@ -14,6 +17,7 @@ import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.utils.log
 import com.blanktheevil.infinitespire.vfx.BlackCardVfx
 import com.blanktheevil.infinitespire.vfx.particles.BlackCardParticle
+import com.blanktheevil.infinitespire.vfx.particles.SparkParticle
 import com.blanktheevil.infinitespire.vfx.particlesystems.ParticleSystem
 import com.blanktheevil.infinitespire.vfx.utils.VFXManager
 import com.megacrit.cardcrawl.actions.AbstractGameAction
@@ -57,6 +61,9 @@ class Nightmare :
     private const val IMG_URL = ""
     private var timesDefeated = 0
     private var timesNotReceivedBlackCard = 0
+    private val BG_TEXTURE by lazy {
+      Textures.monsters.get("nightmare/bg.png").asAtlasRegion()
+    }
   }
 
   var attackAmount = 5
@@ -75,17 +82,17 @@ class Nightmare :
       val point = VFXManager.generateRandomPointAlongEdgeOfCircle(
         hb.cX,
         hb.cY,
-        200f.scale()
+        100f.scale()
       )
 
-      BlackCardParticle(
+      SparkParticle(
         point,
-        1f,
-        true,
-        VFXManager.getVelocityToPoint(
+        0.5f,
+        VFXManager.getVelocityAwayFromPoint(
           Vector2(hb.cX, hb.cY),
           point
-        ).scl(0.75f.div(scale))
+        ).scl(scale),
+        color = if (MathUtils.randomBoolean(0.85f)) InfiniteSpire.PURPLE.cpy().also{ it.a = .66f } else InfiniteSpire.RED.cpy()
       )
     },
     { !isDying && !isDead }
@@ -219,8 +226,27 @@ class Nightmare :
   }
 
   override fun render(sb: SpriteBatch) {
+//    renderBg(sb)
     particleSystem.render(sb)
     super.render(sb)
+  }
+
+  private fun renderBg(sb: SpriteBatch) {
+    sb.color = Color.WHITE.cpy()
+    with(BG_TEXTURE) {
+      sb.draw(
+        this,
+        this@Nightmare.hb.cX.minus(halfWidth),
+        this@Nightmare.hb.cY.minus(halfHeight),
+        halfWidth,
+        halfHeight,
+        width,
+        height,
+        1f,
+        1f,
+        0f
+      )
+    }
   }
 
   override fun dispose() = doNothing()

@@ -12,9 +12,9 @@ class SparkParticle(
   private var pos: Vector2,
   private var particleScale: Float,
   private var vel: Vector2 = Vector2(
-    MathUtils.random(-100f, 100f),
-    MathUtils.random(100f, 100f)
-  ).nor(),
+    MathUtils.random(-1f, 1f),
+    MathUtils.random(-1f, 1f)
+  ).nor().scl(100f),
   private var lifeSpan: Float = MathUtils.random(0.1f, 0.5f),
   private var color: Color = COLOR.cpy()
 ) : Particle() {
@@ -22,8 +22,8 @@ class SparkParticle(
     private val TEXTURE: TextureAtlas.AtlasRegion by lazy {
       ImageMaster.GLOW_SPARK_2
     }
-    private val COLOR: Color by lazy {
-      Color(0.6f, 0.7f, 1f, .33f)
+    val COLOR: Color by lazy {
+      Color(0.6f, 0.7f, 1f, .66f)
     }
   }
 

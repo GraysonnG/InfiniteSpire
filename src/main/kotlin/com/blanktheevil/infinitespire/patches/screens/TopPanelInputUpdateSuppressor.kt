@@ -14,12 +14,9 @@ object TopPanelInputUpdateSuppressor {
   )
   @JvmStatic
   fun suppressInputs(): SpireReturn<Void> {
-    return if (
-      InfiniteSpire.powerSelectScreen.show
-    ) {
+    return if (InfiniteSpire.powerSelectScreen.show)
       SpireReturn.Return(null)
-    } else {
+     else
       SpireReturn.Continue()
-    }
   }
 }
