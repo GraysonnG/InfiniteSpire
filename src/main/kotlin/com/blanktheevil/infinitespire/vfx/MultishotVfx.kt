@@ -19,6 +19,7 @@ import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.MathHelper
 import com.megacrit.cardcrawl.helpers.ScreenShake
 import com.megacrit.cardcrawl.vfx.AbstractGameEffect
+import com.megacrit.cardcrawl.vfx.GlowRelicParticle
 import kotlin.math.*
 
 class MultishotVfx(
@@ -29,6 +30,9 @@ class MultishotVfx(
   companion object Jerry {
     val TEXTURE = Textures.vfx.get("multistrike/diamond.png").asAtlasRegion()
     val DETAIL = Textures.vfx.get("multistrike/detail.png").asAtlasRegion()
+    val GLOW_COLOR by lazy {
+      Color(0.6f, 0.7f, 1f, .66f)
+    }
   }
 
   val startSlots = maxSlots.div(2)
@@ -277,7 +281,7 @@ class MultishotVfx(
           MathUtils.random(.2f, 1f),
           MathUtils.random(-1f, 1f)
         )).nor().scl(MathUtils.random(100f.scale(), 200f.scale())),
-        color = if (MathUtils.randomBoolean()) Settings.GLOW_COLOR.cpy() else Settings.GOLD_COLOR.cpy()
+        color = if (MathUtils.randomBoolean()) GLOW_COLOR else Settings.GOLD_COLOR.cpy()
       )
     })
   }

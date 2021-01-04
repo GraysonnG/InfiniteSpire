@@ -15,10 +15,10 @@ import com.megacrit.cardcrawl.helpers.Hitbox
 
 class ColoredButton(
   val text: String = "",
-  val x: Float = Settings.WIDTH.div(2f),
-  val y: Float = Settings.HEIGHT.div(2f),
+  private val xPos: Float = Settings.WIDTH.div(2f),
+  private val yPos: Float = Settings.HEIGHT.div(2f),
   val color: Color = Color(1f, 1f, 1f, 1f),
-  val hb: Hitbox = Hitbox(x, y, 0f, 0f),
+  val hb: Hitbox = Hitbox(xPos, yPos, 0f, 0f),
   val scale: Float = 1f,
   private val onClick: ColoredButton.() -> Unit = {}
 ) : SpireElement, SpireClickable, IUIElement {
@@ -47,7 +47,7 @@ class ColoredButton(
     textWidth = 0f.coerceAtLeast(textWidth)
     totalOffset = buttonLeft.packedWidth.scale().div(2)
       .plus(textWidth.div(2)).plus(buttonRight.packedWidth.scale().div(2)).times(scale)
-    hb.x = x.minus(totalOffset)
+    hb.x = xPos.minus(totalOffset)
     hb.width = w.plus(buttonLeft.packedWidth).plus(buttonRight.packedWidth).plus(textWidth).times(scale)
     hb.height = h.times(scale)
     hb.update()
@@ -64,22 +64,22 @@ class ColoredButton(
     sb.color = color
     sb.draw(
       buttonLeft,
-      x.minus(totalOffset),
-      y,
+      xPos.minus(totalOffset),
+      yPos,
       buttonLeft.packedWidth.scale().times(scale),
       h.times(scale)
     )
     sb.draw(
       buttonMiddle,
-      x.plus(leftOffset).minus(totalOffset),
-      y,
+      xPos.plus(leftOffset).minus(totalOffset),
+      yPos,
       textWidth.times(scale),
       h.times(scale)
     )
     sb.draw(
       buttonRight,
-      x.plus(leftOffset).plus(textWidth).minus(totalOffset),
-      y,
+      xPos.plus(leftOffset).plus(textWidth).minus(totalOffset),
+      yPos,
       buttonRight.packedWidth.scale().times(scale),
       h.times(scale)
     )
@@ -89,7 +89,7 @@ class ColoredButton(
     sb.color = Color.WHITE
 
     FontHelper.renderFontCentered(
-      sb, font, text, x, y.plus(h.times(scale).div(2)), sb.color
+      sb, font, text, xPos, yPos.plus(h.times(scale).div(2)), sb.color
     )
   }
 

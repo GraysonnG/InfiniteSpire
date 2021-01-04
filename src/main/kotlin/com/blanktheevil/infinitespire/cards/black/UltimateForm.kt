@@ -23,6 +23,8 @@ class UltimateForm : BlackCard(BUILDER) {
             UltimateStance()
           )
         )
+        // fleeting. enter ultimate form permanently
+        // the first card you play each turn is free
       }
   }
 }
