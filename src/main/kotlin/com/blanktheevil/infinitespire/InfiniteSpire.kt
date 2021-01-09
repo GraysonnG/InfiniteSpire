@@ -22,7 +22,6 @@ import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.toppanel.VoidShardDisplay
 import com.blanktheevil.infinitespire.ui.campfire.VoidOption
 import com.blanktheevil.infinitespire.ui.overlays.BadgeOverlay
-import com.blanktheevil.infinitespire.utils.DebugControls
 import com.blanktheevil.infinitespire.utils.LocalizationManager
 import com.evacipated.cardcrawl.modthespire.lib.SpireInitializer
 import com.megacrit.cardcrawl.core.Settings
@@ -35,7 +34,6 @@ import java.util.*
 @SpireInitializer
 class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStringsSubscriber, EditRelicsSubscriber, PreStartGameSubscriber {
   companion object {
-
     val logger: Logger = LogManager.getLogger(InfiniteSpire::class.java.name)
     val PURPLE: Color = Color.valueOf("#3D00D6")
     val RED: Color = Color.valueOf("#FF4A4A")
@@ -51,14 +49,11 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     lateinit var badgeOverlay: BadgeOverlay
     lateinit var voidShardDisplay: VoidShardDisplay
     lateinit var voidOption: VoidOption
-    lateinit var debugControls: DebugControls
     lateinit var saveData: SaveData
     lateinit var cardStringsKt: Map<String, CardStringsKt>
     lateinit var actStringsKt: Map<String, ActStringsKt>
     lateinit var badgeStringsKt: Map<String, BadgeStringsKt>
     lateinit var questRng: Random
-
-    var pauseGame = false
 
     @Suppress("unused")
     @JvmStatic
@@ -114,7 +109,6 @@ class InfiniteSpire : PostInitializeSubscriber, EditCardsSubscriber, EditStrings
     targetMonsterScreen = TargetMonsterScreen()
     badgeOverlay = BadgeOverlay()
     voidOption = VoidOption()
-    debugControls = DebugControls()
 
     RewardManager.registerRewards()
 

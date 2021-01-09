@@ -12,6 +12,7 @@ import com.blanktheevil.infinitespire.textures.Textures
 import com.blanktheevil.infinitespire.utils.subVoidShard
 import com.megacrit.cardcrawl.core.CardCrawlGame
 import com.megacrit.cardcrawl.core.Settings
+import com.megacrit.cardcrawl.dungeons.AbstractDungeon
 import com.megacrit.cardcrawl.helpers.FontHelper
 import com.megacrit.cardcrawl.helpers.Hitbox
 import com.megacrit.cardcrawl.helpers.MathHelper
@@ -43,7 +44,11 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
     CardCrawlGame.sound.play("SHOP_PURCHASE")
     subVoidShard(cost)
     purchaced = true
-    relic.obtain()
+    AbstractDungeon.getCurrRoom().spawnRelicAndObtain(
+      relic.currentX,
+      relic.currentY,
+      relic.makeCopy()
+    )
   }
 
   override fun renderPrice(sb: SpriteBatch) {
@@ -82,10 +87,9 @@ class ShopRelic(private val relic: AbstractRelic, cost: Int) : ShopElementBase(c
     }
   }
 
-  fun moveRelic() {
+  private fun moveRelic() {
     relic.currentX = MathHelper.uiLerpSnap(relic.currentX, relic.targetX)
     relic.currentY = MathHelper.uiLerpSnap(relic.currentY, relic.targetY)
-
   }
 
   override fun getHitbox(): Hitbox = hb

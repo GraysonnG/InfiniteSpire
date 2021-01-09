@@ -93,7 +93,7 @@ class ShopCard(private val card: BlackCard, cost: Int) : ShopElementBase(cost) {
         height,
         scale,
         scale,
-        90f
+        0f
       )
 
       FontHelper.cardTitleFont.data.setScale(1.0f)

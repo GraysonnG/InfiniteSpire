@@ -121,10 +121,10 @@ fun Hitbox.move(vector2: Vector2) {
 }
 
 fun <T> List<T>.getRandomItem(random: Random = Random()): T =
-  if (this.isNotEmpty()) this[random.random(this.size - 1)] else throw NullPointerException()
+  if (this.isNotEmpty()) this[random.random(this.lastIndex)] else throw NullPointerException()
 
 fun <T> List<T>.forEachIndexedReversed(action: (index: Int, T) -> Unit) {
-  for (i in size - 1..0) {
+  for (i in lastIndex..0) {
     action.invoke(i, this.elementAt(i))
   }
 }

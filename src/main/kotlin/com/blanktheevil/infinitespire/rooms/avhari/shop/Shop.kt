@@ -15,7 +15,7 @@ import com.megacrit.cardcrawl.helpers.MathHelper
 class Shop : SpireElement {
   companion object {
     private val POSITION = Vector2(
-      Settings.WIDTH.div(3f).times(2f).plus(75f.scale()),
+      Settings.WIDTH.div(2f),
       Settings.HEIGHT.div(2f)
     )
     private val CARD_DIST = Settings.HEIGHT / 3.5f
@@ -34,6 +34,7 @@ class Shop : SpireElement {
   private var rotationVortex = 0f
   private var hoveredCards = false
   private var hoveredRelics = false
+  private val randomRelic = ShopRandomRelic()
   private val cards = CardManager.getBlackCardList(5).map { card ->
     ShopCard(card, CARD_COST)
   }.toMutableList()
@@ -43,6 +44,7 @@ class Shop : SpireElement {
   private val elements = ArrayList<ShopElementBase>().also {
     it.addAll(cards)
     it.addAll(relics)
+    it.add(randomRelic)
   }
 
   override fun update() {
@@ -69,7 +71,7 @@ class Shop : SpireElement {
       when (element) {
         is ShopCard -> cards.removeIf { it.purchaced && it == element }
         is ShopRelic -> relics.removeIf { it.purchaced && it == element }
-        else -> false
+        else -> element.purchaced
       }
     }
   }

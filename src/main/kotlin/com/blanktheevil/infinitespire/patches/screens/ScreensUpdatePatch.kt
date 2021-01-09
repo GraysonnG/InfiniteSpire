@@ -2,6 +2,7 @@ package com.blanktheevil.infinitespire.patches.screens
 
 import com.blanktheevil.infinitespire.InfiniteSpire
 import com.evacipated.cardcrawl.modthespire.lib.SpirePatch
+import com.evacipated.cardcrawl.modthespire.lib.SpirePostfixPatch
 import com.evacipated.cardcrawl.modthespire.lib.SpirePrefixPatch
 import com.evacipated.cardcrawl.modthespire.lib.SpireReturn
 import com.megacrit.cardcrawl.dungeons.AbstractDungeon
@@ -14,12 +15,6 @@ object ScreensUpdatePatch {
   fun run(dungeon: AbstractDungeon): SpireReturn<Void> {
     InfiniteSpire.badgeOverlay.update()
     InfiniteSpire.powerSelectScreen.update()
-    InfiniteSpire.debugControls.update()
-
-    if (InfiniteSpire.pauseGame && !InfiniteSpire.debugControls.stepForward.isJustPressed) {
-      return SpireReturn.Return(null)
-    }
-
     return SpireReturn.Continue()
   }
 }
