@@ -52,7 +52,7 @@ public class PickUpCardQuest extends Quest {
 		}
 
 		if(c != null) {
-			switch (CardLibrary.getCard(this.cardID).type) {
+			switch (c.type) {
 				case ATTACK:
 					texture = InfiniteSpire.getTexture("img/infinitespire/ui/questLog/questIcons/card-attack.png");
 					break;
@@ -105,8 +105,8 @@ public class PickUpCardQuest extends Quest {
 
 	@Override
 	public String getTitle() {
-
-		return questStrings.TEXT[10] + CardLibrary.cards.get(cardID).name;
+		AbstractCard rCard = CardLibrary.getCard(this.cardID);
+		return questStrings.TEXT[10] + (rCard != null ? rCard.name : "");
 	}
 
 	@Override
